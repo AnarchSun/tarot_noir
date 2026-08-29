@@ -5,22 +5,32 @@
 /// - un nom français,
 /// - une image associée,
 /// - une signification courte optionnelle.
+/// Modèle représentant une carte du Tarot.
 class TarotCard {
-final String id;
-final String nameFr;
-final String imagePath;
-final String? meaningFr;
+  const TarotCard({
+    required this.number,
+    required this.id,
+    required this.nameFr,
+    required this.symbol,
+    required this.keyword,
+    required this.message,
+    required this.imagePath,
+  });
 
-const TarotCard({
-required this.id,
-required this.nameFr,
-required this.imagePath,
-this.meaningFr,
-});
+  final String number;
+  final String id;
+  final String nameFr;
+  final String symbol;
+  final String keyword;
+  final String message;
+  final String imagePath;
 
-@override
-String toString() {
-return 'TarotCard(id: $id, nameFr: $nameFr, imagePath: $imagePath)';
+  @override
+  String toString() {
+    return 'TarotCard('
+        'id: $id, '
+        'nameFr: $nameFr, '
+        'imagePath: $imagePath'
+        ')';
+  }
 }
-}
-
