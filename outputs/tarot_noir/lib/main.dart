@@ -210,11 +210,23 @@ class _JournalPageState extends State<JournalPage> {
   Widget build(BuildContext context) => ListView(
         padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
         children: [
-          const Text('JOURNAL RITUEL',
-              style: TextStyle(
-                  letterSpacing: 4,
-                  color: Color(0xFFE6C66A),
-                  fontWeight: FontWeight.w700)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('JOURNAL RITUEL',
+                  style: TextStyle(
+                      letterSpacing: 4,
+                      color: Color(0xFFE6C66A),
+                      fontWeight: FontWeight.w700)),
+              IconButton(
+                tooltip: 'Préférences',
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const PreferencesPage()),
+                ),
+                icon: const Icon(Icons.tune),
+              ),
+            ],
+          ),
           const SizedBox(height: 12),
           const Text('Ce que la nuit dépose',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
@@ -272,6 +284,105 @@ class _JournalPageState extends State<JournalPage> {
                     subtitle: Text(
                         '${entry.date.day.toString().padLeft(2, '0')}/${entry.date.month.toString().padLeft(2, '0')} · note privée locale')))),
         ],
+      );
+}
+
+class PreferencesPage extends StatefulWidget {
+  const PreferencesPage({super.key});
+
+  @override
+  State<PreferencesPage> createState() => _PreferencesPageState();
+}
+
+class _PreferencesPageState extends State<PreferencesPage> {
+  bool _orionMemory = false;
+  bool _personalizedGuidance = false;
+  bool _reminders = false;
+  String _tone = 'Mystique et direct';
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(title: const Text('Préférences')),
+        body: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            const Text('VOTRE RITUEL, VOS RÈGLES',
+                style: TextStyle(
+                    letterSpacing: 2,
+                    color: Color(0xFFE6C66A),
+                    fontWeight: FontWeight.w700)),
+            const SizedBox(height: 10),
+            const Text(
+                'Ces réglages restent locaux dans cette démo. Rien n’est scanné, importé ou transmis sans un choix clair.'),
+            const SizedBox(height: 18),
+            SwitchListTile(
+              value: _orionMemory,
+              onChanged: (value) => setState(() => _orionMemory = value),
+              title: const Text('Mémoire Orion'),
+              subtitle: const Text(
+                  'Autoriser Orion à relier vos conversations dans cette session.'),
+            ),
+            SwitchListTile(
+              value: _personalizedGuidance,
+              onChanged: (value) =>
+                  setState(() => _personalizedGuidance = value),
+              title: const Text('Guidance personnalisée'),
+              subtitle: const Text(
+                  'Utiliser uniquement vos notes et thèmes que vous choisissez de partager.'),
+            ),
+            SwitchListTile(
+              value: _reminders,
+              onChanged: (value) => setState(() => _reminders = value),
+              title: const Text('Rappel rituel'),
+              subtitle: const Text(
+                  'Préparer un rappel quotidien — les notifications ne sont pas encore activées.'),
+            ),
+            const Divider(height: 34),
+            const Text('VOIX D’ORION',
+                style:
+                    TextStyle(letterSpacing: 1.5, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            DropdownButtonFormField<String>(
+              initialValue: _tone,
+              decoration: const InputDecoration(filled: true),
+              items: const [
+                DropdownMenuItem(
+                    value: 'Mystique et direct',
+                    child: Text('Mystique et direct')),
+                DropdownMenuItem(
+                    value: 'Doux et contemplatif',
+                    child: Text('Doux et contemplatif')),
+                DropdownMenuItem(
+                    value: 'Symbolique et concret',
+                    child: Text('Symbolique et concret')),
+              ],
+              onChanged: (value) {
+                if (value != null) setState(() => _tone = value);
+              },
+            ),
+            const Divider(height: 34),
+            const Text('DONNÉES ET INTÉRÊTS',
+                style:
+                    TextStyle(letterSpacing: 1.5, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                    'Tarot Noir ne lit pas vos recherches web, clics ou profils sociaux. Une future connexion à une source externe devra être activée séparément, décrite clairement et révocable.'),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                    content: Text(
+                        'Aucune donnée persistante à effacer dans cette démo.')),
+              ),
+              icon: const Icon(Icons.delete_outline),
+              label: const Text('Effacer mes données locales'),
+            ),
+          ],
+        ),
       );
 }
 
