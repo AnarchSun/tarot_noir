@@ -10,6 +10,8 @@ MVP Flutter d’une application de tarot, conversation symbolique et collection 
 ## Ce qui est fonctionnel dans ce MVP
 
 - Tirage aléatoire parmi les arcanes majeurs disponibles et lecture droite/renversée.
+- Carte du jour déterministe, avec lecture Orion+ activable pour les tests.
+- Journal rituel local à la session : note et intensité, sans synchronisation ni analyse distante.
 - Écran de chat Orion avec comportement local de démonstration (aucune donnée ni clé API).
 - Parcours de tirages premium prêt à être relié à StoreKit / Google Play Billing.
 - Écran Collection qui prépare l’intégration d’actifs Solana sans connecter de portefeuille ni signer de transaction.
@@ -30,3 +32,18 @@ MVP Flutter d’une application de tarot, conversation symbolique et collection 
 2. Constituer un corpus sous licences adaptées et établir les règles éditoriales d’Orion.
 3. Ajouter authentification, stockage chiffré des données utilisateur, analytics consentis et suppression de compte.
 4. Intégrer les achats natifs, puis Solana après revue conformité/sécurité.
+
+## Configuration publique
+
+Les flags publics sont centralisés dans `lib/app_config.dart`. Aucun secret ne doit être ajouté à ce fichier.
+
+```bash
+flutter run \
+  --dart-define=PREMIUM_ENABLED=true \
+  --dart-define=ADS_ENABLED=false \
+  --dart-define=SOLANA_CLUSTER_URL=https://api.devnet.solana.com
+```
+
+- `PREMIUM_ENABLED` active le rendu Orion+ pour les tests ; il ne remplace pas la validation d’un achat côté serveur.
+- `ADS_ENABLED` est désactivé par défaut ; aucune régie publicitaire n’est intégrée.
+- `SOLANA_CLUSTER_URL` pointe vers devnet par défaut ; aucune transaction n’est construite par l’application.
