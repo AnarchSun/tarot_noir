@@ -126,7 +126,166 @@ const _arcana = <TarotCard>[
     'Ce qui semblait dispersé retrouve son cercle. Une fin peut devenir une porte.',
     'assets/images/tarot_temp/Le_Monde.png',
   ),
+  TarotCard(
+    'I',
+    'Le Bateleur',
+    '✣',
+    'L’ÉLAN',
+    'Les outils sont là. Commence humblement, puis laisse le geste te révéler sa voie.',
+    '',
+  ),
+  TarotCard(
+    'III',
+    'L’Impératrice',
+    '♕',
+    'LA CRÉATION',
+    'Ce qui germe demande du soin, de la beauté et un espace où respirer.',
+    '',
+  ),
+  TarotCard(
+    'IV',
+    'L’Empereur',
+    '♔',
+    'LA STRUCTURE',
+    'Une limite juste peut devenir une protection, jamais une cage.',
+    '',
+  ),
+  TarotCard(
+    'V',
+    'Le Pape',
+    '✠',
+    'LA TRANSMISSION',
+    'Cherche un repère qui nourrit ta liberté au lieu de parler à ta place.',
+    '',
+  ),
+  TarotCard(
+    'VII',
+    'Le Chariot',
+    '✦',
+    'LE PASSAGE',
+    'Rassemble tes forces vers une seule direction et avance sans te trahir.',
+    '',
+  ),
+  TarotCard(
+    'VIII',
+    'La Justice',
+    '⚖',
+    'L’ÉQUILIBRE',
+    'Regarde les faits avec clarté : chaque choix construit son propre poids.',
+    '',
+  ),
+  TarotCard(
+    'IX',
+    'L’Hermite',
+    '☿',
+    'LA LAMPE',
+    'Le retrait choisi éclaire la prochaine marche. Garde une lumière, même petite.',
+    '',
+  ),
+  TarotCard(
+    'X',
+    'La Roue de Fortune',
+    '◉',
+    'LE CYCLE',
+    'Le mouvement revient. Accueille ce qui change et ancre ce qui compte.',
+    '',
+  ),
+  TarotCard(
+    'XI',
+    'La Force',
+    '♌',
+    'LE COURAGE',
+    'La force calme transforme davantage que la contrainte. Respire avant d’agir.',
+    '',
+  ),
+  TarotCard(
+    'XII',
+    'Le Pendu',
+    '⌇',
+    'LE RENVERSEMENT',
+    'Une pause volontaire peut montrer l’angle que l’élan ne voyait pas.',
+    '',
+  ),
+  TarotCard(
+    'XIV',
+    'Tempérance',
+    '⚗',
+    'L’ALCHIMIE',
+    'Dose, relie, ajuste. Ton équilibre se fabrique par de petits mélanges vrais.',
+    '',
+  ),
+  TarotCard(
+    'XVI',
+    'La Maison Dieu',
+    'ϟ',
+    'LA FAILLE',
+    'Une structure tombe parfois pour libérer la vérité qui voulait passer.',
+    '',
+  ),
+  TarotCard(
+    'XIX',
+    'Le Soleil',
+    '☀',
+    'LA CLARTÉ',
+    'Partage ce qui te rend vivant. Une joie honnête peut servir de boussole.',
+    '',
+  ),
+  TarotCard(
+    'XX',
+    'Le Jugement',
+    '⌁',
+    'L’APPEL',
+    'Une voix ancienne appelle une réponse neuve. Choisis ce qui t’appartient.',
+    '',
+  ),
 ];
+
+const _minorRanks = [
+  'As',
+  'Deux',
+  'Trois',
+  'Quatre',
+  'Cinq',
+  'Six',
+  'Sept',
+  'Huit',
+  'Neuf',
+  'Dix',
+  'Valet',
+  'Cavalier',
+  'Reine',
+  'Roi',
+];
+
+const _minorSuits = [
+  _MinorSuit('Bâtons', '♣', 'l’élan, l’action et la création'),
+  _MinorSuit('Coupes', '♡', 'l’émotion, le lien et l’intuition'),
+  _MinorSuit('Épées', '♠', 'la pensée, la parole et le discernement'),
+  _MinorSuit('Deniers', '◇', 'le corps, les ressources et le quotidien'),
+];
+
+final _minorArcana = <TarotCard>[
+  for (final suit in _minorSuits)
+    for (var index = 0; index < _minorRanks.length; index++)
+      TarotCard(
+        '${index + 1}-${suit.name}',
+        '${_minorRanks[index]} de ${suit.name}',
+        suit.symbol,
+        suit.name.toUpperCase(),
+        'Cette carte parle de ${suit.theme}. Cherche le prochain geste simple qui respecte ton intention.',
+        '',
+      ),
+];
+
+final _deck = <TarotCard>[..._arcana, ..._minorArcana];
+
+class _MinorSuit {
+  const _MinorSuit(this.name, this.symbol, this.theme);
+
+  final String name;
+  final String symbol;
+  final String theme;
+}
 
 class TarotNoirHome extends StatefulWidget {
   const TarotNoirHome({super.key});
@@ -149,14 +308,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     final now = DateTime.now();
 
     _card =
-        _arcana[DateTime(now.year, now.month, now.day).millisecondsSinceEpoch %
-            _arcana.length];
+        _deck[DateTime(now.year, now.month, now.day).millisecondsSinceEpoch %
+            _deck.length];
   }
 
   // Tirage aléatoire d'une nouvelle carte.
   void _draw() {
     setState(() {
-      _card = _arcana[Random().nextInt(_arcana.length)];
+      _card = _deck[Random().nextInt(_deck.length)];
       _journal.insert(0, _JournalEntry(card: _card, createdAt: DateTime.now()));
     });
   }
