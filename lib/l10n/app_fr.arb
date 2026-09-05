@@ -34,5 +34,19 @@
   "dataAndInterests": "Données et intérêts",
   "dataPolicy": "Tarot Noir ne lit pas vos recherches web, vos clics ni vos réseaux sociaux. Toute connexion future devra être activée séparément, décrite clairement et révocable.",
   "eraseLocalData": "Effacer mes données locales",
-  "noDataToErase": "Aucune donnée persistante à effacer dans cette démo."
+  "noDataToErase": "Aucune donnée persistante à effacer dans cette démo.",
+  "comparePlans": "Comparer Gratuit et Orion+",
+  "comparisonIntro": "Choisissez le cercle qui vous convient. Aucun achat ni accès wallet n’est actif dans cette démo.",
+  "comparisonFeature": "Rituel",
+  "freePlan": "Gratuit",
+  "orionPlus": "Orion+",
+  "dailyCard": "Carte du jour",
+  "journalAccess": "Journal rituel",
+  "adsPolicy": "Publicité"
+  ,"freeDailyReading": "1 lecture courte"
+  ,"premiumDailyReading": "Lecture approfondie + historique"
+  ,"localNotes": "Notes locales"
+  ,"linkedJournal": "Liens avec les cartes et Orion"
+  ,"adsMayAppear": "Possible si activée"
+  ,"noAds": "Aucune publicité"
 }

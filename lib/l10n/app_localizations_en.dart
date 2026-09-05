@@ -122,4 +122,47 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noDataToErase =>
       'There is no persistent data to erase in this demo.';
+
+  @override
+  String get comparePlans => 'Compare Free and Orion+';
+
+  @override
+  String get comparisonIntro =>
+      'Choose the circle that suits you. No purchase or wallet access is active in this demo.';
+
+  @override
+  String get comparisonFeature => 'Ritual';
+
+  @override
+  String get freePlan => 'Free';
+
+  @override
+  String get orionPlus => 'Orion+';
+
+  @override
+  String get dailyCard => 'Daily card';
+
+  @override
+  String get journalAccess => 'Ritual journal';
+
+  @override
+  String get adsPolicy => 'Advertising';
+
+  @override
+  String get freeDailyReading => '1 short reading';
+
+  @override
+  String get premiumDailyReading => 'In-depth reading + history';
+
+  @override
+  String get localNotes => 'Local notes';
+
+  @override
+  String get linkedJournal => 'Links with cards and Orion';
+
+  @override
+  String get adsMayAppear => 'May appear if enabled';
+
+  @override
+  String get noAds => 'No ads';
 }

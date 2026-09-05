@@ -121,4 +121,47 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get noDataToErase =>
       'No hay datos persistentes que borrar en esta demo.';
+
+  @override
+  String get comparePlans => 'Comparar Gratis y Orion+';
+
+  @override
+  String get comparisonIntro =>
+      'Elige el círculo que te conviene. Ninguna compra ni acceso a wallet está activo en esta demo.';
+
+  @override
+  String get comparisonFeature => 'Ritual';
+
+  @override
+  String get freePlan => 'Gratis';
+
+  @override
+  String get orionPlus => 'Orion+';
+
+  @override
+  String get dailyCard => 'Carta del día';
+
+  @override
+  String get journalAccess => 'Diario ritual';
+
+  @override
+  String get adsPolicy => 'Publicidad';
+
+  @override
+  String get freeDailyReading => '1 lectura corta';
+
+  @override
+  String get premiumDailyReading => 'Lectura profunda + historial';
+
+  @override
+  String get localNotes => 'Notas locales';
+
+  @override
+  String get linkedJournal => 'Vínculos con las cartas y Orion';
+
+  @override
+  String get adsMayAppear => 'Posible si se activa';
+
+  @override
+  String get noAds => 'Sin publicidad';
 }

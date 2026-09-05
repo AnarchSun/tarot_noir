@@ -303,6 +303,90 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Aucune donnée persistante à effacer dans cette démo.'**
   String get noDataToErase;
+
+  /// No description provided for @comparePlans.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comparer Gratuit et Orion+'**
+  String get comparePlans;
+
+  /// No description provided for @comparisonIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez le cercle qui vous convient. Aucun achat ni accès wallet n’est actif dans cette démo.'**
+  String get comparisonIntro;
+
+  /// No description provided for @comparisonFeature.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rituel'**
+  String get comparisonFeature;
+
+  /// No description provided for @freePlan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuit'**
+  String get freePlan;
+
+  /// No description provided for @orionPlus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Orion+'**
+  String get orionPlus;
+
+  /// No description provided for @dailyCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour'**
+  String get dailyCard;
+
+  /// No description provided for @journalAccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Journal rituel'**
+  String get journalAccess;
+
+  /// No description provided for @adsPolicy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Publicité'**
+  String get adsPolicy;
+
+  /// No description provided for @freeDailyReading.
+  ///
+  /// In fr, this message translates to:
+  /// **'1 lecture courte'**
+  String get freeDailyReading;
+
+  /// No description provided for @premiumDailyReading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lecture approfondie + historique'**
+  String get premiumDailyReading;
+
+  /// No description provided for @localNotes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notes locales'**
+  String get localNotes;
+
+  /// No description provided for @linkedJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Liens avec les cartes et Orion'**
+  String get linkedJournal;
+
+  /// No description provided for @adsMayAppear.
+  ///
+  /// In fr, this message translates to:
+  /// **'Possible si activée'**
+  String get adsMayAppear;
+
+  /// No description provided for @noAds.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune publicité'**
+  String get noAds;
 }
 
 class _AppLocalizationsDelegate

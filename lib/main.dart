@@ -617,22 +617,9 @@ class _PremiumPage extends StatelessWidget {
           style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 12),
-        Text(l10n.premiumIntro),
+        Text(l10n.comparisonIntro),
         const SizedBox(height: 24),
-
-        _FeatureTile(
-          Icons.auto_awesome,
-          l10n.extendedReadings,
-          l10n.extendedReadingsDetail,
-        ),
-
-        _FeatureTile(
-          Icons.palette_outlined,
-          l10n.nftAvatars,
-          l10n.nftAvatarsDetail,
-        ),
-
-        _FeatureTile(Icons.block_outlined, l10n.adFree, l10n.adFreeDetail),
+        _PlanComparisonTable(l10n: l10n),
 
         const SizedBox(height: 24),
 
@@ -680,33 +667,16 @@ class _PremiumTeaser extends StatelessWidget {
   final VoidCallback onOpen;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(18),
-    decoration: BoxDecoration(
-      color: const Color(0xFF171220),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'RITUEL ORION+',
-          style: TextStyle(
-            letterSpacing: 1.5,
-            color: Color(0xFFD4AF59),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          'Lecture approfondie, liens avec le Journal et historique des signes.',
-        ),
-        TextButton.icon(
-          onPressed: onOpen,
-          icon: const Icon(Icons.workspace_premium_outlined),
-          label: const Text('Explorer Premium'),
-        ),
-      ],
+  Widget build(BuildContext context) => Card(
+    child: ListTile(
+      onTap: onOpen,
+      leading: const Icon(
+        Icons.workspace_premium_outlined,
+        color: Color(0xFFD4AF59),
+      ),
+      title: const Text('Orion+'),
+      subtitle: Text(AppLocalizations.of(context)!.comparePlans),
+      trailing: const Icon(Icons.chevron_right),
     ),
   );
 }
@@ -725,19 +695,52 @@ class _JournalEntry {
   final int? mood;
 }
 
-class _FeatureTile extends StatelessWidget {
-  const _FeatureTile(this.icon, this.title, this.detail);
+class _PlanComparisonTable extends StatelessWidget {
+  const _PlanComparisonTable({required this.l10n});
 
-  final IconData icon;
-  final String title;
-  final String detail;
+  final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) => Card(
-    child: ListTile(
-      leading: Icon(icon, color: const Color(0xFFD4AF59)),
-      title: Text(title),
-      subtitle: Text(detail),
+  Widget build(BuildContext context) => Table(
+    border: TableBorder.all(
+      color: const Color(0xFF3F3449),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    columnWidths: const {
+      0: FlexColumnWidth(1.25),
+      1: FlexColumnWidth(),
+      2: FlexColumnWidth(),
+    },
+    children: [
+      _row(l10n.comparisonFeature, l10n.freePlan, l10n.orionPlus, header: true),
+      _row(l10n.dailyCard, l10n.freeDailyReading, l10n.premiumDailyReading),
+      _row(l10n.journalAccess, l10n.localNotes, l10n.linkedJournal),
+      _row(l10n.adsPolicy, l10n.adsMayAppear, l10n.noAds),
+    ],
+  );
+
+  TableRow _row(
+    String feature,
+    String free,
+    String premium, {
+    bool header = false,
+  }) => TableRow(
+    decoration: header ? const BoxDecoration(color: Color(0xFF211839)) : null,
+    children: [
+      _cell(feature, header),
+      _cell(free, header),
+      _cell(premium, header),
+    ],
+  );
+
+  Widget _cell(String text, bool header) => Padding(
+    padding: const EdgeInsets.all(12),
+    child: Text(
+      text,
+      style: TextStyle(
+        fontWeight: header ? FontWeight.w700 : FontWeight.w400,
+        fontSize: 12,
+      ),
     ),
   );
 }
