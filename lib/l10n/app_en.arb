@@ -3,6 +3,7 @@
   "appTitle": "Tarot Noir",
   "dailyReading": "Daily reading",
   "drawAnother": "Draw another card",
+  "drawDaily": "Draw my daily card",
   "reading": "Reading",
   "journal": "Journal",
   "premium": "Premium",
@@ -45,4 +46,14 @@
   "premiumDailyReading": "In-depth reading + history",
   "localNotes": "Local notes",
   "linkedJournal": "Links with cards and Orion"
+  ,"journalNoteHint": "Write what the card stirs or illuminates in you…"
+  ,"moodLabel": "INTENSITY OF THE DAY · {mood}/5"
+  ,"sealNote": "Seal this note"
+  ,"dailyDrawType": "Daily card"
+  ,"freeDrawType": "Free draw"
+  ,"drawDate": "Drawn on {date}"
+  ,"endpointLabel": "Devnet endpoint: {url}"
+  ,"@moodLabel": {"placeholders": {"mood": {}}}
+  ,"@drawDate": {"placeholders": {"date": {}}}
+  ,"@endpointLabel": {"placeholders": {"url": {}}}
 }

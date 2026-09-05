@@ -25,6 +25,9 @@ dependencies:
   # Solana / SPL Token
   solana: ^0.32.0+1
 
+  # Local persistence
+  shared_preferences: ^2.5.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -38,3 +41,5 @@ flutter:
 
   assets:
     - assets/images/tarot_temp/
+    - assets/images/tarot_cards/arcane_majeur/
+    - assets/images/tarot_cards/arcane_mineur/

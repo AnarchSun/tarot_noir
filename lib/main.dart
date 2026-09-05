@@ -1,12 +1,15 @@
 // lib/main.dart
 
-import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_config.dart';
 import 'l10n/app_localizations.dart';
+import 'models/tarot_card.dart';
 
 void main() => runApp(const TarotNoirApp());
 
@@ -43,24 +46,6 @@ class TarotNoirApp extends StatelessWidget {
   );
 }
 
-class TarotCard {
-  const TarotCard(
-    this.number,
-    this.name,
-    this.symbol,
-    this.keyword,
-    this.message,
-    this.imagePath,
-  );
-
-  final String number;
-  final String name;
-  final String symbol;
-  final String keyword;
-  final String message;
-  final String imagePath;
-}
-
 const _arcana = <TarotCard>[
   TarotCard(
     '0',
@@ -68,7 +53,7 @@ const _arcana = <TarotCard>[
     '✦',
     'LE SAUT',
     'Le vide n’est pas une chute : c’est l’espace où ton prochain monde cherche sa forme.',
-    'assets/images/tarot_temp/As_d_Épées.png',
+    '',
   ),
   TarotCard(
     'II',
@@ -76,7 +61,7 @@ const _arcana = <TarotCard>[
     '☾',
     'LE SECRET',
     'Ne livre pas ta lumière à ceux qui ne savent regarder que les braises.',
-    'assets/images/tarot_temp/L_Hermite.png',
+    '',
   ),
   TarotCard(
     'XIII',
@@ -84,7 +69,7 @@ const _arcana = <TarotCard>[
     '☠',
     'LA MUE',
     'Ce qui se termine libère une place sacrée. Laisse l’ancienne peau à la terre.',
-    'assets/images/tarot_temp/La_Mort.png',
+    'assets/images/tarot_cards/arcane_majeur/La_Mort.png',
   ),
   TarotCard(
     'XVIII',
@@ -92,7 +77,7 @@ const _arcana = <TarotCard>[
     '☾',
     'LE MIRAGE',
     'Ton intuition parle bas sous le bruit. Marche lentement, mais marche avec elle.',
-    'assets/images/tarot_temp/La_Lune.png',
+    'assets/images/tarot_cards/arcane_majeur/La_lune.png',
   ),
   TarotCard(
     'XV',
@@ -100,7 +85,7 @@ const _arcana = <TarotCard>[
     '♜',
     'LA CHAÎNE',
     'Regarde la chaîne : elle est peut-être plus lâche que tu ne le crois.',
-    'assets/images/tarot_temp/Le_Diable.png',
+    'assets/images/tarot_cards/arcane_majeur/Le_Diable.jpeg',
   ),
   TarotCard(
     'XVII',
@@ -108,7 +93,7 @@ const _arcana = <TarotCard>[
     '✧',
     'LA GUÉRISON',
     'Après la nuit, ton désir de vivre demeure une forme de magie.',
-    'assets/images/tarot_temp/Le_Soleil.png',
+    'assets/images/tarot_cards/arcane_majeur/Le_Soleil.png',
   ),
   TarotCard(
     'VI',
@@ -116,7 +101,7 @@ const _arcana = <TarotCard>[
     '♡',
     'L’UNION',
     'Deux chemins peuvent se rencontrer sans perdre leur mystère.',
-    'assets/images/tarot_temp/Les_Amants.png',
+    'assets/images/tarot_cards/arcane_majeur/Les_Amants.png',
   ),
   TarotCard(
     'XXI',
@@ -124,7 +109,7 @@ const _arcana = <TarotCard>[
     '◎',
     'L’ACCOMPLISSEMENT',
     'Ce qui semblait dispersé retrouve son cercle. Une fin peut devenir une porte.',
-    'assets/images/tarot_temp/Le_Monde.png',
+    'assets/images/tarot_cards/arcane_majeur/Le_Monde.png',
   ),
   TarotCard(
     'I',
@@ -180,7 +165,7 @@ const _arcana = <TarotCard>[
     '☿',
     'LA LAMPE',
     'Le retrait choisi éclaire la prochaine marche. Garde une lumière, même petite.',
-    '',
+    'assets/images/tarot_cards/arcane_majeur/L_Hermite.png',
   ),
   TarotCard(
     'X',
@@ -273,7 +258,9 @@ final _minorArcana = <TarotCard>[
         suit.symbol,
         suit.name.toUpperCase(),
         'Cette carte parle de ${suit.theme}. Cherche le prochain geste simple qui respecte ton intention.',
-        '',
+        suit.name == 'Épées' && index == 0
+            ? 'assets/images/tarot_cards/arcane_mineur/As_Dépées.png'
+            : '',
       ),
 ];
 
@@ -295,7 +282,13 @@ class TarotNoirHome extends StatefulWidget {
 }
 
 class _TarotNoirHomeState extends State<TarotNoirHome> {
+  static const _dailyCardKey = 'daily_card_id';
+  static const _dailyDateKey = 'daily_card_date';
+  static const _journalKey = 'journal_entries';
+
   int _tab = 0;
+  String _drawType = 'daily';
+  bool _hasDrawnToday = false;
 
   late TarotCard _card;
 
@@ -310,14 +303,69 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     _card =
         _deck[DateTime(now.year, now.month, now.day).millisecondsSinceEpoch %
             _deck.length];
+    _restoreState();
   }
 
-  // Tirage aléatoire d'une nouvelle carte.
-  void _draw() {
+  String _dateKey(DateTime date) =>
+      '${date.year.toString().padLeft(4, '0')}-'
+      '${date.month.toString().padLeft(2, '0')}-'
+      '${date.day.toString().padLeft(2, '0')}';
+
+  Future<void> _restoreState() async {
+    final preferences = await SharedPreferences.getInstance();
+    final today = _dateKey(DateTime.now());
+    final savedDate = preferences.getString(_dailyDateKey);
+    final savedCardId = preferences.getString(_dailyCardKey);
+    final savedCard = _cardForId(savedCardId);
+    final savedJournal = preferences.getStringList(_journalKey) ?? [];
+
+    if (!mounted) return;
     setState(() {
-      _card = _deck[Random().nextInt(_deck.length)];
-      _journal.insert(0, _JournalEntry(card: _card, createdAt: DateTime.now()));
+      if (savedDate == today && savedCard != null) {
+        _card = savedCard;
+        _hasDrawnToday = true;
+      }
+      _journal
+        ..clear()
+        ..addAll(
+          savedJournal.map(_JournalEntry.fromJson).whereType<_JournalEntry>(),
+        );
     });
+  }
+
+  TarotCard? _cardForId(String? id) {
+    if (id == null) return null;
+    for (final card in _deck) {
+      if (card.id == id) return card;
+    }
+    return null;
+  }
+
+  Future<void> _persist() async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString(_dailyCardKey, _card.id);
+    await preferences.setString(_dailyDateKey, _dateKey(DateTime.now()));
+    await preferences.setStringList(
+      _journalKey,
+      _journal.map((entry) => jsonEncode(entry.toJson())).toList(),
+    );
+  }
+
+  void _draw() {
+    if (_hasDrawnToday) return;
+    setState(() {
+      _hasDrawnToday = true;
+      _drawType = 'daily';
+      _journal.insert(
+        0,
+        _JournalEntry(
+          card: _card,
+          createdAt: DateTime.now(),
+          drawType: 'daily',
+        ),
+      );
+    });
+    _persist();
   }
 
   void _saveJournalEntry(String note, int mood) {
@@ -332,9 +380,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
           note: trimmedNote,
           mood: mood,
           createdAt: DateTime.now(),
+          drawType: _drawType,
         ),
       );
     });
+    _persist();
   }
 
   @override
@@ -342,7 +392,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     final l10n = AppLocalizations.of(context)!;
 
     final pages = [
-      _ReadingPage(card: _card, onDraw: _draw),
+      _ReadingPage(card: _card, onDraw: _draw, hasDrawnToday: _hasDrawnToday),
       _JournalPage(entries: _journal, onSave: _saveJournalEntry),
       const _PremiumPage(),
     ];
@@ -377,10 +427,15 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 }
 
 class _ReadingPage extends StatelessWidget {
-  const _ReadingPage({required this.card, required this.onDraw});
+  const _ReadingPage({
+    required this.card,
+    required this.onDraw,
+    required this.hasDrawnToday,
+  });
 
   final TarotCard card;
   final VoidCallback onDraw;
+  final bool hasDrawnToday;
 
   @override
   Widget build(BuildContext context) {
@@ -444,9 +499,9 @@ class _ReadingPage extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: FilledButton.icon(
-            onPressed: onDraw,
+            onPressed: hasDrawnToday ? null : onDraw,
             icon: const Icon(Icons.casino_outlined),
-            label: Text(l10n.drawAnother),
+            label: Text(l10n.drawDaily),
           ),
         ),
       ],
@@ -580,14 +635,14 @@ class _JournalPageState extends State<_JournalPage> {
             controller: _controller,
             minLines: 3,
             maxLines: 6,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               filled: true,
-              hintText: 'Écris ce que la carte remue ou éclaire en toi…',
+              hintText: l10n.journalNoteHint,
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            'INTENSITÉ DU JOUR · $_mood/5',
+            l10n.moodLabel(_mood),
             style: const TextStyle(fontSize: 12, letterSpacing: 1.2),
           ),
           Slider(
@@ -601,7 +656,7 @@ class _JournalPageState extends State<_JournalPage> {
           FilledButton.icon(
             onPressed: _save,
             icon: const Icon(Icons.bookmark_add_outlined),
-            label: const Text('Sceller cette note'),
+            label: Text(l10n.sealNote),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -631,9 +686,18 @@ class _JournalPageState extends State<_JournalPage> {
                         ),
                         title: Text(entry.card.name),
                         subtitle: Text(
-                          entry.note?.isNotEmpty == true
-                              ? '${entry.note} · ${entry.mood ?? 3}/5'
-                              : '${entry.card.keyword} · ${entry.mood ?? 3}/5',
+                          [
+                            entry.card.keyword,
+                            l10n.drawDate(
+                              DateFormat.yMd(l10n.localeName)
+                                  .format(entry.createdAt),
+                            ),
+                            entry.drawType == 'daily'
+                                ? l10n.dailyDrawType
+                                : l10n.freeDrawType,
+                            if (entry.note?.isNotEmpty == true) entry.note!,
+                            '${entry.mood ?? 3}/5',
+                          ].join(' · '),
                         ),
                       );
                     },
@@ -784,7 +848,7 @@ class _PremiumPage extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Endpoint devnet : ${AppConfig.solanaClusterUrl}',
+          l10n.endpointLabel(AppConfig.solanaClusterUrl),
           style: const TextStyle(fontSize: 12, color: Color(0xFFB9AFBE)),
         ),
       ],
@@ -816,14 +880,44 @@ class _JournalEntry {
   const _JournalEntry({
     required this.card,
     required this.createdAt,
+    this.drawType = 'daily',
     this.note,
     this.mood,
   });
 
   final TarotCard card;
   final DateTime createdAt;
+  final String drawType;
   final String? note;
   final int? mood;
+
+  Map<String, dynamic> toJson() => {
+    'cardId': card.id,
+    'createdAt': createdAt.toIso8601String(),
+    'drawType': drawType,
+    if (note != null) 'note': note,
+    if (mood != null) 'mood': mood,
+  };
+
+  static _JournalEntry? fromJson(String value) {
+    try {
+      final json = jsonDecode(value) as Map<String, dynamic>;
+      final card = _deck.firstWhere((card) => card.id == json['cardId']);
+      return _JournalEntry(
+        card: card,
+        createdAt: DateTime.parse(json['createdAt'] as String),
+        drawType: json['drawType'] as String? ?? 'daily',
+        note: json['note'] as String?,
+        mood: json['mood'] as int?,
+      );
+    } on FormatException {
+      return null;
+    } on StateError {
+      return null;
+    } on TypeError {
+      return null;
+    }
+  }
 }
 
 class _PlanComparisonTable extends StatelessWidget {

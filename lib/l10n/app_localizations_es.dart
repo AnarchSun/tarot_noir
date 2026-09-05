@@ -19,6 +19,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get drawAnother => 'Sacar otra carta';
 
   @override
+  String get drawDaily => 'Sacar mi carta del día';
+
+  @override
   String get reading => 'Tirada';
 
   @override
@@ -151,4 +154,32 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get linkedJournal => 'Vínculos con las cartas y Orion';
+
+  @override
+  String get journalNoteHint =>
+      'Escribe lo que la carta remueve o ilumina en ti…';
+
+  @override
+  String moodLabel(Object mood) {
+    return 'INTENSIDAD DEL DÍA · $mood/5';
+  }
+
+  @override
+  String get sealNote => 'Sellar esta nota';
+
+  @override
+  String get dailyDrawType => 'Carta del día';
+
+  @override
+  String get freeDrawType => 'Tirada libre';
+
+  @override
+  String drawDate(Object date) {
+    return 'Sacada el $date';
+  }
+
+  @override
+  String endpointLabel(Object url) {
+    return 'Endpoint devnet: $url';
+  }
 }

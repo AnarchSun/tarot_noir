@@ -3,6 +3,7 @@
   "appTitle": "Tarot Noir",
   "dailyReading": "Le tirage du jour",
   "drawAnother": "Tirer une autre carte",
+  "drawDaily": "Tirer ma carte du jour",
   "reading": "Tirage",
   "journal": "Journal",
   "premium": "Premium",
@@ -45,4 +46,14 @@
   "premiumDailyReading": "Lecture approfondie + historique",
   "localNotes": "Notes locales",
   "linkedJournal": "Liens avec les cartes et Orion"
+  ,"journalNoteHint": "Écris ce que la carte remue ou éclaire en toi…"
+  ,"moodLabel": "INTENSITÉ DU JOUR · {mood}/5"
+  ,"sealNote": "Sceller cette note"
+  ,"dailyDrawType": "Carte du jour"
+  ,"freeDrawType": "Tirage libre"
+  ,"drawDate": "Tirée le {date}"
+  ,"endpointLabel": "Endpoint devnet : {url}"
+  ,"@moodLabel": {"placeholders": {"mood": {}}}
+  ,"@drawDate": {"placeholders": {"date": {}}}
+  ,"@endpointLabel": {"placeholders": {"url": {}}}
 }

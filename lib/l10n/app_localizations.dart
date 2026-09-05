@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// **'Tirer une autre carte'**
   String get drawAnother;
 
+  /// No description provided for @drawDaily.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirer ma carte du jour'**
+  String get drawDaily;
+
   /// No description provided for @reading.
   ///
   /// In fr, this message translates to:
@@ -363,6 +369,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Liens avec les cartes et Orion'**
   String get linkedJournal;
+
+  /// No description provided for @journalNoteHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Écris ce que la carte remue ou éclaire en toi…'**
+  String get journalNoteHint;
+
+  /// No description provided for @moodLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'INTENSITÉ DU JOUR · {mood}/5'**
+  String moodLabel(Object mood);
+
+  /// No description provided for @sealNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sceller cette note'**
+  String get sealNote;
+
+  /// No description provided for @dailyDrawType.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour'**
+  String get dailyDrawType;
+
+  /// No description provided for @freeDrawType.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirage libre'**
+  String get freeDrawType;
+
+  /// No description provided for @drawDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirée le {date}'**
+  String drawDate(Object date);
+
+  /// No description provided for @endpointLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Endpoint devnet : {url}'**
+  String endpointLabel(Object url);
 }
 
 class _AppLocalizationsDelegate
