@@ -56,11 +56,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nftAvatarsDetail => 'Arcano Eclipse, Luna Negra y futuras series.';
 
   @override
-  String get adFree => 'Sin publicidad';
+  String get adFree => 'Sin anuncios';
 
   @override
   String get adFreeDetail =>
-      'Los anuncios financian la experiencia gratuita, nunca a los miembros Premium.';
+      'Tarot Noir no muestra anuncios, para todos los círculos.';
 
   @override
   String get walletSoon => 'Conexión de wallet — próximamente';
@@ -69,10 +69,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String networkConfigured(Object network) {
     return 'Red configurada: $network. La acuñación sigue desactivada hasta proporcionar los ajustes de Candy Machine.';
   }
-
-  @override
-  String get adPlaceholder =>
-      'Espacio de socios — red publicitaria por conectar.';
 
   @override
   String get preferences => 'Preferencias';
@@ -145,9 +141,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get journalAccess => 'Diario ritual';
 
   @override
-  String get adsPolicy => 'Publicidad';
-
-  @override
   String get freeDailyReading => '1 lectura corta';
 
   @override
@@ -158,10 +151,4 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get linkedJournal => 'Vínculos con las cartas y Orion';
-
-  @override
-  String get adsMayAppear => 'Posible si se activa';
-
-  @override
-  String get noAds => 'Sin publicidad';
 }

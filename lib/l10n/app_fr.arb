@@ -15,12 +15,11 @@
   "extendedReadingsDetail": "Croix celtique, relations et saisons.",
   "nftAvatars": "Avatars NFT",
   "nftAvatarsDetail": "Arcane Éclipse, Lune Noire et futures séries.",
-  "adFree": "Sans publicité",
-  "adFreeDetail": "Les publicités financent la version gratuite, jamais les membres Premium.",
+  "adFree": "Sans annonces",
+  "adFreeDetail": "Tarot Noir ne diffuse aucune annonce, pour tous les cercles.",
   "walletSoon": "Connexion wallet — bientôt",
   "networkConfigured": "Réseau configuré : {network}. Le mint est désactivé tant que les paramètres Candy Machine ne sont pas fournis.",
   "@networkConfigured": {"placeholders": {"network": {}}},
-  "adPlaceholder": "Espace partenaire — réseau publicitaire à connecter.",
   "preferences": "Préférences",
   "preferencesTitle": "Votre rituel, vos règles",
   "preferencesIntro": "Ces réglages restent locaux dans cette démo. Rien n’est transmis sans votre choix clair.",
@@ -42,11 +41,8 @@
   "orionPlus": "Orion+",
   "dailyCard": "Carte du jour",
   "journalAccess": "Journal rituel",
-  "adsPolicy": "Publicité"
-  ,"freeDailyReading": "1 lecture courte"
-  ,"premiumDailyReading": "Lecture approfondie + historique"
-  ,"localNotes": "Notes locales"
-  ,"linkedJournal": "Liens avec les cartes et Orion"
-  ,"adsMayAppear": "Possible si activée"
-  ,"noAds": "Aucune publicité"
+  "freeDailyReading": "1 lecture courte",
+  "premiumDailyReading": "Lecture approfondie + historique",
+  "localNotes": "Notes locales",
+  "linkedJournal": "Liens avec les cartes et Orion"
 }

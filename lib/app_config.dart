@@ -5,10 +5,6 @@ abstract final class AppConfig {
     'SOLANA_CLUSTER',
     defaultValue: 'devnet',
   );
-  static const adsEnabled = bool.fromEnvironment(
-    'ADS_ENABLED',
-    defaultValue: false,
-  );
 
   /// Active l'aperçu Orion+ en développement uniquement.
   /// En production, l'accès doit être validé côté serveur après achat ou NFT.

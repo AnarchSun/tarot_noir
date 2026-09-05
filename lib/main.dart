@@ -183,11 +183,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     final l10n = AppLocalizations.of(context)!;
 
     final pages = [
-      _ReadingPage(
-        card: _card,
-        onDraw: _draw,
-        onOpenPremium: () => setState(() => _tab = 2),
-      ),
+      _ReadingPage(card: _card, onDraw: _draw),
       _JournalPage(entries: _journal, onSave: _saveJournalEntry),
       const _PremiumPage(),
     ];
@@ -222,15 +218,10 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 }
 
 class _ReadingPage extends StatelessWidget {
-  const _ReadingPage({
-    required this.card,
-    required this.onDraw,
-    required this.onOpenPremium,
-  });
+  const _ReadingPage({required this.card, required this.onDraw});
 
   final TarotCard card;
   final VoidCallback onDraw;
-  final VoidCallback onOpenPremium;
 
   @override
   Widget build(BuildContext context) {
@@ -284,10 +275,7 @@ class _ReadingPage extends StatelessWidget {
 
         const SizedBox(height: 20),
 
-        if (AppConfig.premiumEnabled)
-          _OrionPremiumInsight(card: card)
-        else
-          _PremiumTeaser(onOpen: onOpenPremium),
+        if (AppConfig.premiumEnabled) _OrionPremiumInsight(card: card),
 
         const SizedBox(height: 28),
 
@@ -302,11 +290,6 @@ class _ReadingPage extends StatelessWidget {
             label: Text(l10n.drawAnother),
           ),
         ),
-
-        if (AppConfig.adsEnabled) ...[
-          const SizedBox(height: 20),
-          const _AdPlaceholder(),
-        ],
       ],
     );
   }
@@ -618,9 +601,18 @@ class _PremiumPage extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(l10n.comparisonIntro),
+        const SizedBox(height: 10),
+        Text(l10n.premiumIntro),
         const SizedBox(height: 24),
         _PlanComparisonTable(l10n: l10n),
 
+        const SizedBox(height: 24),
+
+        Text(l10n.extendedReadingsDetail, style: const TextStyle(height: 1.45)),
+        const SizedBox(height: 10),
+        Text(l10n.nftAvatarsDetail, style: const TextStyle(height: 1.45)),
+        const SizedBox(height: 10),
+        Text(l10n.adFreeDetail, style: const TextStyle(height: 1.45)),
         const SizedBox(height: 24),
 
         OutlinedButton(onPressed: null, child: Text(l10n.walletSoon)),
@@ -661,26 +653,6 @@ class _OrionPremiumInsight extends StatelessWidget {
   );
 }
 
-class _PremiumTeaser extends StatelessWidget {
-  const _PremiumTeaser({required this.onOpen});
-
-  final VoidCallback onOpen;
-
-  @override
-  Widget build(BuildContext context) => Card(
-    child: ListTile(
-      onTap: onOpen,
-      leading: const Icon(
-        Icons.workspace_premium_outlined,
-        color: Color(0xFFD4AF59),
-      ),
-      title: const Text('Orion+'),
-      subtitle: Text(AppLocalizations.of(context)!.comparePlans),
-      trailing: const Icon(Icons.chevron_right),
-    ),
-  );
-}
-
 class _JournalEntry {
   const _JournalEntry({
     required this.card,
@@ -715,7 +687,6 @@ class _PlanComparisonTable extends StatelessWidget {
       _row(l10n.comparisonFeature, l10n.freePlan, l10n.orionPlus, header: true),
       _row(l10n.dailyCard, l10n.freeDailyReading, l10n.premiumDailyReading),
       _row(l10n.journalAccess, l10n.localNotes, l10n.linkedJournal),
-      _row(l10n.adsPolicy, l10n.adsMayAppear, l10n.noAds),
     ],
   );
 
@@ -741,26 +712,6 @@ class _PlanComparisonTable extends StatelessWidget {
         fontWeight: header ? FontWeight.w700 : FontWeight.w400,
         fontSize: 12,
       ),
-    ),
-  );
-}
-
-class _AdPlaceholder extends StatelessWidget {
-  const _AdPlaceholder();
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(14),
-    decoration: BoxDecoration(
-      border: Border.all(color: const Color(0xFF3F3449)),
-      borderRadius: BorderRadius.circular(14),
-    ),
-    child: Row(
-      children: [
-        const Icon(Icons.campaign_outlined, size: 18),
-        const SizedBox(width: 10),
-        Expanded(child: Text(AppLocalizations.of(context)!.adPlaceholder)),
-      ],
     ),
   );
 }

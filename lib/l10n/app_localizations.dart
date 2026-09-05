@@ -193,13 +193,13 @@ abstract class AppLocalizations {
   /// No description provided for @adFree.
   ///
   /// In fr, this message translates to:
-  /// **'Sans publicité'**
+  /// **'Sans annonces'**
   String get adFree;
 
   /// No description provided for @adFreeDetail.
   ///
   /// In fr, this message translates to:
-  /// **'Les publicités financent la version gratuite, jamais les membres Premium.'**
+  /// **'Tarot Noir ne diffuse aucune annonce, pour tous les cercles.'**
   String get adFreeDetail;
 
   /// No description provided for @walletSoon.
@@ -213,12 +213,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Réseau configuré : {network}. Le mint est désactivé tant que les paramètres Candy Machine ne sont pas fournis.'**
   String networkConfigured(Object network);
-
-  /// No description provided for @adPlaceholder.
-  ///
-  /// In fr, this message translates to:
-  /// **'Espace partenaire — réseau publicitaire à connecter.'**
-  String get adPlaceholder;
 
   /// No description provided for @preferences.
   ///
@@ -346,12 +340,6 @@ abstract class AppLocalizations {
   /// **'Journal rituel'**
   String get journalAccess;
 
-  /// No description provided for @adsPolicy.
-  ///
-  /// In fr, this message translates to:
-  /// **'Publicité'**
-  String get adsPolicy;
-
   /// No description provided for @freeDailyReading.
   ///
   /// In fr, this message translates to:
@@ -375,18 +363,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Liens avec les cartes et Orion'**
   String get linkedJournal;
-
-  /// No description provided for @adsMayAppear.
-  ///
-  /// In fr, this message translates to:
-  /// **'Possible si activée'**
-  String get adsMayAppear;
-
-  /// No description provided for @noAds.
-  ///
-  /// In fr, this message translates to:
-  /// **'Aucune publicité'**
-  String get noAds;
 }
 
 class _AppLocalizationsDelegate

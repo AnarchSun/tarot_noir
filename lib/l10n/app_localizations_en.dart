@@ -58,11 +58,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Eclipse Arcana, Black Moon and future series.';
 
   @override
-  String get adFree => 'Ad-free';
+  String get adFree => 'No ads';
 
   @override
-  String get adFreeDetail =>
-      'Ads fund the free experience, never Premium members.';
+  String get adFreeDetail => 'Tarot Noir displays no ads, for every circle.';
 
   @override
   String get walletSoon => 'Wallet connection — coming soon';
@@ -71,9 +70,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String networkConfigured(Object network) {
     return 'Configured network: $network. Minting remains disabled until Candy Machine settings are provided.';
   }
-
-  @override
-  String get adPlaceholder => 'Partner space — advertising network to connect.';
 
   @override
   String get preferences => 'Preferences';
@@ -146,9 +142,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalAccess => 'Ritual journal';
 
   @override
-  String get adsPolicy => 'Advertising';
-
-  @override
   String get freeDailyReading => '1 short reading';
 
   @override
@@ -159,10 +152,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get linkedJournal => 'Links with cards and Orion';
-
-  @override
-  String get adsMayAppear => 'May appear if enabled';
-
-  @override
-  String get noAds => 'No ads';
 }

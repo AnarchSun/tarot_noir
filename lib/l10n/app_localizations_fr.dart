@@ -57,11 +57,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Arcane Éclipse, Lune Noire et futures séries.';
 
   @override
-  String get adFree => 'Sans publicité';
+  String get adFree => 'Sans annonces';
 
   @override
   String get adFreeDetail =>
-      'Les publicités financent la version gratuite, jamais les membres Premium.';
+      'Tarot Noir ne diffuse aucune annonce, pour tous les cercles.';
 
   @override
   String get walletSoon => 'Connexion wallet — bientôt';
@@ -70,10 +70,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String networkConfigured(Object network) {
     return 'Réseau configuré : $network. Le mint est désactivé tant que les paramètres Candy Machine ne sont pas fournis.';
   }
-
-  @override
-  String get adPlaceholder =>
-      'Espace partenaire — réseau publicitaire à connecter.';
 
   @override
   String get preferences => 'Préférences';
@@ -146,9 +142,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get journalAccess => 'Journal rituel';
 
   @override
-  String get adsPolicy => 'Publicité';
-
-  @override
   String get freeDailyReading => '1 lecture courte';
 
   @override
@@ -159,10 +152,4 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get linkedJournal => 'Liens avec les cartes et Orion';
-
-  @override
-  String get adsMayAppear => 'Possible si activée';
-
-  @override
-  String get noAds => 'Aucune publicité';
 }

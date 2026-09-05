@@ -25,9 +25,6 @@ dependencies:
   # Solana / SPL Token
   solana: ^0.32.0+1
 
-  # Google AdMob
-  google_mobile_ads: ^9.1.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

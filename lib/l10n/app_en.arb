@@ -15,12 +15,11 @@
   "extendedReadingsDetail": "Celtic cross, relationships and seasons.",
   "nftAvatars": "NFT avatars",
   "nftAvatarsDetail": "Eclipse Arcana, Black Moon and future series.",
-  "adFree": "Ad-free",
-  "adFreeDetail": "Ads fund the free experience, never Premium members.",
+  "adFree": "No ads",
+  "adFreeDetail": "Tarot Noir displays no ads, for every circle.",
   "walletSoon": "Wallet connection — coming soon",
   "networkConfigured": "Configured network: {network}. Minting remains disabled until Candy Machine settings are provided.",
   "@networkConfigured": {"placeholders": {"network": {}}},
-  "adPlaceholder": "Partner space — advertising network to connect.",
   "preferences": "Preferences",
   "preferencesTitle": "Your ritual, your rules",
   "preferencesIntro": "These settings remain local in this demo. Nothing is transmitted without your clear choice.",
@@ -42,11 +41,8 @@
   "orionPlus": "Orion+",
   "dailyCard": "Daily card",
   "journalAccess": "Ritual journal",
-  "adsPolicy": "Advertising"
-  ,"freeDailyReading": "1 short reading"
-  ,"premiumDailyReading": "In-depth reading + history"
-  ,"localNotes": "Local notes"
-  ,"linkedJournal": "Links with cards and Orion"
-  ,"adsMayAppear": "May appear if enabled"
-  ,"noAds": "No ads"
+  "freeDailyReading": "1 short reading",
+  "premiumDailyReading": "In-depth reading + history",
+  "localNotes": "Local notes",
+  "linkedJournal": "Links with cards and Orion"
 }

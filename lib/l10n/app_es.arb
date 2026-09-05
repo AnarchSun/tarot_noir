@@ -15,12 +15,11 @@
   "extendedReadingsDetail": "Cruz celta, relaciones y estaciones.",
   "nftAvatars": "Avatares NFT",
   "nftAvatarsDetail": "Arcano Eclipse, Luna Negra y futuras series.",
-  "adFree": "Sin publicidad",
-  "adFreeDetail": "Los anuncios financian la experiencia gratuita, nunca a los miembros Premium.",
+  "adFree": "Sin anuncios",
+  "adFreeDetail": "Tarot Noir no muestra anuncios, para todos los círculos.",
   "walletSoon": "Conexión de wallet — próximamente",
   "networkConfigured": "Red configurada: {network}. La acuñación sigue desactivada hasta proporcionar los ajustes de Candy Machine.",
   "@networkConfigured": {"placeholders": {"network": {}}},
-  "adPlaceholder": "Espacio de socios — red publicitaria por conectar.",
   "preferences": "Preferencias",
   "preferencesTitle": "Tu ritual, tus reglas",
   "preferencesIntro": "Estos ajustes permanecen locales en esta demo. Nada se transmite sin tu elección clara.",
@@ -42,11 +41,8 @@
   "orionPlus": "Orion+",
   "dailyCard": "Carta del día",
   "journalAccess": "Diario ritual",
-  "adsPolicy": "Publicidad"
-  ,"freeDailyReading": "1 lectura corta"
-  ,"premiumDailyReading": "Lectura profunda + historial"
-  ,"localNotes": "Notas locales"
-  ,"linkedJournal": "Vínculos con las cartas y Orion"
-  ,"adsMayAppear": "Posible si se activa"
-  ,"noAds": "Sin publicidad"
+  "freeDailyReading": "1 lectura corta",
+  "premiumDailyReading": "Lectura profunda + historial",
+  "localNotes": "Notas locales",
+  "linkedJournal": "Vínculos con las cartas y Orion"
 }
