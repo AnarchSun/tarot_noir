@@ -20,5 +20,19 @@
   "walletSoon": "Wallet connection — coming soon",
   "networkConfigured": "Configured network: {network}. Minting remains disabled until Candy Machine settings are provided.",
   "@networkConfigured": {"placeholders": {"network": {}}},
-  "adPlaceholder": "Partner space — advertising network to connect."
+  "adPlaceholder": "Partner space — advertising network to connect.",
+  "preferences": "Preferences",
+  "preferencesTitle": "Your ritual, your rules",
+  "preferencesIntro": "These settings remain local in this demo. Nothing is transmitted without your clear choice.",
+  "orionMemory": "Orion memory",
+  "orionMemoryDetail": "Allow Orion to connect your conversations during this session.",
+  "personalizedGuidance": "Personalized guidance",
+  "personalizedGuidanceDetail": "Use only notes and themes you choose to share.",
+  "dailyReminder": "Ritual reminder",
+  "dailyReminderDetail": "Prepare a daily reminder; notifications are not enabled yet.",
+  "orionTone": "Orion’s voice",
+  "dataAndInterests": "Data and interests",
+  "dataPolicy": "Tarot Noir does not read your web searches, clicks, or social networks. Any future connection must be enabled separately, described clearly, and revocable.",
+  "eraseLocalData": "Erase my local data",
+  "noDataToErase": "There is no persistent data to erase in this demo."
 }

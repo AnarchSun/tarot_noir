@@ -219,6 +219,90 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Espace partenaire — réseau publicitaire à connecter.'**
   String get adPlaceholder;
+
+  /// No description provided for @preferences.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préférences'**
+  String get preferences;
+
+  /// No description provided for @preferencesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre rituel, vos règles'**
+  String get preferencesTitle;
+
+  /// No description provided for @preferencesIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ces réglages restent locaux dans cette démo. Rien n’est transmis sans votre choix clair.'**
+  String get preferencesIntro;
+
+  /// No description provided for @orionMemory.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mémoire Orion'**
+  String get orionMemory;
+
+  /// No description provided for @orionMemoryDetail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autoriser Orion à relier vos conversations durant cette session.'**
+  String get orionMemoryDetail;
+
+  /// No description provided for @personalizedGuidance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Guidance personnalisée'**
+  String get personalizedGuidance;
+
+  /// No description provided for @personalizedGuidanceDetail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utiliser seulement les notes et thèmes que vous décidez de partager.'**
+  String get personalizedGuidanceDetail;
+
+  /// No description provided for @dailyReminder.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rappel rituel'**
+  String get dailyReminder;
+
+  /// No description provided for @dailyReminderDetail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préparer un rappel quotidien ; les notifications ne sont pas encore activées.'**
+  String get dailyReminderDetail;
+
+  /// No description provided for @orionTone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voix d’Orion'**
+  String get orionTone;
+
+  /// No description provided for @dataAndInterests.
+  ///
+  /// In fr, this message translates to:
+  /// **'Données et intérêts'**
+  String get dataAndInterests;
+
+  /// No description provided for @dataPolicy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tarot Noir ne lit pas vos recherches web, vos clics ni vos réseaux sociaux. Toute connexion future devra être activée séparément, décrite clairement et révocable.'**
+  String get dataPolicy;
+
+  /// No description provided for @eraseLocalData.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer mes données locales'**
+  String get eraseLocalData;
+
+  /// No description provided for @noDataToErase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune donnée persistante à effacer dans cette démo.'**
+  String get noDataToErase;
 }
 
 class _AppLocalizationsDelegate

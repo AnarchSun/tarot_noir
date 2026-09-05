@@ -73,4 +73,52 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get adPlaceholder =>
       'Espacio de socios — red publicitaria por conectar.';
+
+  @override
+  String get preferences => 'Preferencias';
+
+  @override
+  String get preferencesTitle => 'Tu ritual, tus reglas';
+
+  @override
+  String get preferencesIntro =>
+      'Estos ajustes permanecen locales en esta demo. Nada se transmite sin tu elección clara.';
+
+  @override
+  String get orionMemory => 'Memoria de Orion';
+
+  @override
+  String get orionMemoryDetail =>
+      'Permite a Orion vincular tus conversaciones durante esta sesión.';
+
+  @override
+  String get personalizedGuidance => 'Guía personalizada';
+
+  @override
+  String get personalizedGuidanceDetail =>
+      'Usa solo las notas y temas que decidas compartir.';
+
+  @override
+  String get dailyReminder => 'Recordatorio ritual';
+
+  @override
+  String get dailyReminderDetail =>
+      'Prepara un recordatorio diario; las notificaciones aún no están activadas.';
+
+  @override
+  String get orionTone => 'Voz de Orion';
+
+  @override
+  String get dataAndInterests => 'Datos e intereses';
+
+  @override
+  String get dataPolicy =>
+      'Tarot Noir no lee tus búsquedas web, clics ni redes sociales. Cualquier conexión futura deberá activarse por separado, describirse claramente y poder revocarse.';
+
+  @override
+  String get eraseLocalData => 'Borrar mis datos locales';
+
+  @override
+  String get noDataToErase =>
+      'No hay datos persistentes que borrar en esta demo.';
 }

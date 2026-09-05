@@ -20,5 +20,19 @@
   "walletSoon": "Connexion wallet — bientôt",
   "networkConfigured": "Réseau configuré : {network}. Le mint est désactivé tant que les paramètres Candy Machine ne sont pas fournis.",
   "@networkConfigured": {"placeholders": {"network": {}}},
-  "adPlaceholder": "Espace partenaire — réseau publicitaire à connecter."
+  "adPlaceholder": "Espace partenaire — réseau publicitaire à connecter.",
+  "preferences": "Préférences",
+  "preferencesTitle": "Votre rituel, vos règles",
+  "preferencesIntro": "Ces réglages restent locaux dans cette démo. Rien n’est transmis sans votre choix clair.",
+  "orionMemory": "Mémoire Orion",
+  "orionMemoryDetail": "Autoriser Orion à relier vos conversations durant cette session.",
+  "personalizedGuidance": "Guidance personnalisée",
+  "personalizedGuidanceDetail": "Utiliser seulement les notes et thèmes que vous décidez de partager.",
+  "dailyReminder": "Rappel rituel",
+  "dailyReminderDetail": "Préparer un rappel quotidien ; les notifications ne sont pas encore activées.",
+  "orionTone": "Voix d’Orion",
+  "dataAndInterests": "Données et intérêts",
+  "dataPolicy": "Tarot Noir ne lit pas vos recherches web, vos clics ni vos réseaux sociaux. Toute connexion future devra être activée séparément, décrite clairement et révocable.",
+  "eraseLocalData": "Effacer mes données locales",
+  "noDataToErase": "Aucune donnée persistante à effacer dans cette démo."
 }
