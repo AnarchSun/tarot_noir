@@ -40,6 +40,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/tarot_temp/
-    - assets/images/tarot_cards/arcane_majeur/
-    - assets/images/tarot_cards/arcane_mineur/
+    - assets/images/tarot_cards/

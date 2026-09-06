@@ -100,22 +100,30 @@ class _JournalScreenState extends State<JournalScreen> {
                     itemBuilder: (_, i) {
                       final entry = widget.entries[i];
                       return ListTile(
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Image.asset(
-                            entry.card.imagePath,
-                            width: 42,
-                            height: 58,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, _, _) => Text(
-                              entry.card.symbol,
-                              style: const TextStyle(
-                                fontSize: 28,
-                                color: Color(0xFFD4AF59),
+                        leading: entry.card.hasIllustration
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: Image.asset(
+                                  entry.card.imagePath,
+                                  width: 42,
+                                  height: 58,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, _, _) => Text(
+                                    entry.card.symbol,
+                                    style: const TextStyle(
+                                      fontSize: 28,
+                                      color: Color(0xFFD4AF59),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                entry.card.symbol,
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  color: Color(0xFFD4AF59),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
                         title: Text(entry.card.name),
                         subtitle: Text(
                           [

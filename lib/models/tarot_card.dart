@@ -15,6 +15,8 @@ class TarotCard {
   final String message;
   final String imagePath;
 
+  bool get hasIllustration => imagePath.isNotEmpty;
+
   String get id => '$number-$name';
   String get nameFr => name;
 

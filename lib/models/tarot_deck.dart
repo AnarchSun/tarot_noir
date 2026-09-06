@@ -3,7 +3,7 @@ import 'tarot_card.dart';
 const majorArcana = <TarotCard>[
   TarotCard(
     '0',
-    'Le Fou',
+    'Le Mat',
     '✦',
     'LE SAUT',
     'Le vide n’est pas une chute : c’est l’espace où ton prochain monde cherche sa forme.',
@@ -11,7 +11,7 @@ const majorArcana = <TarotCard>[
   ),
   TarotCard(
     'II',
-    'La Grande Prêtresse',
+    'La Papesse',
     '☾',
     'LE SECRET',
     'Ne livre pas ta lumière à ceux qui ne savent regarder que les braises.',
@@ -23,7 +23,7 @@ const majorArcana = <TarotCard>[
     '☠',
     'LA MUE',
     'Ce qui se termine libère une place sacrée. Laisse l’ancienne peau à la terre.',
-    'assets/images/tarot_cards/arcane_majeur/La_Mort.png',
+    'assets/images/tarot_cards/La_Mort.png',
   ),
   TarotCard(
     'XVIII',
@@ -31,7 +31,7 @@ const majorArcana = <TarotCard>[
     '☾',
     'LE MIRAGE',
     'Ton intuition parle bas sous le bruit. Marche lentement, mais marche avec elle.',
-    'assets/images/tarot_cards/arcane_majeur/La_lune.png',
+    'assets/images/tarot_cards/La_Lune.png',
   ),
   TarotCard(
     'XV',
@@ -39,7 +39,7 @@ const majorArcana = <TarotCard>[
     '♜',
     'LA CHAÎNE',
     'Regarde la chaîne : elle est peut-être plus lâche que tu ne le crois.',
-    'assets/images/tarot_cards/arcane_majeur/Le_Diable.jpeg',
+    'assets/images/tarot_cards/Le_Diable.png',
   ),
   TarotCard(
     'XVII',
@@ -47,7 +47,7 @@ const majorArcana = <TarotCard>[
     '✧',
     'LA GUÉRISON',
     'Après la nuit, ton désir de vivre demeure une forme de magie.',
-    'assets/images/tarot_cards/arcane_majeur/Le_Soleil.png',
+    '',
   ),
   TarotCard(
     'VI',
@@ -55,7 +55,7 @@ const majorArcana = <TarotCard>[
     '♡',
     'L’UNION',
     'Deux chemins peuvent se rencontrer sans perdre leur mystère.',
-    'assets/images/tarot_cards/arcane_majeur/Les_Amants.png',
+    'assets/images/tarot_cards/Les_Amants.png',
   ),
   TarotCard(
     'XXI',
@@ -63,7 +63,7 @@ const majorArcana = <TarotCard>[
     '◎',
     'L’ACCOMPLISSEMENT',
     'Ce qui semblait dispersé retrouve son cercle. Une fin peut devenir une porte.',
-    'assets/images/tarot_cards/arcane_majeur/Le_Monde.png',
+    'assets/images/tarot_cards/Le_Monde.png',
   ),
   TarotCard(
     'I',
@@ -119,7 +119,7 @@ const majorArcana = <TarotCard>[
     '☿',
     'LA LAMPE',
     'Le retrait choisi éclaire la prochaine marche. Garde une lumière, même petite.',
-    'assets/images/tarot_cards/arcane_majeur/L_Hermite.png',
+    'assets/images/tarot_cards/L_Hermite.png',
   ),
   TarotCard(
     'X',
@@ -155,7 +155,7 @@ const majorArcana = <TarotCard>[
   ),
   TarotCard(
     'XVI',
-    'La Maison Dieu',
+    'La Tour',
     'ϟ',
     'LA FAILLE',
     'Une structure tombe parfois pour libérer la vérité qui voulait passer.',
@@ -167,7 +167,7 @@ const majorArcana = <TarotCard>[
     '☀',
     'LA CLARTÉ',
     'Partage ce qui te rend vivant. Une joie honnête peut servir de boussole.',
-    '',
+    'assets/images/tarot_cards/Le_Soleil.png',
   ),
   TarotCard(
     'XX',
@@ -221,7 +221,7 @@ final minorArcana = <TarotCard>[
         suit.name.toUpperCase(),
         'Cette carte parle de ${suit.theme}. Cherche le prochain geste simple qui respecte ton intention.',
         suit.name == 'Épées' && index == 0
-            ? 'assets/images/tarot_cards/arcane_mineur/As_Dépées.png'
+            ? 'assets/images/tarot_cards/As_d_Epees.png'
             : '',
       ),
 ];

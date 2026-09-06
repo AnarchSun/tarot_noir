@@ -30,38 +30,49 @@ class TarotCardView extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Image.asset(
-          card.imagePath,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    card.symbol,
-                    style: const TextStyle(
-                      fontSize: 90,
-                      color: Color(0xFFD4AF59),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    card.name.toUpperCase(),
-                    style: const TextStyle(
-                      letterSpacing: 2,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+        child: card.hasIllustration
+            ? Image.asset(
+                card.imagePath,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.contain,
+                errorBuilder: (_, _, _) => _UnavailableIllustration(card: card),
+              )
+            : _UnavailableIllustration(card: card),
       ),
     );
   }
+}
+
+class _UnavailableIllustration extends StatelessWidget {
+  const _UnavailableIllustration({required this.card});
+
+  final TarotCard card;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          card.symbol,
+          style: const TextStyle(fontSize: 90, color: Color(0xFFD4AF59)),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          card.name.toUpperCase(),
+          style: const TextStyle(
+            letterSpacing: 2,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Illustration non disponible',
+          style: TextStyle(color: Color(0xFFB9AFBE)),
+        ),
+      ],
+    ),
+  );
 }
