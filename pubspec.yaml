@@ -17,6 +17,9 @@ dependencies:
 
   intl: any
 
+  # Local prototype journal and preferences; no remote service.
+  shared_preferences: ^2.5.5
+
   cupertino_icons: ^1.0.8
 
   # HTTP / API
@@ -24,9 +27,6 @@ dependencies:
 
   # Solana / SPL Token
   solana: ^0.32.0+1
-
-  # Local persistence
-  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
