@@ -145,7 +145,7 @@ abstract class AppLocalizations {
   /// No description provided for @journalSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Les cartes tirées pendant cette session.'**
+  /// **'Tes notes et cartes sont conservées sur cet appareil.'**
   String get journalSubtitle;
 
   /// No description provided for @journalEmpty.
@@ -229,7 +229,7 @@ abstract class AppLocalizations {
   /// No description provided for @preferencesIntro.
   ///
   /// In fr, this message translates to:
-  /// **'Ces réglages restent locaux dans cette démo. Rien n’est transmis sans votre choix clair.'**
+  /// **'Ces réglages sont enregistrés sur cet appareil. Orion et les notifications ne sont pas encore connectés.'**
   String get preferencesIntro;
 
   /// No description provided for @orionMemory.
@@ -241,7 +241,7 @@ abstract class AppLocalizations {
   /// No description provided for @orionMemoryDetail.
   ///
   /// In fr, this message translates to:
-  /// **'Autoriser Orion à relier vos conversations durant cette session.'**
+  /// **'Enregistrer ton choix pour une future mémoire Orion. Aucun échange avec une IA pour le moment.'**
   String get orionMemoryDetail;
 
   /// No description provided for @personalizedGuidance.
@@ -253,7 +253,7 @@ abstract class AppLocalizations {
   /// No description provided for @personalizedGuidanceDetail.
   ///
   /// In fr, this message translates to:
-  /// **'Utiliser seulement les notes et thèmes que vous décidez de partager.'**
+  /// **'Enregistrer ton choix pour une future personnalisation à partir des notes que tu partageras explicitement.'**
   String get personalizedGuidanceDetail;
 
   /// No description provided for @dailyReminder.
@@ -283,7 +283,7 @@ abstract class AppLocalizations {
   /// No description provided for @dataPolicy.
   ///
   /// In fr, this message translates to:
-  /// **'Tarot Noir ne lit pas vos recherches web, vos clics ni vos réseaux sociaux. Toute connexion future devra être activée séparément, décrite clairement et révocable.'**
+  /// **'Le journal et les préférences restent sur cet appareil, sans chiffrement applicatif. Aucun envoi vers Orion, aucune lecture de tes recherches web ou réseaux sociaux. Toute connexion future demandera un consentement distinct. L’effacement supprime les notes et réglages, mais conserve la carte du jour pour respecter la limite gratuite.'**
   String get dataPolicy;
 
   /// No description provided for @eraseLocalData.
@@ -343,13 +343,13 @@ abstract class AppLocalizations {
   /// No description provided for @freeDailyReading.
   ///
   /// In fr, this message translates to:
-  /// **'1 lecture courte'**
+  /// **'1 carte par jour · texte court'**
   String get freeDailyReading;
 
   /// No description provided for @premiumDailyReading.
   ///
   /// In fr, this message translates to:
-  /// **'Lecture approfondie + historique'**
+  /// **'Tirages libres · lecture approfondie'**
   String get premiumDailyReading;
 
   /// No description provided for @localNotes.
@@ -361,8 +361,134 @@ abstract class AppLocalizations {
   /// No description provided for @linkedJournal.
   ///
   /// In fr, this message translates to:
-  /// **'Liens avec les cartes et Orion'**
+  /// **'Liens avec Orion (prévus)'**
   String get linkedJournal;
+
+  /// No description provided for @dailyLimitReached.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour révélée · reviens demain'**
+  String get dailyLimitReached;
+
+  /// No description provided for @interpretation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Interprétation'**
+  String get interpretation;
+
+  /// No description provided for @shortInterpretation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Texte abrégé'**
+  String get shortInterpretation;
+
+  /// No description provided for @deepInterpretation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Texte approfondi (aperçu)'**
+  String get deepInterpretation;
+
+  /// No description provided for @dailyCardOnly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour uniquement'**
+  String get dailyCardOnly;
+
+  /// No description provided for @extendedReadingsPlanned.
+  ///
+  /// In fr, this message translates to:
+  /// **'Croix celtique, relations, saisons (prévus)'**
+  String get extendedReadingsPlanned;
+
+  /// No description provided for @standardGuidance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Guidance standard'**
+  String get standardGuidance;
+
+  /// No description provided for @consentGuidance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sur consentement (prévue)'**
+  String get consentGuidance;
+
+  /// No description provided for @notIncluded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non inclus'**
+  String get notIncluded;
+
+  /// No description provided for @optionalMemory.
+  ///
+  /// In fr, this message translates to:
+  /// **'Optionnelle, sur consentement (prévue)'**
+  String get optionalMemory;
+
+  /// No description provided for @included.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inclus'**
+  String get included;
+
+  /// No description provided for @planned.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prévu'**
+  String get planned;
+
+  /// No description provided for @storageLoadError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible de lire la sauvegarde locale. Tes données n’ont pas été remplacées. Réessaie.'**
+  String get storageLoadError;
+
+  /// No description provided for @storageSaveError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvegarde impossible. La modification n’a pas été enregistrée ; réessaie ton action.'**
+  String get storageSaveError;
+
+  /// No description provided for @retry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer'**
+  String get retry;
+
+  /// No description provided for @cancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get cancel;
+
+  /// No description provided for @eraseConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer toutes les notes et réinitialiser les préférences ? La carte du jour et sa limite seront conservées.'**
+  String get eraseConfirmation;
+
+  /// No description provided for @dataErased.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notes effacées et préférences réinitialisées.'**
+  String get dataErased;
+
+  /// No description provided for @toneMystic.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mystique et direct'**
+  String get toneMystic;
+
+  /// No description provided for @toneGentle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Doux et contemplatif'**
+  String get toneGentle;
+
+  /// No description provided for @tonePractical.
+  ///
+  /// In fr, this message translates to:
+  /// **'Symbolique et concret'**
+  String get tonePractical;
 }
 
 class _AppLocalizationsDelegate

@@ -1,38 +1,91 @@
-# 🔮 Tarot Noir – Application de Divination Mystique
+# Tarot Noir
 
-Une application mobile multiplateforme (iOS/Android) combinant :
-- ➡️ Le Tarot divinatoire,
-- ➡️ Un assistant IA spécialisé en occultisme ("ChatGPT Orion"),
-- ➡️ Des NFTs Solana exclusifs pour personnaliser son profil.
+Prototype Flutter mobile sombre et mystique autour du Tarot de Marseille.
+Les fonctionnalités décrites ci-dessous correspondent au code actuel.
 
-## 🌟 Fonctionnalités Principales
+## Infrastructure
 
-### 1. Le Tirage du Jour
-→ Gratuit chaque jour : tirage aléatoire d’un arcan majeur + interprétation mystique par l'IA.
+```text
+lib/
+  main.dart                 Initialisation Flutter
+  app.dart                  Thème, langues et composition
+  app_config.dart           Chemins, réseau devnet, aperçu Premium, clé de stockage
+  models/                   Carte unique, note, préférences, état local versionné
+  data/tarot_deck.dart       Catalogue de 78 cartes et index par identifiant stable
+  services/reading_policy.dart  Règles Gratuit/Premium et sélection quotidienne
+  repositories/             Interface de stockage et adaptateur shared_preferences
+  controllers/              Actions, validation, sauvegarde et état observable
+  pages/                    Écrans existants reliés au contrôleur
+```
 
-### 2. Chat Occulte avec ChatGPT Orion
-Poser des questions profondes sur le destin, les rêves… obtenir des réponses inspirées par la symbolique ésotérique ancienne.
+Le contrôleur reçoit son dépôt, son horloge et sa politique d’accès par injection.
+Les pages n’écrivent pas directement dans le stockage. Le dépôt peut être remplacé
+par une base locale sans réécrire les écrans.
 
-### 3. Photos de Profil NFT (Solana)
-Les abonnés *Premium* reçoivent un avatar unique parmi une collection exclusive :
-→ "Arcane Éclipse", "Lune Noire"...
+## Fonctionnement actuel
 
-Tous payants peuvent acheter leurs propres jetons via Candy Machine intégrée !
+- Gratuit : une carte révélée par jour, texte court, journal local.
+- Carte déterministe selon la date locale, mémorisée par identifiant : même carte
+  après réouverture. Actualisation à minuit ou à la reprise de l’application.
+- Recul de date : aucune nouvelle carte tant que la date ne dépasse pas le dernier
+  jour enregistré. Une avance manuelle de l’horloge ou une suppression du stockage
+  restent hors des garanties du prototype ; une limite inviolable exige un serveur.
+- Journal, humeur, préférences et carte courante enregistrés dans un document JSON
+  versionné. Les identifiants des cartes ne doivent plus changer sans migration.
+- Écritures exclusives ; aucune validation visuelle d’une sauvegarde échouée.
+  Le brouillon reste dans le champ si l’enregistrement échoue.
+- Une sauvegarde illisible ou d’une version inconnue bloque le chargement avec
+  un message et un bouton de réessai, sans écraser les données.
+- Effacement confirmé depuis les préférences : notes supprimées et réglages remis
+  à zéro ; seuls la date et l’identifiant de la carte restent pour le verrou du jour.
+- Tableau Gratuit/Premium de dix rubriques conservé ; fonctions futures signalées.
+- Interface français, anglais, espagnol ; langue de l’appareil, anglais par défaut.
+  Les textes du catalogue de cartes restent pour l’instant en français.
+- Huit images de test reliées à leurs cartes dans `assets/images/tarot_temp`.
+  Les autres cartes utilisent un symbole de remplacement.
 
----
+## Configuration
 
-## 🛠 Technologie Utilisée
+Tout reste dans `lib/app_config.dart`. Aucun secret ne doit entrer dans ce fichier
+ni dans Git. Les paramètres disponibles :
 
-✅ Flutter & Dart → Pour développer l'app rapidement.
-✅ API GCP / Azure Cognitive Services → Hoster l’IA.
-✧ Solana Blockchain → Génerer et distribuer les NFTs Avatars Personnalisés…
+```sh
+flutter run
+flutter run --dart-define=PREMIUM_ENABLED=true
+flutter run --dart-define=SOLANA_CLUSTER=devnet --dart-define=SOLANA_CLUSTER_URL=https://api.devnet.solana.com
+```
 
-Le code source est disponible ici même !
+`PREMIUM_ENABLED` est exclusivement un aperçu de développement, pas une preuve
+d’achat. Il autorise les tirages supplémentaires et l’aperçu de texte Orion+.
+Aucun droit Premium n’est enregistré dans les préférences locales.
 
----
+## Stockage et confidentialité
 
-📱 Demo bientôt disponible ?
+`shared_preferences` 2.5.5 utilise le stockage local de la plateforme. Il convient
+au prototype et aux réglages ; il n’offre ni chiffrement applicatif, ni sauvegarde
+cloud, ni garantie de durabilité adaptée à des données critiques. Un journal destiné
+à la production devra passer à un stockage adapté et à une stratégie de sauvegarde.
+Les règles de sauvegarde système de l’appareil peuvent aussi s’appliquer.
 
-Oui ! Une version beta sera publiée sous peu... Inscris-toi à notre newsletter !
+Documentation : https://pub.dev/packages/shared_preferences
 
-Contact : [ton adresse email]
+Orion, notifications, wallet, NFT, paiement et backend ne sont pas connectés.
+Les consentements mémorisés sont des préférences pour des fonctions futures ;
+toute activation d’une intégration demandera un consentement informé distinct.
+Aucun navigateur, réseau social ou historique web n’est lu. Aucune annonce active.
+
+## Vérification
+
+```sh
+flutter pub get
+flutter gen-l10n
+dart format lib test
+flutter analyze --no-pub
+flutter test --no-pub
+flutter test --no-pub --dart-define=PREMIUM_ENABLED=true
+```
+
+Les tests traversent le contrôleur et le vrai encodeur/décodeur du dépôt avec une
+frontière de stockage simulée. Ils couvrent la réouverture, le verrou quotidien,
+le catalogue, l’effacement, la corruption, les erreurs et les écritures concurrentes.
+Une vérification sur appareil Android/iOS reste nécessaire avant distribution.

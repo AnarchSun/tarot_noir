@@ -5,7 +5,6 @@
 /// - un nom français,
 /// - une image associée,
 /// - une signification courte optionnelle.
-/// Modèle représentant une carte du Tarot.
 class TarotCard {
   const TarotCard({
     required this.number,
@@ -20,6 +19,8 @@ class TarotCard {
   final String number;
   final String id;
   final String nameFr;
+
+  String get name => nameFr;
   final String symbol;
   final String keyword;
   final String message;

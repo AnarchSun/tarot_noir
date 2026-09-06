@@ -31,7 +31,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get journalTitle => 'Journal des arcanes';
 
   @override
-  String get journalSubtitle => 'Les cartes tirées pendant cette session.';
+  String get journalSubtitle =>
+      'Tes notes et cartes sont conservées sur cet appareil.';
 
   @override
   String get journalEmpty => 'Ton journal attend le premier signe.';
@@ -79,21 +80,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get preferencesIntro =>
-      'Ces réglages restent locaux dans cette démo. Rien n’est transmis sans votre choix clair.';
+      'Ces réglages sont enregistrés sur cet appareil. Orion et les notifications ne sont pas encore connectés.';
 
   @override
   String get orionMemory => 'Mémoire Orion';
 
   @override
   String get orionMemoryDetail =>
-      'Autoriser Orion à relier vos conversations durant cette session.';
+      'Enregistrer ton choix pour une future mémoire Orion. Aucun échange avec une IA pour le moment.';
 
   @override
   String get personalizedGuidance => 'Guidance personnalisée';
 
   @override
   String get personalizedGuidanceDetail =>
-      'Utiliser seulement les notes et thèmes que vous décidez de partager.';
+      'Enregistrer ton choix pour une future personnalisation à partir des notes que tu partageras explicitement.';
 
   @override
   String get dailyReminder => 'Rappel rituel';
@@ -110,7 +111,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dataPolicy =>
-      'Tarot Noir ne lit pas vos recherches web, vos clics ni vos réseaux sociaux. Toute connexion future devra être activée séparément, décrite clairement et révocable.';
+      'Le journal et les préférences restent sur cet appareil, sans chiffrement applicatif. Aucun envoi vers Orion, aucune lecture de tes recherches web ou réseaux sociaux. Toute connexion future demandera un consentement distinct. L’effacement supprime les notes et réglages, mais conserve la carte du jour pour respecter la limite gratuite.';
 
   @override
   String get eraseLocalData => 'Effacer mes données locales';
@@ -142,14 +143,81 @@ class AppLocalizationsFr extends AppLocalizations {
   String get journalAccess => 'Journal rituel';
 
   @override
-  String get freeDailyReading => '1 lecture courte';
+  String get freeDailyReading => '1 carte par jour · texte court';
 
   @override
-  String get premiumDailyReading => 'Lecture approfondie + historique';
+  String get premiumDailyReading => 'Tirages libres · lecture approfondie';
 
   @override
   String get localNotes => 'Notes locales';
 
   @override
-  String get linkedJournal => 'Liens avec les cartes et Orion';
+  String get linkedJournal => 'Liens avec Orion (prévus)';
+
+  @override
+  String get dailyLimitReached => 'Carte du jour révélée · reviens demain';
+
+  @override
+  String get interpretation => 'Interprétation';
+
+  @override
+  String get shortInterpretation => 'Texte abrégé';
+
+  @override
+  String get deepInterpretation => 'Texte approfondi (aperçu)';
+
+  @override
+  String get dailyCardOnly => 'Carte du jour uniquement';
+
+  @override
+  String get extendedReadingsPlanned =>
+      'Croix celtique, relations, saisons (prévus)';
+
+  @override
+  String get standardGuidance => 'Guidance standard';
+
+  @override
+  String get consentGuidance => 'Sur consentement (prévue)';
+
+  @override
+  String get notIncluded => 'Non inclus';
+
+  @override
+  String get optionalMemory => 'Optionnelle, sur consentement (prévue)';
+
+  @override
+  String get included => 'Inclus';
+
+  @override
+  String get planned => 'Prévu';
+
+  @override
+  String get storageLoadError =>
+      'Impossible de lire la sauvegarde locale. Tes données n’ont pas été remplacées. Réessaie.';
+
+  @override
+  String get storageSaveError =>
+      'Sauvegarde impossible. La modification n’a pas été enregistrée ; réessaie ton action.';
+
+  @override
+  String get retry => 'Réessayer';
+
+  @override
+  String get cancel => 'Annuler';
+
+  @override
+  String get eraseConfirmation =>
+      'Supprimer toutes les notes et réinitialiser les préférences ? La carte du jour et sa limite seront conservées.';
+
+  @override
+  String get dataErased => 'Notes effacées et préférences réinitialisées.';
+
+  @override
+  String get toneMystic => 'Mystique et direct';
+
+  @override
+  String get toneGentle => 'Doux et contemplatif';
+
+  @override
+  String get tonePractical => 'Symbolique et concret';
 }

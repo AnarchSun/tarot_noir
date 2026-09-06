@@ -1,6 +1,10 @@
 /// Centralizes non-secret deployment settings.
 abstract final class AppConfig {
+  static const localStateKey = 'tarot_noir.state.v1';
+  static const localStateVersion = 1;
+
   static const appName = 'Tarot Noir';
+  static const tarotImageDirectory = 'assets/images/tarot_cards';
   static const solanaCluster = String.fromEnvironment(
     'SOLANA_CLUSTER',
     defaultValue: 'devnet',
