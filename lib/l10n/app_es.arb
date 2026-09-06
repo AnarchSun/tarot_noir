@@ -3,11 +3,12 @@
   "appTitle": "Tarot Noir",
   "dailyReading": "Tirada del día",
   "drawAnother": "Sacar otra carta",
+  "drawDaily": "Sacar mi carta del día",
   "reading": "Tirada",
   "journal": "Diario",
   "premium": "Premium",
   "journalTitle": "Diario de arcanos",
-  "journalSubtitle": "Tus notas y cartas se guardan en este dispositivo.",
+  "journalSubtitle": "Cartas sacadas durante esta sesión.",
   "journalEmpty": "Tu diario espera la primera señal.",
   "premiumTitle": "Círculo Premium",
   "premiumIntro": "El acceso premium se concederá tras verificar un NFT de la colección Tarot Noir.",
@@ -19,23 +20,19 @@
   "adFreeDetail": "Tarot Noir no muestra anuncios, para todos los círculos.",
   "walletSoon": "Conexión de wallet — próximamente",
   "networkConfigured": "Red configurada: {network}. La acuñación sigue desactivada hasta proporcionar los ajustes de Candy Machine.",
-  "@networkConfigured": {
-    "placeholders": {
-      "network": {}
-    }
-  },
+  "@networkConfigured": {"placeholders": {"network": {}}},
   "preferences": "Preferencias",
   "preferencesTitle": "Tu ritual, tus reglas",
-  "preferencesIntro": "Estos ajustes se guardan en este dispositivo. Orion y las notificaciones aún no están conectados.",
+  "preferencesIntro": "Estos ajustes permanecen locales en esta demo. Nada se transmite sin tu elección clara.",
   "orionMemory": "Memoria de Orion",
-  "orionMemoryDetail": "Guardar tu elección para una futura memoria de Orion. Aún no se envían conversaciones a una IA.",
+  "orionMemoryDetail": "Permite a Orion vincular tus conversaciones durante esta sesión.",
   "personalizedGuidance": "Guía personalizada",
-  "personalizedGuidanceDetail": "Guardar tu elección para una futura personalización con las notas que compartas explícitamente.",
+  "personalizedGuidanceDetail": "Usa solo las notas y temas que decidas compartir.",
   "dailyReminder": "Recordatorio ritual",
   "dailyReminderDetail": "Prepara un recordatorio diario; las notificaciones aún no están activadas.",
   "orionTone": "Voz de Orion",
   "dataAndInterests": "Datos e intereses",
-  "dataPolicy": "El diario y las preferencias permanecen en este dispositivo sin cifrado de la aplicación. No se envían datos a Orion ni se accede a búsquedas web o redes sociales. Las futuras conexiones requerirán consentimiento aparte. El borrado elimina notas y ajustes, pero conserva la carta del día y el límite gratuito.",
+  "dataPolicy": "Tarot Noir no lee tus búsquedas web, clics ni redes sociales. Cualquier conexión futura deberá activarse por separado, describirse claramente y poder revocarse.",
   "eraseLocalData": "Borrar mis datos locales",
   "noDataToErase": "No hay datos persistentes que borrar en esta demo.",
   "comparePlans": "Comparar Gratis y Orion+",
@@ -45,29 +42,18 @@
   "orionPlus": "Orion+",
   "dailyCard": "Carta del día",
   "journalAccess": "Diario ritual",
-  "freeDailyReading": "1 carta al día · texto breve",
-  "premiumDailyReading": "Tiradas libres · lectura profunda",
+  "freeDailyReading": "1 lectura corta",
+  "premiumDailyReading": "Lectura profunda + historial",
   "localNotes": "Notas locales",
-  "linkedJournal": "Vínculos con Orion (previstos)",
-  "dailyLimitReached": "Carta del día revelada · vuelve mañana",
-  "interpretation": "Interpretación",
-  "shortInterpretation": "Texto breve",
-  "deepInterpretation": "Texto profundo (vista previa)",
-  "dailyCardOnly": "Solo la carta del día",
-  "extendedReadingsPlanned": "Cruz celta, relaciones, estaciones (previstas)",
-  "standardGuidance": "Guía estándar",
-  "consentGuidance": "Con consentimiento (prevista)",
-  "notIncluded": "No incluido",
-  "optionalMemory": "Opcional, con consentimiento (prevista)",
-  "included": "Incluido",
-  "planned": "Previsto",
-  "storageLoadError": "No se pudo leer la copia local. Tus datos no se han reemplazado. Inténtalo de nuevo.",
-  "storageSaveError": "No se pudo guardar el cambio; repite la acción.",
-  "retry": "Reintentar",
-  "cancel": "Cancelar",
-  "eraseConfirmation": "¿Eliminar todas las notas y restablecer las preferencias? Se conservarán la carta del día y su límite.",
-  "dataErased": "Notas eliminadas y preferencias restablecidas.",
-  "toneMystic": "Místico y directo",
-  "toneGentle": "Suave y contemplativo",
-  "tonePractical": "Simbólico y práctico"
+  "linkedJournal": "Vínculos con las cartas y Orion"
+  ,"journalNoteHint": "Escribe lo que la carta remueve o ilumina en ti…"
+  ,"moodLabel": "INTENSIDAD DEL DÍA · {mood}/5"
+  ,"sealNote": "Sellar esta nota"
+  ,"dailyDrawType": "Carta del día"
+  ,"freeDrawType": "Tirada libre"
+  ,"drawDate": "Sacada el {date}"
+  ,"endpointLabel": "Endpoint devnet: {url}"
+  ,"@moodLabel": {"placeholders": {"mood": {}}}
+  ,"@drawDate": {"placeholders": {"date": {}}}
+  ,"@endpointLabel": {"placeholders": {"url": {}}}
 }

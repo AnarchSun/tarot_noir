@@ -19,6 +19,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawAnother => 'Draw another card';
 
   @override
+  String get drawDaily => 'Draw my daily card';
+
+  @override
   String get reading => 'Reading';
 
   @override
@@ -31,8 +34,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalTitle => 'Arcana journal';
 
   @override
-  String get journalSubtitle =>
-      'Your notes and cards are saved on this device.';
+  String get journalSubtitle => 'Cards drawn during this session.';
 
   @override
   String get journalEmpty => 'Your journal awaits its first sign.';
@@ -80,21 +82,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get preferencesIntro =>
-      'These settings are saved on this device. Orion and notifications are not connected yet.';
+      'These settings remain local in this demo. Nothing is transmitted without your clear choice.';
 
   @override
   String get orionMemory => 'Orion memory';
 
   @override
   String get orionMemoryDetail =>
-      'Save your choice for future Orion memory. No AI conversations are sent yet.';
+      'Allow Orion to connect your conversations during this session.';
 
   @override
   String get personalizedGuidance => 'Personalized guidance';
 
   @override
   String get personalizedGuidanceDetail =>
-      'Save your choice for future personalization using notes you explicitly share.';
+      'Use only notes and themes you choose to share.';
 
   @override
   String get dailyReminder => 'Ritual reminder';
@@ -111,7 +113,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dataPolicy =>
-      'Your journal and preferences stay on this device without app-level encryption. Nothing is sent to Orion; web searches and social accounts are not accessed. Future connections require separate consent. Erasing removes notes and settings but retains the daily card to preserve the free limit.';
+      'Tarot Noir does not read your web searches, clicks, or social networks. Any future connection must be enabled separately, described clearly, and revocable.';
 
   @override
   String get eraseLocalData => 'Erase my local data';
@@ -143,81 +145,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalAccess => 'Ritual journal';
 
   @override
-  String get freeDailyReading => '1 card per day · short text';
+  String get freeDailyReading => '1 short reading';
 
   @override
-  String get premiumDailyReading => 'Unlimited draws · deeper reading';
+  String get premiumDailyReading => 'In-depth reading + history';
 
   @override
   String get localNotes => 'Local notes';
 
   @override
-  String get linkedJournal => 'Orion links (planned)';
+  String get linkedJournal => 'Links with cards and Orion';
 
   @override
-  String get dailyLimitReached => 'Daily card revealed · come back tomorrow';
+  String get journalNoteHint =>
+      'Write what the card stirs or illuminates in you…';
 
   @override
-  String get interpretation => 'Interpretation';
+  String moodLabel(Object mood) {
+    return 'INTENSITY OF THE DAY · $mood/5';
+  }
 
   @override
-  String get shortInterpretation => 'Short text';
+  String get sealNote => 'Seal this note';
 
   @override
-  String get deepInterpretation => 'Deeper text (preview)';
+  String get dailyDrawType => 'Daily card';
 
   @override
-  String get dailyCardOnly => 'Daily card only';
+  String get freeDrawType => 'Free draw';
 
   @override
-  String get extendedReadingsPlanned =>
-      'Celtic cross, relationships, seasons (planned)';
+  String drawDate(Object date) {
+    return 'Drawn on $date';
+  }
 
   @override
-  String get standardGuidance => 'Standard guidance';
-
-  @override
-  String get consentGuidance => 'With consent (planned)';
-
-  @override
-  String get notIncluded => 'Not included';
-
-  @override
-  String get optionalMemory => 'Optional, with consent (planned)';
-
-  @override
-  String get included => 'Included';
-
-  @override
-  String get planned => 'Planned';
-
-  @override
-  String get storageLoadError =>
-      'Unable to read local storage. Your data has not been replaced. Please retry.';
-
-  @override
-  String get storageSaveError =>
-      'Unable to save. The change was not stored; please try your action again.';
-
-  @override
-  String get retry => 'Retry';
-
-  @override
-  String get cancel => 'Cancel';
-
-  @override
-  String get eraseConfirmation =>
-      'Delete all notes and reset preferences? The daily card and its limit will be retained.';
-
-  @override
-  String get dataErased => 'Notes deleted and preferences reset.';
-
-  @override
-  String get toneMystic => 'Mystical and direct';
-
-  @override
-  String get toneGentle => 'Gentle and contemplative';
-
-  @override
-  String get tonePractical => 'Symbolic and practical';
+  String endpointLabel(Object url) {
+    return 'Devnet endpoint: $url';
+  }
 }

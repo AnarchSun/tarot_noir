@@ -1,30 +1,24 @@
-/// Modèle représentant une carte de Tarot.
-///
-/// Chaque carte possède :
-/// - un identifiant unique,
-/// - un nom français,
-/// - une image associée,
-/// - une signification courte optionnelle.
 class TarotCard {
-  const TarotCard({
-    required this.number,
-    required this.id,
-    required this.nameFr,
-    required this.symbol,
-    required this.keyword,
-    required this.message,
-    required this.imagePath,
-  });
+  const TarotCard(
+    this.number,
+    this.name,
+    this.symbol,
+    this.keyword,
+    this.message,
+    this.imagePath,
+  );
 
   final String number;
-  final String id;
-  final String nameFr;
-
-  String get name => nameFr;
+  final String name;
   final String symbol;
   final String keyword;
   final String message;
   final String imagePath;
+
+  bool get hasIllustration => imagePath.isNotEmpty;
+
+  String get id => '$number-$name';
+  String get nameFr => name;
 
   @override
   String toString() {

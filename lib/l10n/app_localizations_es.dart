@@ -19,6 +19,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get drawAnother => 'Sacar otra carta';
 
   @override
+  String get drawDaily => 'Sacar mi carta del día';
+
+  @override
   String get reading => 'Tirada';
 
   @override
@@ -31,8 +34,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get journalTitle => 'Diario de arcanos';
 
   @override
-  String get journalSubtitle =>
-      'Tus notas y cartas se guardan en este dispositivo.';
+  String get journalSubtitle => 'Cartas sacadas durante esta sesión.';
 
   @override
   String get journalEmpty => 'Tu diario espera la primera señal.';
@@ -79,21 +81,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get preferencesIntro =>
-      'Estos ajustes se guardan en este dispositivo. Orion y las notificaciones aún no están conectados.';
+      'Estos ajustes permanecen locales en esta demo. Nada se transmite sin tu elección clara.';
 
   @override
   String get orionMemory => 'Memoria de Orion';
 
   @override
   String get orionMemoryDetail =>
-      'Guardar tu elección para una futura memoria de Orion. Aún no se envían conversaciones a una IA.';
+      'Permite a Orion vincular tus conversaciones durante esta sesión.';
 
   @override
   String get personalizedGuidance => 'Guía personalizada';
 
   @override
   String get personalizedGuidanceDetail =>
-      'Guardar tu elección para una futura personalización con las notas que compartas explícitamente.';
+      'Usa solo las notas y temas que decidas compartir.';
 
   @override
   String get dailyReminder => 'Recordatorio ritual';
@@ -110,7 +112,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dataPolicy =>
-      'El diario y las preferencias permanecen en este dispositivo sin cifrado de la aplicación. No se envían datos a Orion ni se accede a búsquedas web o redes sociales. Las futuras conexiones requerirán consentimiento aparte. El borrado elimina notas y ajustes, pero conserva la carta del día y el límite gratuito.';
+      'Tarot Noir no lee tus búsquedas web, clics ni redes sociales. Cualquier conexión futura deberá activarse por separado, describirse claramente y poder revocarse.';
 
   @override
   String get eraseLocalData => 'Borrar mis datos locales';
@@ -142,81 +144,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get journalAccess => 'Diario ritual';
 
   @override
-  String get freeDailyReading => '1 carta al día · texto breve';
+  String get freeDailyReading => '1 lectura corta';
 
   @override
-  String get premiumDailyReading => 'Tiradas libres · lectura profunda';
+  String get premiumDailyReading => 'Lectura profunda + historial';
 
   @override
   String get localNotes => 'Notas locales';
 
   @override
-  String get linkedJournal => 'Vínculos con Orion (previstos)';
+  String get linkedJournal => 'Vínculos con las cartas y Orion';
 
   @override
-  String get dailyLimitReached => 'Carta del día revelada · vuelve mañana';
+  String get journalNoteHint =>
+      'Escribe lo que la carta remueve o ilumina en ti…';
 
   @override
-  String get interpretation => 'Interpretación';
+  String moodLabel(Object mood) {
+    return 'INTENSIDAD DEL DÍA · $mood/5';
+  }
 
   @override
-  String get shortInterpretation => 'Texto breve';
+  String get sealNote => 'Sellar esta nota';
 
   @override
-  String get deepInterpretation => 'Texto profundo (vista previa)';
+  String get dailyDrawType => 'Carta del día';
 
   @override
-  String get dailyCardOnly => 'Solo la carta del día';
+  String get freeDrawType => 'Tirada libre';
 
   @override
-  String get extendedReadingsPlanned =>
-      'Cruz celta, relaciones, estaciones (previstas)';
+  String drawDate(Object date) {
+    return 'Sacada el $date';
+  }
 
   @override
-  String get standardGuidance => 'Guía estándar';
-
-  @override
-  String get consentGuidance => 'Con consentimiento (prevista)';
-
-  @override
-  String get notIncluded => 'No incluido';
-
-  @override
-  String get optionalMemory => 'Opcional, con consentimiento (prevista)';
-
-  @override
-  String get included => 'Incluido';
-
-  @override
-  String get planned => 'Previsto';
-
-  @override
-  String get storageLoadError =>
-      'No se pudo leer la copia local. Tus datos no se han reemplazado. Inténtalo de nuevo.';
-
-  @override
-  String get storageSaveError =>
-      'No se pudo guardar el cambio; repite la acción.';
-
-  @override
-  String get retry => 'Reintentar';
-
-  @override
-  String get cancel => 'Cancelar';
-
-  @override
-  String get eraseConfirmation =>
-      '¿Eliminar todas las notas y restablecer las preferencias? Se conservarán la carta del día y su límite.';
-
-  @override
-  String get dataErased => 'Notas eliminadas y preferencias restablecidas.';
-
-  @override
-  String get toneMystic => 'Místico y directo';
-
-  @override
-  String get toneGentle => 'Suave y contemplativo';
-
-  @override
-  String get tonePractical => 'Simbólico y práctico';
+  String endpointLabel(Object url) {
+    return 'Endpoint devnet: $url';
+  }
 }

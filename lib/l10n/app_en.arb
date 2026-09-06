@@ -3,11 +3,12 @@
   "appTitle": "Tarot Noir",
   "dailyReading": "Daily reading",
   "drawAnother": "Draw another card",
+  "drawDaily": "Draw my daily card",
   "reading": "Reading",
   "journal": "Journal",
   "premium": "Premium",
   "journalTitle": "Arcana journal",
-  "journalSubtitle": "Your notes and cards are saved on this device.",
+  "journalSubtitle": "Cards drawn during this session.",
   "journalEmpty": "Your journal awaits its first sign.",
   "premiumTitle": "Premium Circle",
   "premiumIntro": "Premium access will be granted after verifying an NFT from the Tarot Noir collection.",
@@ -19,23 +20,19 @@
   "adFreeDetail": "Tarot Noir displays no ads, for every circle.",
   "walletSoon": "Wallet connection — coming soon",
   "networkConfigured": "Configured network: {network}. Minting remains disabled until Candy Machine settings are provided.",
-  "@networkConfigured": {
-    "placeholders": {
-      "network": {}
-    }
-  },
+  "@networkConfigured": {"placeholders": {"network": {}}},
   "preferences": "Preferences",
   "preferencesTitle": "Your ritual, your rules",
-  "preferencesIntro": "These settings are saved on this device. Orion and notifications are not connected yet.",
+  "preferencesIntro": "These settings remain local in this demo. Nothing is transmitted without your clear choice.",
   "orionMemory": "Orion memory",
-  "orionMemoryDetail": "Save your choice for future Orion memory. No AI conversations are sent yet.",
+  "orionMemoryDetail": "Allow Orion to connect your conversations during this session.",
   "personalizedGuidance": "Personalized guidance",
-  "personalizedGuidanceDetail": "Save your choice for future personalization using notes you explicitly share.",
+  "personalizedGuidanceDetail": "Use only notes and themes you choose to share.",
   "dailyReminder": "Ritual reminder",
   "dailyReminderDetail": "Prepare a daily reminder; notifications are not enabled yet.",
   "orionTone": "Orion’s voice",
   "dataAndInterests": "Data and interests",
-  "dataPolicy": "Your journal and preferences stay on this device without app-level encryption. Nothing is sent to Orion; web searches and social accounts are not accessed. Future connections require separate consent. Erasing removes notes and settings but retains the daily card to preserve the free limit.",
+  "dataPolicy": "Tarot Noir does not read your web searches, clicks, or social networks. Any future connection must be enabled separately, described clearly, and revocable.",
   "eraseLocalData": "Erase my local data",
   "noDataToErase": "There is no persistent data to erase in this demo.",
   "comparePlans": "Compare Free and Orion+",
@@ -45,29 +42,18 @@
   "orionPlus": "Orion+",
   "dailyCard": "Daily card",
   "journalAccess": "Ritual journal",
-  "freeDailyReading": "1 card per day · short text",
-  "premiumDailyReading": "Unlimited draws · deeper reading",
+  "freeDailyReading": "1 short reading",
+  "premiumDailyReading": "In-depth reading + history",
   "localNotes": "Local notes",
-  "linkedJournal": "Orion links (planned)",
-  "dailyLimitReached": "Daily card revealed · come back tomorrow",
-  "interpretation": "Interpretation",
-  "shortInterpretation": "Short text",
-  "deepInterpretation": "Deeper text (preview)",
-  "dailyCardOnly": "Daily card only",
-  "extendedReadingsPlanned": "Celtic cross, relationships, seasons (planned)",
-  "standardGuidance": "Standard guidance",
-  "consentGuidance": "With consent (planned)",
-  "notIncluded": "Not included",
-  "optionalMemory": "Optional, with consent (planned)",
-  "included": "Included",
-  "planned": "Planned",
-  "storageLoadError": "Unable to read local storage. Your data has not been replaced. Please retry.",
-  "storageSaveError": "Unable to save. The change was not stored; please try your action again.",
-  "retry": "Retry",
-  "cancel": "Cancel",
-  "eraseConfirmation": "Delete all notes and reset preferences? The daily card and its limit will be retained.",
-  "dataErased": "Notes deleted and preferences reset.",
-  "toneMystic": "Mystical and direct",
-  "toneGentle": "Gentle and contemplative",
-  "tonePractical": "Symbolic and practical"
+  "linkedJournal": "Links with cards and Orion"
+  ,"journalNoteHint": "Write what the card stirs or illuminates in you…"
+  ,"moodLabel": "INTENSITY OF THE DAY · {mood}/5"
+  ,"sealNote": "Seal this note"
+  ,"dailyDrawType": "Daily card"
+  ,"freeDrawType": "Free draw"
+  ,"drawDate": "Drawn on {date}"
+  ,"endpointLabel": "Devnet endpoint: {url}"
+  ,"@moodLabel": {"placeholders": {"mood": {}}}
+  ,"@drawDate": {"placeholders": {"date": {}}}
+  ,"@endpointLabel": {"placeholders": {"url": {}}}
 }

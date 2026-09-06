@@ -7,20 +7,17 @@ Les fonctionnalités décrites ci-dessous correspondent au code actuel.
 
 ```text
 lib/
-  main.dart                 Initialisation Flutter
-  app.dart                  Thème, langues et composition
-  app_config.dart           Chemins, réseau devnet, aperçu Premium, clé de stockage
-  models/                   Carte unique, note, préférences, état local versionné
-  data/tarot_deck.dart       Catalogue de 78 cartes et index par identifiant stable
-  services/reading_policy.dart  Règles Gratuit/Premium et sélection quotidienne
-  repositories/             Interface de stockage et adaptateur shared_preferences
-  controllers/              Actions, validation, sauvegarde et état observable
-  pages/                    Écrans existants reliés au contrôleur
+  main.dart                 Thème, langues et point d’entrée
+  app_config.dart           Réseau devnet et aperçu Premium
+  models/                   Cartes, deck et entrées du journal
+  services/                 Persistance locale SharedPreferences
+  screens/                  Tirage, journal, préférences et Premium
+  widgets/                  Cartes et composants Premium réutilisables
 ```
 
-Le contrôleur reçoit son dépôt, son horloge et sa politique d’accès par injection.
-Les pages n’écrivent pas directement dans le stockage. Le dépôt peut être remplacé
-par une base locale sans réécrire les écrans.
+Le shell principal conserve la navigation entre les écrans et délègue la persistance
+au service local. Le catalogue contient les 78 cartes, tandis que les illustrations
+peuvent être ajoutées progressivement sans créer de faux assets.
 
 ## Fonctionnement actuel
 
@@ -41,8 +38,9 @@ par une base locale sans réécrire les écrans.
 - Tableau Gratuit/Premium de dix rubriques conservé ; fonctions futures signalées.
 - Interface français, anglais, espagnol ; langue de l’appareil, anglais par défaut.
   Les textes du catalogue de cartes restent pour l’instant en français.
-- Huit images de test reliées à leurs cartes dans `assets/images/tarot_temp`.
-  Les autres cartes utilisent un symbole de remplacement.
+- Vingt-trois illustrations sont actuellement disponibles dans
+  `assets/images/tarot_cards` : les 22 arcanes majeurs et l’As d’Épées.
+  Les autres cartes utilisent un état explicite d’illustration indisponible.
 
 ## Configuration
 
