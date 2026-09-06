@@ -100,11 +100,11 @@ class _JournalScreenState extends State<JournalScreen> {
                     itemBuilder: (_, i) {
                       final entry = widget.entries[i];
                       return ListTile(
-                        leading: entry.card.hasIllustration
+                        leading: entry.thumbnailPath.isNotEmpty
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.asset(
-                                  entry.card.imagePath,
+                                  entry.thumbnailPath,
                                   width: 42,
                                   height: 58,
                                   fit: BoxFit.cover,
@@ -127,17 +127,19 @@ class _JournalScreenState extends State<JournalScreen> {
                         title: Text(entry.card.name),
                         subtitle: Text(
                           [
-                            entry.card.keyword,
+                            entry.shortExplanation,
                             l10n.drawDate(
-                              DateFormat.yMd(l10n.localeName)
-                                  .format(entry.createdAt),
+                              DateFormat.yMd(
+                                l10n.localeName,
+                              ).format(entry.createdAt),
                             ),
                             entry.drawType == 'daily'
                                 ? l10n.dailyDrawType
                                 : l10n.freeDrawType,
                             if (entry.note?.isNotEmpty == true) entry.note!,
-                            '${entry.mood ?? 3}/5',
-                          ].join(' · '),
+                          ].join('\n'),
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       );
                     },

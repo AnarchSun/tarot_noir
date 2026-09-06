@@ -17,8 +17,13 @@ class JournalEntry {
   final String? note;
   final int? mood;
 
+  String get thumbnailPath => card.imagePath;
+  String get shortExplanation => card.message;
+
   Map<String, dynamic> toJson() => {
     'cardId': card.id,
+    'thumbnailPath': thumbnailPath,
+    'shortExplanation': shortExplanation,
     'createdAt': createdAt.toIso8601String(),
     'drawType': drawType,
     if (note != null) 'note': note,
