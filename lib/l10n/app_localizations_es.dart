@@ -182,4 +182,24 @@ class AppLocalizationsEs extends AppLocalizations {
   String endpointLabel(Object url) {
     return 'Endpoint devnet: $url';
   }
+
+  @override
+  String get journalDetails => 'Detalles de la tirada';
+
+  @override
+  String get keywordLabel => 'Palabra clave';
+
+  @override
+  String get interpretationLabel => 'Interpretación';
+
+  @override
+  String get drawTypeLabel => 'Tipo de tirada';
+
+  @override
+  String get noteLabel => 'Nota personal';
+
+  @override
+  String moodValue(Object mood) {
+    return 'Ánimo: $mood/5';
+  }
 }

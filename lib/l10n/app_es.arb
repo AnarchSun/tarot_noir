@@ -56,4 +56,11 @@
   ,"@moodLabel": {"placeholders": {"mood": {}}}
   ,"@drawDate": {"placeholders": {"date": {}}}
   ,"@endpointLabel": {"placeholders": {"url": {}}}
+  ,"journalDetails": "Detalles de la tirada"
+  ,"keywordLabel": "Palabra clave"
+  ,"interpretationLabel": "Interpretación"
+  ,"drawTypeLabel": "Tipo de tirada"
+  ,"noteLabel": "Nota personal"
+  ,"moodValue": "Ánimo: {mood}/5"
+  ,"@moodValue": {"placeholders": {"mood": {}}}
 }

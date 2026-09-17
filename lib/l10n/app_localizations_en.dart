@@ -183,4 +183,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String endpointLabel(Object url) {
     return 'Devnet endpoint: $url';
   }
+
+  @override
+  String get journalDetails => 'Reading details';
+
+  @override
+  String get keywordLabel => 'Keyword';
+
+  @override
+  String get interpretationLabel => 'Interpretation';
+
+  @override
+  String get drawTypeLabel => 'Reading type';
+
+  @override
+  String get noteLabel => 'Personal note';
+
+  @override
+  String moodValue(Object mood) {
+    return 'Mood: $mood/5';
+  }
 }

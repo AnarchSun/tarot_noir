@@ -411,6 +411,42 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Endpoint devnet : {url}'**
   String endpointLabel(Object url);
+
+  /// No description provided for @journalDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails du tirage'**
+  String get journalDetails;
+
+  /// No description provided for @keywordLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot-clé'**
+  String get keywordLabel;
+
+  /// No description provided for @interpretationLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Interprétation'**
+  String get interpretationLabel;
+
+  /// No description provided for @drawTypeLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Type de tirage'**
+  String get drawTypeLabel;
+
+  /// No description provided for @noteLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note personnelle'**
+  String get noteLabel;
+
+  /// No description provided for @moodValue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Humeur : {mood}/5'**
+  String moodValue(Object mood);
 }
 
 class _AppLocalizationsDelegate

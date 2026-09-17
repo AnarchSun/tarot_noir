@@ -56,4 +56,11 @@
   ,"@moodLabel": {"placeholders": {"mood": {}}}
   ,"@drawDate": {"placeholders": {"date": {}}}
   ,"@endpointLabel": {"placeholders": {"url": {}}}
+  ,"journalDetails": "Reading details"
+  ,"keywordLabel": "Keyword"
+  ,"interpretationLabel": "Interpretation"
+  ,"drawTypeLabel": "Reading type"
+  ,"noteLabel": "Personal note"
+  ,"moodValue": "Mood: {mood}/5"
+  ,"@moodValue": {"placeholders": {"mood": {}}}
 }
