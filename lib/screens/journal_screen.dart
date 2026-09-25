@@ -6,10 +6,16 @@ import '../models/journal_entry.dart';
 import 'preferences_screen.dart';
 
 class JournalScreen extends StatefulWidget {
-  const JournalScreen({required this.entries, required this.onSave, super.key});
+  const JournalScreen({
+    required this.entries,
+    required this.onSave,
+    required this.onDelete,
+    super.key,
+  });
 
   final List<JournalEntry> entries;
-  final void Function(String note, int mood) onSave;
+  final Future<void> Function(String note, int mood) onSave;
+  final Future<void> Function(JournalEntry entry) onDelete;
 
   @override
   State<JournalScreen> createState() => _JournalScreenState();
@@ -25,8 +31,8 @@ class _JournalScreenState extends State<JournalScreen> {
     super.dispose();
   }
 
-  void _save() {
-    widget.onSave(_controller.text, _mood);
+  Future<void> _save() async {
+    await widget.onSave(_controller.text, _mood);
     if (_controller.text.trim().isNotEmpty) {
       _controller.clear();
     }
@@ -100,6 +106,18 @@ class _JournalScreenState extends State<JournalScreen> {
                 _DetailSection(label: l10n.noteLabel, value: entry.note!),
               if (entry.mood != null)
                 _DetailSection(label: '', value: l10n.moodValue(entry.mood!)),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await widget.onDelete(entry);
+                  },
+                  icon: const Icon(Icons.delete_outline),
+                  label: Text(l10n.deleteJournalEntry),
+                ),
+              ),
             ],
           ),
         ),

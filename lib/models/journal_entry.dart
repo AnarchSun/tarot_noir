@@ -22,6 +22,15 @@ class JournalEntry {
   String get thumbnailPath => card.imagePath;
   String get shortExplanation => card.message;
 
+  JournalEntry copyWith({String? note, int? mood}) => JournalEntry(
+    card: card,
+    createdAt: createdAt,
+    orientation: orientation,
+    drawType: drawType,
+    note: note ?? this.note,
+    mood: mood ?? this.mood,
+  );
+
   Map<String, dynamic> toJson() => {
     'cardId': card.id,
     'thumbnailPath': thumbnailPath,

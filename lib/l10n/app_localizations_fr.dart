@@ -19,6 +19,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get drawAnother => 'Tirer une autre carte';
 
   @override
+  String get drawPrompt =>
+      'Le voile attend ton geste. Tire une carte pour révéler le signe du jour.';
+
+  @override
+  String get restoringRitual => 'Restauration du rituel…';
+
+  @override
+  String get storageError =>
+      'La sauvegarde locale a échoué. Le rituel n’a pas été verrouillé.';
+
+  @override
+  String get deleteJournalEntry => 'Supprimer cette entrée';
+
+  @override
+  String get dailyDrawLocked => 'Carte du jour déjà tirée';
+
+  @override
   String get drawDaily => 'Tirer ma carte du jour';
 
   @override

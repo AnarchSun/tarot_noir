@@ -118,6 +118,36 @@ abstract class AppLocalizations {
   /// **'Tirer une autre carte'**
   String get drawAnother;
 
+  /// No description provided for @drawPrompt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le voile attend ton geste. Tire une carte pour révéler le signe du jour.'**
+  String get drawPrompt;
+
+  /// No description provided for @restoringRitual.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restauration du rituel…'**
+  String get restoringRitual;
+
+  /// No description provided for @storageError.
+  ///
+  /// In fr, this message translates to:
+  /// **'La sauvegarde locale a échoué. Le rituel n’a pas été verrouillé.'**
+  String get storageError;
+
+  /// No description provided for @deleteJournalEntry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cette entrée'**
+  String get deleteJournalEntry;
+
+  /// No description provided for @dailyDrawLocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour déjà tirée'**
+  String get dailyDrawLocked;
+
   /// No description provided for @drawDaily.
   ///
   /// In fr, this message translates to:

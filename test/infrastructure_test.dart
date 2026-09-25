@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tarot_noir/models/journal_entry.dart';
+import 'package:tarot_noir/models/premium_reading.dart';
 import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
+import 'package:tarot_noir/services/tarot_storage_service.dart';
 
 void main() {
   test('catalogue contains the complete Marseille deck', () {
@@ -77,6 +79,21 @@ void main() {
     }
   });
 
+  test('every card has a substantial and unique premium reading', () {
+    final readings = <String>{};
+    for (final card in tarotDeck) {
+      final reading = PremiumReadingCatalog.forCard(
+        card,
+        CardOrientation.upright,
+      );
+      expect(reading.essence.length, greaterThan(150), reason: card.name);
+      expect(reading.shadow.length, greaterThan(80), reason: card.name);
+      expect(reading.ritual.length, greaterThan(100), reason: card.name);
+      readings.add(reading.essence);
+    }
+    expect(readings, hasLength(78));
+  });
+
   test('only minor arcana support reversed orientation', () {
     expect(
       majorArcana.every((card) => !card.supportsReversedOrientation),
@@ -85,6 +102,23 @@ void main() {
     expect(
       minorArcana.every((card) => card.supportsReversedOrientation),
       isTrue,
+    );
+  });
+
+  test('daily draw lock resists a clock rollback', () {
+    expect(
+      TarotStorageService.isDailyDrawLocked(
+        '2026-09-25',
+        DateTime(2026, 9, 24),
+      ),
+      isTrue,
+    );
+    expect(
+      TarotStorageService.isDailyDrawLocked(
+        '2026-09-25',
+        DateTime(2026, 9, 26),
+      ),
+      isFalse,
     );
   });
 

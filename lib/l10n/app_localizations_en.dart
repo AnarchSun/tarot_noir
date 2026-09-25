@@ -19,6 +19,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawAnother => 'Draw another card';
 
   @override
+  String get drawPrompt =>
+      'The veil awaits your gesture. Draw a card to reveal today’s sign.';
+
+  @override
+  String get restoringRitual => 'Restoring the ritual…';
+
+  @override
+  String get storageError => 'Local save failed. The ritual was not locked.';
+
+  @override
+  String get deleteJournalEntry => 'Delete this entry';
+
+  @override
+  String get dailyDrawLocked => 'Daily card already drawn';
+
+  @override
   String get drawDaily => 'Draw my daily card';
 
   @override

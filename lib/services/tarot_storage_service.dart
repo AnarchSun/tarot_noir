@@ -58,6 +58,9 @@ class TarotStorageService {
     );
   }
 
+  static bool isDailyDrawLocked(String? savedDate, DateTime now) =>
+      savedDate != null && savedDate.compareTo(dateKey(now)) >= 0;
+
   static String dateKey(DateTime date) =>
       '${date.year.toString().padLeft(4, '0')}-'
       '${date.month.toString().padLeft(2, '0')}-'

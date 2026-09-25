@@ -22,6 +22,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   int _tab = 0;
   String _drawType = 'daily';
   bool _hasDrawnToday = false;
+  bool _isRestoring = true;
   late TarotCard _card;
   CardOrientation _orientation = CardOrientation.upright;
 
@@ -53,7 +54,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 
   Future<void> _restoreState() async {
     final snapshot = await _storage.restore(tarotDeck);
-    final today = TarotStorageService.dateKey(DateTime.now());
     TarotCard? savedCard;
     for (final card in tarotDeck) {
       if (card.id == snapshot.dailyCardId) {
@@ -64,60 +64,98 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 
     if (!mounted) return;
     setState(() {
-      if (snapshot.dailyDate == today && savedCard != null) {
+      if (TarotStorageService.isDailyDrawLocked(
+            snapshot.dailyDate,
+            DateTime.now(),
+          ) &&
+          savedCard != null) {
         _card = savedCard;
         _orientation = snapshot.dailyOrientation;
         _hasDrawnToday = true;
       }
+      _isRestoring = false;
       _journal
         ..clear()
         ..addAll(snapshot.journal);
     });
   }
 
-  Future<void> _persist() => _storage.persist(
-    dailyCard: _card,
-    date: DateTime.now(),
-    orientation: _orientation,
-    journal: _journal,
-  );
+  Future<bool> _persist() async {
+    try {
+      await _storage.persist(
+        dailyCard: _card,
+        date: DateTime.now(),
+        orientation: _orientation,
+        journal: _journal,
+      );
+      return true;
+    } catch (_) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(l10n.storageError)));
+      }
+      return false;
+    }
+  }
 
-  void _draw() {
+  Future<void> _draw() async {
     if (_hasDrawnToday) return;
+    final entry = JournalEntry(
+      card: _card,
+      orientation: _orientation,
+      createdAt: DateTime.now(),
+      drawType: 'daily',
+    );
     setState(() {
       _hasDrawnToday = true;
       _drawType = 'daily';
-      _journal.insert(
-        0,
-        JournalEntry(
-          card: _card,
-          orientation: _orientation,
-          createdAt: DateTime.now(),
-          drawType: 'daily',
-        ),
-      );
+      _journal.insert(0, entry);
     });
-    _persist();
+    if (!await _persist() && mounted) {
+      setState(() {
+        _hasDrawnToday = false;
+        _journal.remove(entry);
+      });
+    }
   }
 
-  void _saveJournalEntry(String note, int mood) {
+  Future<void> _saveJournalEntry(String note, int mood) async {
     final trimmedNote = note.trim();
     if (trimmedNote.isEmpty) return;
-
+    final index = _journal.indexWhere(
+      (entry) => entry.card.id == _card.id && entry.drawType == _drawType,
+    );
     setState(() {
-      _journal.insert(
-        0,
-        JournalEntry(
-          card: _card,
-          orientation: _orientation,
+      if (index >= 0) {
+        _journal[index] = _journal[index].copyWith(
           note: trimmedNote,
           mood: mood,
-          createdAt: DateTime.now(),
-          drawType: _drawType,
-        ),
-      );
+        );
+      } else {
+        _journal.insert(
+          0,
+          JournalEntry(
+            card: _card,
+            orientation: _orientation,
+            note: trimmedNote,
+            mood: mood,
+            createdAt: DateTime.now(),
+            drawType: _drawType,
+          ),
+        );
+      }
     });
-    _persist();
+    await _persist();
+  }
+
+  Future<void> _deleteJournalEntry(JournalEntry entry) async {
+    final index = _journal.indexOf(entry);
+    if (index < 0) return;
+    setState(() => _journal.removeAt(index));
+    if (!await _persist() && mounted) {
+      setState(() => _journal.insert(index, entry));
+    }
   }
 
   @override
@@ -129,8 +167,13 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         orientation: _orientation,
         onDraw: _draw,
         hasDrawnToday: _hasDrawnToday,
+        isRestoring: _isRestoring,
       ),
-      JournalScreen(entries: _journal, onSave: _saveJournalEntry),
+      JournalScreen(
+        entries: _journal,
+        onSave: _saveJournalEntry,
+        onDelete: _deleteJournalEntry,
+      ),
       const PremiumScreen(),
     ];
 
