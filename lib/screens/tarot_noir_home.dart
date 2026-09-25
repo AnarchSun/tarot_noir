@@ -162,6 +162,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     await _persist();
   }
 
+  void _onDataCleared() {
+    setState(() {
+      _journal.clear();
+      _hasDrawnToday = false;
+      _hasRevealedCard = false;
+    });
+  }
+
   Future<void> _deleteJournalEntry(JournalEntry entry) async {
     final index = _journal.indexOf(entry);
     if (index < 0) return;
@@ -187,6 +195,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         entries: _journal,
         onSave: _saveJournalEntry,
         onDelete: _deleteJournalEntry,
+        onClearData: _onDataCleared,
       ),
       const PremiumScreen(),
     ];

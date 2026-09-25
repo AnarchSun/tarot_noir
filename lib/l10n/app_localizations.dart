@@ -328,6 +328,30 @@ abstract class AppLocalizations {
   /// **'Effacer mes données locales'**
   String get eraseLocalData;
 
+  /// No description provided for @eraseLocalDataConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette action supprime le tirage quotidien, le journal, les notes et toutes les préférences locales.'**
+  String get eraseLocalDataConfirmation;
+
+  /// No description provided for @cancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get cancel;
+
+  /// No description provided for @erase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer'**
+  String get erase;
+
+  /// No description provided for @localDataErased.
+  ///
+  /// In fr, this message translates to:
+  /// **'Données locales effacées.'**
+  String get localDataErased;
+
   /// No description provided for @noDataToErase.
   ///
   /// In fr, this message translates to:

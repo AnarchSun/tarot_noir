@@ -135,6 +135,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get eraseLocalData => 'Erase my local data';
 
   @override
+  String get eraseLocalDataConfirmation =>
+      'This deletes the daily draw, journal, notes, and all local preferences.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get erase => 'Erase';
+
+  @override
+  String get localDataErased => 'Local data erased.';
+
+  @override
   String get noDataToErase =>
       'There is no persistent data to erase in this demo.';
 

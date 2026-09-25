@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/models/journal_entry.dart';
 import 'package:tarot_noir/models/premium_reading.dart';
 import 'package:tarot_noir/models/tarot_card.dart';
@@ -103,6 +104,63 @@ void main() {
       minorArcana.every((card) => card.supportsReversedOrientation),
       isTrue,
     );
+  });
+
+  test('legacy v1 state migrates without losing journal data', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'tarot_noir.state.v1': jsonEncode(<String, Object>{
+        'version': 1,
+        'day': '2026-09-25T00:00:00.000',
+        'cardId': 'IX',
+        'preferences': <String, Object>{
+          'orionMemory': true,
+          'personalizedGuidance': true,
+          'dailyReminder': false,
+          'tone': 'practical',
+        },
+        'journal': <Object>[
+          <String, Object>{
+            'cardId': 'XIII',
+            'createdAt': '2026-09-24T12:00:00.000',
+            'note': 'Transformation',
+            'mood': 4,
+          },
+        ],
+      }),
+    });
+    final storage = TarotStorageService();
+    final snapshot = await storage.restore(tarotDeck);
+    final preferences = await storage.restorePreferences();
+
+    expect(
+      snapshot.dailyCardId,
+      tarotDeck.firstWhere((c) => c.number == 'IX').id,
+    );
+    expect(snapshot.journal.single.card.number, 'XIII');
+    expect(snapshot.journal.single.note, 'Transformation');
+    expect(preferences[TarotStorageService.orionMemoryKey], isTrue);
+    expect(preferences[TarotStorageService.toneKey], 'Symbolique et concret');
+    final raw = await SharedPreferences.getInstance();
+    expect(raw.containsKey('tarot_noir.state.v1'), isFalse);
+  });
+
+  test('preferences persist and local data can be erased', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      TarotStorageService.journalKey: <String>['entry'],
+      TarotStorageService.dailyCardKey: '0-Le Mat',
+    });
+    final storage = TarotStorageService();
+
+    await storage.saveBoolPreference(TarotStorageService.orionMemoryKey, true);
+    await storage.saveTone('Symbolique et concret');
+
+    final restored = await TarotStorageService().restorePreferences();
+    expect(restored[TarotStorageService.orionMemoryKey], isTrue);
+    expect(restored[TarotStorageService.toneKey], 'Symbolique et concret');
+
+    await storage.clearAll();
+    final preferences = await SharedPreferences.getInstance();
+    expect(preferences.getKeys(), isEmpty);
   });
 
   test('storage schema version is explicit', () {

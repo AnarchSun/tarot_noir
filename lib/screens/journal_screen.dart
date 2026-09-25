@@ -10,12 +10,14 @@ class JournalScreen extends StatefulWidget {
     required this.entries,
     required this.onSave,
     required this.onDelete,
+    required this.onClearData,
     super.key,
   });
 
   final List<JournalEntry> entries;
   final Future<void> Function(String note, int mood) onSave;
   final Future<void> Function(JournalEntry entry) onDelete;
+  final VoidCallback onClearData;
 
   @override
   State<JournalScreen> createState() => _JournalScreenState();
@@ -147,7 +149,10 @@ class _JournalScreenState extends State<JournalScreen> {
               IconButton(
                 tooltip: l10n.preferences,
                 onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const PreferencesScreen()),
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        PreferencesScreen(onDataCleared: widget.onClearData),
+                  ),
                 ),
                 icon: const Icon(Icons.tune),
               ),

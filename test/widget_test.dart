@@ -42,6 +42,41 @@ void main() {
     expect(find.byType(Image), findsOneWidget);
   });
 
+  testWidgets('local data erasure requires explicit confirmation', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'preference_orion_memory': true,
+    });
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Journal'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.tune));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Erase my local data'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.text('Erase my local data'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Cancel'), findsOneWidget);
+    expect(find.text('Erase'), findsOneWidget);
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    var preferences = await SharedPreferences.getInstance();
+    expect(preferences.getBool('preference_orion_memory'), isTrue);
+
+    await tester.tap(find.text('Erase my local data'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Erase'));
+    await tester.pumpAndSettle();
+    preferences = await SharedPreferences.getInstance();
+    expect(preferences.getKeys(), isEmpty);
+  });
+
   testWidgets('falls back to English for an unsupported device locale', (
     tester,
   ) async {
