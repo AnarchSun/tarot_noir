@@ -6,6 +6,7 @@ class JournalEntry {
   const JournalEntry({
     required this.card,
     required this.createdAt,
+    this.orientation = CardOrientation.upright,
     this.drawType = 'daily',
     this.note,
     this.mood,
@@ -13,6 +14,7 @@ class JournalEntry {
 
   final TarotCard card;
   final DateTime createdAt;
+  final CardOrientation orientation;
   final String drawType;
   final String? note;
   final int? mood;
@@ -25,6 +27,7 @@ class JournalEntry {
     'thumbnailPath': thumbnailPath,
     'shortExplanation': shortExplanation,
     'createdAt': createdAt.toIso8601String(),
+    'orientation': orientation.name,
     'drawType': drawType,
     if (note != null) 'note': note,
     if (mood != null) 'mood': mood,
@@ -37,6 +40,7 @@ class JournalEntry {
       return JournalEntry(
         card: card,
         createdAt: DateTime.parse(json['createdAt'] as String),
+        orientation: CardOrientation.fromStorage(json['orientation']),
         drawType: json['drawType'] as String? ?? 'daily',
         note: json['note'] as String?,
         mood: json['mood'] as int?,

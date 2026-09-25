@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tarot_noir/models/journal_entry.dart';
+import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
 
 void main() {
@@ -74,16 +77,60 @@ void main() {
     }
   });
 
+  test('only minor arcana support reversed orientation', () {
+    expect(
+      majorArcana.every((card) => !card.supportsReversedOrientation),
+      isTrue,
+    );
+    expect(
+      minorArcana.every((card) => card.supportsReversedOrientation),
+      isTrue,
+    );
+  });
+
+  test('journal orientation survives serialization', () {
+    final entry = JournalEntry(
+      card: minorArcana.first,
+      orientation: CardOrientation.reversed,
+      createdAt: DateTime.utc(2026, 9, 25),
+    );
+
+    final restored = JournalEntry.fromJson(
+      jsonEncode(entry.toJson()),
+      tarotDeck,
+    );
+
+    expect(restored, isNotNull);
+    expect(restored!.orientation, CardOrientation.reversed);
+  });
+
+  test('legacy journal entries default to upright orientation', () {
+    final entry = JournalEntry(
+      card: minorArcana.first,
+      createdAt: DateTime.utc(2026, 9, 25),
+    ).toJson()..remove('orientation');
+
+    final restored = JournalEntry.fromJson(jsonEncode(entry), tarotDeck);
+
+    expect(restored, isNotNull);
+    expect(restored!.orientation, CardOrientation.upright);
+  });
+
   test('all declared illustrations are available and normalized', () {
     final illustrated = tarotDeck.where((card) => card.hasIllustration);
     final paths = illustrated.map((card) => card.imagePath).toList();
 
+    expect(illustrated, hasLength(78));
     expect(paths.toSet(), hasLength(paths.length));
     for (final path in paths) {
       expect(path, startsWith('assets/images/tarot_cards/'));
       expect(
         path,
-        matches(RegExp(r'^assets/images/tarot_cards/[A-Za-z0-9_]+\.png$')),
+        matches(
+          RegExp(
+            r'^assets/images/tarot_cards/(major|minor)/[A-Za-z0-9_]+\.png$',
+          ),
+        ),
       );
       expect(File(path).existsSync(), isTrue, reason: path);
     }

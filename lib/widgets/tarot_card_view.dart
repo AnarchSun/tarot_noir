@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import '../models/tarot_card.dart';
 
 class TarotCardView extends StatelessWidget {
-  const TarotCardView({required this.card, super.key});
+  const TarotCardView({
+    required this.card,
+    this.orientation = CardOrientation.upright,
+    super.key,
+  });
 
   final TarotCard card;
+  final CardOrientation orientation;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +36,16 @@ class TarotCardView extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: card.hasIllustration
-            ? Image.asset(
-                card.imagePath,
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.contain,
-                errorBuilder: (_, _, _) => _UnavailableIllustration(card: card),
+            ? RotatedBox(
+                quarterTurns: orientation.isReversed ? 2 : 0,
+                child: Image.asset(
+                  card.imagePath,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, _, _) =>
+                      _UnavailableIllustration(card: card),
+                ),
               )
             : _UnavailableIllustration(card: card),
       ),

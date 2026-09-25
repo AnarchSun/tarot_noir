@@ -57,13 +57,16 @@ class _JournalScreenState extends State<JournalScreen> {
                 child: entry.thumbnailPath.isNotEmpty
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          entry.thumbnailPath,
-                          height: 220,
-                          width: 150,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) =>
-                              _JournalCardFallback(entry: entry),
+                        child: RotatedBox(
+                          quarterTurns: entry.orientation.isReversed ? 2 : 0,
+                          child: Image.asset(
+                            entry.thumbnailPath,
+                            height: 220,
+                            width: 150,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, _, _) =>
+                                _JournalCardFallback(entry: entry),
+                          ),
                         ),
                       )
                     : _JournalCardFallback(entry: entry),
@@ -176,16 +179,21 @@ class _JournalScreenState extends State<JournalScreen> {
                         leading: entry.thumbnailPath.isNotEmpty
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(6),
-                                child: Image.asset(
-                                  entry.thumbnailPath,
-                                  width: 42,
-                                  height: 58,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, _, _) => Text(
-                                    entry.card.symbol,
-                                    style: const TextStyle(
-                                      fontSize: 28,
-                                      color: Color(0xFFD4AF59),
+                                child: RotatedBox(
+                                  quarterTurns: entry.orientation.isReversed
+                                      ? 2
+                                      : 0,
+                                  child: Image.asset(
+                                    entry.thumbnailPath,
+                                    width: 42,
+                                    height: 58,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, _, _) => Text(
+                                      entry.card.symbol,
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        color: Color(0xFFD4AF59),
+                                      ),
                                     ),
                                   ),
                                 ),

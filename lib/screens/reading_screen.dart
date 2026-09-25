@@ -9,12 +9,14 @@ import '../widgets/tarot_card_view.dart';
 class ReadingScreen extends StatelessWidget {
   const ReadingScreen({
     required this.card,
+    required this.orientation,
     required this.onDraw,
     required this.hasDrawnToday,
     super.key,
   });
 
   final TarotCard card;
+  final CardOrientation orientation;
   final VoidCallback onDraw;
   final bool hasDrawnToday;
 
@@ -39,7 +41,7 @@ class ReadingScreen extends StatelessWidget {
           style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 24),
-        TarotCardView(card: card),
+        TarotCardView(card: card, orientation: orientation),
         const SizedBox(height: 24),
         Text(
           card.keyword,

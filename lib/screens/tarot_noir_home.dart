@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
@@ -21,6 +23,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   String _drawType = 'daily';
   bool _hasDrawnToday = false;
   late TarotCard _card;
+  CardOrientation _orientation = CardOrientation.upright;
 
   final _journal = <JournalEntry>[];
   final _storage = TarotStorageService();
@@ -37,7 +40,15 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
               now.day,
             ).millisecondsSinceEpoch %
             tarotDeck.length];
+    _orientation = _orientationFor(_card);
     _restoreState();
+  }
+
+  CardOrientation _orientationFor(TarotCard card) {
+    if (!card.supportsReversedOrientation) return CardOrientation.upright;
+    return Random().nextBool()
+        ? CardOrientation.reversed
+        : CardOrientation.upright;
   }
 
   Future<void> _restoreState() async {
@@ -55,6 +66,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     setState(() {
       if (snapshot.dailyDate == today && savedCard != null) {
         _card = savedCard;
+        _orientation = snapshot.dailyOrientation;
         _hasDrawnToday = true;
       }
       _journal
@@ -66,6 +78,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   Future<void> _persist() => _storage.persist(
     dailyCard: _card,
     date: DateTime.now(),
+    orientation: _orientation,
     journal: _journal,
   );
 
@@ -76,7 +89,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       _drawType = 'daily';
       _journal.insert(
         0,
-        JournalEntry(card: _card, createdAt: DateTime.now(), drawType: 'daily'),
+        JournalEntry(
+          card: _card,
+          orientation: _orientation,
+          createdAt: DateTime.now(),
+          drawType: 'daily',
+        ),
       );
     });
     _persist();
@@ -91,6 +109,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         0,
         JournalEntry(
           card: _card,
+          orientation: _orientation,
           note: trimmedNote,
           mood: mood,
           createdAt: DateTime.now(),
@@ -105,7 +124,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final pages = [
-      ReadingScreen(card: _card, onDraw: _draw, hasDrawnToday: _hasDrawnToday),
+      ReadingScreen(
+        card: _card,
+        orientation: _orientation,
+        onDraw: _draw,
+        hasDrawnToday: _hasDrawnToday,
+      ),
       JournalScreen(entries: _journal, onSave: _saveJournalEntry),
       const PremiumScreen(),
     ];

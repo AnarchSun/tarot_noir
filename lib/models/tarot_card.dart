@@ -1,3 +1,15 @@
+enum CardOrientation {
+  upright,
+  reversed;
+
+  bool get isReversed => this == CardOrientation.reversed;
+
+  static CardOrientation fromStorage(Object? value) =>
+      value == CardOrientation.reversed.name
+      ? CardOrientation.reversed
+      : CardOrientation.upright;
+}
+
 class TarotCard {
   const TarotCard(
     this.number,
@@ -16,6 +28,7 @@ class TarotCard {
   final String imagePath;
 
   bool get hasIllustration => imagePath.isNotEmpty;
+  bool get supportsReversedOrientation => number.contains('-');
 
   String get id => '$number-$name';
   String get nameFr => name;
