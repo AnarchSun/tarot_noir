@@ -195,22 +195,26 @@ class _JournalScreenState extends State<JournalScreen> {
                       return ListTile(
                         onTap: () => _showDetails(context, entry),
                         leading: entry.thumbnailPath.isNotEmpty
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: RotatedBox(
-                                  quarterTurns: entry.orientation.isReversed
-                                      ? 2
-                                      : 0,
-                                  child: Image.asset(
-                                    entry.thumbnailPath,
-                                    width: 42,
-                                    height: 58,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, _, _) => Text(
-                                      entry.card.symbol,
-                                      style: const TextStyle(
-                                        fontSize: 28,
-                                        color: Color(0xFFD4AF59),
+                            ? SizedBox(
+                                width: 42,
+                                height: 58,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: RotatedBox(
+                                    quarterTurns: entry.orientation.isReversed
+                                        ? 2
+                                        : 0,
+                                    child: Image.asset(
+                                      entry.thumbnailPath,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, _, _) => Center(
+                                        child: Text(
+                                          entry.card.symbol,
+                                          style: const TextStyle(
+                                            fontSize: 28,
+                                            color: Color(0xFFD4AF59),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),

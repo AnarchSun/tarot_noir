@@ -105,6 +105,11 @@ void main() {
     );
   });
 
+  test('storage schema version is explicit', () {
+    expect(TarotStorageService.storageSchemaVersion, 2);
+    expect(TarotStorageService.storageSchemaVersionKey, isNotEmpty);
+  });
+
   test('daily draw lock resists a clock rollback', () {
     expect(
       TarotStorageService.isDailyDrawLocked(
@@ -157,14 +162,10 @@ void main() {
     expect(illustrated, hasLength(78));
     expect(paths.toSet(), hasLength(paths.length));
     for (final path in paths) {
-      expect(path, startsWith('assets/images/tarot_cards/'));
+      expect(path, startsWith('assets/images/tarot_temp/'));
       expect(
         path,
-        matches(
-          RegExp(
-            r'^assets/images/tarot_cards/(major|minor)/[A-Za-z0-9_]+\.png$',
-          ),
-        ),
+        matches(RegExp(r'^assets/images/tarot_temp/[A-Za-z0-9_]+\.png$')),
       );
       expect(File(path).existsSync(), isTrue, reason: path);
     }

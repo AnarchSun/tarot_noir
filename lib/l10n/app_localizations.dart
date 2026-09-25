@@ -409,13 +409,13 @@ abstract class AppLocalizations {
   /// No description provided for @moodLabel.
   ///
   /// In fr, this message translates to:
-  /// **'INTENSITÉ DU JOUR · {mood}/5'**
+  /// **'HUMEUR DU JOUR · {mood}/5'**
   String moodLabel(Object mood);
 
   /// No description provided for @sealNote.
   ///
   /// In fr, this message translates to:
-  /// **'Sceller cette note'**
+  /// **'Enregistrer la note'**
   String get sealNote;
 
   /// No description provided for @dailyDrawType.

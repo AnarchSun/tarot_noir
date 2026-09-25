@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../app_config.dart';
 import '../l10n/app_localizations.dart';
 import '../models/journal_entry.dart';
 import '../models/tarot_card.dart';
@@ -22,6 +23,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   int _tab = 0;
   String _drawType = 'daily';
   bool _hasDrawnToday = false;
+  bool _hasRevealedCard = false;
   bool _isRestoring = true;
   late TarotCard _card;
   CardOrientation _orientation = CardOrientation.upright;
@@ -68,10 +70,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
             snapshot.dailyDate,
             DateTime.now(),
           ) &&
-          savedCard != null) {
+          savedCard != null &&
+          AppConfig.dailyDrawLockEnabled) {
         _card = savedCard;
         _orientation = snapshot.dailyOrientation;
         _hasDrawnToday = true;
+        _hasRevealedCard = true;
       }
       _isRestoring = false;
       _journal
@@ -100,21 +104,30 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   }
 
   Future<void> _draw() async {
-    if (_hasDrawnToday) return;
+    if (AppConfig.dailyDrawLockEnabled && _hasDrawnToday) return;
+    final nextCard = AppConfig.dailyDrawLockEnabled
+        ? _card
+        : tarotDeck[Random().nextInt(tarotDeck.length)];
+    final nextOrientation = _orientationFor(nextCard);
+    final nextDrawType = AppConfig.dailyDrawLockEnabled ? 'daily' : 'free';
     final entry = JournalEntry(
-      card: _card,
-      orientation: _orientation,
+      card: nextCard,
+      orientation: nextOrientation,
       createdAt: DateTime.now(),
-      drawType: 'daily',
+      drawType: nextDrawType,
     );
     setState(() {
-      _hasDrawnToday = true;
-      _drawType = 'daily';
+      _card = nextCard;
+      _orientation = nextOrientation;
+      _hasDrawnToday = AppConfig.dailyDrawLockEnabled;
+      _hasRevealedCard = true;
+      _drawType = nextDrawType;
       _journal.insert(0, entry);
     });
     if (!await _persist() && mounted) {
       setState(() {
         _hasDrawnToday = false;
+        _hasRevealedCard = false;
         _journal.remove(entry);
       });
     }
@@ -166,7 +179,8 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         card: _card,
         orientation: _orientation,
         onDraw: _draw,
-        hasDrawnToday: _hasDrawnToday,
+        hasDrawn: _hasRevealedCard,
+        isDailyDrawLocked: AppConfig.dailyDrawLockEnabled && _hasDrawnToday,
         isRestoring: _isRestoring,
       ),
       JournalScreen(

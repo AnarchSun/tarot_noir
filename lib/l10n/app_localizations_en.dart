@@ -178,11 +178,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String moodLabel(Object mood) {
-    return 'INTENSITY OF THE DAY · $mood/5';
+    return 'MOOD OF THE DAY · $mood/5';
   }
 
   @override
-  String get sealNote => 'Seal this note';
+  String get sealNote => 'Save note';
 
   @override
   String get dailyDrawType => 'Daily card';

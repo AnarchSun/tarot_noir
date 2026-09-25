@@ -11,7 +11,8 @@ class ReadingScreen extends StatelessWidget {
     required this.card,
     required this.orientation,
     required this.onDraw,
-    required this.hasDrawnToday,
+    required this.hasDrawn,
+    required this.isDailyDrawLocked,
     required this.isRestoring,
     super.key,
   });
@@ -19,7 +20,8 @@ class ReadingScreen extends StatelessWidget {
   final TarotCard card;
   final CardOrientation orientation;
   final VoidCallback onDraw;
-  final bool hasDrawnToday;
+  final bool hasDrawn;
+  final bool isDailyDrawLocked;
   final bool isRestoring;
 
   @override
@@ -43,7 +45,30 @@ class ReadingScreen extends StatelessWidget {
           style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 24),
-        if (hasDrawnToday) ...[
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: isDailyDrawLocked || isRestoring ? null : onDraw,
+            icon: Icon(
+              isDailyDrawLocked
+                  ? Icons.lock_outline
+                  : isRestoring
+                  ? Icons.hourglass_top
+                  : Icons.casino_outlined,
+            ),
+            label: Text(
+              isDailyDrawLocked
+                  ? l10n.dailyDrawLocked
+                  : isRestoring
+                  ? l10n.restoringRitual
+                  : hasDrawn
+                  ? l10n.drawAnother
+                  : l10n.drawDaily,
+            ),
+          ),
+        ),
+        const SizedBox(height: 28),
+        if (hasDrawn) ...[
           TarotCardView(card: card, orientation: orientation),
           const SizedBox(height: 24),
           Text(
@@ -91,26 +116,6 @@ class ReadingScreen extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 28),
-        SizedBox(
-          width: double.infinity,
-          child: FilledButton.icon(
-            onPressed: hasDrawnToday || isRestoring ? null : onDraw,
-            icon: Icon(
-              hasDrawnToday
-                  ? Icons.lock_outline
-                  : isRestoring
-                  ? Icons.hourglass_top
-                  : Icons.casino_outlined,
-            ),
-            label: Text(
-              hasDrawnToday
-                  ? l10n.dailyDrawLocked
-                  : isRestoring
-                  ? l10n.restoringRitual
-                  : l10n.drawDaily,
-            ),
-          ),
-        ),
       ],
     );
   }

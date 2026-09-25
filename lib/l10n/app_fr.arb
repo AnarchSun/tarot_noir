@@ -52,8 +52,8 @@
   "localNotes": "Notes locales",
   "linkedJournal": "Liens avec les cartes et Orion"
   ,"journalNoteHint": "Écris ce que la carte remue ou éclaire en toi…"
-  ,"moodLabel": "INTENSITÉ DU JOUR · {mood}/5"
-  ,"sealNote": "Sceller cette note"
+  ,"moodLabel": "HUMEUR DU JOUR · {mood}/5"
+  ,"sealNote": "Enregistrer la note"
   ,"dailyDrawType": "Carte du jour"
   ,"freeDrawType": "Tirage libre"
   ,"drawDate": "Tirée le {date}"

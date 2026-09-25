@@ -52,8 +52,8 @@
   "localNotes": "Local notes",
   "linkedJournal": "Links with cards and Orion"
   ,"journalNoteHint": "Write what the card stirs or illuminates in you…"
-  ,"moodLabel": "INTENSITY OF THE DAY · {mood}/5"
-  ,"sealNote": "Seal this note"
+  ,"moodLabel": "MOOD OF THE DAY · {mood}/5"
+  ,"sealNote": "Save note"
   ,"dailyDrawType": "Daily card"
   ,"freeDrawType": "Free draw"
   ,"drawDate": "Drawn on {date}"
