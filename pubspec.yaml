@@ -40,4 +40,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/tarot_cards/
+    - assets/images/tarot_temp/

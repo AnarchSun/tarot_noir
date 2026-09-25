@@ -19,6 +19,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawAnother => 'Draw another card';
 
   @override
+  String get drawPrompt =>
+      'The veil awaits your gesture. Draw a card to reveal today’s sign.';
+
+  @override
+  String get restoringRitual => 'Restoring the ritual…';
+
+  @override
+  String get storageError => 'Local save failed. The ritual was not locked.';
+
+  @override
+  String get deleteJournalEntry => 'Delete this entry';
+
+  @override
+  String get dailyDrawLocked => 'Daily card already drawn';
+
+  @override
   String get drawDaily => 'Draw my daily card';
 
   @override
@@ -162,11 +178,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String moodLabel(Object mood) {
-    return 'INTENSITY OF THE DAY · $mood/5';
+    return 'MOOD OF THE DAY · $mood/5';
   }
 
   @override
-  String get sealNote => 'Seal this note';
+  String get sealNote => 'Save note';
 
   @override
   String get dailyDrawType => 'Daily card';
@@ -182,5 +198,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String endpointLabel(Object url) {
     return 'Devnet endpoint: $url';
+  }
+
+  @override
+  String get journalDetails => 'Reading details';
+
+  @override
+  String get keywordLabel => 'Keyword';
+
+  @override
+  String get interpretationLabel => 'Interpretation';
+
+  @override
+  String get drawTypeLabel => 'Reading type';
+
+  @override
+  String get noteLabel => 'Personal note';
+
+  @override
+  String moodValue(Object mood) {
+    return 'Mood: $mood/5';
   }
 }

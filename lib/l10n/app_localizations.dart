@@ -118,6 +118,36 @@ abstract class AppLocalizations {
   /// **'Tirer une autre carte'**
   String get drawAnother;
 
+  /// No description provided for @drawPrompt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le voile attend ton geste. Tire une carte pour révéler le signe du jour.'**
+  String get drawPrompt;
+
+  /// No description provided for @restoringRitual.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restauration du rituel…'**
+  String get restoringRitual;
+
+  /// No description provided for @storageError.
+  ///
+  /// In fr, this message translates to:
+  /// **'La sauvegarde locale a échoué. Le rituel n’a pas été verrouillé.'**
+  String get storageError;
+
+  /// No description provided for @deleteJournalEntry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cette entrée'**
+  String get deleteJournalEntry;
+
+  /// No description provided for @dailyDrawLocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour déjà tirée'**
+  String get dailyDrawLocked;
+
   /// No description provided for @drawDaily.
   ///
   /// In fr, this message translates to:
@@ -379,13 +409,13 @@ abstract class AppLocalizations {
   /// No description provided for @moodLabel.
   ///
   /// In fr, this message translates to:
-  /// **'INTENSITÉ DU JOUR · {mood}/5'**
+  /// **'HUMEUR DU JOUR · {mood}/5'**
   String moodLabel(Object mood);
 
   /// No description provided for @sealNote.
   ///
   /// In fr, this message translates to:
-  /// **'Sceller cette note'**
+  /// **'Enregistrer la note'**
   String get sealNote;
 
   /// No description provided for @dailyDrawType.
@@ -411,6 +441,42 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Endpoint devnet : {url}'**
   String endpointLabel(Object url);
+
+  /// No description provided for @journalDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails du tirage'**
+  String get journalDetails;
+
+  /// No description provided for @keywordLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot-clé'**
+  String get keywordLabel;
+
+  /// No description provided for @interpretationLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Interprétation'**
+  String get interpretationLabel;
+
+  /// No description provided for @drawTypeLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Type de tirage'**
+  String get drawTypeLabel;
+
+  /// No description provided for @noteLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note personnelle'**
+  String get noteLabel;
+
+  /// No description provided for @moodValue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Humeur : {mood}/5'**
+  String moodValue(Object mood);
 }
 
 class _AppLocalizationsDelegate

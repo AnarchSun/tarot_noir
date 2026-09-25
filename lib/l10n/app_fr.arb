@@ -3,6 +3,11 @@
   "appTitle": "Tarot Noir",
   "dailyReading": "Le tirage du jour",
   "drawAnother": "Tirer une autre carte",
+  "drawPrompt": "Le voile attend ton geste. Tire une carte pour révéler le signe du jour.",
+  "restoringRitual": "Restauration du rituel…",
+  "storageError": "La sauvegarde locale a échoué. Le rituel n’a pas été verrouillé.",
+  "deleteJournalEntry": "Supprimer cette entrée",
+  "dailyDrawLocked": "Carte du jour déjà tirée",
   "drawDaily": "Tirer ma carte du jour",
   "reading": "Tirage",
   "journal": "Journal",
@@ -47,8 +52,8 @@
   "localNotes": "Notes locales",
   "linkedJournal": "Liens avec les cartes et Orion"
   ,"journalNoteHint": "Écris ce que la carte remue ou éclaire en toi…"
-  ,"moodLabel": "INTENSITÉ DU JOUR · {mood}/5"
-  ,"sealNote": "Sceller cette note"
+  ,"moodLabel": "HUMEUR DU JOUR · {mood}/5"
+  ,"sealNote": "Enregistrer la note"
   ,"dailyDrawType": "Carte du jour"
   ,"freeDrawType": "Tirage libre"
   ,"drawDate": "Tirée le {date}"
@@ -56,4 +61,11 @@
   ,"@moodLabel": {"placeholders": {"mood": {}}}
   ,"@drawDate": {"placeholders": {"date": {}}}
   ,"@endpointLabel": {"placeholders": {"url": {}}}
+  ,"journalDetails": "Détails du tirage"
+  ,"keywordLabel": "Mot-clé"
+  ,"interpretationLabel": "Interprétation"
+  ,"drawTypeLabel": "Type de tirage"
+  ,"noteLabel": "Note personnelle"
+  ,"moodValue": "Humeur : {mood}/5"
+  ,"@moodValue": {"placeholders": {"mood": {}}}
 }

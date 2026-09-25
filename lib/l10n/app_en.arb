@@ -3,6 +3,11 @@
   "appTitle": "Tarot Noir",
   "dailyReading": "Daily reading",
   "drawAnother": "Draw another card",
+  "drawPrompt": "The veil awaits your gesture. Draw a card to reveal today’s sign.",
+  "restoringRitual": "Restoring the ritual…",
+  "storageError": "Local save failed. The ritual was not locked.",
+  "deleteJournalEntry": "Delete this entry",
+  "dailyDrawLocked": "Daily card already drawn",
   "drawDaily": "Draw my daily card",
   "reading": "Reading",
   "journal": "Journal",
@@ -47,8 +52,8 @@
   "localNotes": "Local notes",
   "linkedJournal": "Links with cards and Orion"
   ,"journalNoteHint": "Write what the card stirs or illuminates in you…"
-  ,"moodLabel": "INTENSITY OF THE DAY · {mood}/5"
-  ,"sealNote": "Seal this note"
+  ,"moodLabel": "MOOD OF THE DAY · {mood}/5"
+  ,"sealNote": "Save note"
   ,"dailyDrawType": "Daily card"
   ,"freeDrawType": "Free draw"
   ,"drawDate": "Drawn on {date}"
@@ -56,4 +61,11 @@
   ,"@moodLabel": {"placeholders": {"mood": {}}}
   ,"@drawDate": {"placeholders": {"date": {}}}
   ,"@endpointLabel": {"placeholders": {"url": {}}}
+  ,"journalDetails": "Reading details"
+  ,"keywordLabel": "Keyword"
+  ,"interpretationLabel": "Interpretation"
+  ,"drawTypeLabel": "Reading type"
+  ,"noteLabel": "Personal note"
+  ,"moodValue": "Mood: {mood}/5"
+  ,"@moodValue": {"placeholders": {"mood": {}}}
 }

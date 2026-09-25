@@ -19,6 +19,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get drawAnother => 'Sacar otra carta';
 
   @override
+  String get drawPrompt =>
+      'El velo espera tu gesto. Saca una carta para revelar la señal del día.';
+
+  @override
+  String get restoringRitual => 'Restaurando el ritual…';
+
+  @override
+  String get storageError =>
+      'Falló el guardado local. El ritual no fue bloqueado.';
+
+  @override
+  String get deleteJournalEntry => 'Eliminar esta entrada';
+
+  @override
+  String get dailyDrawLocked => 'Carta del día ya sacada';
+
+  @override
   String get drawDaily => 'Sacar mi carta del día';
 
   @override
@@ -161,11 +178,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String moodLabel(Object mood) {
-    return 'INTENSIDAD DEL DÍA · $mood/5';
+    return 'ÁNIMO DEL DÍA · $mood/5';
   }
 
   @override
-  String get sealNote => 'Sellar esta nota';
+  String get sealNote => 'Guardar la nota';
 
   @override
   String get dailyDrawType => 'Carta del día';
@@ -181,5 +198,25 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String endpointLabel(Object url) {
     return 'Endpoint devnet: $url';
+  }
+
+  @override
+  String get journalDetails => 'Detalles de la tirada';
+
+  @override
+  String get keywordLabel => 'Palabra clave';
+
+  @override
+  String get interpretationLabel => 'Interpretación';
+
+  @override
+  String get drawTypeLabel => 'Tipo de tirada';
+
+  @override
+  String get noteLabel => 'Nota personal';
+
+  @override
+  String moodValue(Object mood) {
+    return 'Ánimo: $mood/5';
   }
 }

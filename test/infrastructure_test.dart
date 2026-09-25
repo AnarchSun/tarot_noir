@@ -1,7 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tarot_noir/models/journal_entry.dart';
+import 'package:tarot_noir/models/premium_reading.dart';
+import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
+import 'package:tarot_noir/services/tarot_storage_service.dart';
 
 void main() {
   test('catalogue contains the complete Marseille deck', () {
@@ -74,16 +79,93 @@ void main() {
     }
   });
 
+  test('every card has a substantial and unique premium reading', () {
+    final readings = <String>{};
+    for (final card in tarotDeck) {
+      final reading = PremiumReadingCatalog.forCard(
+        card,
+        CardOrientation.upright,
+      );
+      expect(reading.essence.length, greaterThan(150), reason: card.name);
+      expect(reading.shadow.length, greaterThan(80), reason: card.name);
+      expect(reading.ritual.length, greaterThan(100), reason: card.name);
+      readings.add(reading.essence);
+    }
+    expect(readings, hasLength(78));
+  });
+
+  test('only minor arcana support reversed orientation', () {
+    expect(
+      majorArcana.every((card) => !card.supportsReversedOrientation),
+      isTrue,
+    );
+    expect(
+      minorArcana.every((card) => card.supportsReversedOrientation),
+      isTrue,
+    );
+  });
+
+  test('storage schema version is explicit', () {
+    expect(TarotStorageService.storageSchemaVersion, 2);
+    expect(TarotStorageService.storageSchemaVersionKey, isNotEmpty);
+  });
+
+  test('daily draw lock resists a clock rollback', () {
+    expect(
+      TarotStorageService.isDailyDrawLocked(
+        '2026-09-25',
+        DateTime(2026, 9, 24),
+      ),
+      isTrue,
+    );
+    expect(
+      TarotStorageService.isDailyDrawLocked(
+        '2026-09-25',
+        DateTime(2026, 9, 26),
+      ),
+      isFalse,
+    );
+  });
+
+  test('journal orientation survives serialization', () {
+    final entry = JournalEntry(
+      card: minorArcana.first,
+      orientation: CardOrientation.reversed,
+      createdAt: DateTime.utc(2026, 9, 25),
+    );
+
+    final restored = JournalEntry.fromJson(
+      jsonEncode(entry.toJson()),
+      tarotDeck,
+    );
+
+    expect(restored, isNotNull);
+    expect(restored!.orientation, CardOrientation.reversed);
+  });
+
+  test('legacy journal entries default to upright orientation', () {
+    final entry = JournalEntry(
+      card: minorArcana.first,
+      createdAt: DateTime.utc(2026, 9, 25),
+    ).toJson()..remove('orientation');
+
+    final restored = JournalEntry.fromJson(jsonEncode(entry), tarotDeck);
+
+    expect(restored, isNotNull);
+    expect(restored!.orientation, CardOrientation.upright);
+  });
+
   test('all declared illustrations are available and normalized', () {
     final illustrated = tarotDeck.where((card) => card.hasIllustration);
     final paths = illustrated.map((card) => card.imagePath).toList();
 
+    expect(illustrated, hasLength(78));
     expect(paths.toSet(), hasLength(paths.length));
     for (final path in paths) {
-      expect(path, startsWith('assets/images/tarot_cards/'));
+      expect(path, startsWith('assets/images/tarot_temp/'));
       expect(
         path,
-        matches(RegExp(r'^assets/images/tarot_cards/[A-Za-z0-9_]+\.png$')),
+        matches(RegExp(r'^assets/images/tarot_temp/[A-Za-z0-9_]+\.png$')),
       );
       expect(File(path).existsSync(), isTrue, reason: path);
     }

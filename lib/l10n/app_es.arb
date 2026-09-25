@@ -3,6 +3,11 @@
   "appTitle": "Tarot Noir",
   "dailyReading": "Tirada del día",
   "drawAnother": "Sacar otra carta",
+  "drawPrompt": "El velo espera tu gesto. Saca una carta para revelar la señal del día.",
+  "restoringRitual": "Restaurando el ritual…",
+  "storageError": "Falló el guardado local. El ritual no fue bloqueado.",
+  "deleteJournalEntry": "Eliminar esta entrada",
+  "dailyDrawLocked": "Carta del día ya sacada",
   "drawDaily": "Sacar mi carta del día",
   "reading": "Tirada",
   "journal": "Diario",
@@ -47,8 +52,8 @@
   "localNotes": "Notas locales",
   "linkedJournal": "Vínculos con las cartas y Orion"
   ,"journalNoteHint": "Escribe lo que la carta remueve o ilumina en ti…"
-  ,"moodLabel": "INTENSIDAD DEL DÍA · {mood}/5"
-  ,"sealNote": "Sellar esta nota"
+  ,"moodLabel": "ÁNIMO DEL DÍA · {mood}/5"
+  ,"sealNote": "Guardar la nota"
   ,"dailyDrawType": "Carta del día"
   ,"freeDrawType": "Tirada libre"
   ,"drawDate": "Sacada el {date}"
@@ -56,4 +61,11 @@
   ,"@moodLabel": {"placeholders": {"mood": {}}}
   ,"@drawDate": {"placeholders": {"date": {}}}
   ,"@endpointLabel": {"placeholders": {"url": {}}}
+  ,"journalDetails": "Detalles de la tirada"
+  ,"keywordLabel": "Palabra clave"
+  ,"interpretationLabel": "Interpretación"
+  ,"drawTypeLabel": "Tipo de tirada"
+  ,"noteLabel": "Nota personal"
+  ,"moodValue": "Ánimo: {mood}/5"
+  ,"@moodValue": {"placeholders": {"mood": {}}}
 }

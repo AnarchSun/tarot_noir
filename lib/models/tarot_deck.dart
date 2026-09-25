@@ -7,7 +7,7 @@ const majorArcana = <TarotCard>[
     '✦',
     'LE SAUT',
     'Le vide n’est pas une chute : c’est l’espace où ton prochain monde cherche sa forme.',
-    'assets/images/tarot_cards/Le_Fou.png',
+    'assets/images/tarot_temp/Le_Fou.png',
   ),
   TarotCard(
     'II',
@@ -15,7 +15,7 @@ const majorArcana = <TarotCard>[
     '☾',
     'LE SECRET',
     'Ne livre pas ta lumière à ceux qui ne savent regarder que les braises.',
-    'assets/images/tarot_cards/La_Papesse.png',
+    'assets/images/tarot_temp/La_Papesse.png',
   ),
   TarotCard(
     'XIII',
@@ -23,7 +23,7 @@ const majorArcana = <TarotCard>[
     '☠',
     'LA MUE',
     'Ce qui se termine libère une place sacrée. Laisse l’ancienne peau à la terre.',
-    'assets/images/tarot_cards/La_Mort.png',
+    'assets/images/tarot_temp/La_Mort.png',
   ),
   TarotCard(
     'XVIII',
@@ -31,7 +31,7 @@ const majorArcana = <TarotCard>[
     '☾',
     'LE MIRAGE',
     'Ton intuition parle bas sous le bruit. Marche lentement, mais marche avec elle.',
-    'assets/images/tarot_cards/La_Lune.png',
+    'assets/images/tarot_temp/La_Lune.png',
   ),
   TarotCard(
     'XV',
@@ -39,7 +39,7 @@ const majorArcana = <TarotCard>[
     '♜',
     'LA CHAÎNE',
     'Regarde la chaîne : elle est peut-être plus lâche que tu ne le crois.',
-    'assets/images/tarot_cards/Le_Diable.png',
+    'assets/images/tarot_temp/Le_Diable.png',
   ),
   TarotCard(
     'XVII',
@@ -47,7 +47,7 @@ const majorArcana = <TarotCard>[
     '✧',
     'LA GUÉRISON',
     'Après la nuit, ton désir de vivre demeure une forme de magie.',
-    'assets/images/tarot_cards/L_Etoile.png',
+    'assets/images/tarot_temp/L_Etoile.png',
   ),
   TarotCard(
     'VI',
@@ -55,7 +55,7 @@ const majorArcana = <TarotCard>[
     '♡',
     'L’UNION',
     'Deux chemins peuvent se rencontrer sans perdre leur mystère.',
-    'assets/images/tarot_cards/Les_Amants.png',
+    'assets/images/tarot_temp/Les_Amants.png',
   ),
   TarotCard(
     'XXI',
@@ -63,7 +63,7 @@ const majorArcana = <TarotCard>[
     '◎',
     'L’ACCOMPLISSEMENT',
     'Ce qui semblait dispersé retrouve son cercle. Une fin peut devenir une porte.',
-    'assets/images/tarot_cards/Le_Monde.png',
+    'assets/images/tarot_temp/Le_Monde.png',
   ),
   TarotCard(
     'I',
@@ -71,7 +71,7 @@ const majorArcana = <TarotCard>[
     '✣',
     'L’ÉLAN',
     'Les outils sont là. Commence humblement, puis laisse le geste te révéler sa voie.',
-    'assets/images/tarot_cards/Le_Bateleur.png',
+    'assets/images/tarot_temp/Le_Bateleur.png',
   ),
   TarotCard(
     'III',
@@ -79,7 +79,7 @@ const majorArcana = <TarotCard>[
     '♕',
     'LA CRÉATION',
     'Ce qui germe demande du soin, de la beauté et un espace où respirer.',
-    'assets/images/tarot_cards/L_Imperatrice.png',
+    'assets/images/tarot_temp/L_Imperatrice.png',
   ),
   TarotCard(
     'IV',
@@ -87,7 +87,7 @@ const majorArcana = <TarotCard>[
     '♔',
     'LA STRUCTURE',
     'Une limite juste peut devenir une protection, jamais une cage.',
-    'assets/images/tarot_cards/L_Empereur.png',
+    'assets/images/tarot_temp/L_Empereur.png',
   ),
   TarotCard(
     'V',
@@ -95,7 +95,7 @@ const majorArcana = <TarotCard>[
     '✠',
     'LA TRANSMISSION',
     'Cherche un repère qui nourrit ta liberté au lieu de parler à ta place.',
-    'assets/images/tarot_cards/Le_Pape.png',
+    'assets/images/tarot_temp/Le_Pape.png',
   ),
   TarotCard(
     'VII',
@@ -103,7 +103,7 @@ const majorArcana = <TarotCard>[
     '✦',
     'LE PASSAGE',
     'Rassemble tes forces vers une seule direction et avance sans te trahir.',
-    'assets/images/tarot_cards/Le_Chariot.png',
+    'assets/images/tarot_temp/Le_Chariot.png',
   ),
   TarotCard(
     'VIII',
@@ -111,7 +111,7 @@ const majorArcana = <TarotCard>[
     '⚖',
     'L’ÉQUILIBRE',
     'Regarde les faits avec clarté : chaque choix construit son propre poids.',
-    'assets/images/tarot_cards/La_Justice.png',
+    'assets/images/tarot_temp/La_Justice.png',
   ),
   TarotCard(
     'IX',
@@ -119,7 +119,7 @@ const majorArcana = <TarotCard>[
     '☿',
     'LA LAMPE',
     'Le retrait choisi éclaire la prochaine marche. Garde une lumière, même petite.',
-    'assets/images/tarot_cards/L_Hermite.png',
+    'assets/images/tarot_temp/L_Hermite.png',
   ),
   TarotCard(
     'X',
@@ -127,7 +127,7 @@ const majorArcana = <TarotCard>[
     '◉',
     'LE CYCLE',
     'Le mouvement revient. Accueille ce qui change et ancre ce qui compte.',
-    'assets/images/tarot_cards/La_Roue_De_Fortune.png',
+    'assets/images/tarot_temp/La_Roue_De_Fortune.png',
   ),
   TarotCard(
     'XI',
@@ -135,7 +135,7 @@ const majorArcana = <TarotCard>[
     '♌',
     'LE COURAGE',
     'La force calme transforme davantage que la contrainte. Respire avant d’agir.',
-    'assets/images/tarot_cards/La_Force.png',
+    'assets/images/tarot_temp/La_Force.png',
   ),
   TarotCard(
     'XII',
@@ -143,7 +143,7 @@ const majorArcana = <TarotCard>[
     '⌇',
     'LE RENVERSEMENT',
     'Une pause volontaire peut montrer l’angle que l’élan ne voyait pas.',
-    'assets/images/tarot_cards/Le_Pendu.png',
+    'assets/images/tarot_temp/Le_Pendu.png',
   ),
   TarotCard(
     'XIV',
@@ -151,7 +151,7 @@ const majorArcana = <TarotCard>[
     '⚗',
     'L’ALCHIMIE',
     'Dose, relie, ajuste. Ton équilibre se fabrique par de petits mélanges vrais.',
-    'assets/images/tarot_cards/Temperance.png',
+    'assets/images/tarot_temp/Temperance.png',
   ),
   TarotCard(
     'XVI',
@@ -159,7 +159,7 @@ const majorArcana = <TarotCard>[
     'ϟ',
     'LA FAILLE',
     'Une structure tombe parfois pour libérer la vérité qui voulait passer.',
-    'assets/images/tarot_cards/La_Tour.png',
+    'assets/images/tarot_temp/La_Tour.png',
   ),
   TarotCard(
     'XIX',
@@ -167,7 +167,7 @@ const majorArcana = <TarotCard>[
     '☀',
     'LA CLARTÉ',
     'Partage ce qui te rend vivant. Une joie honnête peut servir de boussole.',
-    'assets/images/tarot_cards/Le_Soleil.png',
+    'assets/images/tarot_temp/Le_Soleil.png',
   ),
   TarotCard(
     'XX',
@@ -175,7 +175,7 @@ const majorArcana = <TarotCard>[
     '⌁',
     'L’APPEL',
     'Une voix ancienne appelle une réponse neuve. Choisis ce qui t’appartient.',
-    'assets/images/tarot_cards/Le_Jugement.png',
+    'assets/images/tarot_temp/Le_Jugement.png',
   ),
 ];
 
@@ -211,6 +211,35 @@ const minorSuits = [
   ),
 ];
 
+const _minorFileRanks = [
+  'As',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  'Valet',
+  'Cavalier',
+  'Reine',
+  'Roi',
+];
+
+String _minorImagePath(String suit, int rankIndex) {
+  final suitFile = switch (suit) {
+    'Bâtons' => 'De_Batons',
+    'Coupes' => 'De_Coupes',
+    'Épées' => 'D_Epees',
+    'Deniers' => 'De_Deniers',
+    _ => throw ArgumentError.value(suit, 'suit'),
+  };
+  return 'assets/images/tarot_temp/'
+      '${_minorFileRanks[rankIndex]}_$suitFile.png';
+}
+
 final minorArcana = <TarotCard>[
   for (final suit in minorSuits)
     for (var index = 0; index < minorRanks.length; index++)
@@ -220,9 +249,7 @@ final minorArcana = <TarotCard>[
         suit.symbol,
         suit.name.toUpperCase(),
         'Cette carte parle de ${suit.theme}. Cherche le prochain geste simple qui respecte ton intention.',
-        suit.name == 'Épées' && index == 0
-            ? 'assets/images/tarot_cards/As_d_Epees.png'
-            : '',
+        _minorImagePath(suit.name, index),
       ),
 ];
 

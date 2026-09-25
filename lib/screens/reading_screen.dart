@@ -9,14 +9,20 @@ import '../widgets/tarot_card_view.dart';
 class ReadingScreen extends StatelessWidget {
   const ReadingScreen({
     required this.card,
+    required this.orientation,
     required this.onDraw,
-    required this.hasDrawnToday,
+    required this.hasDrawn,
+    required this.isDailyDrawLocked,
+    required this.isRestoring,
     super.key,
   });
 
   final TarotCard card;
+  final CardOrientation orientation;
   final VoidCallback onDraw;
-  final bool hasDrawnToday;
+  final bool hasDrawn;
+  final bool isDailyDrawLocked;
+  final bool isRestoring;
 
   @override
   Widget build(BuildContext context) {
@@ -39,36 +45,77 @@ class ReadingScreen extends StatelessWidget {
           style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 24),
-        TarotCardView(card: card),
-        const SizedBox(height: 24),
-        Text(
-          card.keyword,
-          style: const TextStyle(
-            letterSpacing: 2,
-            color: Color(0xFFD4AF59),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          card.message,
-          style: const TextStyle(
-            fontSize: 18,
-            height: 1.5,
-            color: Color(0xFFE7DFEA),
-          ),
-        ),
-        const SizedBox(height: 20),
-        if (AppConfig.premiumEnabled) OrionPremiumInsight(card: card),
-        const SizedBox(height: 28),
         SizedBox(
           width: double.infinity,
           child: FilledButton.icon(
-            onPressed: hasDrawnToday ? null : onDraw,
-            icon: const Icon(Icons.casino_outlined),
-            label: Text(l10n.drawDaily),
+            onPressed: isDailyDrawLocked || isRestoring ? null : onDraw,
+            icon: Icon(
+              isDailyDrawLocked
+                  ? Icons.lock_outline
+                  : isRestoring
+                  ? Icons.hourglass_top
+                  : Icons.casino_outlined,
+            ),
+            label: Text(
+              isDailyDrawLocked
+                  ? l10n.dailyDrawLocked
+                  : isRestoring
+                  ? l10n.restoringRitual
+                  : hasDrawn
+                  ? l10n.drawAnother
+                  : l10n.drawDaily,
+            ),
           ),
         ),
+        const SizedBox(height: 28),
+        if (hasDrawn) ...[
+          TarotCardView(card: card, orientation: orientation),
+          const SizedBox(height: 24),
+          Text(
+            card.keyword,
+            style: const TextStyle(
+              letterSpacing: 2,
+              color: Color(0xFFD4AF59),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            card.message,
+            style: const TextStyle(
+              fontSize: 18,
+              height: 1.5,
+              color: Color(0xFFE7DFEA),
+            ),
+          ),
+          const SizedBox(height: 20),
+          if (AppConfig.premiumEnabled)
+            OrionPremiumInsight(card: card, orientation: orientation),
+        ] else
+          Container(
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              color: const Color(0xFF171220),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: const Color(0xFF49395D)),
+            ),
+            child: Column(
+              children: [
+                const Icon(
+                  Icons.auto_awesome,
+                  size: 46,
+                  color: Color(0xFFD4AF59),
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  isRestoring ? l10n.restoringRitual : l10n.drawPrompt,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18, height: 1.45),
+                ),
+              ],
+            ),
+          ),
+        const SizedBox(height: 28),
       ],
     );
   }
