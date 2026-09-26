@@ -28,7 +28,11 @@
   "adFreeDetail": "The free plan may show a short ad before the reading. Orion+ remains ad-free.",
   "walletSoon": "Wallet connection — coming soon",
   "networkConfigured": "Configured network: {network}. Minting remains disabled until Candy Machine settings are provided.",
-  "@networkConfigured": {"placeholders": {"network": {}}},
+  "@networkConfigured": {
+    "placeholders": {
+      "network": {}
+    }
+  },
   "preferences": "Preferences",
   "preferencesTitle": "Your ritual, your rules",
   "preferencesIntro": "These settings remain local in this demo. Nothing is transmitted without your clear choice.",
@@ -57,22 +61,47 @@
   "freeDailyReading": "1 short reading",
   "premiumDailyReading": "In-depth reading + history",
   "localNotes": "Local notes",
-  "linkedJournal": "Links with cards and Orion"
-  ,"journalNoteHint": "Write what the card stirs or illuminates in you…"
-  ,"moodLabel": "MOOD OF THE DAY · {mood}/5"
-  ,"sealNote": "Save note"
-  ,"dailyDrawType": "Daily card"
-  ,"freeDrawType": "Free draw"
-  ,"drawDate": "Drawn on {date}"
-  ,"endpointLabel": "Devnet endpoint: {url}"
-  ,"@moodLabel": {"placeholders": {"mood": {}}}
-  ,"@drawDate": {"placeholders": {"date": {}}}
-  ,"@endpointLabel": {"placeholders": {"url": {}}}
-  ,"journalDetails": "Reading details"
-  ,"keywordLabel": "Keyword"
-  ,"interpretationLabel": "Interpretation"
-  ,"drawTypeLabel": "Reading type"
-  ,"noteLabel": "Personal note"
-  ,"moodValue": "Mood: {mood}/5"
-  ,"@moodValue": {"placeholders": {"mood": {}}}
+  "linkedJournal": "Links with cards and Orion",
+  "journalNoteHint": "Write what the card stirs or illuminates in you…",
+  "moodLabel": "MOOD OF THE DAY · {mood}/5",
+  "sealNote": "Save note",
+  "dailyDrawType": "Daily card",
+  "freeDrawType": "Free draw",
+  "drawDate": "Drawn on {date}",
+  "endpointLabel": "Devnet endpoint: {url}",
+  "@moodLabel": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "@drawDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "@endpointLabel": {
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "journalDetails": "Reading details",
+  "keywordLabel": "Keyword",
+  "interpretationLabel": "Interpretation",
+  "drawTypeLabel": "Reading type",
+  "noteLabel": "Personal note",
+  "moodValue": "Mood: {mood}/5",
+  "@moodValue": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "profile": "Profile",
+  "profileTitle": "Your circle",
+  "profileIntro": "Sign in to prepare secure synchronization of your journal and Orion preferences.",
+  "continueWithFacebook": "Continue with Facebook",
+  "continueWithEmail": "Continue with email",
+  "authenticationConfigured": "Facebook connection configured",
+  "authenticationNotConfigured": "Connection awaiting configuration",
+  "authenticationPrivacy": "Tarot Noir never receives your Facebook password. You can revoke access from your account.",
+  "facebookConfigurationRequired": "Firebase and the Meta application must be configured before Facebook sign-in can open."
 }

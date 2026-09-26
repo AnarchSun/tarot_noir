@@ -243,4 +243,35 @@ class AppLocalizationsFr extends AppLocalizations {
   String moodValue(Object mood) {
     return 'Humeur : $mood/5';
   }
+
+  @override
+  String get profile => "Profil";
+
+  @override
+  String get profileTitle => "Votre cercle";
+
+  @override
+  String get profileIntro =>
+      "Connectez-vous pour préparer la synchronisation sécurisée du journal et des préférences Orion.";
+
+  @override
+  String get continueWithFacebook => "Continuer avec Facebook";
+
+  @override
+  String get continueWithEmail => "Continuer avec un courriel";
+
+  @override
+  String get authenticationConfigured => "Connexion Facebook configurée";
+
+  @override
+  String get authenticationNotConfigured =>
+      "Connexion en attente de configuration";
+
+  @override
+  String get authenticationPrivacy =>
+      "Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.";
+
+  @override
+  String get facebookConfigurationRequired =>
+      "Firebase et l’application Meta doivent être configurés avant d’ouvrir la connexion Facebook.";
 }

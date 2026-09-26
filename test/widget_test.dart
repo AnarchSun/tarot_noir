@@ -82,6 +82,27 @@ void main() {
     expect(preferences.getKeys(), isEmpty);
   });
 
+  testWidgets('profile exposes Facebook without pretending it is configured', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Profile'));
+    await tester.pumpAndSettle();
+    expect(find.text('Continue with Facebook'), findsOneWidget);
+    expect(find.text('Connection awaiting configuration'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('facebook-sign-in')));
+    await tester.pumpAndSettle();
+    expect(
+      find.text(
+        'Firebase and the Meta application must be configured before Facebook sign-in can open.',
+      ),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('falls back to English for an unsupported device locale', (
     tester,
   ) async {

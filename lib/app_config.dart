@@ -29,6 +29,30 @@ abstract final class AppConfig {
     defaultValue: true,
   );
 
+  /// Authentication stays closed until a Firebase project is configured.
+  static const firebaseAuthEnabled = bool.fromEnvironment(
+    'FIREBASE_AUTH_ENABLED',
+    defaultValue: false,
+  );
+
+  /// Facebook also requires a Meta application and native Android/iOS setup.
+  static const facebookAuthEnabled = bool.fromEnvironment(
+    'FACEBOOK_AUTH_ENABLED',
+    defaultValue: false,
+  );
+
+  static const firebaseProjectId = String.fromEnvironment(
+    'FIREBASE_PROJECT_ID',
+  );
+
+  static const metaAppId = String.fromEnvironment('META_APP_ID');
+
+  static bool get isFirebaseAuthConfigured =>
+      firebaseAuthEnabled && firebaseProjectId.isNotEmpty;
+
+  static bool get isFacebookAuthConfigured =>
+      isFirebaseAuthConfigured && facebookAuthEnabled && metaAppId.isNotEmpty;
+
   static const solanaClusterUrl = String.fromEnvironment(
     'SOLANA_CLUSTER_URL',
     defaultValue: 'https://api.devnet.solana.com',

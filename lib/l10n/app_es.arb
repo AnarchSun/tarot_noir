@@ -28,7 +28,11 @@
   "adFreeDetail": "El plan gratuito podrá mostrar un anuncio corto antes de la tirada. Orion+ permanece sin anuncios.",
   "walletSoon": "Conexión de wallet — próximamente",
   "networkConfigured": "Red configurada: {network}. La acuñación sigue desactivada hasta proporcionar los ajustes de Candy Machine.",
-  "@networkConfigured": {"placeholders": {"network": {}}},
+  "@networkConfigured": {
+    "placeholders": {
+      "network": {}
+    }
+  },
   "preferences": "Preferencias",
   "preferencesTitle": "Tu ritual, tus reglas",
   "preferencesIntro": "Estos ajustes permanecen locales en esta demo. Nada se transmite sin tu elección clara.",
@@ -57,22 +61,47 @@
   "freeDailyReading": "1 lectura corta",
   "premiumDailyReading": "Lectura profunda + historial",
   "localNotes": "Notas locales",
-  "linkedJournal": "Vínculos con las cartas y Orion"
-  ,"journalNoteHint": "Escribe lo que la carta remueve o ilumina en ti…"
-  ,"moodLabel": "ÁNIMO DEL DÍA · {mood}/5"
-  ,"sealNote": "Guardar la nota"
-  ,"dailyDrawType": "Carta del día"
-  ,"freeDrawType": "Tirada libre"
-  ,"drawDate": "Sacada el {date}"
-  ,"endpointLabel": "Endpoint devnet: {url}"
-  ,"@moodLabel": {"placeholders": {"mood": {}}}
-  ,"@drawDate": {"placeholders": {"date": {}}}
-  ,"@endpointLabel": {"placeholders": {"url": {}}}
-  ,"journalDetails": "Detalles de la tirada"
-  ,"keywordLabel": "Palabra clave"
-  ,"interpretationLabel": "Interpretación"
-  ,"drawTypeLabel": "Tipo de tirada"
-  ,"noteLabel": "Nota personal"
-  ,"moodValue": "Ánimo: {mood}/5"
-  ,"@moodValue": {"placeholders": {"mood": {}}}
+  "linkedJournal": "Vínculos con las cartas y Orion",
+  "journalNoteHint": "Escribe lo que la carta remueve o ilumina en ti…",
+  "moodLabel": "ÁNIMO DEL DÍA · {mood}/5",
+  "sealNote": "Guardar la nota",
+  "dailyDrawType": "Carta del día",
+  "freeDrawType": "Tirada libre",
+  "drawDate": "Sacada el {date}",
+  "endpointLabel": "Endpoint devnet: {url}",
+  "@moodLabel": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "@drawDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "@endpointLabel": {
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "journalDetails": "Detalles de la tirada",
+  "keywordLabel": "Palabra clave",
+  "interpretationLabel": "Interpretación",
+  "drawTypeLabel": "Tipo de tirada",
+  "noteLabel": "Nota personal",
+  "moodValue": "Ánimo: {mood}/5",
+  "@moodValue": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "profile": "Perfil",
+  "profileTitle": "Tu círculo",
+  "profileIntro": "Inicia sesión para preparar la sincronización segura del diario y las preferencias de Orion.",
+  "continueWithFacebook": "Continuar con Facebook",
+  "continueWithEmail": "Continuar con correo electrónico",
+  "authenticationConfigured": "Conexión de Facebook configurada",
+  "authenticationNotConfigured": "Conexión pendiente de configuración",
+  "authenticationPrivacy": "Tarot Noir nunca recibe tu contraseña de Facebook. Puedes revocar el acceso desde tu cuenta.",
+  "facebookConfigurationRequired": "Firebase y la aplicación Meta deben configurarse antes de abrir el inicio de sesión con Facebook."
 }

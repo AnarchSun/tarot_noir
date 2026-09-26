@@ -10,6 +10,7 @@ import '../models/tarot_deck.dart';
 import '../services/tarot_storage_service.dart';
 import 'journal_screen.dart';
 import 'premium_screen.dart';
+import 'profile_screen.dart';
 import 'reading_screen.dart';
 
 class TarotNoirHome extends StatefulWidget {
@@ -221,6 +222,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         onClearData: _onDataCleared,
       ),
       const PremiumScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(
@@ -245,6 +247,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
             icon: const Icon(Icons.workspace_premium_outlined),
             selectedIcon: const Icon(Icons.workspace_premium),
             label: l10n.premium,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: l10n.profile,
           ),
         ],
       ),

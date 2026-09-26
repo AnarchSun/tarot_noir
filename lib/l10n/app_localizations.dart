@@ -519,6 +519,16 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Humeur : {mood}/5'**
   String moodValue(Object mood);
+
+  String get profile;
+  String get profileTitle;
+  String get profileIntro;
+  String get continueWithFacebook;
+  String get continueWithEmail;
+  String get authenticationConfigured;
+  String get authenticationNotConfigured;
+  String get authenticationPrivacy;
+  String get facebookConfigurationRequired;
 }
 
 class _AppLocalizationsDelegate

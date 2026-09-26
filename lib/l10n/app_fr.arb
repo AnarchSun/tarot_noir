@@ -28,7 +28,11 @@
   "adFreeDetail": "Le mode gratuit pourra présenter une courte annonce avant le tirage. Orion+ reste sans annonces.",
   "walletSoon": "Connexion wallet — bientôt",
   "networkConfigured": "Réseau configuré : {network}. Le mint est désactivé tant que les paramètres Candy Machine ne sont pas fournis.",
-  "@networkConfigured": {"placeholders": {"network": {}}},
+  "@networkConfigured": {
+    "placeholders": {
+      "network": {}
+    }
+  },
   "preferences": "Préférences",
   "preferencesTitle": "Votre rituel, vos règles",
   "preferencesIntro": "Ces réglages restent locaux dans cette démo. Rien n’est transmis sans votre choix clair.",
@@ -57,22 +61,47 @@
   "freeDailyReading": "1 lecture courte",
   "premiumDailyReading": "Lecture approfondie + historique",
   "localNotes": "Notes locales",
-  "linkedJournal": "Liens avec les cartes et Orion"
-  ,"journalNoteHint": "Écris ce que la carte remue ou éclaire en toi…"
-  ,"moodLabel": "HUMEUR DU JOUR · {mood}/5"
-  ,"sealNote": "Enregistrer la note"
-  ,"dailyDrawType": "Carte du jour"
-  ,"freeDrawType": "Tirage libre"
-  ,"drawDate": "Tirée le {date}"
-  ,"endpointLabel": "Endpoint devnet : {url}"
-  ,"@moodLabel": {"placeholders": {"mood": {}}}
-  ,"@drawDate": {"placeholders": {"date": {}}}
-  ,"@endpointLabel": {"placeholders": {"url": {}}}
-  ,"journalDetails": "Détails du tirage"
-  ,"keywordLabel": "Mot-clé"
-  ,"interpretationLabel": "Interprétation"
-  ,"drawTypeLabel": "Type de tirage"
-  ,"noteLabel": "Note personnelle"
-  ,"moodValue": "Humeur : {mood}/5"
-  ,"@moodValue": {"placeholders": {"mood": {}}}
+  "linkedJournal": "Liens avec les cartes et Orion",
+  "journalNoteHint": "Écris ce que la carte remue ou éclaire en toi…",
+  "moodLabel": "HUMEUR DU JOUR · {mood}/5",
+  "sealNote": "Enregistrer la note",
+  "dailyDrawType": "Carte du jour",
+  "freeDrawType": "Tirage libre",
+  "drawDate": "Tirée le {date}",
+  "endpointLabel": "Endpoint devnet : {url}",
+  "@moodLabel": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "@drawDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "@endpointLabel": {
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "journalDetails": "Détails du tirage",
+  "keywordLabel": "Mot-clé",
+  "interpretationLabel": "Interprétation",
+  "drawTypeLabel": "Type de tirage",
+  "noteLabel": "Note personnelle",
+  "moodValue": "Humeur : {mood}/5",
+  "@moodValue": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "profile": "Profil",
+  "profileTitle": "Votre cercle",
+  "profileIntro": "Connectez-vous pour préparer la synchronisation sécurisée du journal et des préférences Orion.",
+  "continueWithFacebook": "Continuer avec Facebook",
+  "continueWithEmail": "Continuer avec un courriel",
+  "authenticationConfigured": "Connexion Facebook configurée",
+  "authenticationNotConfigured": "Connexion en attente de configuration",
+  "authenticationPrivacy": "Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.",
+  "facebookConfigurationRequired": "Firebase et l’application Meta doivent être configurés avant d’ouvrir la connexion Facebook."
 }

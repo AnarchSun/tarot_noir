@@ -11,7 +11,7 @@ lib/
   app_config.dart           Réseau devnet et aperçu Premium
   models/                   Cartes, deck et entrées du journal
   services/                 Persistance locale SharedPreferences
-  screens/                  Tirage, journal, préférences et Premium
+  screens/                  Tirage, journal, préférences, Premium et profil
   widgets/                  Cartes et composants Premium réutilisables
 ```
 
@@ -56,6 +56,21 @@ flutter run --dart-define=SOLANA_CLUSTER=devnet --dart-define=SOLANA_CLUSTER_URL
 `PREMIUM_ENABLED` est exclusivement un aperçu de développement, pas une preuve
 d’achat. Il autorise les tirages supplémentaires et l’aperçu de texte Orion+.
 Aucun droit Premium n’est enregistré dans les préférences locales.
+
+### Profil et authentification
+
+L’écran Profil prépare les connexions par courriel et Facebook. Elles restent
+fermées tant qu’un projet Firebase et une application Meta ne sont pas configurés.
+Copiez `config/auth.example.json` hors Git, complétez uniquement les identifiants
+publics, puis lancez Flutter avec `--dart-define-from-file`. Les SDK Firebase et
+Facebook ne doivent être ajoutés qu’après la configuration native Android/iOS ;
+le plugin Facebook peut bloquer les autres plugins si son App ID manque.
+
+```sh
+flutter run --dart-define-from-file=config/auth.local.json
+```
+
+Les secrets Meta, jetons OAuth et clés de service restent côté console ou serveur.
 
 ## Stockage et confidentialité
 
