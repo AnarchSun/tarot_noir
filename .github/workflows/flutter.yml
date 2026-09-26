@@ -1,0 +1,53 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flutter-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate localizations
+        run: flutter gen-l10n
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze --no-pub
+
+      - name: Test standard mode
+        run: flutter test --no-pub
+
+      - name: Test Premium mode
+        run: flutter test --no-pub --dart-define=PREMIUM_ENABLED=true
+
+      - name: Test daily lock mode
+        run: flutter test --no-pub --dart-define=DAILY_DRAW_LOCK_ENABLED=true
+
+      - name: Build Android debug APK
+        run: flutter build apk --debug --no-pub

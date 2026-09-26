@@ -147,7 +147,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eraseLocalDataConfirmation =>
-      'This deletes the daily draw, journal, notes, and all local preferences.';
+      'This deletes the daily draw, journal, profile, notes, and all local preferences.';
 
   @override
   String get cancel => 'Cancel';
@@ -310,4 +310,50 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get walletAvailableInProfile =>
       'Wallet connection is available from the Profile tab.';
+
+  @override
+  String get walletDownloadHint =>
+      'No Solana wallet yet? Download one from its official website.';
+
+  @override
+  String get downloadPhantom => 'Download Phantom';
+
+  @override
+  String get downloadSolflare => 'Download Solflare';
+
+  @override
+  String get walletDownloadError => 'Unable to open the wallet download page.';
+
+  @override
+  String get completeProfileTitle => 'Complete your profile';
+
+  @override
+  String get completeProfileIntro =>
+      'Choose the identity shown in Tarot Noir after connecting this wallet.';
+
+  @override
+  String get displayNameLabel => 'Name or alias';
+
+  @override
+  String get displayNameRequired => 'Enter a name or alias.';
+
+  @override
+  String get emailOptional => 'Email (optional)';
+
+  @override
+  String get emailInvalid => 'Enter a valid email address.';
+
+  @override
+  String publicWalletLabel(Object address) {
+    return 'Public wallet: $address';
+  }
+
+  @override
+  String get saveProfile => 'Save profile';
+
+  @override
+  String get profileSaved => 'Profile saved locally.';
+
+  @override
+  String get editProfile => 'Edit profile';
 }

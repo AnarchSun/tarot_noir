@@ -78,8 +78,11 @@ WalletConnect utilise Reown AppKit sur Solana devnet. Créez un projet public da
 la console Reown, puis ajoutez `REOWN_PROJECT_ID` dans votre copie locale de
 `config/auth.example.json` et activez `WALLETCONNECT_ENABLED`. L’application
 reçoit seulement l’adresse publique ; elle ne lit ni seed phrase ni clé privée.
-La connexion prouve qu’un wallet a accepté une session. Un véritable login et
-l’accès Premium demanderont ensuite un défi signé, vérifié par le backend.
+La connexion prouve qu’un wallet a accepté une session. Les liens de téléchargement
+ouvrent uniquement les pages officielles Phantom et Solflare. Après connexion, le
+formulaire demande un alias et un courriel facultatif, enregistrés localement avec
+l’adresse publique. Un véritable login et l’accès Premium demanderont ensuite un
+défi signé, vérifié par le backend.
 
 Le schéma de retour mobile est `tarotnoir://wallet`. Toute modification de ce
 schéma doit rester identique dans `AppConfig`, Android, iOS et la console Reown.

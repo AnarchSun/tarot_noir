@@ -349,7 +349,7 @@ abstract class AppLocalizations {
   /// No description provided for @eraseLocalDataConfirmation.
   ///
   /// In fr, this message translates to:
-  /// **'Cette action supprime le tirage quotidien, le journal, les notes et toutes les préférences locales.'**
+  /// **'Cette action supprime le tirage quotidien, le journal, le profil, les notes et toutes les préférences locales.'**
   String get eraseLocalDataConfirmation;
 
   /// No description provided for @cancel.
@@ -633,6 +633,90 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'La connexion wallet est accessible dans l’onglet Profil.'**
   String get walletAvailableInProfile;
+
+  /// No description provided for @walletDownloadHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas encore de wallet Solana? Téléchargez-en un depuis son site officiel.'**
+  String get walletDownloadHint;
+
+  /// No description provided for @downloadPhantom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Télécharger Phantom'**
+  String get downloadPhantom;
+
+  /// No description provided for @downloadSolflare.
+  ///
+  /// In fr, this message translates to:
+  /// **'Télécharger Solflare'**
+  String get downloadSolflare;
+
+  /// No description provided for @walletDownloadError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d’ouvrir la page de téléchargement du wallet.'**
+  String get walletDownloadError;
+
+  /// No description provided for @completeProfileTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compléter votre profil'**
+  String get completeProfileTitle;
+
+  /// No description provided for @completeProfileIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez l’identité affichée dans Tarot Noir après la connexion de ce wallet.'**
+  String get completeProfileIntro;
+
+  /// No description provided for @displayNameLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom ou alias'**
+  String get displayNameLabel;
+
+  /// No description provided for @displayNameRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entrez un nom ou un alias.'**
+  String get displayNameRequired;
+
+  /// No description provided for @emailOptional.
+  ///
+  /// In fr, this message translates to:
+  /// **'Courriel (facultatif)'**
+  String get emailOptional;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entrez une adresse courriel valide.'**
+  String get emailInvalid;
+
+  /// No description provided for @publicWalletLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Wallet public : {address}'**
+  String publicWalletLabel(Object address);
+
+  /// No description provided for @saveProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer le profil'**
+  String get saveProfile;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil enregistré localement.'**
+  String get profileSaved;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le profil'**
+  String get editProfile;
 }
 
 class _AppLocalizationsDelegate

@@ -147,7 +147,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get eraseLocalDataConfirmation =>
-      'Cette action supprime le tirage quotidien, le journal, les notes et toutes les préférences locales.';
+      'Cette action supprime le tirage quotidien, le journal, le profil, les notes et toutes les préférences locales.';
 
   @override
   String get cancel => 'Annuler';
@@ -311,4 +311,51 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get walletAvailableInProfile =>
       'La connexion wallet est accessible dans l’onglet Profil.';
+
+  @override
+  String get walletDownloadHint =>
+      'Pas encore de wallet Solana? Téléchargez-en un depuis son site officiel.';
+
+  @override
+  String get downloadPhantom => 'Télécharger Phantom';
+
+  @override
+  String get downloadSolflare => 'Télécharger Solflare';
+
+  @override
+  String get walletDownloadError =>
+      'Impossible d’ouvrir la page de téléchargement du wallet.';
+
+  @override
+  String get completeProfileTitle => 'Compléter votre profil';
+
+  @override
+  String get completeProfileIntro =>
+      'Choisissez l’identité affichée dans Tarot Noir après la connexion de ce wallet.';
+
+  @override
+  String get displayNameLabel => 'Nom ou alias';
+
+  @override
+  String get displayNameRequired => 'Entrez un nom ou un alias.';
+
+  @override
+  String get emailOptional => 'Courriel (facultatif)';
+
+  @override
+  String get emailInvalid => 'Entrez une adresse courriel valide.';
+
+  @override
+  String publicWalletLabel(Object address) {
+    return 'Wallet public : $address';
+  }
+
+  @override
+  String get saveProfile => 'Enregistrer le profil';
+
+  @override
+  String get profileSaved => 'Profil enregistré localement.';
+
+  @override
+  String get editProfile => 'Modifier le profil';
 }

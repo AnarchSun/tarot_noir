@@ -46,7 +46,7 @@
   "dataAndInterests": "Data and interests",
   "dataPolicy": "Tarot Noir does not read your web searches, clicks, or social networks. Any future connection must be enabled separately, described clearly, and revocable.",
   "eraseLocalData": "Erase my local data",
-  "eraseLocalDataConfirmation": "This deletes the daily draw, journal, notes, and all local preferences.",
+  "eraseLocalDataConfirmation": "This deletes the daily draw, journal, profile, notes, and all local preferences.",
   "cancel": "Cancel",
   "erase": "Erase",
   "localDataErased": "Local data erased.",
@@ -122,6 +122,25 @@
   "@walletError": {
     "placeholders": {
       "message": {}
+    }
+  },
+  "walletDownloadHint": "No Solana wallet yet? Download one from its official website.",
+  "downloadPhantom": "Download Phantom",
+  "downloadSolflare": "Download Solflare",
+  "walletDownloadError": "Unable to open the wallet download page.",
+  "completeProfileTitle": "Complete your profile",
+  "completeProfileIntro": "Choose the identity shown in Tarot Noir after connecting this wallet.",
+  "displayNameLabel": "Name or alias",
+  "displayNameRequired": "Enter a name or alias.",
+  "emailOptional": "Email (optional)",
+  "emailInvalid": "Enter a valid email address.",
+  "publicWalletLabel": "Public wallet: {address}",
+  "saveProfile": "Save profile",
+  "profileSaved": "Profile saved locally.",
+  "editProfile": "Edit profile",
+  "@publicWalletLabel": {
+    "placeholders": {
+      "address": {}
     }
   }
 }

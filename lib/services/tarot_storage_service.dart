@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../app_config.dart';
 import '../models/journal_entry.dart';
 import '../models/tarot_card.dart';
+import '../models/user_profile.dart';
 
 class TarotStorageSnapshot {
   const TarotStorageSnapshot({
@@ -31,6 +32,7 @@ class TarotStorageService {
   static const personalizedGuidanceKey = 'preference_personalized_guidance';
   static const dailyReminderKey = 'preference_daily_reminder';
   static const toneKey = 'preference_orion_tone';
+  static const userProfileKey = 'user_profile';
 
   Future<void> _migrateLegacyState(
     SharedPreferences preferences,
@@ -118,6 +120,24 @@ class TarotStorageService {
     };
   }
 
+  Future<UserProfile?> restoreUserProfile() async {
+    final preferences = await SharedPreferences.getInstance();
+    final raw = preferences.getString(userProfileKey);
+    if (raw == null) return null;
+    try {
+      return UserProfile.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } on FormatException {
+      return null;
+    } on TypeError {
+      return null;
+    }
+  }
+
+  Future<void> saveUserProfile(UserProfile profile) async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString(userProfileKey, jsonEncode(profile.toJson()));
+  }
+
   Future<void> saveBoolPreference(String key, bool value) async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setBool(key, value);
@@ -140,6 +160,7 @@ class TarotStorageService {
       personalizedGuidanceKey,
       dailyReminderKey,
       toneKey,
+      userProfileKey,
     }) {
       await preferences.remove(key);
     }
