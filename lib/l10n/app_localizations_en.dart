@@ -329,7 +329,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get completeProfileIntro =>
-      'Choose the identity shown in Tarot Noir after connecting this wallet.';
+      'Choose the identity shown in Tarot Noir after connecting your account or wallet.';
 
   @override
   String get displayNameLabel => 'Name or alias';

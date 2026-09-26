@@ -330,7 +330,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get completeProfileIntro =>
-      'Elige la identidad mostrada en Tarot Noir después de conectar este wallet.';
+      'Elige la identidad mostrada en Tarot Noir después de conectar tu cuenta o wallet.';
 
   @override
   String get displayNameLabel => 'Nombre o alias';

@@ -186,6 +186,36 @@ void main() {
     },
   );
 
+  test('Firebase profile persists without requiring a wallet', () async {
+    final storage = TarotStorageService();
+    final profile = UserProfile(
+      displayName: 'Orion',
+      email: 'orion@example.com',
+      firebaseUid: 'firebase-user-42',
+      completedAt: DateTime.utc(2026, 9, 26),
+    );
+
+    await storage.saveUserProfile(profile);
+    final restored = await storage.restoreUserProfile();
+
+    expect(restored, isNotNull);
+    expect(restored!.belongsToFirebaseUser('firebase-user-42'), isTrue);
+    expect(restored.walletAddress, isNull);
+  });
+
+  test('legacy wallet profile remains readable without a Firebase UID', () {
+    final restored = UserProfile.fromJson({
+      'displayName': 'Nyx',
+      'email': 'nyx@example.com',
+      'walletAddress': 'LegacyWallet',
+      'completedAt': '2026-09-26T00:00:00.000Z',
+    });
+
+    expect(restored, isNotNull);
+    expect(restored!.belongsToWallet('LegacyWallet'), isTrue);
+    expect(restored.firebaseUid, isNull);
+  });
+
   test('storage schema version is explicit', () {
     expect(TarotStorageService.storageSchemaVersion, 2);
     expect(TarotStorageService.storageSchemaVersionKey, isNotEmpty);

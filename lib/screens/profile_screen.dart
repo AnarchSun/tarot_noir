@@ -37,19 +37,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _completeProfile(String walletAddress) async {
-    if (_profile?.walletAddress == walletAddress) return;
+    if (_profile?.belongsToWallet(walletAddress) == true) return;
     await Future<void>.delayed(const Duration(milliseconds: 350));
     if (!mounted) return;
-    await _showProfileForm(walletAddress);
+    await _showProfileForm(walletAddress: walletAddress);
   }
 
-  Future<void> _showProfileForm(String walletAddress) async {
+  Future<void> _completeFirebaseProfile(User user) async {
+    if (_profile?.belongsToFirebaseUser(user.uid) == true) return;
+    await Future<void>.delayed(const Duration(milliseconds: 350));
+    if (!mounted) return;
+    await _showProfileForm(
+      firebaseUid: user.uid,
+      suggestedDisplayName: user.displayName,
+      suggestedEmail: user.email,
+    );
+  }
+
+  Future<void> _showProfileForm({
+    String? walletAddress,
+    String? firebaseUid,
+    String? suggestedDisplayName,
+    String? suggestedEmail,
+  }) async {
     final profile = await showModalBottomSheet<UserProfile>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
       builder: (context) => ProfileCompletionSheet(
         walletAddress: walletAddress,
+        firebaseUid: firebaseUid,
+        suggestedDisplayName: suggestedDisplayName,
+        suggestedEmail: suggestedEmail,
         initialProfile: _profile,
       ),
     );
@@ -74,7 +93,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => _facebookSigningIn = true);
     try {
       final user = await _auth.signInWithFacebook();
-      if (user != null && mounted) setState(() => _authUser = user);
+      if (user != null && mounted) {
+        setState(() => _authUser = user);
+        await _completeFirebaseProfile(user);
+      }
     } on FirebaseAuthException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context)
@@ -106,6 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(l10n.verificationEmailSent)));
       }
+      await _completeFirebaseProfile(user);
     }
   }
 
@@ -181,7 +204,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (profile != null) ...[
             const SizedBox(height: 8),
             TextButton.icon(
-              onPressed: () => _showProfileForm(profile.walletAddress),
+              onPressed: () => _showProfileForm(
+                walletAddress: profile.walletAddress,
+                firebaseUid: profile.firebaseUid,
+              ),
               icon: const Icon(Icons.edit_outlined),
               label: Text(l10n.editProfile),
             ),

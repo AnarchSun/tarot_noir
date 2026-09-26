@@ -667,7 +667,7 @@ abstract class AppLocalizations {
   /// No description provided for @completeProfileIntro.
   ///
   /// In fr, this message translates to:
-  /// **'Choisissez l’identité affichée dans Tarot Noir après la connexion de ce wallet.'**
+  /// **'Choisissez l’identité affichée dans Tarot Noir après la connexion de votre compte ou wallet.'**
   String get completeProfileIntro;
 
   /// No description provided for @displayNameLabel.
