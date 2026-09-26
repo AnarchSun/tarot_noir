@@ -22,6 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _auth = const FirebaseAuthService();
   UserProfile? _profile;
   User? _authUser;
+  bool _facebookSigningIn = false;
 
   @override
   void initState() {
@@ -59,6 +60,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context)!.profileSaved)),
     );
+  }
+
+  Future<void> _signInWithFacebook() async {
+    final l10n = AppLocalizations.of(context)!;
+    if (!AppConfig.isFacebookAuthConfigured ||
+        !FirebaseAuthService.isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.facebookConfigurationRequired)),
+      );
+      return;
+    }
+    setState(() => _facebookSigningIn = true);
+    try {
+      final user = await _auth.signInWithFacebook();
+      if (user != null && mounted) setState(() => _authUser = user);
+    } on FirebaseAuthException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+      }
+    } finally {
+      if (mounted) setState(() => _facebookSigningIn = false);
+    }
   }
 
   Future<void> _openEmailAuth() async {
@@ -126,12 +150,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    void explainFacebookConfiguration() {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.facebookConfigurationRequired)),
-      );
-    }
-
     final profile = _profile;
     final authUser = _authUser;
     return Scaffold(
@@ -171,8 +189,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 28),
           FilledButton.icon(
             key: const Key('facebook-sign-in'),
-            onPressed: explainFacebookConfiguration,
-            icon: const Icon(Icons.facebook),
+            onPressed: _facebookSigningIn ? null : _signInWithFacebook,
+            icon: _facebookSigningIn
+                ? const SizedBox.square(
+                    dimension: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.facebook),
             label: Text(l10n.continueWithFacebook),
           ),
           const SizedBox(height: 12),

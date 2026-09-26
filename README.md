@@ -66,14 +66,23 @@ les identifiants publics `FIREBASE_PROJECT_ID`, `FIREBASE_API_KEY`,
 `FIREBASE_APP_ID` et `FIREBASE_MESSAGING_SENDER_ID`. Activez ensuite
 `FIREBASE_AUTH_ENABLED` et lancez Flutter avec `--dart-define-from-file`.
 L’authentification par courriel utilise le SDK Firebase officiel; le mot de passe
-et les jetons ne sont jamais enregistrés dans Git. Facebook reste fermé jusqu’à
-la configuration native Android/iOS et l’ajout d’une application Meta.
+et les jetons ne sont jamais enregistrés dans Git.
+
+Pour Facebook, activez le fournisseur dans Firebase Authentication, créez
+l’application Android et iOS correspondante dans Meta, puis renseignez
+`META_APP_ID`, `META_CLIENT_TOKEN` et `FACEBOOK_AUTH_ENABLED`. Android génère ses
+ressources natives depuis ces paramètres. Sur iOS, remplacez aussi les valeurs
+neutres `0`, `disabled` et `fb0` de `ios/Runner/Info.plist` par les mêmes valeurs
+Meta avant un build destiné à un appareil. Le bouton reste inactif si un paramètre
+manque.
 
 ```sh
 flutter run --dart-define-from-file=config/auth.local.json
 ```
 
-Les secrets Meta, jetons OAuth et clés de service restent côté console ou serveur.
+Le Client Token Meta est un identifiant d’application public attendu par le SDK;
+les App Secrets Meta, jetons OAuth utilisateur et clés de service restent hors du
+dépôt, dans les consoles ou sur le serveur.
 
 ### Connexion wallet
 

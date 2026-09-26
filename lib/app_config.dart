@@ -51,6 +51,7 @@ abstract final class AppConfig {
   );
 
   static const metaAppId = String.fromEnvironment('META_APP_ID');
+  static const metaClientToken = String.fromEnvironment('META_CLIENT_TOKEN');
 
   static bool get isFirebaseAuthConfigured =>
       firebaseAuthEnabled &&
@@ -60,7 +61,10 @@ abstract final class AppConfig {
       firebaseMessagingSenderId.isNotEmpty;
 
   static bool get isFacebookAuthConfigured =>
-      isFirebaseAuthConfigured && facebookAuthEnabled && metaAppId.isNotEmpty;
+      isFirebaseAuthConfigured &&
+      facebookAuthEnabled &&
+      metaAppId.isNotEmpty &&
+      metaClientToken.isNotEmpty;
 
   /// WalletConnect uses a public Reown project identifier, never a seed phrase.
   static const walletConnectEnabled = bool.fromEnvironment(

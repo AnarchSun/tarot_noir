@@ -1,13 +1,34 @@
+import java.util.Base64
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val dartEnvironment: Map<String, String> =
+    (project.findProperty("dart-defines") as String?)
+        ?.split(",")
+        ?.mapNotNull { encoded ->
+            runCatching {
+                String(Base64.getDecoder().decode(encoded))
+                    .split("=", limit = 2)
+                    .takeIf { it.size == 2 }
+                    ?.let { it[0] to it[1] }
+            }.getOrNull()
+        }
+        ?.filterNotNull()
+        ?.toMap()
+        .orEmpty()
+
 android {
     namespace = "com.anarchsun.tarot_noir"
     compileSdk = providers.gradleProperty("tarotNoir.compileSdk").get().toInt()
     ndkVersion = flutter.ndkVersion
+
+    buildFeatures {
+        resValues = true
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -27,6 +48,12 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        resValue("string", "facebook_app_id", dartEnvironment["META_APP_ID"] ?: "0")
+        resValue(
+            "string",
+            "facebook_client_token",
+            dartEnvironment["META_CLIENT_TOKEN"] ?: "disabled",
+        )
     }
 
     buildTypes {
