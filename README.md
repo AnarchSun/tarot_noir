@@ -11,7 +11,7 @@ lib/
   app_config.dart           Réseau devnet et aperçu Premium
   models/                   Cartes, deck et entrées du journal
   services/                 Persistance locale SharedPreferences
-  screens/                  Tirage, journal, préférences et Premium
+  screens/                  Tirage, journal, préférences, Premium et profil
   widgets/                  Cartes et composants Premium réutilisables
 ```
 
@@ -56,6 +56,33 @@ flutter run --dart-define=SOLANA_CLUSTER=devnet --dart-define=SOLANA_CLUSTER_URL
 `PREMIUM_ENABLED` est exclusivement un aperçu de développement, pas une preuve
 d’achat. Il autorise les tirages supplémentaires et l’aperçu de texte Orion+.
 Aucun droit Premium n’est enregistré dans les préférences locales.
+
+### Profil et authentification
+
+L’écran Profil prépare les connexions par courriel et Facebook. Elles restent
+fermées tant qu’un projet Firebase et une application Meta ne sont pas configurés.
+Copiez `config/auth.example.json` hors Git, complétez uniquement les identifiants
+publics, puis lancez Flutter avec `--dart-define-from-file`. Les SDK Firebase et
+Facebook ne doivent être ajoutés qu’après la configuration native Android/iOS ;
+le plugin Facebook peut bloquer les autres plugins si son App ID manque.
+
+```sh
+flutter run --dart-define-from-file=config/auth.local.json
+```
+
+Les secrets Meta, jetons OAuth et clés de service restent côté console ou serveur.
+
+### Connexion wallet
+
+WalletConnect utilise Reown AppKit sur Solana devnet. Créez un projet public dans
+la console Reown, puis ajoutez `REOWN_PROJECT_ID` dans votre copie locale de
+`config/auth.example.json` et activez `WALLETCONNECT_ENABLED`. L’application
+reçoit seulement l’adresse publique ; elle ne lit ni seed phrase ni clé privée.
+La connexion prouve qu’un wallet a accepté une session. Un véritable login et
+l’accès Premium demanderont ensuite un défi signé, vérifié par le backend.
+
+Le schéma de retour mobile est `tarotnoir://wallet`. Toute modification de ce
+schéma doit rester identique dans `AppConfig`, Android, iOS et la console Reown.
 
 ## Stockage et confidentialité
 

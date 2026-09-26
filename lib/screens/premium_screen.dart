@@ -31,7 +31,13 @@ class PremiumScreen extends StatelessWidget {
         const SizedBox(height: 10),
         Text(l10n.adFreeDetail, style: const TextStyle(height: 1.45)),
         const SizedBox(height: 24),
-        OutlinedButton(onPressed: null, child: Text(l10n.walletSoon)),
+        OutlinedButton.icon(
+          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.walletAvailableInProfile)),
+          ),
+          icon: const Icon(Icons.account_balance_wallet_outlined),
+          label: Text(l10n.walletOpenProfile),
+        ),
         const SizedBox(height: 12),
         Text(
           l10n.networkConfigured(AppConfig.solanaCluster),

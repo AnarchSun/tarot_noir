@@ -25,6 +25,11 @@ void main() {
 
     await tester.tap(find.text('Draw my daily card'));
     await tester.pumpAndSettle();
+    if (AppConfig.adPlaceholderEnabled && !AppConfig.premiumEnabled) {
+      expect(find.text('Advertising space — preview'), findsOneWidget);
+      await tester.tap(find.text('Continue'));
+      await tester.pumpAndSettle();
+    }
 
     expect(
       find.text(
@@ -40,6 +45,79 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(Image), findsOneWidget);
+  });
+
+  testWidgets('local data erasure requires explicit confirmation', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'preference_orion_memory': true,
+    });
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Journal'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.tune));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Erase my local data'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.text('Erase my local data'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Cancel'), findsOneWidget);
+    expect(find.text('Erase'), findsOneWidget);
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    var preferences = await SharedPreferences.getInstance();
+    expect(preferences.getBool('preference_orion_memory'), isTrue);
+
+    await tester.tap(find.text('Erase my local data'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Erase'));
+    await tester.pumpAndSettle();
+    preferences = await SharedPreferences.getInstance();
+    expect(preferences.getKeys(), isEmpty);
+  });
+
+  testWidgets('profile exposes Facebook without pretending it is configured', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Profile'));
+    await tester.pumpAndSettle();
+    expect(find.text('Continue with Facebook'), findsOneWidget);
+    expect(find.text('Connection awaiting configuration'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('facebook-sign-in')));
+    await tester.pumpAndSettle();
+    expect(
+      find.text(
+        'Firebase and the Meta application must be configured before Facebook sign-in can open.',
+      ),
+      findsOneWidget,
+    );
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
+      find.text('Connect a wallet'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(find.text('Connect a wallet'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('wallet-connect')));
+    await tester.pumpAndSettle();
+    expect(
+      find.text(
+        'Add a Reown project ID and enable WalletConnect before opening the wallet portal.',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('falls back to English for an unsupported device locale', (

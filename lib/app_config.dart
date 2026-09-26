@@ -23,6 +23,53 @@ abstract final class AppConfig {
     defaultValue: false,
   );
 
+  /// Local preview only. No advertising SDK or network request is used.
+  static const adPlaceholderEnabled = bool.fromEnvironment(
+    'AD_PLACEHOLDER_ENABLED',
+    defaultValue: true,
+  );
+
+  /// Authentication stays closed until a Firebase project is configured.
+  static const firebaseAuthEnabled = bool.fromEnvironment(
+    'FIREBASE_AUTH_ENABLED',
+    defaultValue: false,
+  );
+
+  /// Facebook also requires a Meta application and native Android/iOS setup.
+  static const facebookAuthEnabled = bool.fromEnvironment(
+    'FACEBOOK_AUTH_ENABLED',
+    defaultValue: false,
+  );
+
+  static const firebaseProjectId = String.fromEnvironment(
+    'FIREBASE_PROJECT_ID',
+  );
+
+  static const metaAppId = String.fromEnvironment('META_APP_ID');
+
+  static bool get isFirebaseAuthConfigured =>
+      firebaseAuthEnabled && firebaseProjectId.isNotEmpty;
+
+  static bool get isFacebookAuthConfigured =>
+      isFirebaseAuthConfigured && facebookAuthEnabled && metaAppId.isNotEmpty;
+
+  /// WalletConnect uses a public Reown project identifier, never a seed phrase.
+  static const walletConnectEnabled = bool.fromEnvironment(
+    'WALLETCONNECT_ENABLED',
+    defaultValue: false,
+  );
+
+  static const reownProjectId = String.fromEnvironment('REOWN_PROJECT_ID');
+  static const walletMetadataUrl = String.fromEnvironment(
+    'WALLETCONNECT_METADATA_URL',
+    defaultValue: 'https://github.com/AnarchSun/tarot_noir',
+  );
+  static const walletIconUrl = String.fromEnvironment('WALLETCONNECT_ICON_URL');
+  static const walletRedirectScheme = 'tarotnoir';
+
+  static bool get isWalletConnectConfigured =>
+      walletConnectEnabled && reownProjectId.isNotEmpty;
+
   static const solanaClusterUrl = String.fromEnvironment(
     'SOLANA_CLUSTER_URL',
     defaultValue: 'https://api.devnet.solana.com',

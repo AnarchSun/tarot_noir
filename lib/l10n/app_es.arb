@@ -21,11 +21,18 @@
   "extendedReadingsDetail": "Cruz celta, relaciones y estaciones.",
   "nftAvatars": "Avatares NFT",
   "nftAvatarsDetail": "Arcano Eclipse, Luna Negra y futuras series.",
+  "adPlaceholderTitle": "Espacio publicitario — vista previa",
+  "adPlaceholderBody": "Aquí podrá aparecer un anuncio corto antes de la tirada gratuita. No se usa publicidad real ni datos personales.",
+  "continueLabel": "Continuar",
   "adFree": "Sin anuncios",
-  "adFreeDetail": "Tarot Noir no muestra anuncios, para todos los círculos.",
+  "adFreeDetail": "El plan gratuito podrá mostrar un anuncio corto antes de la tirada. Orion+ permanece sin anuncios.",
   "walletSoon": "Conexión de wallet — próximamente",
   "networkConfigured": "Red configurada: {network}. La acuñación sigue desactivada hasta proporcionar los ajustes de Candy Machine.",
-  "@networkConfigured": {"placeholders": {"network": {}}},
+  "@networkConfigured": {
+    "placeholders": {
+      "network": {}
+    }
+  },
   "preferences": "Preferencias",
   "preferencesTitle": "Tu ritual, tus reglas",
   "preferencesIntro": "Estos ajustes permanecen locales en esta demo. Nada se transmite sin tu elección clara.",
@@ -39,6 +46,10 @@
   "dataAndInterests": "Datos e intereses",
   "dataPolicy": "Tarot Noir no lee tus búsquedas web, clics ni redes sociales. Cualquier conexión futura deberá activarse por separado, describirse claramente y poder revocarse.",
   "eraseLocalData": "Borrar mis datos locales",
+  "eraseLocalDataConfirmation": "Esta acción elimina la tirada diaria, el diario, las notas y todas las preferencias locales.",
+  "cancel": "Cancelar",
+  "erase": "Eliminar",
+  "localDataErased": "Datos locales eliminados.",
   "noDataToErase": "No hay datos persistentes que borrar en esta demo.",
   "comparePlans": "Comparar Gratis y Orion+",
   "comparisonIntro": "Elige el círculo que te conviene. Ninguna compra ni acceso a wallet está activo en esta demo.",
@@ -50,22 +61,67 @@
   "freeDailyReading": "1 lectura corta",
   "premiumDailyReading": "Lectura profunda + historial",
   "localNotes": "Notas locales",
-  "linkedJournal": "Vínculos con las cartas y Orion"
-  ,"journalNoteHint": "Escribe lo que la carta remueve o ilumina en ti…"
-  ,"moodLabel": "ÁNIMO DEL DÍA · {mood}/5"
-  ,"sealNote": "Guardar la nota"
-  ,"dailyDrawType": "Carta del día"
-  ,"freeDrawType": "Tirada libre"
-  ,"drawDate": "Sacada el {date}"
-  ,"endpointLabel": "Endpoint devnet: {url}"
-  ,"@moodLabel": {"placeholders": {"mood": {}}}
-  ,"@drawDate": {"placeholders": {"date": {}}}
-  ,"@endpointLabel": {"placeholders": {"url": {}}}
-  ,"journalDetails": "Detalles de la tirada"
-  ,"keywordLabel": "Palabra clave"
-  ,"interpretationLabel": "Interpretación"
-  ,"drawTypeLabel": "Tipo de tirada"
-  ,"noteLabel": "Nota personal"
-  ,"moodValue": "Ánimo: {mood}/5"
-  ,"@moodValue": {"placeholders": {"mood": {}}}
+  "linkedJournal": "Vínculos con las cartas y Orion",
+  "journalNoteHint": "Escribe lo que la carta remueve o ilumina en ti…",
+  "moodLabel": "ÁNIMO DEL DÍA · {mood}/5",
+  "sealNote": "Guardar la nota",
+  "dailyDrawType": "Carta del día",
+  "freeDrawType": "Tirada libre",
+  "drawDate": "Sacada el {date}",
+  "endpointLabel": "Endpoint devnet: {url}",
+  "@moodLabel": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "@drawDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "@endpointLabel": {
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "journalDetails": "Detalles de la tirada",
+  "keywordLabel": "Palabra clave",
+  "interpretationLabel": "Interpretación",
+  "drawTypeLabel": "Tipo de tirada",
+  "noteLabel": "Nota personal",
+  "moodValue": "Ánimo: {mood}/5",
+  "@moodValue": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "profile": "Perfil",
+  "profileTitle": "Tu círculo",
+  "profileIntro": "Inicia sesión para preparar la sincronización segura del diario y las preferencias de Orion.",
+  "continueWithFacebook": "Continuar con Facebook",
+  "continueWithEmail": "Continuar con correo electrónico",
+  "authenticationConfigured": "Conexión de Facebook configurada",
+  "authenticationNotConfigured": "Conexión pendiente de configuración",
+  "authenticationPrivacy": "Tarot Noir nunca recibe tu contraseña de Facebook. Puedes revocar el acceso desde tu cuenta.",
+  "facebookConfigurationRequired": "Firebase y la aplicación Meta deben configurarse antes de abrir el inicio de sesión con Facebook.",
+  "walletSectionTitle": "Wallet de Solana",
+  "walletConnect": "Conectar un wallet",
+  "walletDisconnect": "Desconectar el wallet",
+  "walletInitializing": "Abriendo el portal WalletConnect…",
+  "walletPrivacy": "La conexión solo comparte tu dirección pública de Solana. Tarot Noir nunca solicita una frase semilla ni una clave privada.",
+  "walletConfigurationRequired": "Añade un ID de proyecto Reown y activa WalletConnect antes de abrir el portal del wallet.",
+  "walletConnectedAs": "Wallet conectado: {address}",
+  "walletError": "Error de conexión del wallet: {message}",
+  "walletOpenProfile": "Conectar mi wallet",
+  "walletAvailableInProfile": "La conexión del wallet está disponible en la pestaña Perfil.",
+  "@walletConnectedAs": {
+    "placeholders": {
+      "address": {}
+    }
+  },
+  "@walletError": {
+    "placeholders": {
+      "message": {}
+    }
+  }
 }

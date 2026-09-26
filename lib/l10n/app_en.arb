@@ -21,11 +21,18 @@
   "extendedReadingsDetail": "Celtic cross, relationships and seasons.",
   "nftAvatars": "NFT avatars",
   "nftAvatarsDetail": "Eclipse Arcana, Black Moon and future series.",
+  "adPlaceholderTitle": "Advertising space — preview",
+  "adPlaceholderBody": "A short ad may appear here before the free reading. No real ad or personal data is used.",
+  "continueLabel": "Continue",
   "adFree": "No ads",
-  "adFreeDetail": "Tarot Noir displays no ads, for every circle.",
+  "adFreeDetail": "The free plan may show a short ad before the reading. Orion+ remains ad-free.",
   "walletSoon": "Wallet connection — coming soon",
   "networkConfigured": "Configured network: {network}. Minting remains disabled until Candy Machine settings are provided.",
-  "@networkConfigured": {"placeholders": {"network": {}}},
+  "@networkConfigured": {
+    "placeholders": {
+      "network": {}
+    }
+  },
   "preferences": "Preferences",
   "preferencesTitle": "Your ritual, your rules",
   "preferencesIntro": "These settings remain local in this demo. Nothing is transmitted without your clear choice.",
@@ -39,6 +46,10 @@
   "dataAndInterests": "Data and interests",
   "dataPolicy": "Tarot Noir does not read your web searches, clicks, or social networks. Any future connection must be enabled separately, described clearly, and revocable.",
   "eraseLocalData": "Erase my local data",
+  "eraseLocalDataConfirmation": "This deletes the daily draw, journal, notes, and all local preferences.",
+  "cancel": "Cancel",
+  "erase": "Erase",
+  "localDataErased": "Local data erased.",
   "noDataToErase": "There is no persistent data to erase in this demo.",
   "comparePlans": "Compare Free and Orion+",
   "comparisonIntro": "Choose the circle that suits you. No purchase or wallet access is active in this demo.",
@@ -50,22 +61,67 @@
   "freeDailyReading": "1 short reading",
   "premiumDailyReading": "In-depth reading + history",
   "localNotes": "Local notes",
-  "linkedJournal": "Links with cards and Orion"
-  ,"journalNoteHint": "Write what the card stirs or illuminates in you…"
-  ,"moodLabel": "MOOD OF THE DAY · {mood}/5"
-  ,"sealNote": "Save note"
-  ,"dailyDrawType": "Daily card"
-  ,"freeDrawType": "Free draw"
-  ,"drawDate": "Drawn on {date}"
-  ,"endpointLabel": "Devnet endpoint: {url}"
-  ,"@moodLabel": {"placeholders": {"mood": {}}}
-  ,"@drawDate": {"placeholders": {"date": {}}}
-  ,"@endpointLabel": {"placeholders": {"url": {}}}
-  ,"journalDetails": "Reading details"
-  ,"keywordLabel": "Keyword"
-  ,"interpretationLabel": "Interpretation"
-  ,"drawTypeLabel": "Reading type"
-  ,"noteLabel": "Personal note"
-  ,"moodValue": "Mood: {mood}/5"
-  ,"@moodValue": {"placeholders": {"mood": {}}}
+  "linkedJournal": "Links with cards and Orion",
+  "journalNoteHint": "Write what the card stirs or illuminates in you…",
+  "moodLabel": "MOOD OF THE DAY · {mood}/5",
+  "sealNote": "Save note",
+  "dailyDrawType": "Daily card",
+  "freeDrawType": "Free draw",
+  "drawDate": "Drawn on {date}",
+  "endpointLabel": "Devnet endpoint: {url}",
+  "@moodLabel": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "@drawDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "@endpointLabel": {
+    "placeholders": {
+      "url": {}
+    }
+  },
+  "journalDetails": "Reading details",
+  "keywordLabel": "Keyword",
+  "interpretationLabel": "Interpretation",
+  "drawTypeLabel": "Reading type",
+  "noteLabel": "Personal note",
+  "moodValue": "Mood: {mood}/5",
+  "@moodValue": {
+    "placeholders": {
+      "mood": {}
+    }
+  },
+  "profile": "Profile",
+  "profileTitle": "Your circle",
+  "profileIntro": "Sign in to prepare secure synchronization of your journal and Orion preferences.",
+  "continueWithFacebook": "Continue with Facebook",
+  "continueWithEmail": "Continue with email",
+  "authenticationConfigured": "Facebook connection configured",
+  "authenticationNotConfigured": "Connection awaiting configuration",
+  "authenticationPrivacy": "Tarot Noir never receives your Facebook password. You can revoke access from your account.",
+  "facebookConfigurationRequired": "Firebase and the Meta application must be configured before Facebook sign-in can open.",
+  "walletSectionTitle": "Solana wallet",
+  "walletConnect": "Connect a wallet",
+  "walletDisconnect": "Disconnect wallet",
+  "walletInitializing": "Opening the WalletConnect portal…",
+  "walletPrivacy": "Connection shares only your public Solana address. Tarot Noir never asks for a seed phrase or private key.",
+  "walletConfigurationRequired": "Add a Reown project ID and enable WalletConnect before opening the wallet portal.",
+  "walletConnectedAs": "Wallet connected: {address}",
+  "walletError": "Wallet connection failed: {message}",
+  "walletOpenProfile": "Connect my wallet",
+  "walletAvailableInProfile": "Wallet connection is available from the Profile tab.",
+  "@walletConnectedAs": {
+    "placeholders": {
+      "address": {}
+    }
+  },
+  "@walletError": {
+    "placeholders": {
+      "message": {}
+    }
+  }
 }

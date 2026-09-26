@@ -76,11 +76,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nftAvatarsDetail => 'Arcano Eclipse, Luna Negra y futuras series.';
 
   @override
+  String get adPlaceholderTitle => 'Espacio publicitario — vista previa';
+
+  @override
+  String get adPlaceholderBody =>
+      'Aquí podrá aparecer un anuncio corto antes de la tirada gratuita. No se usa publicidad real ni datos personales.';
+
+  @override
+  String get continueLabel => 'Continuar';
+
+  @override
   String get adFree => 'Sin anuncios';
 
   @override
   String get adFreeDetail =>
-      'Tarot Noir no muestra anuncios, para todos los círculos.';
+      'El plan gratuito podrá mostrar un anuncio corto antes de la tirada. Orion+ permanece sin anuncios.';
 
   @override
   String get walletSoon => 'Conexión de wallet — próximamente';
@@ -133,6 +143,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eraseLocalData => 'Borrar mis datos locales';
+
+  @override
+  String get eraseLocalDataConfirmation =>
+      'Esta acción elimina la tirada diaria, el diario, las notas y todas las preferencias locales.';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get erase => 'Eliminar';
+
+  @override
+  String get localDataErased => 'Datos locales eliminados.';
 
   @override
   String get noDataToErase =>
@@ -219,4 +242,72 @@ class AppLocalizationsEs extends AppLocalizations {
   String moodValue(Object mood) {
     return 'Ánimo: $mood/5';
   }
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
+  String get profileTitle => 'Tu círculo';
+
+  @override
+  String get profileIntro =>
+      'Inicia sesión para preparar la sincronización segura del diario y las preferencias de Orion.';
+
+  @override
+  String get continueWithFacebook => 'Continuar con Facebook';
+
+  @override
+  String get continueWithEmail => 'Continuar con correo electrónico';
+
+  @override
+  String get authenticationConfigured => 'Conexión de Facebook configurada';
+
+  @override
+  String get authenticationNotConfigured =>
+      'Conexión pendiente de configuración';
+
+  @override
+  String get authenticationPrivacy =>
+      'Tarot Noir nunca recibe tu contraseña de Facebook. Puedes revocar el acceso desde tu cuenta.';
+
+  @override
+  String get facebookConfigurationRequired =>
+      'Firebase y la aplicación Meta deben configurarse antes de abrir el inicio de sesión con Facebook.';
+
+  @override
+  String get walletSectionTitle => 'Wallet de Solana';
+
+  @override
+  String get walletConnect => 'Conectar un wallet';
+
+  @override
+  String get walletDisconnect => 'Desconectar el wallet';
+
+  @override
+  String get walletInitializing => 'Abriendo el portal WalletConnect…';
+
+  @override
+  String get walletPrivacy =>
+      'La conexión solo comparte tu dirección pública de Solana. Tarot Noir nunca solicita una frase semilla ni una clave privada.';
+
+  @override
+  String get walletConfigurationRequired =>
+      'Añade un ID de proyecto Reown y activa WalletConnect antes de abrir el portal del wallet.';
+
+  @override
+  String walletConnectedAs(Object address) {
+    return 'Wallet conectado: $address';
+  }
+
+  @override
+  String walletError(Object message) {
+    return 'Error de conexión del wallet: $message';
+  }
+
+  @override
+  String get walletOpenProfile => 'Conectar mi wallet';
+
+  @override
+  String get walletAvailableInProfile =>
+      'La conexión del wallet está disponible en la pestaña Perfil.';
 }

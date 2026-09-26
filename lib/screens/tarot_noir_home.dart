@@ -10,6 +10,7 @@ import '../models/tarot_deck.dart';
 import '../services/tarot_storage_service.dart';
 import 'journal_screen.dart';
 import 'premium_screen.dart';
+import 'profile_screen.dart';
 import 'reading_screen.dart';
 
 class TarotNoirHome extends StatefulWidget {
@@ -25,6 +26,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   bool _hasDrawnToday = false;
   bool _hasRevealedCard = false;
   bool _isRestoring = true;
+  bool _hasShownAdPlaceholder = false;
   late TarotCard _card;
   CardOrientation _orientation = CardOrientation.upright;
 
@@ -105,6 +107,28 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 
   Future<void> _draw() async {
     if (AppConfig.dailyDrawLockEnabled && _hasDrawnToday) return;
+    if (AppConfig.adPlaceholderEnabled &&
+        !AppConfig.premiumEnabled &&
+        !_hasShownAdPlaceholder) {
+      _hasShownAdPlaceholder = true;
+      final l10n = AppLocalizations.of(context)!;
+      await showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          icon: const Icon(Icons.hourglass_bottom),
+          title: Text(l10n.adPlaceholderTitle),
+          content: Text(l10n.adPlaceholderBody),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.continueLabel),
+            ),
+          ],
+        ),
+      );
+      if (!mounted) return;
+    }
     final nextCard = AppConfig.dailyDrawLockEnabled
         ? _card
         : tarotDeck[Random().nextInt(tarotDeck.length)];
@@ -162,6 +186,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     await _persist();
   }
 
+  void _onDataCleared() {
+    setState(() {
+      _journal.clear();
+      _hasDrawnToday = false;
+      _hasRevealedCard = false;
+    });
+  }
+
   Future<void> _deleteJournalEntry(JournalEntry entry) async {
     final index = _journal.indexOf(entry);
     if (index < 0) return;
@@ -187,12 +219,16 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         entries: _journal,
         onSave: _saveJournalEntry,
         onDelete: _deleteJournalEntry,
+        onClearData: _onDataCleared,
       ),
       const PremiumScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(
-      body: SafeArea(child: pages[_tab]),
+      body: SafeArea(
+        child: IndexedStack(index: _tab, children: pages),
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tab,
         onDestinationSelected: (index) {
@@ -213,6 +249,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
             icon: const Icon(Icons.workspace_premium_outlined),
             selectedIcon: const Icon(Icons.workspace_premium),
             label: l10n.premium,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: l10n.profile,
           ),
         ],
       ),

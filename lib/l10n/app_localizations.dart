@@ -226,6 +226,24 @@ abstract class AppLocalizations {
   /// **'Arcane Éclipse, Lune Noire et futures séries.'**
   String get nftAvatarsDetail;
 
+  /// No description provided for @adPlaceholderTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Espace publicitaire — aperçu'**
+  String get adPlaceholderTitle;
+
+  /// No description provided for @adPlaceholderBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une courte annonce pourra apparaître ici avant le tirage gratuit. Aucune publicité réelle ni donnée personnelle n’est utilisée.'**
+  String get adPlaceholderBody;
+
+  /// No description provided for @continueLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer'**
+  String get continueLabel;
+
   /// No description provided for @adFree.
   ///
   /// In fr, this message translates to:
@@ -235,7 +253,7 @@ abstract class AppLocalizations {
   /// No description provided for @adFreeDetail.
   ///
   /// In fr, this message translates to:
-  /// **'Tarot Noir ne diffuse aucune annonce, pour tous les cercles.'**
+  /// **'Le mode gratuit pourra présenter une courte annonce avant le tirage. Orion+ reste sans annonces.'**
   String get adFreeDetail;
 
   /// No description provided for @walletSoon.
@@ -327,6 +345,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Effacer mes données locales'**
   String get eraseLocalData;
+
+  /// No description provided for @eraseLocalDataConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette action supprime le tirage quotidien, le journal, les notes et toutes les préférences locales.'**
+  String get eraseLocalDataConfirmation;
+
+  /// No description provided for @cancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get cancel;
+
+  /// No description provided for @erase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer'**
+  String get erase;
+
+  /// No description provided for @localDataErased.
+  ///
+  /// In fr, this message translates to:
+  /// **'Données locales effacées.'**
+  String get localDataErased;
 
   /// No description provided for @noDataToErase.
   ///
@@ -477,6 +519,120 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Humeur : {mood}/5'**
   String moodValue(Object mood);
+
+  /// No description provided for @profile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get profile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre cercle'**
+  String get profileTitle;
+
+  /// No description provided for @profileIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connectez-vous pour préparer la synchronisation sécurisée du journal et des préférences Orion.'**
+  String get profileIntro;
+
+  /// No description provided for @continueWithFacebook.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Facebook'**
+  String get continueWithFacebook;
+
+  /// No description provided for @continueWithEmail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec un courriel'**
+  String get continueWithEmail;
+
+  /// No description provided for @authenticationConfigured.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion Facebook configurée'**
+  String get authenticationConfigured;
+
+  /// No description provided for @authenticationNotConfigured.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion en attente de configuration'**
+  String get authenticationNotConfigured;
+
+  /// No description provided for @authenticationPrivacy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.'**
+  String get authenticationPrivacy;
+
+  /// No description provided for @facebookConfigurationRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Firebase et l’application Meta doivent être configurés avant d’ouvrir la connexion Facebook.'**
+  String get facebookConfigurationRequired;
+
+  /// No description provided for @walletSectionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Wallet Solana'**
+  String get walletSectionTitle;
+
+  /// No description provided for @walletConnect.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecter un wallet'**
+  String get walletConnect;
+
+  /// No description provided for @walletDisconnect.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnecter le wallet'**
+  String get walletDisconnect;
+
+  /// No description provided for @walletInitializing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouverture du portail WalletConnect…'**
+  String get walletInitializing;
+
+  /// No description provided for @walletPrivacy.
+  ///
+  /// In fr, this message translates to:
+  /// **'La connexion partage seulement votre adresse Solana publique. Tarot Noir ne demande jamais de seed phrase ni de clé privée.'**
+  String get walletPrivacy;
+
+  /// No description provided for @walletConfigurationRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoutez un identifiant de projet Reown et activez WalletConnect avant d’ouvrir le portail wallet.'**
+  String get walletConfigurationRequired;
+
+  /// No description provided for @walletConnectedAs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Wallet connecté : {address}'**
+  String walletConnectedAs(Object address);
+
+  /// No description provided for @walletError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de la connexion wallet : {message}'**
+  String walletError(Object message);
+
+  /// No description provided for @walletOpenProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecter mon wallet'**
+  String get walletOpenProfile;
+
+  /// No description provided for @walletAvailableInProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'La connexion wallet est accessible dans l’onglet Profil.'**
+  String get walletAvailableInProfile;
 }
 
 class _AppLocalizationsDelegate
