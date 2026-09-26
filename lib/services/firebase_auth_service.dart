@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import '../app_config.dart';
 
@@ -44,6 +45,26 @@ class FirebaseAuthService {
 
   Future<void> sendPasswordResetEmail(String email) =>
       FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+  Future<User?> signInWithFacebook() async {
+    final result = await FacebookAuth.instance.login(
+      permissions: const ['email', 'public_profile'],
+    );
+    if (result.status == LoginStatus.cancelled) return null;
+    if (result.status != LoginStatus.success || result.accessToken == null) {
+      throw FirebaseAuthException(
+        code: 'facebook-sign-in-failed',
+        message: result.message,
+      );
+    }
+    final credential = FacebookAuthProvider.credential(
+      result.accessToken!.tokenString,
+    );
+    final firebaseCredential = await FirebaseAuth.instance.signInWithCredential(
+      credential,
+    );
+    return firebaseCredential.user;
+  }
 
   Future<void> resendEmailVerification() async {
     final user = FirebaseAuth.instance.currentUser;
