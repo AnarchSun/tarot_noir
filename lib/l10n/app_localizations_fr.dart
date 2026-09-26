@@ -245,33 +245,70 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get profile => "Profil";
+  String get profile => 'Profil';
 
   @override
-  String get profileTitle => "Votre cercle";
+  String get profileTitle => 'Votre cercle';
 
   @override
   String get profileIntro =>
-      "Connectez-vous pour préparer la synchronisation sécurisée du journal et des préférences Orion.";
+      'Connectez-vous pour préparer la synchronisation sécurisée du journal et des préférences Orion.';
 
   @override
-  String get continueWithFacebook => "Continuer avec Facebook";
+  String get continueWithFacebook => 'Continuer avec Facebook';
 
   @override
-  String get continueWithEmail => "Continuer avec un courriel";
+  String get continueWithEmail => 'Continuer avec un courriel';
 
   @override
-  String get authenticationConfigured => "Connexion Facebook configurée";
+  String get authenticationConfigured => 'Connexion Facebook configurée';
 
   @override
   String get authenticationNotConfigured =>
-      "Connexion en attente de configuration";
+      'Connexion en attente de configuration';
 
   @override
   String get authenticationPrivacy =>
-      "Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.";
+      'Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.';
 
   @override
   String get facebookConfigurationRequired =>
-      "Firebase et l’application Meta doivent être configurés avant d’ouvrir la connexion Facebook.";
+      'Firebase et l’application Meta doivent être configurés avant d’ouvrir la connexion Facebook.';
+
+  @override
+  String get walletSectionTitle => 'Wallet Solana';
+
+  @override
+  String get walletConnect => 'Connecter un wallet';
+
+  @override
+  String get walletDisconnect => 'Déconnecter le wallet';
+
+  @override
+  String get walletInitializing => 'Ouverture du portail WalletConnect…';
+
+  @override
+  String get walletPrivacy =>
+      'La connexion partage seulement votre adresse Solana publique. Tarot Noir ne demande jamais de seed phrase ni de clé privée.';
+
+  @override
+  String get walletConfigurationRequired =>
+      'Ajoutez un identifiant de projet Reown et activez WalletConnect avant d’ouvrir le portail wallet.';
+
+  @override
+  String walletConnectedAs(Object address) {
+    return 'Wallet connecté : $address';
+  }
+
+  @override
+  String walletError(Object message) {
+    return 'Échec de la connexion wallet : $message';
+  }
+
+  @override
+  String get walletOpenProfile => 'Connecter mon wallet';
+
+  @override
+  String get walletAvailableInProfile =>
+      'La connexion wallet est accessible dans l’onglet Profil.';
 }

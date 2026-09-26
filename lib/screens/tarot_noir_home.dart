@@ -226,7 +226,9 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     ];
 
     return Scaffold(
-      body: SafeArea(child: pages[_tab]),
+      body: SafeArea(
+        child: IndexedStack(index: _tab, children: pages),
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tab,
         onDestinationSelected: (index) {

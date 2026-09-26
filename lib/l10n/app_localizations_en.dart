@@ -245,32 +245,69 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get profile => "Profile";
+  String get profile => 'Profile';
 
   @override
-  String get profileTitle => "Your circle";
+  String get profileTitle => 'Your circle';
 
   @override
   String get profileIntro =>
-      "Sign in to prepare secure synchronization of your journal and Orion preferences.";
+      'Sign in to prepare secure synchronization of your journal and Orion preferences.';
 
   @override
-  String get continueWithFacebook => "Continue with Facebook";
+  String get continueWithFacebook => 'Continue with Facebook';
 
   @override
-  String get continueWithEmail => "Continue with email";
+  String get continueWithEmail => 'Continue with email';
 
   @override
-  String get authenticationConfigured => "Facebook connection configured";
+  String get authenticationConfigured => 'Facebook connection configured';
 
   @override
-  String get authenticationNotConfigured => "Connection awaiting configuration";
+  String get authenticationNotConfigured => 'Connection awaiting configuration';
 
   @override
   String get authenticationPrivacy =>
-      "Tarot Noir never receives your Facebook password. You can revoke access from your account.";
+      'Tarot Noir never receives your Facebook password. You can revoke access from your account.';
 
   @override
   String get facebookConfigurationRequired =>
-      "Firebase and the Meta application must be configured before Facebook sign-in can open.";
+      'Firebase and the Meta application must be configured before Facebook sign-in can open.';
+
+  @override
+  String get walletSectionTitle => 'Solana wallet';
+
+  @override
+  String get walletConnect => 'Connect a wallet';
+
+  @override
+  String get walletDisconnect => 'Disconnect wallet';
+
+  @override
+  String get walletInitializing => 'Opening the WalletConnect portal…';
+
+  @override
+  String get walletPrivacy =>
+      'Connection shares only your public Solana address. Tarot Noir never asks for a seed phrase or private key.';
+
+  @override
+  String get walletConfigurationRequired =>
+      'Add a Reown project ID and enable WalletConnect before opening the wallet portal.';
+
+  @override
+  String walletConnectedAs(Object address) {
+    return 'Wallet connected: $address';
+  }
+
+  @override
+  String walletError(Object message) {
+    return 'Wallet connection failed: $message';
+  }
+
+  @override
+  String get walletOpenProfile => 'Connect my wallet';
+
+  @override
+  String get walletAvailableInProfile =>
+      'Wallet connection is available from the Profile tab.';
 }

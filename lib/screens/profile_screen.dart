@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/wallet_connect_panel.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -66,6 +67,8 @@ class ProfileScreen extends StatelessWidget {
               subtitle: Text(l10n.authenticationPrivacy),
             ),
           ),
+          const SizedBox(height: 24),
+          const WalletConnectPanel(),
         ],
       ),
     );

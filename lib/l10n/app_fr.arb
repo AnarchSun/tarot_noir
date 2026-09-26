@@ -103,5 +103,25 @@
   "authenticationConfigured": "Connexion Facebook configurée",
   "authenticationNotConfigured": "Connexion en attente de configuration",
   "authenticationPrivacy": "Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.",
-  "facebookConfigurationRequired": "Firebase et l’application Meta doivent être configurés avant d’ouvrir la connexion Facebook."
+  "facebookConfigurationRequired": "Firebase et l’application Meta doivent être configurés avant d’ouvrir la connexion Facebook.",
+  "walletSectionTitle": "Wallet Solana",
+  "walletConnect": "Connecter un wallet",
+  "walletDisconnect": "Déconnecter le wallet",
+  "walletInitializing": "Ouverture du portail WalletConnect…",
+  "walletPrivacy": "La connexion partage seulement votre adresse Solana publique. Tarot Noir ne demande jamais de seed phrase ni de clé privée.",
+  "walletConfigurationRequired": "Ajoutez un identifiant de projet Reown et activez WalletConnect avant d’ouvrir le portail wallet.",
+  "walletConnectedAs": "Wallet connecté : {address}",
+  "walletError": "Échec de la connexion wallet : {message}",
+  "walletOpenProfile": "Connecter mon wallet",
+  "walletAvailableInProfile": "La connexion wallet est accessible dans l’onglet Profil.",
+  "@walletConnectedAs": {
+    "placeholders": {
+      "address": {}
+    }
+  },
+  "@walletError": {
+    "placeholders": {
+      "message": {}
+    }
+  }
 }

@@ -27,6 +27,7 @@ dependencies:
 
   # Solana / SPL Token
   solana: ^0.32.0+1
+  reown_appkit: ^1.7.6
 
 dev_dependencies:
   flutter_test:

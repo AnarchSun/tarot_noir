@@ -72,6 +72,18 @@ flutter run --dart-define-from-file=config/auth.local.json
 
 Les secrets Meta, jetons OAuth et clés de service restent côté console ou serveur.
 
+### Connexion wallet
+
+WalletConnect utilise Reown AppKit sur Solana devnet. Créez un projet public dans
+la console Reown, puis ajoutez `REOWN_PROJECT_ID` dans votre copie locale de
+`config/auth.example.json` et activez `WALLETCONNECT_ENABLED`. L’application
+reçoit seulement l’adresse publique ; elle ne lit ni seed phrase ni clé privée.
+La connexion prouve qu’un wallet a accepté une session. Un véritable login et
+l’accès Premium demanderont ensuite un défi signé, vérifié par le backend.
+
+Le schéma de retour mobile est `tarotnoir://wallet`. Toute modification de ce
+schéma doit rester identique dans `AppConfig`, Android, iOS et la console Reown.
+
 ## Stockage et confidentialité
 
 `shared_preferences` 2.5.5 utilise le stockage local de la plateforme. Il convient

@@ -53,6 +53,23 @@ abstract final class AppConfig {
   static bool get isFacebookAuthConfigured =>
       isFirebaseAuthConfigured && facebookAuthEnabled && metaAppId.isNotEmpty;
 
+  /// WalletConnect uses a public Reown project identifier, never a seed phrase.
+  static const walletConnectEnabled = bool.fromEnvironment(
+    'WALLETCONNECT_ENABLED',
+    defaultValue: false,
+  );
+
+  static const reownProjectId = String.fromEnvironment('REOWN_PROJECT_ID');
+  static const walletMetadataUrl = String.fromEnvironment(
+    'WALLETCONNECT_METADATA_URL',
+    defaultValue: 'https://github.com/AnarchSun/tarot_noir',
+  );
+  static const walletIconUrl = String.fromEnvironment('WALLETCONNECT_ICON_URL');
+  static const walletRedirectScheme = 'tarotnoir';
+
+  static bool get isWalletConnectConfigured =>
+      walletConnectEnabled && reownProjectId.isNotEmpty;
+
   static const solanaClusterUrl = String.fromEnvironment(
     'SOLANA_CLUSTER_URL',
     defaultValue: 'https://api.devnet.solana.com',

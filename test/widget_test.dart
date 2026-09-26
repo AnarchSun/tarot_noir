@@ -101,6 +101,23 @@ void main() {
       ),
       findsOneWidget,
     );
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(
+      find.text('Connect a wallet'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(find.text('Connect a wallet'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('wallet-connect')));
+    await tester.pumpAndSettle();
+    expect(
+      find.text(
+        'Add a Reown project ID and enable WalletConnect before opening the wallet portal.',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('falls back to English for an unsupported device locale', (
