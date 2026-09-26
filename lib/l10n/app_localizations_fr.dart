@@ -358,4 +358,40 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editProfile => 'Modifier le profil';
+
+  @override
+  String get firebaseConfigurationRequired =>
+      'Ajoutez les identifiants publics Firebase et activez l’authentification avant de vous connecter.';
+
+  @override
+  String get emailSignIn => 'Connexion par courriel';
+
+  @override
+  String get createAccount => 'Créer un compte';
+
+  @override
+  String get emailLabel => 'Courriel';
+
+  @override
+  String get passwordLabel => 'Mot de passe';
+
+  @override
+  String get passwordTooShort => 'Utilisez au moins 6 caractères.';
+
+  @override
+  String get signIn => 'Se connecter';
+
+  @override
+  String get needAccount => 'Créer un nouveau compte';
+
+  @override
+  String get alreadyHaveAccount => 'J’ai déjà un compte';
+
+  @override
+  String signedInAs(Object email) {
+    return 'Connecté : $email';
+  }
+
+  @override
+  String get signOut => 'Se déconnecter';
 }

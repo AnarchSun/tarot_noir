@@ -717,6 +717,72 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Modifier le profil'**
   String get editProfile;
+
+  /// No description provided for @firebaseConfigurationRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoutez les identifiants publics Firebase et activez l’authentification avant de vous connecter.'**
+  String get firebaseConfigurationRequired;
+
+  /// No description provided for @emailSignIn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion par courriel'**
+  String get emailSignIn;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer un compte'**
+  String get createAccount;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Courriel'**
+  String get emailLabel;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe'**
+  String get passwordLabel;
+
+  /// No description provided for @passwordTooShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisez au moins 6 caractères.'**
+  String get passwordTooShort;
+
+  /// No description provided for @signIn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se connecter'**
+  String get signIn;
+
+  /// No description provided for @needAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer un nouveau compte'**
+  String get needAccount;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’ai déjà un compte'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @signedInAs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecté : {email}'**
+  String signedInAs(Object email);
+
+  /// No description provided for @signOut.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se déconnecter'**
+  String get signOut;
 }
 
 class _AppLocalizationsDelegate

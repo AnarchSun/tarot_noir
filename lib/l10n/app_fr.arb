@@ -142,5 +142,21 @@
     "placeholders": {
       "address": {}
     }
+  },
+  "firebaseConfigurationRequired": "Ajoutez les identifiants publics Firebase et activez l’authentification avant de vous connecter.",
+  "emailSignIn": "Connexion par courriel",
+  "createAccount": "Créer un compte",
+  "emailLabel": "Courriel",
+  "passwordLabel": "Mot de passe",
+  "passwordTooShort": "Utilisez au moins 6 caractères.",
+  "signIn": "Se connecter",
+  "needAccount": "Créer un nouveau compte",
+  "alreadyHaveAccount": "J’ai déjà un compte",
+  "signedInAs": "Connecté : {email}",
+  "signOut": "Se déconnecter",
+  "@signedInAs": {
+    "placeholders": {
+      "email": {}
+    }
   }
 }

@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
 import '../models/user_profile.dart';
+import '../services/firebase_auth_service.dart';
 import '../services/tarot_storage_service.dart';
+import '../widgets/email_auth_sheet.dart';
 import '../widgets/profile_completion_sheet.dart';
 import '../widgets/wallet_connect_panel.dart';
 
@@ -16,11 +19,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final _storage = TarotStorageService();
+  final _auth = const FirebaseAuthService();
   UserProfile? _profile;
+  User? _authUser;
 
   @override
   void initState() {
     super.initState();
+    _authUser = _auth.currentUser;
     _restoreProfile();
   }
 
@@ -55,17 +61,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future<void> _openEmailAuth() async {
+    final l10n = AppLocalizations.of(context)!;
+    if (!AppConfig.isFirebaseAuthConfigured ||
+        !FirebaseAuthService.isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.firebaseConfigurationRequired)),
+      );
+      return;
+    }
+    final user = await showModalBottomSheet<User>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => EmailAuthSheet(auth: _auth),
+    );
+    if (user != null && mounted) setState(() => _authUser = user);
+  }
+
+  Future<void> _signOut() async {
+    await _auth.signOut();
+    if (mounted) setState(() => _authUser = null);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    void explainConfiguration() {
+    void explainFacebookConfiguration() {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.facebookConfigurationRequired)),
       );
     }
 
     final profile = _profile;
+    final authUser = _authUser;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.profile)),
       body: ListView(
@@ -88,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            profile?.email ?? l10n.profileIntro,
+            authUser?.email ?? profile?.email ?? l10n.profileIntro,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
@@ -103,28 +133,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 28),
           FilledButton.icon(
             key: const Key('facebook-sign-in'),
-            onPressed: explainConfiguration,
+            onPressed: explainFacebookConfiguration,
             icon: const Icon(Icons.facebook),
             label: Text(l10n.continueWithFacebook),
           ),
           const SizedBox(height: 12),
-          OutlinedButton.icon(
-            onPressed: explainConfiguration,
-            icon: const Icon(Icons.email_outlined),
-            label: Text(l10n.continueWithEmail),
-          ),
+          if (authUser == null)
+            OutlinedButton.icon(
+              key: const Key('email-sign-in'),
+              onPressed: _openEmailAuth,
+              icon: const Icon(Icons.email_outlined),
+              label: Text(l10n.continueWithEmail),
+            )
+          else
+            OutlinedButton.icon(
+              key: const Key('sign-out'),
+              onPressed: _signOut,
+              icon: const Icon(Icons.logout),
+              label: Text(l10n.signOut),
+            ),
           const SizedBox(height: 24),
           Card(
             child: ListTile(
               leading: Icon(
-                AppConfig.isFacebookAuthConfigured
-                    ? Icons.check_circle_outline
-                    : Icons.lock_outline,
+                authUser != null ? Icons.verified_user : Icons.lock_outline,
               ),
               title: Text(
-                AppConfig.isFacebookAuthConfigured
-                    ? l10n.authenticationConfigured
-                    : l10n.authenticationNotConfigured,
+                authUser?.email == null
+                    ? (AppConfig.isFirebaseAuthConfigured
+                          ? l10n.authenticationConfigured
+                          : l10n.authenticationNotConfigured)
+                    : l10n.signedInAs(authUser!.email!),
               ),
               subtitle: Text(l10n.authenticationPrivacy),
             ),
