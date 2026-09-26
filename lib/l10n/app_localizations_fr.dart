@@ -405,4 +405,19 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get verificationEmailSent =>
       'Un courriel de vérification a été envoyé.';
+
+  @override
+  String get emailNotVerified => 'Votre courriel n’est pas encore vérifié.';
+
+  @override
+  String get resendVerification => 'Renvoyer le courriel';
+
+  @override
+  String get refreshVerification => 'J’ai vérifié';
+
+  @override
+  String get emailVerified => 'Courriel vérifié.';
+
+  @override
+  String get emailStillUnverified => 'Le courriel n’est pas encore vérifié.';
 }

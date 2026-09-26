@@ -402,4 +402,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verificationEmailSent => 'A verification email has been sent.';
+
+  @override
+  String get emailNotVerified => 'Your email is not verified yet.';
+
+  @override
+  String get resendVerification => 'Resend email';
+
+  @override
+  String get refreshVerification => 'I verified it';
+
+  @override
+  String get emailVerified => 'Email verified.';
+
+  @override
+  String get emailStillUnverified => 'The email is not verified yet.';
 }

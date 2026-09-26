@@ -161,5 +161,10 @@
   },
   "forgotPassword": "Mot de passe oublié?",
   "passwordResetEmailSent": "Si ce compte existe, un courriel de réinitialisation a été envoyé.",
-  "verificationEmailSent": "Un courriel de vérification a été envoyé."
+  "verificationEmailSent": "Un courriel de vérification a été envoyé.",
+  "emailNotVerified": "Votre courriel n’est pas encore vérifié.",
+  "resendVerification": "Renvoyer le courriel",
+  "refreshVerification": "J’ai vérifié",
+  "emailVerified": "Courriel vérifié.",
+  "emailStillUnverified": "Le courriel n’est pas encore vérifié."
 }
