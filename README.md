@@ -82,7 +82,9 @@ flutter run --dart-define-from-file=config/auth.local.json
 
 Le Client Token Meta est un identifiant d’application public attendu par le SDK;
 les App Secrets Meta, jetons OAuth utilisateur et clés de service restent hors du
-dépôt, dans les consoles ou sur le serveur.
+dépôt, dans les consoles ou sur le serveur. Après une connexion courriel ou
+Facebook, le profil local est proposé avec le nom et le courriel Firebase
+préremplis. Un profil existant peut aussi conserver son adresse wallet.
 
 ### Connexion wallet
 

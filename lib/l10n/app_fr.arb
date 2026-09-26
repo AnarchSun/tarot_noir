@@ -129,7 +129,7 @@
   "downloadSolflare": "Télécharger Solflare",
   "walletDownloadError": "Impossible d’ouvrir la page de téléchargement du wallet.",
   "completeProfileTitle": "Compléter votre profil",
-  "completeProfileIntro": "Choisissez l’identité affichée dans Tarot Noir après la connexion de ce wallet.",
+  "completeProfileIntro": "Choisissez l’identité affichée dans Tarot Noir après la connexion de votre compte ou wallet.",
   "displayNameLabel": "Nom ou alias",
   "displayNameRequired": "Entrez un nom ou un alias.",
   "emailOptional": "Courriel (facultatif)",

@@ -6,11 +6,17 @@ import '../models/user_profile.dart';
 class ProfileCompletionSheet extends StatefulWidget {
   const ProfileCompletionSheet({
     super.key,
-    required this.walletAddress,
+    this.walletAddress,
+    this.firebaseUid,
+    this.suggestedDisplayName,
+    this.suggestedEmail,
     this.initialProfile,
-  });
+  }) : assert(walletAddress != null || firebaseUid != null);
 
-  final String walletAddress;
+  final String? walletAddress;
+  final String? firebaseUid;
+  final String? suggestedDisplayName;
+  final String? suggestedEmail;
   final UserProfile? initialProfile;
 
   @override
@@ -26,10 +32,13 @@ class _ProfileCompletionSheetState extends State<ProfileCompletionSheet> {
   void initState() {
     super.initState();
     _displayNameController = TextEditingController(
-      text: widget.initialProfile?.displayName ?? '',
+      text:
+          widget.initialProfile?.displayName ??
+          widget.suggestedDisplayName ??
+          '',
     );
     _emailController = TextEditingController(
-      text: widget.initialProfile?.email ?? '',
+      text: widget.initialProfile?.email ?? widget.suggestedEmail ?? '',
     );
   }
 
@@ -47,7 +56,9 @@ class _ProfileCompletionSheetState extends State<ProfileCompletionSheet> {
       UserProfile(
         displayName: _displayNameController.text.trim(),
         email: email.isEmpty ? null : email,
-        walletAddress: widget.walletAddress,
+        walletAddress:
+            widget.walletAddress ?? widget.initialProfile?.walletAddress,
+        firebaseUid: widget.firebaseUid ?? widget.initialProfile?.firebaseUid,
         completedAt: DateTime.now().toUtc(),
       ),
     );
@@ -100,11 +111,13 @@ class _ProfileCompletionSheetState extends State<ProfileCompletionSheet> {
                         : null;
                   },
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  l10n.publicWalletLabel(widget.walletAddress),
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                if (widget.walletAddress case final address?) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.publicWalletLabel(address),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
                 const SizedBox(height: 20),
                 FilledButton(
                   key: const Key('save-profile'),
