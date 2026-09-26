@@ -25,6 +25,11 @@ void main() {
 
     await tester.tap(find.text('Draw my daily card'));
     await tester.pumpAndSettle();
+    if (AppConfig.adPlaceholderEnabled && !AppConfig.premiumEnabled) {
+      expect(find.text('Advertising space — preview'), findsOneWidget);
+      await tester.tap(find.text('Continue'));
+      await tester.pumpAndSettle();
+    }
 
     expect(
       find.text(

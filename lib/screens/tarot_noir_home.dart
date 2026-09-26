@@ -25,6 +25,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   bool _hasDrawnToday = false;
   bool _hasRevealedCard = false;
   bool _isRestoring = true;
+  bool _hasShownAdPlaceholder = false;
   late TarotCard _card;
   CardOrientation _orientation = CardOrientation.upright;
 
@@ -105,6 +106,28 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 
   Future<void> _draw() async {
     if (AppConfig.dailyDrawLockEnabled && _hasDrawnToday) return;
+    if (AppConfig.adPlaceholderEnabled &&
+        !AppConfig.premiumEnabled &&
+        !_hasShownAdPlaceholder) {
+      _hasShownAdPlaceholder = true;
+      final l10n = AppLocalizations.of(context)!;
+      await showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          icon: const Icon(Icons.hourglass_bottom),
+          title: Text(l10n.adPlaceholderTitle),
+          content: Text(l10n.adPlaceholderBody),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.continueLabel),
+            ),
+          ],
+        ),
+      );
+      if (!mounted) return;
+    }
     final nextCard = AppConfig.dailyDrawLockEnabled
         ? _card
         : tarotDeck[Random().nextInt(tarotDeck.length)];

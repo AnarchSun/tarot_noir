@@ -76,11 +76,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nftAvatarsDetail => 'Arcano Eclipse, Luna Negra y futuras series.';
 
   @override
+  String get adPlaceholderTitle => 'Espacio publicitario — vista previa';
+
+  @override
+  String get adPlaceholderBody =>
+      'Aquí podrá aparecer un anuncio corto antes de la tirada gratuita. No se usa publicidad real ni datos personales.';
+
+  @override
+  String get continueLabel => 'Continuar';
+
+  @override
   String get adFree => 'Sin anuncios';
 
   @override
   String get adFreeDetail =>
-      'Tarot Noir no muestra anuncios, para todos los círculos.';
+      'El plan gratuito podrá mostrar un anuncio corto antes de la tirada. Orion+ permanece sin anuncios.';
 
   @override
   String get walletSoon => 'Conexión de wallet — próximamente';

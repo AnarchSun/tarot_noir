@@ -77,11 +77,21 @@ class AppLocalizationsFr extends AppLocalizations {
       'Arcane Éclipse, Lune Noire et futures séries.';
 
   @override
+  String get adPlaceholderTitle => 'Espace publicitaire — aperçu';
+
+  @override
+  String get adPlaceholderBody =>
+      'Une courte annonce pourra apparaître ici avant le tirage gratuit. Aucune publicité réelle ni donnée personnelle n’est utilisée.';
+
+  @override
+  String get continueLabel => 'Continuer';
+
+  @override
   String get adFree => 'Sans annonces';
 
   @override
   String get adFreeDetail =>
-      'Tarot Noir ne diffuse aucune annonce, pour tous les cercles.';
+      'Le mode gratuit pourra présenter une courte annonce avant le tirage. Orion+ reste sans annonces.';
 
   @override
   String get walletSoon => 'Connexion wallet — bientôt';

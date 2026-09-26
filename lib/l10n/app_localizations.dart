@@ -226,6 +226,24 @@ abstract class AppLocalizations {
   /// **'Arcane Éclipse, Lune Noire et futures séries.'**
   String get nftAvatarsDetail;
 
+  /// No description provided for @adPlaceholderTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Espace publicitaire — aperçu'**
+  String get adPlaceholderTitle;
+
+  /// No description provided for @adPlaceholderBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une courte annonce pourra apparaître ici avant le tirage gratuit. Aucune publicité réelle ni donnée personnelle n’est utilisée.'**
+  String get adPlaceholderBody;
+
+  /// No description provided for @continueLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer'**
+  String get continueLabel;
+
   /// No description provided for @adFree.
   ///
   /// In fr, this message translates to:
@@ -235,7 +253,7 @@ abstract class AppLocalizations {
   /// No description provided for @adFreeDetail.
   ///
   /// In fr, this message translates to:
-  /// **'Tarot Noir ne diffuse aucune annonce, pour tous les cercles.'**
+  /// **'Le mode gratuit pourra présenter une courte annonce avant le tirage. Orion+ reste sans annonces.'**
   String get adFreeDetail;
 
   /// No description provided for @walletSoon.

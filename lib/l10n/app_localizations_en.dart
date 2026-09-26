@@ -77,10 +77,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Eclipse Arcana, Black Moon and future series.';
 
   @override
+  String get adPlaceholderTitle => 'Advertising space — preview';
+
+  @override
+  String get adPlaceholderBody =>
+      'A short ad may appear here before the free reading. No real ad or personal data is used.';
+
+  @override
+  String get continueLabel => 'Continue';
+
+  @override
   String get adFree => 'No ads';
 
   @override
-  String get adFreeDetail => 'Tarot Noir displays no ads, for every circle.';
+  String get adFreeDetail =>
+      'The free plan may show a short ad before the reading. Orion+ remains ad-free.';
 
   @override
   String get walletSoon => 'Wallet connection — coming soon';

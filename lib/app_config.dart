@@ -23,6 +23,12 @@ abstract final class AppConfig {
     defaultValue: false,
   );
 
+  /// Local preview only. No advertising SDK or network request is used.
+  static const adPlaceholderEnabled = bool.fromEnvironment(
+    'AD_PLACEHOLDER_ENABLED',
+    defaultValue: true,
+  );
+
   static const solanaClusterUrl = String.fromEnvironment(
     'SOLANA_CLUSTER_URL',
     defaultValue: 'https://api.devnet.solana.com',
