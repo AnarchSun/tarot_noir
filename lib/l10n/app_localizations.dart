@@ -801,6 +801,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Un courriel de vérification a été envoyé.'**
   String get verificationEmailSent;
+
+  /// No description provided for @emailNotVerified.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre courriel n’est pas encore vérifié.'**
+  String get emailNotVerified;
+
+  /// No description provided for @resendVerification.
+  ///
+  /// In fr, this message translates to:
+  /// **'Renvoyer le courriel'**
+  String get resendVerification;
+
+  /// No description provided for @refreshVerification.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’ai vérifié'**
+  String get refreshVerification;
+
+  /// No description provided for @emailVerified.
+  ///
+  /// In fr, this message translates to:
+  /// **'Courriel vérifié.'**
+  String get emailVerified;
+
+  /// No description provided for @emailStillUnverified.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le courriel n’est pas encore vérifié.'**
+  String get emailStillUnverified;
 }
 
 class _AppLocalizationsDelegate

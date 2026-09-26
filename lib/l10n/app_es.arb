@@ -161,5 +161,10 @@
   },
   "forgotPassword": "¿Olvidaste tu contraseña?",
   "passwordResetEmailSent": "Si esta cuenta existe, se envió un correo para restablecer la contraseña.",
-  "verificationEmailSent": "Se envió un correo de verificación."
+  "verificationEmailSent": "Se envió un correo de verificación.",
+  "emailNotVerified": "Tu correo aún no está verificado.",
+  "resendVerification": "Reenviar correo",
+  "refreshVerification": "Ya lo verifiqué",
+  "emailVerified": "Correo verificado.",
+  "emailStillUnverified": "El correo aún no está verificado."
 }

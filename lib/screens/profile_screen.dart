@@ -85,6 +85,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _resendVerification() async {
+    final l10n = AppLocalizations.of(context)!;
+    try {
+      await _auth.resendEmailVerification();
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(l10n.verificationEmailSent)));
+      }
+    } on FirebaseAuthException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+      }
+    }
+  }
+
+  Future<void> _refreshVerification() async {
+    final user = await _auth.reloadCurrentUser();
+    if (!mounted) return;
+    setState(() => _authUser = user);
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          user?.emailVerified == true
+              ? l10n.emailVerified
+              : l10n.emailStillUnverified,
+        ),
+      ),
+    );
+  }
+
   Future<void> _signOut() async {
     await _auth.signOut();
     if (mounted) setState(() => _authUser = null);
@@ -158,6 +190,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: const Icon(Icons.logout),
               label: Text(l10n.signOut),
             ),
+          if (authUser != null && !authUser.emailVerified) ...[
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(l10n.emailNotVerified),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      alignment: WrapAlignment.end,
+                      spacing: 8,
+                      children: [
+                        TextButton(
+                          key: const Key('resend-verification'),
+                          onPressed: _resendVerification,
+                          child: Text(l10n.resendVerification),
+                        ),
+                        TextButton(
+                          key: const Key('refresh-verification'),
+                          onPressed: _refreshVerification,
+                          child: Text(l10n.refreshVerification),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
           const SizedBox(height: 24),
           Card(
             child: ListTile(

@@ -161,5 +161,10 @@
   },
   "forgotPassword": "Forgot password?",
   "passwordResetEmailSent": "If this account exists, a password reset email has been sent.",
-  "verificationEmailSent": "A verification email has been sent."
+  "verificationEmailSent": "A verification email has been sent.",
+  "emailNotVerified": "Your email is not verified yet.",
+  "resendVerification": "Resend email",
+  "refreshVerification": "I verified it",
+  "emailVerified": "Email verified.",
+  "emailStillUnverified": "The email is not verified yet."
 }
