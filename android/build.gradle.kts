@@ -5,6 +5,22 @@ allprojects {
     }
 }
 
+val tarotNoirCompileSdk = providers.gradleProperty("tarotNoir.compileSdk").get().toInt()
+
+subprojects {
+    afterEvaluate {
+        if (plugins.hasPlugin("com.android.library")) {
+            extensions.configure<com.android.build.gradle.LibraryExtension> {
+                compileSdk = tarotNoirCompileSdk
+                if (project.name == "coinbase_wallet_sdk") {
+                    defaultConfig.consumerProguardFiles.clear()
+                    defaultConfig.proguardFiles.clear()
+                }
+            }
+        }
+    }
+}
+
 val newBuildDir: Directory =
     rootProject.layout.buildDirectory
         .dir("../../build")
