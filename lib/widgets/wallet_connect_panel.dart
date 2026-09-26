@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:reown_appkit/reown_appkit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
 
 class WalletConnectPanel extends StatefulWidget {
-  const WalletConnectPanel({super.key});
+  const WalletConnectPanel({super.key, this.onConnected});
+
+  final ValueChanged<String>? onConnected;
 
   @override
   State<WalletConnectPanel> createState() => _WalletConnectPanelState();
@@ -20,6 +23,7 @@ class _WalletConnectPanelState extends State<WalletConnectPanel> {
   ReownAppKitModal? _modal;
   bool _initializing = false;
   String? _error;
+  String? _notifiedAddress;
 
   @override
   void didChangeDependencies() {
@@ -103,6 +107,7 @@ class _WalletConnectPanelState extends State<WalletConnectPanel> {
         return;
       }
       setState(() => _modal = modal);
+      _notifyConnectedWallet();
     } catch (error) {
       if (mounted) setState(() => _error = '$error');
     } finally {
@@ -111,7 +116,19 @@ class _WalletConnectPanelState extends State<WalletConnectPanel> {
   }
 
   void _refresh(dynamic _) {
-    if (mounted) setState(() => _error = null);
+    if (!mounted) return;
+    setState(() => _error = null);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _notifyConnectedWallet(),
+    );
+  }
+
+  void _notifyConnectedWallet() {
+    if (!mounted || _modal?.isConnected != true) return;
+    final address = _address;
+    if (address == null || address == _notifiedAddress) return;
+    _notifiedAddress = address;
+    widget.onConnected?.call(address);
   }
 
   String? get _address => _modal?.session?.getAddress('solana');
@@ -141,9 +158,24 @@ class _WalletConnectPanelState extends State<WalletConnectPanel> {
     }
   }
 
+  Future<void> _openDownload(String url) async {
+    final opened = await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.walletDownloadError),
+        ),
+      );
+    }
+  }
+
   Future<void> _disconnect() async {
     try {
       await _modal?.disconnect();
+      _notifiedAddress = null;
       if (mounted) setState(() => _error = null);
     } catch (error) {
       if (mounted) setState(() => _error = '$error');
@@ -190,6 +222,30 @@ class _WalletConnectPanelState extends State<WalletConnectPanel> {
               Text(
                 l10n.walletError(_error!),
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ],
+            if (!connected) ...[
+              const SizedBox(height: 12),
+              Text(
+                l10n.walletDownloadHint,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Wrap(
+                spacing: 8,
+                children: [
+                  TextButton(
+                    key: const Key('download-phantom'),
+                    onPressed: () =>
+                        _openDownload(AppConfig.phantomDownloadUrl),
+                    child: Text(l10n.downloadPhantom),
+                  ),
+                  TextButton(
+                    key: const Key('download-solflare'),
+                    onPressed: () =>
+                        _openDownload(AppConfig.solflareDownloadUrl),
+                    child: Text(l10n.downloadSolflare),
+                  ),
+                ],
               ),
             ],
             const SizedBox(height: 16),

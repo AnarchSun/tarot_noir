@@ -110,6 +110,8 @@ void main() {
       scrollable: find.byType(Scrollable).last,
     );
     expect(find.text('Connect a wallet'), findsOneWidget);
+    expect(find.text('Download Phantom'), findsOneWidget);
+    expect(find.text('Download Solflare'), findsOneWidget);
     await tester.tap(find.byKey(const Key('wallet-connect')));
     await tester.pumpAndSettle();
     expect(

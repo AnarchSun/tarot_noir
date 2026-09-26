@@ -7,6 +7,7 @@ import 'package:tarot_noir/models/journal_entry.dart';
 import 'package:tarot_noir/models/premium_reading.dart';
 import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
+import 'package:tarot_noir/models/user_profile.dart';
 import 'package:tarot_noir/services/tarot_storage_service.dart';
 
 void main() {
@@ -162,6 +163,28 @@ void main() {
     final preferences = await SharedPreferences.getInstance();
     expect(preferences.getKeys(), isEmpty);
   });
+
+  test(
+    'completed wallet profile persists and is erased with local data',
+    () async {
+      final storage = TarotStorageService();
+      final profile = UserProfile(
+        displayName: 'Nyx',
+        email: 'nyx@example.com',
+        walletAddress: 'DevnetPublicAddress',
+        completedAt: DateTime.utc(2026, 9, 26),
+      );
+
+      await storage.saveUserProfile(profile);
+      final restored = await storage.restoreUserProfile();
+      expect(restored, isNotNull);
+      expect(restored!.displayName, 'Nyx');
+      expect(restored.walletAddress, 'DevnetPublicAddress');
+
+      await storage.clearAll();
+      expect(await storage.restoreUserProfile(), isNull);
+    },
+  );
 
   test('storage schema version is explicit', () {
     expect(TarotStorageService.storageSchemaVersion, 2);

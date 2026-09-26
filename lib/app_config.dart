@@ -66,6 +66,8 @@ abstract final class AppConfig {
   );
   static const walletIconUrl = String.fromEnvironment('WALLETCONNECT_ICON_URL');
   static const walletRedirectScheme = 'tarotnoir';
+  static const phantomDownloadUrl = 'https://phantom.com/download';
+  static const solflareDownloadUrl = 'https://www.solflare.com/download/';
 
   static bool get isWalletConnectConfigured =>
       walletConnectEnabled && reownProjectId.isNotEmpty;
