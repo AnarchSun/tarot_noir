@@ -61,10 +61,13 @@ Aucun droit Premium n’est enregistré dans les préférences locales.
 
 L’écran Profil prépare les connexions par courriel et Facebook. Elles restent
 fermées tant qu’un projet Firebase et une application Meta ne sont pas configurés.
-Copiez `config/auth.example.json` hors Git, complétez uniquement les identifiants
-publics, puis lancez Flutter avec `--dart-define-from-file`. Les SDK Firebase et
-Facebook ne doivent être ajoutés qu’après la configuration native Android/iOS ;
-le plugin Facebook peut bloquer les autres plugins si son App ID manque.
+Copiez `config/auth.example.json` vers `config/auth.local.json`, puis renseignez
+les identifiants publics `FIREBASE_PROJECT_ID`, `FIREBASE_API_KEY`,
+`FIREBASE_APP_ID` et `FIREBASE_MESSAGING_SENDER_ID`. Activez ensuite
+`FIREBASE_AUTH_ENABLED` et lancez Flutter avec `--dart-define-from-file`.
+L’authentification par courriel utilise le SDK Firebase officiel; le mot de passe
+et les jetons ne sont jamais enregistrés dans Git. Facebook reste fermé jusqu’à
+la configuration native Android/iOS et l’ajout d’une application Meta.
 
 ```sh
 flutter run --dart-define-from-file=config/auth.local.json

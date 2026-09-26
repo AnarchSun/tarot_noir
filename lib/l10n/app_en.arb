@@ -142,5 +142,21 @@
     "placeholders": {
       "address": {}
     }
+  },
+  "firebaseConfigurationRequired": "Add the public Firebase identifiers and enable authentication before signing in.",
+  "emailSignIn": "Email sign-in",
+  "createAccount": "Create account",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "passwordTooShort": "Use at least 6 characters.",
+  "signIn": "Sign in",
+  "needAccount": "Create a new account",
+  "alreadyHaveAccount": "I already have an account",
+  "signedInAs": "Signed in: {email}",
+  "signOut": "Sign out",
+  "@signedInAs": {
+    "placeholders": {
+      "email": {}
+    }
   }
 }

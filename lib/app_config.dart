@@ -44,11 +44,20 @@ abstract final class AppConfig {
   static const firebaseProjectId = String.fromEnvironment(
     'FIREBASE_PROJECT_ID',
   );
+  static const firebaseApiKey = String.fromEnvironment('FIREBASE_API_KEY');
+  static const firebaseAppId = String.fromEnvironment('FIREBASE_APP_ID');
+  static const firebaseMessagingSenderId = String.fromEnvironment(
+    'FIREBASE_MESSAGING_SENDER_ID',
+  );
 
   static const metaAppId = String.fromEnvironment('META_APP_ID');
 
   static bool get isFirebaseAuthConfigured =>
-      firebaseAuthEnabled && firebaseProjectId.isNotEmpty;
+      firebaseAuthEnabled &&
+      firebaseProjectId.isNotEmpty &&
+      firebaseApiKey.isNotEmpty &&
+      firebaseAppId.isNotEmpty &&
+      firebaseMessagingSenderId.isNotEmpty;
 
   static bool get isFacebookAuthConfigured =>
       isFirebaseAuthConfigured && facebookAuthEnabled && metaAppId.isNotEmpty;

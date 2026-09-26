@@ -356,4 +356,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editProfile => 'Edit profile';
+
+  @override
+  String get firebaseConfigurationRequired =>
+      'Add the public Firebase identifiers and enable authentication before signing in.';
+
+  @override
+  String get emailSignIn => 'Email sign-in';
+
+  @override
+  String get createAccount => 'Create account';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get passwordTooShort => 'Use at least 6 characters.';
+
+  @override
+  String get signIn => 'Sign in';
+
+  @override
+  String get needAccount => 'Create a new account';
+
+  @override
+  String get alreadyHaveAccount => 'I already have an account';
+
+  @override
+  String signedInAs(Object email) {
+    return 'Signed in: $email';
+  }
+
+  @override
+  String get signOut => 'Sign out';
 }
