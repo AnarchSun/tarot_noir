@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.anarchsun.tarot_noir"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = providers.gradleProperty("tarotNoir.compileSdk").get().toInt()
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
