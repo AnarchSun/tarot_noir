@@ -393,4 +393,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get signOut => 'Cerrar sesión';
+
+  @override
+  String get forgotPassword => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get passwordResetEmailSent =>
+      'Si esta cuenta existe, se envió un correo para restablecer la contraseña.';
+
+  @override
+  String get verificationEmailSent => 'Se envió un correo de verificación.';
 }

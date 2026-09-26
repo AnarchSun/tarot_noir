@@ -20,6 +20,7 @@ class _EmailAuthSheetState extends State<EmailAuthSheet> {
   bool _createAccount = false;
   bool _submitting = false;
   String? _error;
+  String? _notice;
 
   @override
   void dispose() {
@@ -33,6 +34,7 @@ class _EmailAuthSheetState extends State<EmailAuthSheet> {
     setState(() {
       _submitting = true;
       _error = null;
+      _notice = null;
     });
     try {
       final email = _emailController.text.trim();
@@ -41,6 +43,28 @@ class _EmailAuthSheetState extends State<EmailAuthSheet> {
           ? await widget.auth.createAccount(email: email, password: password)
           : await widget.auth.signIn(email: email, password: password);
       if (mounted) Navigator.of(context).pop(user);
+    } on FirebaseAuthException catch (error) {
+      if (mounted) setState(() => _error = error.message ?? error.code);
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
+
+  Future<void> _resetPassword() async {
+    final l10n = AppLocalizations.of(context)!;
+    final email = _emailController.text.trim();
+    if (!email.contains('@')) {
+      setState(() => _error = l10n.emailInvalid);
+      return;
+    }
+    setState(() {
+      _submitting = true;
+      _error = null;
+      _notice = null;
+    });
+    try {
+      await widget.auth.sendPasswordResetEmail(email);
+      if (mounted) setState(() => _notice = l10n.passwordResetEmailSent);
     } on FirebaseAuthException catch (error) {
       if (mounted) setState(() => _error = error.message ?? error.code);
     } finally {
@@ -92,6 +116,15 @@ class _EmailAuthSheetState extends State<EmailAuthSheet> {
                       (value?.length ?? 0) >= 6 ? null : l10n.passwordTooShort,
                   onFieldSubmitted: (_) => _submitting ? null : _submit(),
                 ),
+                if (_notice != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    _notice!,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
                 if (_error != null) ...[
                   const SizedBox(height: 12),
                   Text(
@@ -112,10 +145,20 @@ class _EmailAuthSheetState extends State<EmailAuthSheet> {
                         )
                       : Text(_createAccount ? l10n.createAccount : l10n.signIn),
                 ),
+                if (!_createAccount)
+                  TextButton(
+                    key: const Key('forgot-password'),
+                    onPressed: _submitting ? null : _resetPassword,
+                    child: Text(l10n.forgotPassword),
+                  ),
                 TextButton(
                   onPressed: _submitting
                       ? null
-                      : () => setState(() => _createAccount = !_createAccount),
+                      : () => setState(() {
+                          _createAccount = !_createAccount;
+                          _error = null;
+                          _notice = null;
+                        }),
                   child: Text(
                     _createAccount ? l10n.alreadyHaveAccount : l10n.needAccount,
                   ),

@@ -394,4 +394,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get signOut => 'Se déconnecter';
+
+  @override
+  String get forgotPassword => 'Mot de passe oublié?';
+
+  @override
+  String get passwordResetEmailSent =>
+      'Si ce compte existe, un courriel de réinitialisation a été envoyé.';
+
+  @override
+  String get verificationEmailSent =>
+      'Un courriel de vérification a été envoyé.';
 }

@@ -37,8 +37,13 @@ class FirebaseAuthService {
   }) async {
     final credential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
-    return credential.user!;
+    final user = credential.user!;
+    await user.sendEmailVerification();
+    return user;
   }
+
+  Future<void> sendPasswordResetEmail(String email) =>
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
   Future<void> signOut() => FirebaseAuth.instance.signOut();
 }

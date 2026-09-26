@@ -158,5 +158,8 @@
     "placeholders": {
       "email": {}
     }
-  }
+  },
+  "forgotPassword": "¿Olvidaste tu contraseña?",
+  "passwordResetEmailSent": "Si esta cuenta existe, se envió un correo para restablecer la contraseña.",
+  "verificationEmailSent": "Se envió un correo de verificación."
 }

@@ -783,6 +783,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Se déconnecter'**
   String get signOut;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mot de passe oublié?'**
+  String get forgotPassword;
+
+  /// No description provided for @passwordResetEmailSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Si ce compte existe, un courriel de réinitialisation a été envoyé.'**
+  String get passwordResetEmailSent;
+
+  /// No description provided for @verificationEmailSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un courriel de vérification a été envoyé.'**
+  String get verificationEmailSent;
 }
 
 class _AppLocalizationsDelegate

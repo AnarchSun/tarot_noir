@@ -76,7 +76,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       useSafeArea: true,
       builder: (context) => EmailAuthSheet(auth: _auth),
     );
-    if (user != null && mounted) setState(() => _authUser = user);
+    if (user != null && mounted) {
+      setState(() => _authUser = user);
+      if (!user.emailVerified) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(l10n.verificationEmailSent)));
+      }
+    }
   }
 
   Future<void> _signOut() async {
