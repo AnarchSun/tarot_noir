@@ -158,5 +158,8 @@
     "placeholders": {
       "email": {}
     }
-  }
+  },
+  "forgotPassword": "Forgot password?",
+  "passwordResetEmailSent": "If this account exists, a password reset email has been sent.",
+  "verificationEmailSent": "A verification email has been sent."
 }

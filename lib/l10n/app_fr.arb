@@ -158,5 +158,8 @@
     "placeholders": {
       "email": {}
     }
-  }
+  },
+  "forgotPassword": "Mot de passe oublié?",
+  "passwordResetEmailSent": "Si ce compte existe, un courriel de réinitialisation a été envoyé.",
+  "verificationEmailSent": "Un courriel de vérification a été envoyé."
 }
