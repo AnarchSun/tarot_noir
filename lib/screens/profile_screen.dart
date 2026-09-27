@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
@@ -101,6 +102,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+      }
+    } on PlatformException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.message ?? l10n.facebookConfigurationRequired),
+          ),
+        );
       }
     } finally {
       if (mounted) setState(() => _facebookSigningIn = false);

@@ -71,10 +71,11 @@ et les jetons ne sont jamais enregistrés dans Git.
 Pour Facebook, activez le fournisseur dans Firebase Authentication, créez
 l’application Android et iOS correspondante dans Meta, puis renseignez
 `META_APP_ID`, `META_CLIENT_TOKEN` et `FACEBOOK_AUTH_ENABLED`. Android génère ses
-ressources natives depuis ces paramètres. Sur iOS, remplacez aussi les valeurs
-neutres `0`, `disabled` et `fb0` de `ios/Runner/Info.plist` par les mêmes valeurs
-Meta avant un build destiné à un appareil. Le bouton reste inactif si un paramètre
-manque.
+ressources natives depuis ces paramètres. Sur iOS, copiez
+`ios/Flutter/Meta.local.xcconfig.example` vers `ios/Flutter/Meta.local.xcconfig`
+et renseignez-y le même `META_APP_ID` et `META_CLIENT_TOKEN`. Ce fichier est ignoré
+par Git ; les valeurs sont substituées dans `Info.plist` au build. Le bouton reste
+inactif si un paramètre manque.
 
 ```sh
 flutter run --dart-define-from-file=config/auth.local.json
