@@ -73,6 +73,28 @@ L’authentification reste désactivée par défaut. Activez-la explicitement po
 Android avec `--dart-define=FIREBASE_AUTH_ENABLED=true`. Le mot de passe et les
 jetons ne sont jamais enregistrés dans Git.
 
+### Synchronisation Firestore du journal
+
+La synchronisation du journal est désactivée par défaut. Une fois connecté,
+activez **Synchroniser le journal avec Firebase** dans Profil pour fusionner le
+journal local avec `users/{uid}/journal` dans le compte Firebase courant. Les
+entrées synchronisées restent associées à leur UID et ne sont pas transférées à
+un autre compte connecté sur le même appareil. Désactiver l’option arrête les
+transferts futurs, sans effacer les copies distantes; effacer les données locales
+ne supprime pas non plus les données Firestore.
+
+Avant le premier déploiement, activez l’API Cloud Firestore et créez la base
+Firestore **Standard** dans `northamerica-northeast1` (Montréal) pour le projet
+`tarot-noir`. Puis publiez les règles propriétaires et l’indexation déclarée :
+
+```sh
+firebase deploy --only firestore:rules,firestore:indexes --project tarot-noir
+```
+
+Les règles de `firestore.rules` limitent les lectures et écritures au propriétaire
+du compte et valident les champs des profils et entrées du journal. Aucun journal
+n’est envoyé avant le consentement dans Profil.
+
 Pour Facebook, activez le fournisseur dans Firebase Authentication, créez
 l’application Android et iOS correspondante dans Meta, puis renseignez
 `META_APP_ID`, `META_CLIENT_TOKEN` et `FACEBOOK_AUTH_ENABLED`. Android génère ses ressources Meta depuis ces paramètres. Sur iOS, copiez

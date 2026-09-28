@@ -1,1 +1,25 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"tarot-noir","appId":"1:717791625767:android:3f0baece01c9f864dc0402","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"tarot-noir","configurations":{"android":"1:717791625767:android:3f0baece01c9f864dc0402"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "tarot-noir",
+          "appId": "1:717791625767:android:3f0baece01c9f864dc0402",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "tarot-noir",
+          "configurations": {
+            "android": "1:717791625767:android:3f0baece01c9f864dc0402"
+          }
+        }
+      }
+    }
+  }
+}

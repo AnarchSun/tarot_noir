@@ -29,6 +29,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get storageError => 'Local save failed. The ritual was not locked.';
 
   @override
+  String storageOperationFailed(Object error) {
+    return 'Could not finish the local data operation: $error';
+  }
+
+  @override
   String get deleteJournalEntry => 'Delete this entry';
 
   @override
@@ -147,7 +152,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eraseLocalDataConfirmation =>
-      'This deletes the daily draw, journal, profile, notes, and all local preferences.';
+      'This deletes the daily draw, journal, profile, notes, and all local preferences. It does not delete data already synced to Firebase.';
 
   @override
   String get cancel => 'Cancel';
@@ -275,6 +280,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authenticationPrivacy =>
       'Sign-in is handled by Firebase. Tarot Noir never receives your provider passwords.';
+
+  @override
+  String get journalSyncTitle => 'Sync journal with Firebase';
+
+  @override
+  String get journalSyncDescription =>
+      'With your permission, this device’s journal is merged with this account’s private Firestore journal. Turning this off stops future sync but does not delete cloud copies. Entries created while another account is signed in are not uploaded to this account.';
+
+  @override
+  String get journalSyncEnabled => 'Journal synchronization enabled.';
+
+  @override
+  String get journalSyncDisabled =>
+      'Journal synchronization disabled. Existing cloud copies remain available.';
+
+  @override
+  String journalSyncFailed(Object error) {
+    return 'The journal remains saved locally, but synchronization failed: $error';
+  }
 
   @override
   String get facebookConfigurationRequired =>

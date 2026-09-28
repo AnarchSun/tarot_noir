@@ -14,7 +14,16 @@ import '../widgets/profile_completion_sheet.dart';
 import '../widgets/wallet_connect_panel.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({
+    required this.onFirebaseUserChanged,
+    required this.onEnableJournalSync,
+    required this.onDisableJournalSync,
+    super.key,
+  });
+
+  final ValueChanged<User?> onFirebaseUserChanged;
+  final Future<void> Function(User user) onEnableJournalSync;
+  final Future<void> Function(User user) onDisableJournalSync;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -27,6 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User? _authUser;
   bool _facebookSigningIn = false;
   bool _googleSigningIn = false;
+  bool _journalSyncEnabled = false;
+  bool _syncingJournal = false;
 
   @override
   void initState() {
@@ -37,7 +48,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _restoreProfile() async {
     final profile = await _storage.restoreUserProfile();
-    if (mounted) setState(() => _profile = profile);
+    final user = _authUser;
+    final syncEnabled = user != null
+        ? await _storage.isJournalSyncEnabledForUser(user.uid)
+        : false;
+    if (mounted) {
+      setState(() {
+        _profile = profile;
+        if (_authUser?.uid == user?.uid) {
+          _journalSyncEnabled = syncEnabled;
+        }
+      });
+    }
   }
 
   Future<void> _completeProfile(String walletAddress) async {
@@ -166,6 +188,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _onFirebaseSignIn(User user) async {
     if (!mounted) return;
     setState(() => _authUser = user);
+    widget.onFirebaseUserChanged(user);
+    try {
+      final syncEnabled = await _storage.isJournalSyncEnabledForUser(user.uid);
+      if (mounted && _authUser?.uid == user.uid) {
+        setState(() => _journalSyncEnabled = syncEnabled);
+      }
+    } catch (error) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.storageOperationFailed(error.toString())),
+          ),
+        );
+      }
+    }
     await _completeFirebaseProfile(user);
   }
 
@@ -185,7 +223,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context) => EmailAuthSheet(auth: _auth),
     );
     if (user != null && mounted) {
-      setState(() => _authUser = user);
+      await _onFirebaseSignIn(user);
+      if (!mounted) return;
       if (!user.emailVerified) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(l10n.verificationEmailSent)));
@@ -228,7 +267,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _signOut() async {
     await _auth.signOut();
-    if (mounted) setState(() => _authUser = null);
+    if (mounted) {
+      setState(() {
+        _authUser = null;
+        _journalSyncEnabled = false;
+      });
+      widget.onFirebaseUserChanged(null);
+    }
+  }
+
+  Future<void> _setJournalSync(bool enabled) async {
+    final user = _authUser;
+    if (user == null || _syncingJournal) return;
+    setState(() => _syncingJournal = true);
+    try {
+      if (enabled) {
+        await widget.onEnableJournalSync(user);
+      } else {
+        await widget.onDisableJournalSync(user);
+      }
+      if (!mounted) return;
+      setState(() => _journalSyncEnabled = enabled);
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            enabled ? l10n.journalSyncEnabled : l10n.journalSyncDisabled,
+          ),
+        ),
+      );
+    } catch (error) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.journalSyncFailed(error.toString()))),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _syncingJournal = false);
+    }
   }
 
   @override
@@ -377,6 +454,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
               subtitle: Text(l10n.authenticationPrivacy),
             ),
           ),
+          if (authUser != null) ...[
+            const SizedBox(height: 12),
+            Card(
+              child: SwitchListTile(
+                key: const Key('journal-cloud-sync'),
+                value: _journalSyncEnabled,
+                onChanged: _syncingJournal ? null : _setJournalSync,
+                secondary: _syncingJournal
+                    ? const SizedBox.square(
+                        dimension: 22,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.cloud_sync_outlined),
+                title: Text(l10n.journalSyncTitle),
+                subtitle: Text(l10n.journalSyncDescription),
+              ),
+            ),
+          ],
           const SizedBox(height: 24),
           WalletConnectPanel(onConnected: _completeProfile),
         ],

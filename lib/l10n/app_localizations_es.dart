@@ -30,6 +30,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'Falló el guardado local. El ritual no fue bloqueado.';
 
   @override
+  String storageOperationFailed(Object error) {
+    return 'No se pudo completar la operación de datos locales: $error';
+  }
+
+  @override
   String get deleteJournalEntry => 'Eliminar esta entrada';
 
   @override
@@ -146,7 +151,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eraseLocalDataConfirmation =>
-      'Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales.';
+      'Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales. No elimina los datos ya sincronizados con Firebase.';
 
   @override
   String get cancel => 'Cancelar';
@@ -275,6 +280,25 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get authenticationPrivacy =>
       'Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.';
+
+  @override
+  String get journalSyncTitle => 'Sincronizar el diario con Firebase';
+
+  @override
+  String get journalSyncDescription =>
+      'Con tu permiso, el diario de este dispositivo se combina con el diario privado de Firestore de esta cuenta. Desactivarlo detiene futuras sincronizaciones, pero no elimina las copias en la nube. Las entradas creadas con otra cuenta conectada no se transfieren a esta cuenta.';
+
+  @override
+  String get journalSyncEnabled => 'Sincronización del diario activada.';
+
+  @override
+  String get journalSyncDisabled =>
+      'Sincronización del diario desactivada. Las copias en la nube se conservan.';
+
+  @override
+  String journalSyncFailed(Object error) {
+    return 'El diario sigue guardado localmente, pero falló la sincronización: $error';
+  }
 
   @override
   String get facebookConfigurationRequired =>

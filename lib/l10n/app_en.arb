@@ -6,6 +6,12 @@
   "drawPrompt": "The veil awaits your gesture. Draw a card to reveal today’s sign.",
   "restoringRitual": "Restoring the ritual…",
   "storageError": "Local save failed. The ritual was not locked.",
+  "storageOperationFailed": "Could not finish the local data operation: {error}",
+  "@storageOperationFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "deleteJournalEntry": "Delete this entry",
   "dailyDrawLocked": "Daily card already drawn",
   "drawDaily": "Draw my daily card",
@@ -46,7 +52,7 @@
   "dataAndInterests": "Data and interests",
   "dataPolicy": "Tarot Noir does not read your web searches, clicks, or social networks. Any future connection must be enabled separately, described clearly, and revocable.",
   "eraseLocalData": "Erase my local data",
-  "eraseLocalDataConfirmation": "This deletes the daily draw, journal, profile, notes, and all local preferences.",
+  "eraseLocalDataConfirmation": "This deletes the daily draw, journal, profile, notes, and all local preferences. It does not delete data already synced to Firebase.",
   "cancel": "Cancel",
   "erase": "Erase",
   "localDataErased": "Local data erased.",
@@ -105,6 +111,16 @@
   "authenticationConfigured": "Firebase sign-in is ready",
   "authenticationNotConfigured": "Connection awaiting configuration",
   "authenticationPrivacy": "Sign-in is handled by Firebase. Tarot Noir never receives your provider passwords.",
+  "journalSyncTitle": "Sync journal with Firebase",
+  "journalSyncDescription": "With your permission, this device’s journal is merged with this account’s private Firestore journal. Turning this off stops future sync but does not delete cloud copies. Entries created while another account is signed in are not uploaded to this account.",
+  "journalSyncEnabled": "Journal synchronization enabled.",
+  "journalSyncDisabled": "Journal synchronization disabled. Existing cloud copies remain available.",
+  "journalSyncFailed": "The journal remains saved locally, but synchronization failed: {error}",
+  "@journalSyncFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "facebookConfigurationRequired": "Firebase and the Meta application must be configured before Facebook sign-in can open.",
   "walletSectionTitle": "Solana wallet",
   "walletConnect": "Connect a wallet",

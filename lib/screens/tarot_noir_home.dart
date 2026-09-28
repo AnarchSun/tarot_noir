@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../app_config.dart';
@@ -7,6 +9,8 @@ import '../l10n/app_localizations.dart';
 import '../models/journal_entry.dart';
 import '../models/tarot_card.dart';
 import '../models/tarot_deck.dart';
+import '../services/firebase_auth_service.dart';
+import '../services/firestore_sync_service.dart';
 import '../services/tarot_storage_service.dart';
 import 'journal_screen.dart';
 import 'premium_screen.dart';
@@ -27,11 +31,16 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   bool _hasRevealedCard = false;
   bool _isRestoring = true;
   bool _hasShownAdPlaceholder = false;
+  User? _firebaseUser;
+  String? _journalSyncUserUid;
   late TarotCard _card;
   CardOrientation _orientation = CardOrientation.upright;
 
   final _journal = <JournalEntry>[];
   final _storage = TarotStorageService();
+  final _auth = const FirebaseAuthService();
+  Future<void> _journalSyncQueue = Future<void>.value();
+  late final Future<void> _restoreTask;
 
   @override
   void initState() {
@@ -46,7 +55,8 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
             ).millisecondsSinceEpoch %
             tarotDeck.length];
     _orientation = _orientationFor(_card);
-    _restoreState();
+    _firebaseUser = _auth.currentUser;
+    _restoreTask = _restoreState();
   }
 
   CardOrientation _orientationFor(TarotCard card) {
@@ -58,6 +68,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 
   Future<void> _restoreState() async {
     final snapshot = await _storage.restore(tarotDeck);
+    final syncUserUid = await _storage.journalSyncUserUid();
     TarotCard? savedCard;
     for (final card in tarotDeck) {
       if (card.id == snapshot.dailyCardId) {
@@ -80,10 +91,19 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         _hasRevealedCard = true;
       }
       _isRestoring = false;
+      _journalSyncUserUid = syncUserUid;
       _journal
         ..clear()
         ..addAll(snapshot.journal);
     });
+    final user = _firebaseUser;
+    if (user != null && syncUserUid == user.uid) {
+      try {
+        await _synchronizeJournal(user);
+      } catch (error) {
+        _showJournalSyncError(error);
+      }
+    }
   }
 
   Future<bool> _persist() async {
@@ -94,6 +114,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         orientation: _orientation,
         journal: _journal,
       );
+      final user = _firebaseUser;
+      if (user != null && _journalSyncUserUid == user.uid) {
+        try {
+          await _synchronizeJournal(user);
+        } catch (error) {
+          _showJournalSyncError(error);
+        }
+      }
       return true;
     } catch (_) {
       if (mounted) {
@@ -103,6 +131,81 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       }
       return false;
     }
+  }
+
+  Future<void> _synchronizeJournal(User user) {
+    final sync = _journalSyncQueue.then<void>(
+      (_) => _performJournalSynchronization(user),
+    );
+    _journalSyncQueue = sync.then<void>((_) {}, onError: (Object _) {});
+    return sync;
+  }
+
+  Future<void> _performJournalSynchronization(User user) async {
+    if (_firebaseUser?.uid != user.uid) {
+      throw StateError('Sign in again before synchronizing the journal.');
+    }
+    final deletedIds = await _storage.pendingDeletedJournalEntryIds(user.uid);
+    final synchronizedJournal = await FirestoreSyncService().synchronizeJournal(
+      user: user,
+      localJournal: List<JournalEntry>.of(_journal),
+      deletedEntryIds: deletedIds,
+    );
+    if (_firebaseUser?.uid != user.uid) {
+      throw StateError('The signed-in account changed during synchronization.');
+    }
+    final pendingDeletes = await _storage.pendingDeletedJournalEntryIds(
+      user.uid,
+    );
+    final pendingDeleteIds = pendingDeletes.toSet();
+    final reconciledJournal = <String, JournalEntry>{
+      for (final entry in synchronizedJournal)
+        if (!pendingDeleteIds.contains(entry.syncId)) entry.syncId: entry,
+      for (final entry in _journal)
+        if (entry.canSyncTo(user.uid) &&
+            !pendingDeleteIds.contains(entry.syncId))
+          entry.syncId: entry,
+    }.values.toList()..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    await _storage.saveJournal(reconciledJournal);
+    await _storage.clearDeletedJournalEntries(user.uid, deletedIds);
+    if (!mounted) return;
+    setState(() {
+      _journal
+        ..clear()
+        ..addAll(reconciledJournal);
+    });
+  }
+
+  Future<void> _enableJournalSync(User user) async {
+    await _restoreTask;
+    if (!mounted || _firebaseUser?.uid != user.uid) {
+      throw StateError('Sign in again before enabling journal sync.');
+    }
+    await _synchronizeJournal(user);
+    await _storage.setJournalSyncUser(user.uid);
+    if (mounted) setState(() => _journalSyncUserUid = user.uid);
+  }
+
+  Future<void> _disableJournalSync(User user) async {
+    if (_journalSyncUserUid != user.uid) return;
+    await _storage.setJournalSyncUser(null);
+    if (mounted) setState(() => _journalSyncUserUid = null);
+  }
+
+  void _onFirebaseUserChanged(User? user) {
+    if (!mounted) return;
+    setState(() => _firebaseUser = user);
+    if (user != null && !_isRestoring && _journalSyncUserUid == user.uid) {
+      unawaited(_synchronizeJournal(user).catchError(_showJournalSyncError));
+    }
+  }
+
+  void _showJournalSyncError(Object error) {
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.journalSyncFailed(error.toString()))),
+    );
   }
 
   Future<void> _draw() async {
@@ -139,6 +242,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       orientation: nextOrientation,
       createdAt: DateTime.now(),
       drawType: nextDrawType,
+      syncOwnerUid: _firebaseUser?.uid,
     );
     setState(() {
       _card = nextCard;
@@ -179,6 +283,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
             mood: mood,
             createdAt: DateTime.now(),
             drawType: _drawType,
+            syncOwnerUid: _firebaseUser?.uid,
           ),
         );
       }
@@ -191,15 +296,38 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       _journal.clear();
       _hasDrawnToday = false;
       _hasRevealedCard = false;
+      _journalSyncUserUid = null;
     });
   }
 
   Future<void> _deleteJournalEntry(JournalEntry entry) async {
     final index = _journal.indexOf(entry);
     if (index < 0) return;
+    final syncUser = _firebaseUser;
+    final isSyncEnabled =
+        syncUser != null && _journalSyncUserUid == syncUser.uid;
+    if (isSyncEnabled) {
+      try {
+        await _storage.queueDeletedJournalEntry(syncUser.uid, entry.syncId);
+      } catch (error) {
+        _showJournalSyncError(error);
+        return;
+      }
+    }
     setState(() => _journal.removeAt(index));
-    if (!await _persist() && mounted) {
-      setState(() => _journal.insert(index, entry));
+    if (!await _persist()) {
+      if (isSyncEnabled) {
+        try {
+          await _storage.clearDeletedJournalEntries(syncUser.uid, [
+            entry.syncId,
+          ]);
+        } catch (error) {
+          _showJournalSyncError(error);
+        }
+      }
+      if (mounted) {
+        setState(() => _journal.insert(index, entry));
+      }
     }
   }
 
@@ -222,7 +350,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         onClearData: _onDataCleared,
       ),
       const PremiumScreen(),
-      const ProfileScreen(),
+      ProfileScreen(
+        onFirebaseUserChanged: _onFirebaseUserChanged,
+        onEnableJournalSync: _enableJournalSync,
+        onDisableJournalSync: _disableJournalSync,
+      ),
     ];
 
     return Scaffold(

@@ -90,6 +90,7 @@ void main() {
 
     await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();
+    expect(find.byKey(const Key('journal-cloud-sync')), findsNothing);
     expect(find.text('Continue with Facebook'), findsOneWidget);
     expect(find.text('Continue with Google'), findsOneWidget);
     expect(find.text('Continue with phone'), findsOneWidget);

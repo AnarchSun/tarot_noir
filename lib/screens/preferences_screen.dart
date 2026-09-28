@@ -60,7 +60,19 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   }
 
   Future<void> _clearData() async {
-    await _storage.clearAll();
+    try {
+      await _storage.clearAll();
+    } catch (error) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.storageOperationFailed(error.toString())),
+          ),
+        );
+      }
+      return;
+    }
     if (!mounted) return;
     setState(() {
       _orionMemory = false;

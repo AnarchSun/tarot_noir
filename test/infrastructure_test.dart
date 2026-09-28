@@ -254,6 +254,59 @@ void main() {
     expect(restored!.orientation, CardOrientation.reversed);
   });
 
+  test(
+    'journal sync ownership survives serialization and isolates accounts',
+    () {
+      final entry = JournalEntry(
+        card: minorArcana.first,
+        createdAt: DateTime.utc(2026, 9, 25),
+        syncOwnerUid: 'account-a',
+      );
+
+      final restored = JournalEntry.fromJson(
+        jsonEncode(entry.toJson()),
+        tarotDeck,
+      );
+
+      expect(restored, isNotNull);
+      expect(restored!.syncOwnerUid, 'account-a');
+      expect(restored.canSyncTo('account-a'), isTrue);
+      expect(restored.canSyncTo('account-b'), isFalse);
+      expect(
+        JournalEntry(
+          card: minorArcana.first,
+          createdAt: DateTime.utc(2026, 9, 25),
+        ).canSyncTo('account-b'),
+        isTrue,
+      );
+    },
+  );
+
+  test(
+    'journal deletion tombstones are scoped to their Firebase account',
+    () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      final storage = TarotStorageService();
+
+      await storage.queueDeletedJournalEntry('account-a', 'entry-a');
+      await storage.queueDeletedJournalEntry('account-b', 'entry-b');
+
+      expect(await storage.pendingDeletedJournalEntryIds('account-a'), [
+        'entry-a',
+      ]);
+      expect(await storage.pendingDeletedJournalEntryIds('account-b'), [
+        'entry-b',
+      ]);
+
+      await storage.clearDeletedJournalEntries('account-a', ['entry-a']);
+
+      expect(await storage.pendingDeletedJournalEntryIds('account-a'), isEmpty);
+      expect(await storage.pendingDeletedJournalEntryIds('account-b'), [
+        'entry-b',
+      ]);
+    },
+  );
+
   test('legacy journal entries default to upright orientation', () {
     final entry = JournalEntry(
       card: minorArcana.first,

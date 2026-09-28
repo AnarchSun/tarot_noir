@@ -6,6 +6,12 @@
   "drawPrompt": "El velo espera tu gesto. Saca una carta para revelar la señal del día.",
   "restoringRitual": "Restaurando el ritual…",
   "storageError": "Falló el guardado local. El ritual no fue bloqueado.",
+  "storageOperationFailed": "No se pudo completar la operación de datos locales: {error}",
+  "@storageOperationFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "deleteJournalEntry": "Eliminar esta entrada",
   "dailyDrawLocked": "Carta del día ya sacada",
   "drawDaily": "Sacar mi carta del día",
@@ -46,7 +52,7 @@
   "dataAndInterests": "Datos e intereses",
   "dataPolicy": "Tarot Noir no lee tus búsquedas web, clics ni redes sociales. Cualquier conexión futura deberá activarse por separado, describirse claramente y poder revocarse.",
   "eraseLocalData": "Borrar mis datos locales",
-  "eraseLocalDataConfirmation": "Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales.",
+  "eraseLocalDataConfirmation": "Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales. No elimina los datos ya sincronizados con Firebase.",
   "cancel": "Cancelar",
   "erase": "Eliminar",
   "localDataErased": "Datos locales eliminados.",
@@ -105,6 +111,16 @@
   "authenticationConfigured": "Acceso de Firebase listo",
   "authenticationNotConfigured": "Conexión pendiente de configuración",
   "authenticationPrivacy": "Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.",
+  "journalSyncTitle": "Sincronizar el diario con Firebase",
+  "journalSyncDescription": "Con tu permiso, el diario de este dispositivo se combina con el diario privado de Firestore de esta cuenta. Desactivarlo detiene futuras sincronizaciones, pero no elimina las copias en la nube. Las entradas creadas con otra cuenta conectada no se transfieren a esta cuenta.",
+  "journalSyncEnabled": "Sincronización del diario activada.",
+  "journalSyncDisabled": "Sincronización del diario desactivada. Las copias en la nube se conservan.",
+  "journalSyncFailed": "El diario sigue guardado localmente, pero falló la sincronización: {error}",
+  "@journalSyncFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "facebookConfigurationRequired": "Firebase y la aplicación Meta deben configurarse antes de abrir el inicio de sesión con Facebook.",
   "walletSectionTitle": "Wallet de Solana",
   "walletConnect": "Conectar un wallet",

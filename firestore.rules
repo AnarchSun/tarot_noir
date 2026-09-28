@@ -1,0 +1,53 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function optionalString(field, maxLength) {
+      return !(field in request.resource.data) ||
+        request.resource.data[field] == null ||
+        (request.resource.data[field] is string &&
+          request.resource.data[field].size() <= maxLength);
+    }
+
+    function validJournalEntry(entryId) {
+      return entryId.size() <= 256 &&
+        request.resource.data.keys().hasOnly([
+          'cardId',
+          'createdAt',
+          'orientation',
+          'drawType',
+          'note',
+          'mood'
+        ]) &&
+        request.resource.data.keys().hasAll([
+          'cardId',
+          'createdAt',
+          'orientation',
+          'drawType'
+        ]) &&
+        request.resource.data.cardId is string &&
+        request.resource.data.cardId.size() > 0 &&
+        request.resource.data.cardId.size() <= 64 &&
+        request.resource.data.createdAt is timestamp &&
+        request.resource.data.orientation in ['upright', 'reversed'] &&
+        request.resource.data.drawType in ['daily', 'free'] &&
+        optionalString('note', 2000) &&
+        (!('mood' in request.resource.data) ||
+          (request.resource.data.mood is int &&
+            request.resource.data.mood >= 1 &&
+            request.resource.data.mood <= 5));
+    }
+
+    match /users/{userId} {
+      match /journal/{entryId} {
+        allow read, delete: if isOwner(userId);
+        allow create, update: if isOwner(userId) &&
+          validJournalEntry(entryId);
+      }
+    }
+  }
+}

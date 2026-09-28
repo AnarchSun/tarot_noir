@@ -136,6 +136,12 @@ abstract class AppLocalizations {
   /// **'La sauvegarde locale a échoué. Le rituel n’a pas été verrouillé.'**
   String get storageError;
 
+  /// No description provided for @storageOperationFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible de terminer l’opération sur les données locales : {error}'**
+  String storageOperationFailed(Object error);
+
   /// No description provided for @deleteJournalEntry.
   ///
   /// In fr, this message translates to:
@@ -349,7 +355,7 @@ abstract class AppLocalizations {
   /// No description provided for @eraseLocalDataConfirmation.
   ///
   /// In fr, this message translates to:
-  /// **'Cette action supprime le tirage quotidien, le journal, le profil, les notes et toutes les préférences locales.'**
+  /// **'Cette action supprime le tirage quotidien, le journal, le profil, les notes et toutes les préférences locales. Elle ne supprime pas les données déjà synchronisées avec Firebase.'**
   String get eraseLocalDataConfirmation;
 
   /// No description provided for @cancel.
@@ -579,6 +585,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'La connexion est gérée par Firebase. Tarot Noir ne reçoit jamais les mots de passe de vos fournisseurs.'**
   String get authenticationPrivacy;
+
+  /// No description provided for @journalSyncTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synchroniser le journal avec Firebase'**
+  String get journalSyncTitle;
+
+  /// No description provided for @journalSyncDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avec votre autorisation, le journal de cet appareil est fusionné avec le journal Firestore privé de ce compte. Désactiver la synchronisation arrête les prochains transferts, sans supprimer les copies dans le cloud. Les entrées créées avec un autre compte connecté ne sont pas transférées vers ce compte.'**
+  String get journalSyncDescription;
+
+  /// No description provided for @journalSyncEnabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synchronisation du journal activée.'**
+  String get journalSyncEnabled;
+
+  /// No description provided for @journalSyncDisabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synchronisation du journal désactivée. Les copies dans le cloud sont conservées.'**
+  String get journalSyncDisabled;
+
+  /// No description provided for @journalSyncFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le journal reste enregistré localement, mais la synchronisation a échoué : {error}'**
+  String journalSyncFailed(Object error);
 
   /// No description provided for @facebookConfigurationRequired.
   ///
