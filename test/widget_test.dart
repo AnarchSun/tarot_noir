@@ -91,7 +91,22 @@ void main() {
     await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();
     expect(find.text('Continue with Facebook'), findsOneWidget);
-    expect(find.text('Connection awaiting configuration'), findsOneWidget);
+    expect(find.text('Continue with Google'), findsOneWidget);
+    expect(find.text('Continue with phone'), findsOneWidget);
+
+    const configurationRequired =
+        'Enable Firebase Authentication before signing in.';
+    await tester.tap(find.byKey(const Key('google-sign-in')));
+    await tester.pumpAndSettle();
+    expect(find.text(configurationRequired), findsOneWidget);
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('phone-sign-in')));
+    await tester.pumpAndSettle();
+    expect(find.text(configurationRequired), findsOneWidget);
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(const Key('facebook-sign-in')));
     await tester.pumpAndSettle();
@@ -106,20 +121,19 @@ void main() {
 
     await tester.tap(find.byKey(const Key('email-sign-in')));
     await tester.pumpAndSettle();
-    expect(
-      find.text(
-        'Add the public Firebase identifiers and enable authentication before signing in.',
-      ),
-      findsOneWidget,
-    );
+    expect(find.text(configurationRequired), findsOneWidget);
     await tester.pump(const Duration(seconds: 5));
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(
-      find.text('Connect a wallet'),
+      find.text('Connection awaiting configuration'),
       300,
       scrollable: find.byType(Scrollable).last,
     );
+    expect(find.text('Connection awaiting configuration'), findsOneWidget);
+
+    await tester.ensureVisible(find.byKey(const Key('wallet-connect')));
+    await tester.pumpAndSettle();
     expect(find.text('Connect a wallet'), findsOneWidget);
     expect(find.text('Download Phantom'), findsOneWidget);
     expect(find.text('Download Solflare'), findsOneWidget);

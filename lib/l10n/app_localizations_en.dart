@@ -258,17 +258,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueWithFacebook => 'Continue with Facebook';
 
   @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get continueWithPhone => 'Continue with phone';
+
+  @override
   String get continueWithEmail => 'Continue with email';
 
   @override
-  String get authenticationConfigured => 'Facebook connection configured';
+  String get authenticationConfigured => 'Firebase sign-in is ready';
 
   @override
   String get authenticationNotConfigured => 'Connection awaiting configuration';
 
   @override
   String get authenticationPrivacy =>
-      'Tarot Noir never receives your Facebook password. You can revoke access from your account.';
+      'Sign-in is handled by Firebase. Tarot Noir never receives your provider passwords.';
 
   @override
   String get facebookConfigurationRequired =>
@@ -359,7 +365,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get firebaseConfigurationRequired =>
-      'Add the public Firebase identifiers and enable authentication before signing in.';
+      'Enable Firebase Authentication before signing in.';
 
   @override
   String get emailSignIn => 'Email sign-in';
@@ -417,4 +423,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailStillUnverified => 'The email is not verified yet.';
+
+  @override
+  String get phoneSignIn => 'Sign in with phone';
+
+  @override
+  String get phoneNumberLabel => 'Phone number with country code';
+
+  @override
+  String get phoneNumberInvalid =>
+      'Enter a valid number starting with + and country code.';
+
+  @override
+  String get sendVerificationCode => 'Send verification code';
+
+  @override
+  String get phoneCodeSent => 'Enter the six-digit code sent to your phone.';
+
+  @override
+  String get verificationCodeLabel => 'SMS verification code';
+
+  @override
+  String get verificationCodeInvalid =>
+      'Enter the six-digit verification code.';
 }

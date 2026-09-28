@@ -544,6 +544,18 @@ abstract class AppLocalizations {
   /// **'Continuer avec Facebook'**
   String get continueWithFacebook;
 
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @continueWithPhone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec téléphone'**
+  String get continueWithPhone;
+
   /// No description provided for @continueWithEmail.
   ///
   /// In fr, this message translates to:
@@ -553,7 +565,7 @@ abstract class AppLocalizations {
   /// No description provided for @authenticationConfigured.
   ///
   /// In fr, this message translates to:
-  /// **'Connexion Facebook configurée'**
+  /// **'Connexion Firebase prête'**
   String get authenticationConfigured;
 
   /// No description provided for @authenticationNotConfigured.
@@ -565,7 +577,7 @@ abstract class AppLocalizations {
   /// No description provided for @authenticationPrivacy.
   ///
   /// In fr, this message translates to:
-  /// **'Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.'**
+  /// **'La connexion est gérée par Firebase. Tarot Noir ne reçoit jamais les mots de passe de vos fournisseurs.'**
   String get authenticationPrivacy;
 
   /// No description provided for @facebookConfigurationRequired.
@@ -721,7 +733,7 @@ abstract class AppLocalizations {
   /// No description provided for @firebaseConfigurationRequired.
   ///
   /// In fr, this message translates to:
-  /// **'Ajoutez les identifiants publics Firebase et activez l’authentification avant de vous connecter.'**
+  /// **'Activez Firebase Authentication avant de vous connecter.'**
   String get firebaseConfigurationRequired;
 
   /// No description provided for @emailSignIn.
@@ -831,6 +843,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Le courriel n’est pas encore vérifié.'**
   String get emailStillUnverified;
+
+  /// No description provided for @phoneSignIn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion par téléphone'**
+  String get phoneSignIn;
+
+  /// No description provided for @phoneNumberLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Numéro de téléphone avec indicatif'**
+  String get phoneNumberLabel;
+
+  /// No description provided for @phoneNumberInvalid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisissez un numéro valide avec le préfixe + et l’indicatif du pays.'**
+  String get phoneNumberInvalid;
+
+  /// No description provided for @sendVerificationCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer le code de vérification'**
+  String get sendVerificationCode;
+
+  /// No description provided for @phoneCodeSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisissez le code à six chiffres reçu par SMS.'**
+  String get phoneCodeSent;
+
+  /// No description provided for @verificationCodeLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code de vérification SMS'**
+  String get verificationCodeLabel;
+
+  /// No description provided for @verificationCodeInvalid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisissez le code de vérification à six chiffres.'**
+  String get verificationCodeInvalid;
 }
 
 class _AppLocalizationsDelegate

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
@@ -8,6 +9,7 @@ import '../models/user_profile.dart';
 import '../services/firebase_auth_service.dart';
 import '../services/tarot_storage_service.dart';
 import '../widgets/email_auth_sheet.dart';
+import '../widgets/phone_auth_sheet.dart';
 import '../widgets/profile_completion_sheet.dart';
 import '../widgets/wallet_connect_panel.dart';
 
@@ -24,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   UserProfile? _profile;
   User? _authUser;
   bool _facebookSigningIn = false;
+  bool _googleSigningIn = false;
 
   @override
   void initState() {
@@ -94,10 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => _facebookSigningIn = true);
     try {
       final user = await _auth.signInWithFacebook();
-      if (user != null && mounted) {
-        setState(() => _authUser = user);
-        await _completeFirebaseProfile(user);
-      }
+      if (user != null) await _onFirebaseSignIn(user);
     } on FirebaseAuthException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context)
@@ -114,6 +114,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } finally {
       if (mounted) setState(() => _facebookSigningIn = false);
     }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    final l10n = AppLocalizations.of(context)!;
+    if (!AppConfig.isFirebaseAuthConfigured ||
+        !FirebaseAuthService.isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.firebaseConfigurationRequired)),
+      );
+      return;
+    }
+    setState(() => _googleSigningIn = true);
+    try {
+      final user = await _auth.signInWithGoogle();
+      if (user != null) await _onFirebaseSignIn(user);
+    } on FirebaseAuthException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+      }
+    } on GoogleSignInException catch (error) {
+      if (mounted && error.code != GoogleSignInExceptionCode.canceled) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error.description ?? error.code.name)),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _googleSigningIn = false);
+    }
+  }
+
+  Future<void> _openPhoneAuth() async {
+    final l10n = AppLocalizations.of(context)!;
+    if (!AppConfig.isFirebaseAuthConfigured ||
+        !FirebaseAuthService.isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.firebaseConfigurationRequired)),
+      );
+      return;
+    }
+    final user = await showModalBottomSheet<User>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => PhoneAuthSheet(auth: _auth),
+    );
+    if (user != null) await _onFirebaseSignIn(user);
+  }
+
+  Future<void> _onFirebaseSignIn(User user) async {
+    if (!mounted) return;
+    setState(() => _authUser = user);
+    await _completeFirebaseProfile(user);
   }
 
   Future<void> _openEmailAuth() async {
@@ -206,7 +259,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            authUser?.email ?? profile?.email ?? l10n.profileIntro,
+            authUser?.email ??
+                authUser?.phoneNumber ??
+                profile?.email ??
+                l10n.profileIntro,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
@@ -235,11 +291,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 12),
           if (authUser == null)
-            OutlinedButton.icon(
-              key: const Key('email-sign-in'),
-              onPressed: _openEmailAuth,
-              icon: const Icon(Icons.email_outlined),
-              label: Text(l10n.continueWithEmail),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                OutlinedButton.icon(
+                  key: const Key('google-sign-in'),
+                  onPressed: _googleSigningIn ? null : _signInWithGoogle,
+                  icon: _googleSigningIn
+                      ? const SizedBox.square(
+                          dimension: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.g_mobiledata, size: 28),
+                  label: Text(l10n.continueWithGoogle),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  key: const Key('phone-sign-in'),
+                  onPressed: _openPhoneAuth,
+                  icon: const Icon(Icons.phone_android),
+                  label: Text(l10n.continueWithPhone),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  key: const Key('email-sign-in'),
+                  onPressed: _openEmailAuth,
+                  icon: const Icon(Icons.email_outlined),
+                  label: Text(l10n.continueWithEmail),
+                ),
+              ],
             )
           else
             OutlinedButton.icon(
@@ -286,11 +366,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 authUser != null ? Icons.verified_user : Icons.lock_outline,
               ),
               title: Text(
-                authUser?.email == null
+                authUser == null
                     ? (AppConfig.isFirebaseAuthConfigured
                           ? l10n.authenticationConfigured
                           : l10n.authenticationNotConfigured)
-                    : l10n.signedInAs(authUser!.email!),
+                    : l10n.signedInAs(
+                        authUser.email ?? authUser.phoneNumber ?? authUser.uid,
+                      ),
               ),
               subtitle: Text(l10n.authenticationPrivacy),
             ),

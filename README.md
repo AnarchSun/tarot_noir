@@ -59,19 +59,23 @@ Aucun droit Premium n’est enregistré dans les préférences locales.
 
 ### Profil et authentification
 
-L’écran Profil prépare les connexions par courriel et Facebook. Elles restent
-fermées tant qu’un projet Firebase et une application Meta ne sont pas configurés.
-Copiez `config/auth.example.json` vers `config/auth.local.json`, puis renseignez
-les identifiants publics `FIREBASE_PROJECT_ID`, `FIREBASE_API_KEY`,
-`FIREBASE_APP_ID` et `FIREBASE_MESSAGING_SENDER_ID`. Activez ensuite
-`FIREBASE_AUTH_ENABLED` et lancez Flutter avec `--dart-define-from-file`.
-L’authentification par courriel utilise le SDK Firebase officiel; le mot de passe
-et les jetons ne sont jamais enregistrés dans Git.
+L’écran Profil prend en charge les connexions par courriel/mot de passe, Google,
+téléphone et (si configuré séparément) Facebook. Pour Android, les options
+FlutterFire et `android/app/google-services.json` sont générés pour le projet
+`tarot-noir`; les options sont publiques et ne contiennent aucun secret serveur.
+Activez les fournisseurs **Email/Password**, **Google** et **Phone** dans
+Firebase Authentication. Pour Google, ajoutez les empreintes SHA du certificat
+Android dans les paramètres de l’application Firebase. Pour le téléphone,
+configurez les régions SMS autorisées et utilisez des numéros de test Firebase
+pendant le développement.
+
+L’authentification reste désactivée par défaut. Activez-la explicitement pour
+Android avec `--dart-define=FIREBASE_AUTH_ENABLED=true`. Le mot de passe et les
+jetons ne sont jamais enregistrés dans Git.
 
 Pour Facebook, activez le fournisseur dans Firebase Authentication, créez
 l’application Android et iOS correspondante dans Meta, puis renseignez
-`META_APP_ID`, `META_CLIENT_TOKEN` et `FACEBOOK_AUTH_ENABLED`. Android génère ses
-ressources natives depuis ces paramètres. Sur iOS, copiez
+`META_APP_ID`, `META_CLIENT_TOKEN` et `FACEBOOK_AUTH_ENABLED`. Android génère ses ressources Meta depuis ces paramètres. Sur iOS, copiez
 `ios/Flutter/Meta.local.xcconfig.example` vers `ios/Flutter/Meta.local.xcconfig`
 et renseignez-y le même `META_APP_ID` et `META_CLIENT_TOKEN`. Ce fichier est ignoré
 par Git ; les valeurs sont substituées dans `Info.plist` au build. Le bouton reste
@@ -79,6 +83,12 @@ inactif si un paramètre manque.
 
 ```sh
 flutter run --dart-define-from-file=config/auth.local.json
+```
+
+Pour activer les flux email, Google et téléphone sur Android :
+
+```sh
+flutter run --dart-define=FIREBASE_AUTH_ENABLED=true
 ```
 
 Le Client Token Meta est un identifiant d’application public attendu par le SDK;

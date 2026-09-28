@@ -99,10 +99,12 @@
   "profileTitle": "Your circle",
   "profileIntro": "Sign in to prepare secure synchronization of your journal and Orion preferences.",
   "continueWithFacebook": "Continue with Facebook",
+  "continueWithGoogle": "Continue with Google",
+  "continueWithPhone": "Continue with phone",
   "continueWithEmail": "Continue with email",
-  "authenticationConfigured": "Facebook connection configured",
+  "authenticationConfigured": "Firebase sign-in is ready",
   "authenticationNotConfigured": "Connection awaiting configuration",
-  "authenticationPrivacy": "Tarot Noir never receives your Facebook password. You can revoke access from your account.",
+  "authenticationPrivacy": "Sign-in is handled by Firebase. Tarot Noir never receives your provider passwords.",
   "facebookConfigurationRequired": "Firebase and the Meta application must be configured before Facebook sign-in can open.",
   "walletSectionTitle": "Solana wallet",
   "walletConnect": "Connect a wallet",
@@ -143,7 +145,7 @@
       "address": {}
     }
   },
-  "firebaseConfigurationRequired": "Add the public Firebase identifiers and enable authentication before signing in.",
+  "firebaseConfigurationRequired": "Enable Firebase Authentication before signing in.",
   "emailSignIn": "Email sign-in",
   "createAccount": "Create account",
   "emailLabel": "Email",
@@ -166,5 +168,12 @@
   "resendVerification": "Resend email",
   "refreshVerification": "I verified it",
   "emailVerified": "Email verified.",
-  "emailStillUnverified": "The email is not verified yet."
+  "emailStillUnverified": "The email is not verified yet.",
+  "phoneSignIn": "Sign in with phone",
+  "phoneNumberLabel": "Phone number with country code",
+  "phoneNumberInvalid": "Enter a valid number starting with + and country code.",
+  "sendVerificationCode": "Send verification code",
+  "phoneCodeSent": "Enter the six-digit code sent to your phone.",
+  "verificationCodeLabel": "SMS verification code",
+  "verificationCodeInvalid": "Enter the six-digit verification code."
 }

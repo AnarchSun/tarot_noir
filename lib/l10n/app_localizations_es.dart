@@ -257,10 +257,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get continueWithFacebook => 'Continuar con Facebook';
 
   @override
+  String get continueWithGoogle => 'Continuar con Google';
+
+  @override
+  String get continueWithPhone => 'Continuar con teléfono';
+
+  @override
   String get continueWithEmail => 'Continuar con correo electrónico';
 
   @override
-  String get authenticationConfigured => 'Conexión de Facebook configurada';
+  String get authenticationConfigured => 'Acceso de Firebase listo';
 
   @override
   String get authenticationNotConfigured =>
@@ -268,7 +274,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get authenticationPrivacy =>
-      'Tarot Noir nunca recibe tu contraseña de Facebook. Puedes revocar el acceso desde tu cuenta.';
+      'Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.';
 
   @override
   String get facebookConfigurationRequired =>
@@ -360,7 +366,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get firebaseConfigurationRequired =>
-      'Añade los identificadores públicos de Firebase y activa la autenticación antes de iniciar sesión.';
+      'Activa Firebase Authentication antes de iniciar sesión.';
 
   @override
   String get emailSignIn => 'Acceso por correo';
@@ -418,4 +424,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get emailStillUnverified => 'El correo aún no está verificado.';
+
+  @override
+  String get phoneSignIn => 'Acceso con teléfono';
+
+  @override
+  String get phoneNumberLabel => 'Número de teléfono con código de país';
+
+  @override
+  String get phoneNumberInvalid =>
+      'Introduce un número válido que empiece con + y el código del país.';
+
+  @override
+  String get sendVerificationCode => 'Enviar código de verificación';
+
+  @override
+  String get phoneCodeSent =>
+      'Introduce el código de seis dígitos enviado a tu teléfono.';
+
+  @override
+  String get verificationCodeLabel => 'Código de verificación SMS';
+
+  @override
+  String get verificationCodeInvalid =>
+      'Introduce el código de verificación de seis dígitos.';
 }

@@ -99,10 +99,12 @@
   "profileTitle": "Tu círculo",
   "profileIntro": "Inicia sesión para preparar la sincronización segura del diario y las preferencias de Orion.",
   "continueWithFacebook": "Continuar con Facebook",
+  "continueWithGoogle": "Continuar con Google",
+  "continueWithPhone": "Continuar con teléfono",
   "continueWithEmail": "Continuar con correo electrónico",
-  "authenticationConfigured": "Conexión de Facebook configurada",
+  "authenticationConfigured": "Acceso de Firebase listo",
   "authenticationNotConfigured": "Conexión pendiente de configuración",
-  "authenticationPrivacy": "Tarot Noir nunca recibe tu contraseña de Facebook. Puedes revocar el acceso desde tu cuenta.",
+  "authenticationPrivacy": "Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.",
   "facebookConfigurationRequired": "Firebase y la aplicación Meta deben configurarse antes de abrir el inicio de sesión con Facebook.",
   "walletSectionTitle": "Wallet de Solana",
   "walletConnect": "Conectar un wallet",
@@ -143,7 +145,7 @@
       "address": {}
     }
   },
-  "firebaseConfigurationRequired": "Añade los identificadores públicos de Firebase y activa la autenticación antes de iniciar sesión.",
+  "firebaseConfigurationRequired": "Activa Firebase Authentication antes de iniciar sesión.",
   "emailSignIn": "Acceso por correo",
   "createAccount": "Crear una cuenta",
   "emailLabel": "Correo electrónico",
@@ -166,5 +168,12 @@
   "resendVerification": "Reenviar correo",
   "refreshVerification": "Ya lo verifiqué",
   "emailVerified": "Correo verificado.",
-  "emailStillUnverified": "El correo aún no está verificado."
+  "emailStillUnverified": "El correo aún no está verificado.",
+  "phoneSignIn": "Acceso con teléfono",
+  "phoneNumberLabel": "Número de teléfono con código de país",
+  "phoneNumberInvalid": "Introduce un número válido que empiece con + y el código del país.",
+  "sendVerificationCode": "Enviar código de verificación",
+  "phoneCodeSent": "Introduce el código de seis dígitos enviado a tu teléfono.",
+  "verificationCodeLabel": "Código de verificación SMS",
+  "verificationCodeInvalid": "Introduce el código de verificación de seis dígitos."
 }
