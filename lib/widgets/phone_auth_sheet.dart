@@ -126,6 +126,7 @@ class _PhoneAuthSheetState extends State<PhoneAuthSheet> {
                   key: const Key('phone-number'),
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  autofocus: true,
                   autofillHints: const [AutofillHints.telephoneNumber],
                   decoration: InputDecoration(
                     labelText: l10n.phoneNumberLabel,
@@ -139,6 +140,7 @@ class _PhoneAuthSheetState extends State<PhoneAuthSheet> {
                   key: const Key('phone-verification-code'),
                   controller: _codeController,
                   keyboardType: TextInputType.number,
+                  autofocus: true,
                   autofillHints: const [AutofillHints.oneTimeCode],
                   maxLength: 6,
                   decoration: InputDecoration(
