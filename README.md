@@ -65,7 +65,10 @@ FlutterFire et `android/app/google-services.json` sont générés pour le projet
 `tarot-noir`; les options sont publiques et ne contiennent aucun secret serveur.
 Activez les fournisseurs **Email/Password**, **Google** et **Phone** dans
 Firebase Authentication. Pour Google, ajoutez les empreintes SHA du certificat
-Android dans les paramètres de l’application Firebase. Pour le téléphone,
+Android dans les paramètres de l’application Firebase, puis récupérez le
+`google-services.json` à jour afin qu’il contienne les clients OAuth Android et
+Web. Le fichier de ce dépôt a été actualisé après l’enregistrement des
+empreintes debug SHA-1 et SHA-256. Pour le téléphone,
 configurez les régions SMS autorisées et utilisez des numéros de test Firebase
 pendant le développement.
 

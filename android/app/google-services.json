@@ -12,7 +12,20 @@
           "package_name": "com.anarchsun.tarot_noir"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "717791625767-3ustie5er330se2v985gmck2nqvgs847.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anarchsun.tarot_noir",
+            "certificate_hash": "eed7c3e4f37d8e46d4620e3ed693a84973240091"
+          }
+        },
+        {
+          "client_id": "717791625767-0utumuebvonsdc9a2fvnqiuabkll2gpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAkDG2I8yXh-mDo1xToLCixYwB2aCs3XeE"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "717791625767-0utumuebvonsdc9a2fvnqiuabkll2gpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
