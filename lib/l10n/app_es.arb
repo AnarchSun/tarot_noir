@@ -106,8 +106,7 @@
   "profileIntro": "Inicia sesión para preparar la sincronización segura del diario y las preferencias de Orion.",
   "continueWithFacebook": "Continuar con Facebook",
   "continueWithGoogle": "Continuar con Google",
-  "continueWithPhone": "Continuar con teléfono",
-  "continueWithEmail": "Continuar con correo electrónico",
+  "continueWithApple": "Continuar con Apple",
   "authenticationConfigured": "Acceso de Firebase listo",
   "authenticationNotConfigured": "Conexión pendiente de configuración",
   "authenticationPrivacy": "Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.",
@@ -162,34 +161,11 @@
     }
   },
   "firebaseConfigurationRequired": "Activa Firebase Authentication antes de iniciar sesión.",
-  "emailSignIn": "Acceso por correo",
-  "createAccount": "Crear una cuenta",
-  "emailLabel": "Correo electrónico",
-  "passwordLabel": "Contraseña",
-  "passwordTooShort": "Usa al menos 6 caracteres.",
-  "signIn": "Iniciar sesión",
-  "needAccount": "Crear una cuenta nueva",
-  "alreadyHaveAccount": "Ya tengo una cuenta",
   "signedInAs": "Conectado: {email}",
   "signOut": "Cerrar sesión",
   "@signedInAs": {
     "placeholders": {
       "email": {}
     }
-  },
-  "forgotPassword": "¿Olvidaste tu contraseña?",
-  "passwordResetEmailSent": "Si esta cuenta existe, se envió un correo para restablecer la contraseña.",
-  "verificationEmailSent": "Se envió un correo de verificación.",
-  "emailNotVerified": "Tu correo aún no está verificado.",
-  "resendVerification": "Reenviar correo",
-  "refreshVerification": "Ya lo verifiqué",
-  "emailVerified": "Correo verificado.",
-  "emailStillUnverified": "El correo aún no está verificado.",
-  "phoneSignIn": "Acceso con teléfono",
-  "phoneNumberLabel": "Número de teléfono con código de país",
-  "phoneNumberInvalid": "Introduce un número válido que empiece con + y el código del país.",
-  "sendVerificationCode": "Enviar código de verificación",
-  "phoneCodeSent": "Introduce el código de seis dígitos enviado a tu teléfono.",
-  "verificationCodeLabel": "Código de verificación SMS",
-  "verificationCodeInvalid": "Introduce el código de verificación de seis dígitos."
+  }
 }

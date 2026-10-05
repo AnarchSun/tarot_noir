@@ -106,8 +106,7 @@
   "profileIntro": "Connectez-vous pour préparer la synchronisation sécurisée du journal et des préférences Orion.",
   "continueWithFacebook": "Continuer avec Facebook",
   "continueWithGoogle": "Continuer avec Google",
-  "continueWithPhone": "Continuer avec téléphone",
-  "continueWithEmail": "Continuer avec un courriel",
+  "continueWithApple": "Continuer avec Apple",
   "authenticationConfigured": "Connexion Firebase prête",
   "authenticationNotConfigured": "Connexion en attente de configuration",
   "authenticationPrivacy": "La connexion est gérée par Firebase. Tarot Noir ne reçoit jamais les mots de passe de vos fournisseurs.",
@@ -162,34 +161,11 @@
     }
   },
   "firebaseConfigurationRequired": "Activez Firebase Authentication avant de vous connecter.",
-  "emailSignIn": "Connexion par courriel",
-  "createAccount": "Créer un compte",
-  "emailLabel": "Courriel",
-  "passwordLabel": "Mot de passe",
-  "passwordTooShort": "Utilisez au moins 6 caractères.",
-  "signIn": "Se connecter",
-  "needAccount": "Créer un nouveau compte",
-  "alreadyHaveAccount": "J’ai déjà un compte",
   "signedInAs": "Connecté : {email}",
   "signOut": "Se déconnecter",
   "@signedInAs": {
     "placeholders": {
       "email": {}
     }
-  },
-  "forgotPassword": "Mot de passe oublié?",
-  "passwordResetEmailSent": "Si ce compte existe, un courriel de réinitialisation a été envoyé.",
-  "verificationEmailSent": "Un courriel de vérification a été envoyé.",
-  "emailNotVerified": "Votre courriel n’est pas encore vérifié.",
-  "resendVerification": "Renvoyer le courriel",
-  "refreshVerification": "J’ai vérifié",
-  "emailVerified": "Courriel vérifié.",
-  "emailStillUnverified": "Le courriel n’est pas encore vérifié.",
-  "phoneSignIn": "Connexion par téléphone",
-  "phoneNumberLabel": "Numéro de téléphone avec indicatif",
-  "phoneNumberInvalid": "Saisissez un numéro valide avec le préfixe + et l’indicatif du pays.",
-  "sendVerificationCode": "Envoyer le code de vérification",
-  "phoneCodeSent": "Saisissez le code à six chiffres reçu par SMS.",
-  "verificationCodeLabel": "Code de vérification SMS",
-  "verificationCodeInvalid": "Saisissez le code de vérification à six chiffres."
+  }
 }

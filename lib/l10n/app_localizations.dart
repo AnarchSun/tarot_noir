@@ -556,17 +556,11 @@ abstract class AppLocalizations {
   /// **'Continuer avec Google'**
   String get continueWithGoogle;
 
-  /// No description provided for @continueWithPhone.
+  /// No description provided for @continueWithApple.
   ///
   /// In fr, this message translates to:
-  /// **'Continuer avec téléphone'**
-  String get continueWithPhone;
-
-  /// No description provided for @continueWithEmail.
-  ///
-  /// In fr, this message translates to:
-  /// **'Continuer avec un courriel'**
-  String get continueWithEmail;
+  /// **'Continuer avec Apple'**
+  String get continueWithApple;
 
   /// No description provided for @authenticationConfigured.
   ///
@@ -772,54 +766,6 @@ abstract class AppLocalizations {
   /// **'Activez Firebase Authentication avant de vous connecter.'**
   String get firebaseConfigurationRequired;
 
-  /// No description provided for @emailSignIn.
-  ///
-  /// In fr, this message translates to:
-  /// **'Connexion par courriel'**
-  String get emailSignIn;
-
-  /// No description provided for @createAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'Créer un compte'**
-  String get createAccount;
-
-  /// No description provided for @emailLabel.
-  ///
-  /// In fr, this message translates to:
-  /// **'Courriel'**
-  String get emailLabel;
-
-  /// No description provided for @passwordLabel.
-  ///
-  /// In fr, this message translates to:
-  /// **'Mot de passe'**
-  String get passwordLabel;
-
-  /// No description provided for @passwordTooShort.
-  ///
-  /// In fr, this message translates to:
-  /// **'Utilisez au moins 6 caractères.'**
-  String get passwordTooShort;
-
-  /// No description provided for @signIn.
-  ///
-  /// In fr, this message translates to:
-  /// **'Se connecter'**
-  String get signIn;
-
-  /// No description provided for @needAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'Créer un nouveau compte'**
-  String get needAccount;
-
-  /// No description provided for @alreadyHaveAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'J’ai déjà un compte'**
-  String get alreadyHaveAccount;
-
   /// No description provided for @signedInAs.
   ///
   /// In fr, this message translates to:
@@ -831,96 +777,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Se déconnecter'**
   String get signOut;
-
-  /// No description provided for @forgotPassword.
-  ///
-  /// In fr, this message translates to:
-  /// **'Mot de passe oublié?'**
-  String get forgotPassword;
-
-  /// No description provided for @passwordResetEmailSent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Si ce compte existe, un courriel de réinitialisation a été envoyé.'**
-  String get passwordResetEmailSent;
-
-  /// No description provided for @verificationEmailSent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Un courriel de vérification a été envoyé.'**
-  String get verificationEmailSent;
-
-  /// No description provided for @emailNotVerified.
-  ///
-  /// In fr, this message translates to:
-  /// **'Votre courriel n’est pas encore vérifié.'**
-  String get emailNotVerified;
-
-  /// No description provided for @resendVerification.
-  ///
-  /// In fr, this message translates to:
-  /// **'Renvoyer le courriel'**
-  String get resendVerification;
-
-  /// No description provided for @refreshVerification.
-  ///
-  /// In fr, this message translates to:
-  /// **'J’ai vérifié'**
-  String get refreshVerification;
-
-  /// No description provided for @emailVerified.
-  ///
-  /// In fr, this message translates to:
-  /// **'Courriel vérifié.'**
-  String get emailVerified;
-
-  /// No description provided for @emailStillUnverified.
-  ///
-  /// In fr, this message translates to:
-  /// **'Le courriel n’est pas encore vérifié.'**
-  String get emailStillUnverified;
-
-  /// No description provided for @phoneSignIn.
-  ///
-  /// In fr, this message translates to:
-  /// **'Connexion par téléphone'**
-  String get phoneSignIn;
-
-  /// No description provided for @phoneNumberLabel.
-  ///
-  /// In fr, this message translates to:
-  /// **'Numéro de téléphone avec indicatif'**
-  String get phoneNumberLabel;
-
-  /// No description provided for @phoneNumberInvalid.
-  ///
-  /// In fr, this message translates to:
-  /// **'Saisissez un numéro valide avec le préfixe + et l’indicatif du pays.'**
-  String get phoneNumberInvalid;
-
-  /// No description provided for @sendVerificationCode.
-  ///
-  /// In fr, this message translates to:
-  /// **'Envoyer le code de vérification'**
-  String get sendVerificationCode;
-
-  /// No description provided for @phoneCodeSent.
-  ///
-  /// In fr, this message translates to:
-  /// **'Saisissez le code à six chiffres reçu par SMS.'**
-  String get phoneCodeSent;
-
-  /// No description provided for @verificationCodeLabel.
-  ///
-  /// In fr, this message translates to:
-  /// **'Code de vérification SMS'**
-  String get verificationCodeLabel;
-
-  /// No description provided for @verificationCodeInvalid.
-  ///
-  /// In fr, this message translates to:
-  /// **'Saisissez le code de vérification à six chiffres.'**
-  String get verificationCodeInvalid;
 }
 
 class _AppLocalizationsDelegate

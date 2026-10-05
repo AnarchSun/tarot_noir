@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -58,5 +55,15 @@ class DefaultFirebaseOptions {
     messagingSenderId: '717791625767',
     projectId: 'tarot-noir',
     storageBucket: 'tarot-noir.firebasestorage.app',
+  );
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBd6jV04SgvkiUbEiL-LzmZmlR06dFFyDo',
+    appId: '1:717791625767:ios:acc3eb5c57345dc7dc0402',
+    messagingSenderId: '717791625767',
+    projectId: 'tarot-noir',
+    storageBucket: 'tarot-noir.firebasestorage.app',
+    androidClientId: '717791625767-3ustie5er330se2v985gmck2nqvgs847.apps.googleusercontent.com',
+    iosClientId: '717791625767-5gcolluurr5gj0chjve9f4d91poc6dfm.apps.googleusercontent.com',
+    iosBundleId: 'com.anarchsun.tarotNoir',
   );
 }

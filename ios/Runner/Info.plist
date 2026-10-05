@@ -24,6 +24,12 @@
 				<string>fb$(META_APP_ID)</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.717791625767-5gcolluurr5gj0chjve9f4d91poc6dfm</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>

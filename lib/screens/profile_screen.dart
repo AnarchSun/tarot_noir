@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,8 +9,6 @@ import '../l10n/app_localizations.dart';
 import '../models/user_profile.dart';
 import '../services/firebase_auth_service.dart';
 import '../services/tarot_storage_service.dart';
-import '../widgets/email_auth_sheet.dart';
-import '../widgets/phone_auth_sheet.dart';
 import '../widgets/profile_completion_sheet.dart';
 import '../widgets/wallet_connect_panel.dart';
 
@@ -36,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User? _authUser;
   bool _facebookSigningIn = false;
   bool _googleSigningIn = false;
+  bool _appleSigningIn = false;
   bool _journalSyncEnabled = false;
   bool _syncingJournal = false;
 
@@ -167,22 +167,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<void> _openPhoneAuth() async {
+  Future<void> _signInWithApple() async {
     final l10n = AppLocalizations.of(context)!;
-    if (!AppConfig.isFirebaseAuthConfigured ||
+    if (kIsWeb ||
+        defaultTargetPlatform != TargetPlatform.iOS ||
+        !AppConfig.isFirebaseAuthConfigured ||
         !FirebaseAuthService.isInitialized) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.firebaseConfigurationRequired)),
       );
       return;
     }
-    final user = await showModalBottomSheet<User>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (context) => PhoneAuthSheet(auth: _auth),
-    );
-    if (user != null) await _onFirebaseSignIn(user);
+    setState(() => _appleSigningIn = true);
+    try {
+      final user = await _auth.signInWithApple();
+      if (user != null) await _onFirebaseSignIn(user);
+    } on FirebaseAuthException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+      }
+    } finally {
+      if (mounted) setState(() => _appleSigningIn = false);
+    }
   }
 
   Future<void> _onFirebaseSignIn(User user) async {
@@ -205,64 +212,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     }
     await _completeFirebaseProfile(user);
-  }
-
-  Future<void> _openEmailAuth() async {
-    final l10n = AppLocalizations.of(context)!;
-    if (!AppConfig.isFirebaseAuthConfigured ||
-        !FirebaseAuthService.isInitialized) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.firebaseConfigurationRequired)),
-      );
-      return;
-    }
-    final user = await showModalBottomSheet<User>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (context) => EmailAuthSheet(auth: _auth),
-    );
-    if (user != null && mounted) {
-      await _onFirebaseSignIn(user);
-      if (!mounted) return;
-      if (!user.emailVerified) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(l10n.verificationEmailSent)));
-      }
-      await _completeFirebaseProfile(user);
-    }
-  }
-
-  Future<void> _resendVerification() async {
-    final l10n = AppLocalizations.of(context)!;
-    try {
-      await _auth.resendEmailVerification();
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(l10n.verificationEmailSent)));
-      }
-    } on FirebaseAuthException catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
-      }
-    }
-  }
-
-  Future<void> _refreshVerification() async {
-    final user = await _auth.reloadCurrentUser();
-    if (!mounted) return;
-    setState(() => _authUser = user);
-    final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          user?.emailVerified == true
-              ? l10n.emailVerified
-              : l10n.emailStillUnverified,
-        ),
-      ),
-    );
   }
 
   Future<void> _signOut() async {
@@ -311,6 +260,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isApplePlatform =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
 
     final profile = _profile;
     final authUser = _authUser;
@@ -382,20 +333,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       : const Icon(Icons.g_mobiledata, size: 28),
                   label: Text(l10n.continueWithGoogle),
                 ),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  key: const Key('phone-sign-in'),
-                  onPressed: _openPhoneAuth,
-                  icon: const Icon(Icons.phone_android),
-                  label: Text(l10n.continueWithPhone),
-                ),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  key: const Key('email-sign-in'),
-                  onPressed: _openEmailAuth,
-                  icon: const Icon(Icons.email_outlined),
-                  label: Text(l10n.continueWithEmail),
-                ),
+                if (isApplePlatform) ...[
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    key: const Key('apple-sign-in'),
+                    onPressed: _appleSigningIn ? null : _signInWithApple,
+                    icon: _appleSigningIn
+                        ? const SizedBox.square(
+                            dimension: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.login),
+                    label: Text(l10n.continueWithApple),
+                  ),
+                ],
               ],
             )
           else
@@ -405,37 +356,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: const Icon(Icons.logout),
               label: Text(l10n.signOut),
             ),
-          if (authUser != null && !authUser.emailVerified) ...[
-            const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(l10n.emailNotVerified),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      alignment: WrapAlignment.end,
-                      spacing: 8,
-                      children: [
-                        TextButton(
-                          key: const Key('resend-verification'),
-                          onPressed: _resendVerification,
-                          child: Text(l10n.resendVerification),
-                        ),
-                        TextButton(
-                          key: const Key('refresh-verification'),
-                          onPressed: _refreshVerification,
-                          child: Text(l10n.refreshVerification),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
           const SizedBox(height: 24),
           Card(
             child: ListTile(

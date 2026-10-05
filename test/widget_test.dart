@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,17 +94,13 @@ void main() {
     expect(find.byKey(const Key('journal-cloud-sync')), findsNothing);
     expect(find.text('Continue with Facebook'), findsOneWidget);
     expect(find.text('Continue with Google'), findsOneWidget);
-    expect(find.text('Continue with phone'), findsOneWidget);
+    expect(find.text('Continue with phone'), findsNothing);
+    expect(find.text('Continue with email'), findsNothing);
+    expect(find.byKey(const Key('apple-sign-in')), findsNothing);
 
     const configurationRequired =
         'Enable Firebase Authentication before signing in.';
     await tester.tap(find.byKey(const Key('google-sign-in')));
-    await tester.pumpAndSettle();
-    expect(find.text(configurationRequired), findsOneWidget);
-    await tester.pump(const Duration(seconds: 5));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const Key('phone-sign-in')));
     await tester.pumpAndSettle();
     expect(find.text(configurationRequired), findsOneWidget);
     await tester.pump(const Duration(seconds: 5));
@@ -120,12 +117,6 @@ void main() {
     await tester.pump(const Duration(seconds: 5));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('email-sign-in')));
-    await tester.pumpAndSettle();
-    expect(find.text(configurationRequired), findsOneWidget);
-    await tester.pump(const Duration(seconds: 5));
-    await tester.pumpAndSettle();
-
     await tester.scrollUntilVisible(
       find.text('Connection awaiting configuration'),
       300,
@@ -133,7 +124,11 @@ void main() {
     );
     expect(find.text('Connection awaiting configuration'), findsOneWidget);
 
-    await tester.ensureVisible(find.byKey(const Key('wallet-connect')));
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('wallet-connect')),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
     await tester.pumpAndSettle();
     expect(find.text('Connect a wallet'), findsOneWidget);
     expect(find.text('Download Phantom'), findsOneWidget);
@@ -146,6 +141,25 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('Apple sign-in is shown only on iOS', (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    try {
+      await tester.pumpWidget(const TarotNoirApp());
+      await tester.tap(find.text('Profile'));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('apple-sign-in')), findsOneWidget);
+      await tester.tap(find.byKey(const Key('apple-sign-in')));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Enable Firebase Authentication before signing in.'),
+        findsOneWidget,
+      );
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
   });
 
   testWidgets('falls back to English for an unsupported device locale', (

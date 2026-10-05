@@ -49,7 +49,8 @@ abstract final class AppConfig {
   static bool get isFirebaseAuthConfigured =>
       firebaseAuthEnabled &&
       !kIsWeb &&
-      defaultTargetPlatform == TargetPlatform.android;
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
 
   static bool get isFacebookAuthConfigured =>
       isFirebaseAuthConfigured &&

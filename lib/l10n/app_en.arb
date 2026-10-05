@@ -106,8 +106,7 @@
   "profileIntro": "Sign in to prepare secure synchronization of your journal and Orion preferences.",
   "continueWithFacebook": "Continue with Facebook",
   "continueWithGoogle": "Continue with Google",
-  "continueWithPhone": "Continue with phone",
-  "continueWithEmail": "Continue with email",
+  "continueWithApple": "Continue with Apple",
   "authenticationConfigured": "Firebase sign-in is ready",
   "authenticationNotConfigured": "Connection awaiting configuration",
   "authenticationPrivacy": "Sign-in is handled by Firebase. Tarot Noir never receives your provider passwords.",
@@ -162,34 +161,11 @@
     }
   },
   "firebaseConfigurationRequired": "Enable Firebase Authentication before signing in.",
-  "emailSignIn": "Email sign-in",
-  "createAccount": "Create account",
-  "emailLabel": "Email",
-  "passwordLabel": "Password",
-  "passwordTooShort": "Use at least 6 characters.",
-  "signIn": "Sign in",
-  "needAccount": "Create a new account",
-  "alreadyHaveAccount": "I already have an account",
   "signedInAs": "Signed in: {email}",
   "signOut": "Sign out",
   "@signedInAs": {
     "placeholders": {
       "email": {}
     }
-  },
-  "forgotPassword": "Forgot password?",
-  "passwordResetEmailSent": "If this account exists, a password reset email has been sent.",
-  "verificationEmailSent": "A verification email has been sent.",
-  "emailNotVerified": "Your email is not verified yet.",
-  "resendVerification": "Resend email",
-  "refreshVerification": "I verified it",
-  "emailVerified": "Email verified.",
-  "emailStillUnverified": "The email is not verified yet.",
-  "phoneSignIn": "Sign in with phone",
-  "phoneNumberLabel": "Phone number with country code",
-  "phoneNumberInvalid": "Enter a valid number starting with + and country code.",
-  "sendVerificationCode": "Send verification code",
-  "phoneCodeSent": "Enter the six-digit code sent to your phone.",
-  "verificationCodeLabel": "SMS verification code",
-  "verificationCodeInvalid": "Enter the six-digit verification code."
+  }
 }

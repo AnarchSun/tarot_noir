@@ -10,13 +10,21 @@
           "projectId": "tarot-noir",
           "appId": "1:717791625767:android:3f0baece01c9f864dc0402",
           "fileOutput": "android/app/google-services.json"
+        },
+        "buildConfigurations": {
+          ".": {
+            "projectId": "tarot-noir",
+            "appId": "1:717791625767:android:3f0baece01c9f864dc0402",
+            "fileOutput": "android/app/google-services.json"
+          }
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
           "projectId": "tarot-noir",
           "configurations": {
-            "android": "1:717791625767:android:3f0baece01c9f864dc0402"
+            "android": "1:717791625767:android:3f0baece01c9f864dc0402",
+            "ios": "1:717791625767:ios:acc3eb5c57345dc7dc0402"
           }
         }
       }

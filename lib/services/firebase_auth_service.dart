@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -25,28 +23,6 @@ class FirebaseAuthService {
   User? get currentUser =>
       isInitialized ? FirebaseAuth.instance.currentUser : null;
 
-  Future<User> signIn({required String email, required String password}) async {
-    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return credential.user!;
-  }
-
-  Future<User> createAccount({
-    required String email,
-    required String password,
-  }) async {
-    final credential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
-    final user = credential.user!;
-    await user.sendEmailVerification();
-    return user;
-  }
-
-  Future<void> sendPasswordResetEmail(String email) =>
-      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-
   Future<User?> signInWithGoogle() async {
     if (kIsWeb) {
       final credential = await FirebaseAuth.instance.signInWithPopup(
@@ -70,73 +46,6 @@ class FirebaseAuthService {
     return userCredential.user;
   }
 
-  Future<void> requestPhoneVerification({
-    required String phoneNumber,
-    required void Function(String verificationId, int? resendToken) onCodeSent,
-    required void Function(User user) onVerificationCompleted,
-    required void Function(FirebaseAuthException error) onVerificationFailed,
-  }) {
-    return FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (credential) {
-        unawaited(
-          _signInWithPhoneCredential(
-            credential,
-            onVerificationCompleted,
-            onVerificationFailed,
-          ),
-        );
-      },
-      verificationFailed: onVerificationFailed,
-      codeSent: onCodeSent,
-      codeAutoRetrievalTimeout: (_) {},
-    );
-  }
-
-  Future<void> _signInWithPhoneCredential(
-    PhoneAuthCredential credential,
-    void Function(User user) onVerificationCompleted,
-    void Function(FirebaseAuthException error) onVerificationFailed,
-  ) async {
-    try {
-      final result = await FirebaseAuth.instance.signInWithCredential(
-        credential,
-      );
-      final user = result.user;
-      if (user == null) {
-        onVerificationFailed(
-          FirebaseAuthException(
-            code: 'phone-sign-in-failed',
-            message: 'Phone sign-in completed without a Firebase user.',
-          ),
-        );
-        return;
-      }
-      onVerificationCompleted(user);
-    } on FirebaseAuthException catch (error) {
-      onVerificationFailed(error);
-    }
-  }
-
-  Future<User> signInWithPhoneVerificationCode({
-    required String verificationId,
-    required String smsCode,
-  }) async {
-    final credential = PhoneAuthProvider.credential(
-      verificationId: verificationId,
-      smsCode: smsCode,
-    );
-    final result = await FirebaseAuth.instance.signInWithCredential(credential);
-    final user = result.user;
-    if (user == null) {
-      throw FirebaseAuthException(
-        code: 'phone-sign-in-failed',
-        message: 'Phone sign-in completed without a Firebase user.',
-      );
-    }
-    return user;
-  }
-
   Future<User?> signInWithFacebook() async {
     final result = await FacebookAuth.instance.login(
       permissions: const ['email', 'public_profile'],
@@ -157,15 +66,12 @@ class FirebaseAuthService {
     return firebaseCredential.user;
   }
 
-  Future<void> resendEmailVerification() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null || user.emailVerified) return;
-    await user.sendEmailVerification();
-  }
-
-  Future<User?> reloadCurrentUser() async {
-    await FirebaseAuth.instance.currentUser?.reload();
-    return FirebaseAuth.instance.currentUser;
+  Future<User?> signInWithApple() async {
+    final provider = AppleAuthProvider()
+      ..addScope('email')
+      ..addScope('name');
+    final credential = await FirebaseAuth.instance.signInWithProvider(provider);
+    return credential.user;
   }
 
   Future<void> signOut() async {

@@ -265,10 +265,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get continueWithGoogle => 'Continuar con Google';
 
   @override
-  String get continueWithPhone => 'Continuar con teléfono';
-
-  @override
-  String get continueWithEmail => 'Continuar con correo electrónico';
+  String get continueWithApple => 'Continuar con Apple';
 
   @override
   String get authenticationConfigured => 'Acceso de Firebase listo';
@@ -393,83 +390,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Activa Firebase Authentication antes de iniciar sesión.';
 
   @override
-  String get emailSignIn => 'Acceso por correo';
-
-  @override
-  String get createAccount => 'Crear una cuenta';
-
-  @override
-  String get emailLabel => 'Correo electrónico';
-
-  @override
-  String get passwordLabel => 'Contraseña';
-
-  @override
-  String get passwordTooShort => 'Usa al menos 6 caracteres.';
-
-  @override
-  String get signIn => 'Iniciar sesión';
-
-  @override
-  String get needAccount => 'Crear una cuenta nueva';
-
-  @override
-  String get alreadyHaveAccount => 'Ya tengo una cuenta';
-
-  @override
   String signedInAs(Object email) {
     return 'Conectado: $email';
   }
 
   @override
   String get signOut => 'Cerrar sesión';
-
-  @override
-  String get forgotPassword => '¿Olvidaste tu contraseña?';
-
-  @override
-  String get passwordResetEmailSent =>
-      'Si esta cuenta existe, se envió un correo para restablecer la contraseña.';
-
-  @override
-  String get verificationEmailSent => 'Se envió un correo de verificación.';
-
-  @override
-  String get emailNotVerified => 'Tu correo aún no está verificado.';
-
-  @override
-  String get resendVerification => 'Reenviar correo';
-
-  @override
-  String get refreshVerification => 'Ya lo verifiqué';
-
-  @override
-  String get emailVerified => 'Correo verificado.';
-
-  @override
-  String get emailStillUnverified => 'El correo aún no está verificado.';
-
-  @override
-  String get phoneSignIn => 'Acceso con teléfono';
-
-  @override
-  String get phoneNumberLabel => 'Número de teléfono con código de país';
-
-  @override
-  String get phoneNumberInvalid =>
-      'Introduce un número válido que empiece con + y el código del país.';
-
-  @override
-  String get sendVerificationCode => 'Enviar código de verificación';
-
-  @override
-  String get phoneCodeSent =>
-      'Introduce el código de seis dígitos enviado a tu teléfono.';
-
-  @override
-  String get verificationCodeLabel => 'Código de verificación SMS';
-
-  @override
-  String get verificationCodeInvalid =>
-      'Introduce el código de verificación de seis dígitos.';
 }

@@ -37,6 +37,13 @@
             {
               "client_id": "717791625767-0utumuebvonsdc9a2fvnqiuabkll2gpn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "717791625767-5gcolluurr5gj0chjve9f4d91poc6dfm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anarchsun.tarotNoir"
+              }
             }
           ]
         }
