@@ -13,7 +13,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Tarot Noir';
 
   @override
-  String get dailyReading => 'Daily reading';
+  String get dailyReading => 'Card of the day';
 
   @override
   String get drawAnother => 'Draw another card';
@@ -41,6 +41,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get drawDaily => 'Draw my daily card';
+
+  @override
+  String get basicDraw => 'Draw a basic card';
+
+  @override
+  String get continueWithoutAccount => 'Continue without an account';
 
   @override
   String get reading => 'Reading';

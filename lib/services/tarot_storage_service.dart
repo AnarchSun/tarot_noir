@@ -35,6 +35,7 @@ class TarotStorageService {
   static const userProfileKey = 'user_profile';
   static const journalSyncUserUidKey = 'journal_sync_user_uid';
   static const deletedJournalEntryIdsKey = 'deleted_journal_entry_ids';
+  static const guestAccessAcceptedKey = 'guest_access_accepted';
 
   Future<void> _migrateLegacyState(
     SharedPreferences preferences,
@@ -143,6 +144,18 @@ class TarotStorageService {
   Future<bool> isJournalSyncEnabledForUser(String uid) async {
     final preferences = await SharedPreferences.getInstance();
     return preferences.getString(journalSyncUserUidKey) == uid;
+  }
+
+  Future<bool> hasAcceptedGuestAccess() async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(guestAccessAcceptedKey) ?? false;
+  }
+
+  Future<void> setGuestAccessAccepted(bool accepted) async {
+    final preferences = await SharedPreferences.getInstance();
+    if (!await preferences.setBool(guestAccessAcceptedKey, accepted)) {
+      throw StateError('Could not save the guest access choice.');
+    }
   }
 
   Future<String?> journalSyncUserUid() async {
@@ -261,6 +274,7 @@ class TarotStorageService {
       userProfileKey,
       journalSyncUserUidKey,
       deletedJournalEntryIdsKey,
+      guestAccessAcceptedKey,
     }) {
       if (preferences.containsKey(key) && !await preferences.remove(key)) {
         throw StateError('Could not erase local Tarot Noir data.');

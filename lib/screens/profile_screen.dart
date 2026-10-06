@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-import '../app_config.dart';
 import '../l10n/app_localizations.dart';
 import '../models/user_profile.dart';
 import '../services/firebase_auth_service.dart';
@@ -13,13 +10,17 @@ import '../widgets/wallet_connect_panel.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
+    required this.initialUser,
+    required this.isSelected,
     required this.onFirebaseUserChanged,
     required this.onEnableJournalSync,
     required this.onDisableJournalSync,
     super.key,
   });
 
-  final ValueChanged<User?> onFirebaseUserChanged;
+  final User initialUser;
+  final bool isSelected;
+  final Future<void> Function(User?) onFirebaseUserChanged;
   final Future<void> Function(User user) onEnableJournalSync;
   final Future<void> Function(User user) onDisableJournalSync;
 
@@ -32,16 +33,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _auth = const FirebaseAuthService();
   UserProfile? _profile;
   User? _authUser;
-  bool _facebookSigningIn = false;
-  bool _googleSigningIn = false;
   bool _journalSyncEnabled = false;
   bool _syncingJournal = false;
+  late final Future<void> _restoreTask;
 
   @override
   void initState() {
     super.initState();
-    _authUser = _auth.currentUser;
-    _restoreProfile();
+    _authUser = widget.initialUser;
+    _restoreTask = _restoreProfile();
+    if (widget.isSelected) {
+      _promptProfileCompletion();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant ProfileScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!oldWidget.isSelected && widget.isSelected) {
+      _promptProfileCompletion();
+    }
+  }
+
+  Future<void> _promptProfileCompletion() async {
+    await _restoreTask;
+    final user = _authUser;
+    if (user != null && mounted) await _completeFirebaseProfile(user);
   }
 
   Future<void> _restoreProfile() async {
@@ -105,96 +122,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future<void> _signInWithFacebook() async {
-    final l10n = AppLocalizations.of(context)!;
-    if (!AppConfig.isFacebookAuthConfigured ||
-        !FirebaseAuthService.isInitialized) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.facebookConfigurationRequired)),
-      );
-      return;
-    }
-    setState(() => _facebookSigningIn = true);
-    try {
-      final user = await _auth.signInWithFacebook();
-      if (user != null) await _onFirebaseSignIn(user);
-    } on FirebaseAuthException catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
-      }
-    } on PlatformException catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(error.message ?? l10n.facebookConfigurationRequired),
-          ),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _facebookSigningIn = false);
-    }
-  }
-
-  Future<void> _signInWithGoogle() async {
-    final l10n = AppLocalizations.of(context)!;
-    if (!AppConfig.isFirebaseAuthConfigured ||
-        !FirebaseAuthService.isInitialized) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.firebaseConfigurationRequired)),
-      );
-      return;
-    }
-    setState(() => _googleSigningIn = true);
-    try {
-      final user = await _auth.signInWithGoogle();
-      if (user != null) await _onFirebaseSignIn(user);
-    } on FirebaseAuthException catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
-      }
-    } on GoogleSignInException catch (error) {
-      if (mounted && error.code != GoogleSignInExceptionCode.canceled) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(error.description ?? error.code.name)),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _googleSigningIn = false);
-    }
-  }
-
-  Future<void> _onFirebaseSignIn(User user) async {
-    if (!mounted) return;
-    setState(() => _authUser = user);
-    widget.onFirebaseUserChanged(user);
-    try {
-      final syncEnabled = await _storage.isJournalSyncEnabledForUser(user.uid);
-      if (mounted && _authUser?.uid == user.uid) {
-        setState(() => _journalSyncEnabled = syncEnabled);
-      }
-    } catch (error) {
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.storageOperationFailed(error.toString())),
-          ),
-        );
-      }
-    }
-    await _completeFirebaseProfile(user);
-  }
-
   Future<void> _signOut() async {
-    await _auth.signOut();
-    if (mounted) {
-      setState(() {
-        _authUser = null;
-        _journalSyncEnabled = false;
-      });
-      widget.onFirebaseUserChanged(null);
+    try {
+      await _auth.signOut();
+      if (mounted) {
+        setState(() {
+          _authUser = null;
+          _journalSyncEnabled = false;
+        });
+        await widget.onFirebaseUserChanged(null);
+      }
+    } on FirebaseAuthException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+      }
     }
   }
 
@@ -277,38 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
           const SizedBox(height: 28),
-          if (AppConfig.facebookSignInVisible) ...[
-            FilledButton.icon(
-              key: const Key('facebook-sign-in'),
-              onPressed: _facebookSigningIn ? null : _signInWithFacebook,
-              icon: _facebookSigningIn
-                  ? const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.facebook),
-              label: Text(l10n.continueWithFacebook),
-            ),
-            const SizedBox(height: 12),
-          ],
-          if (authUser == null)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                OutlinedButton.icon(
-                  key: const Key('google-sign-in'),
-                  onPressed: _googleSigningIn ? null : _signInWithGoogle,
-                  icon: _googleSigningIn
-                      ? const SizedBox.square(
-                          dimension: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.g_mobiledata, size: 28),
-                  label: Text(l10n.continueWithGoogle),
-                ),
-              ],
-            )
-          else
+          if (authUser != null)
             OutlinedButton.icon(
               key: const Key('sign-out'),
               onPressed: _signOut,
@@ -323,9 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               title: Text(
                 authUser == null
-                    ? (AppConfig.isFirebaseAuthConfigured
-                          ? l10n.authenticationConfigured
-                          : l10n.authenticationNotConfigured)
+                    ? l10n.authenticationConfigured
                     : l10n.signedInAs(
                         authUser.email ?? authUser.phoneNumber ?? authUser.uid,
                       ),

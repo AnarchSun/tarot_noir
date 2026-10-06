@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/app_config.dart';
+import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
 
 void main() {
@@ -9,42 +12,63 @@ void main() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
   });
 
-  testWidgets('draw button reveals another card and journals it', (
+  testWidgets(
+    'daily card appears automatically and guest can draw a basic card',
+    (tester) async {
+      await tester.pumpWidget(const TarotNoirApp());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Card of the day'), findsOneWidget);
+      expect(find.byType(Image), findsOneWidget);
+      expect(find.text('Continue with Google'), findsOneWidget);
+      expect(find.text('Continue without an account'), findsOneWidget);
+      expect(find.byKey(const Key('basic-draw')), findsNothing);
+      expect(find.text('Journal'), findsNothing);
+      expect(find.text('Profile'), findsNothing);
+
+      await tester.tap(find.byKey(const Key('continue-as-guest')));
+      await tester.pumpAndSettle();
+
+      final preferences = await SharedPreferences.getInstance();
+      expect(preferences.getBool('guest_access_accepted'), isTrue);
+      final dailyCardBeforeBasicDraw = preferences.getString('daily_card_id');
+      expect(dailyCardBeforeBasicDraw, isNotNull);
+      expect(find.byKey(const Key('basic-draw')), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('basic-draw')));
+      await tester.pumpAndSettle();
+      if (AppConfig.adPlaceholderEnabled && !AppConfig.premiumEnabled) {
+        expect(find.text('Advertising space — preview'), findsOneWidget);
+        await tester.tap(find.text('Continue'));
+        await tester.pumpAndSettle();
+      }
+
+      expect(find.text('Free draw'), findsOneWidget);
+      expect(find.byType(Image), findsNWidgets(2));
+      expect(preferences.getString('daily_card_id'), dailyCardBeforeBasicDraw);
+      expect((preferences.getStringList('journal_entries') ?? []).length, 2);
+
+      await tester.tap(find.text('Premium'));
+      await tester.pumpAndSettle();
+      expect(find.text('Premium Circle'), findsOneWidget);
+    },
+  );
+
+  testWidgets('guest choice is remembered when the app is reopened', (
     tester,
   ) async {
-    SharedPreferences.setMockInitialValues(<String, Object>{
-      'daily_card_date': '2099-12-31',
-      'daily_card_id': '0-Le Mat',
-    });
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('continue-as-guest')));
+    await tester.pumpAndSettle();
 
+    await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Draw my daily card'), findsOneWidget);
-    expect(find.byType(Image), findsNothing);
-
-    await tester.tap(find.text('Draw my daily card'));
-    await tester.pumpAndSettle();
-    if (AppConfig.adPlaceholderEnabled && !AppConfig.premiumEnabled) {
-      expect(find.text('Advertising space — preview'), findsOneWidget);
-      await tester.tap(find.text('Continue'));
-      await tester.pumpAndSettle();
-    }
-
-    expect(
-      find.text(
-        AppConfig.dailyDrawLockEnabled
-            ? 'Daily card already drawn'
-            : 'Draw another card',
-      ),
-      findsOneWidget,
-    );
-    expect(find.byType(Image), findsOneWidget);
-
-    await tester.tap(find.text('Journal'));
-    await tester.pumpAndSettle();
-
-    expect(find.byType(Image), findsOneWidget);
+    expect(find.text('Continue with Google'), findsNothing);
+    expect(find.text('Continue without an account'), findsNothing);
+    expect(find.byKey(const Key('basic-draw')), findsOneWidget);
   });
 
   testWidgets('local data erasure requires explicit confirmation', (
@@ -52,9 +76,9 @@ void main() {
   ) async {
     SharedPreferences.setMockInitialValues(<String, Object>{
       'preference_orion_memory': true,
+      'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
     });
-    await tester.pumpWidget(const TarotNoirApp());
-    await tester.pumpAndSettle();
+    await _pumpSignedInApp(tester);
     await tester.tap(find.text('Journal'));
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.tune));
@@ -82,37 +106,28 @@ void main() {
     expect(preferences.getKeys(), isEmpty);
   });
 
-  testWidgets('profile respects Facebook visibility while Google is available', (
+  testWidgets('Google sign-in is offered at entry, not in signed-in profile', (
     tester,
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
-
-    await tester.tap(find.text('Profile'));
-    await tester.pumpAndSettle();
-    expect(find.byKey(const Key('journal-cloud-sync')), findsNothing);
-    expect(
-      find.text('Continue with Facebook'),
-      AppConfig.facebookSignInVisible ? findsOneWidget : findsNothing,
-    );
-    expect(find.text('Continue with Google'), findsOneWidget);
-    expect(find.text('Continue with phone'), findsNothing);
-    expect(find.text('Continue with email'), findsNothing);
-
-    const configurationRequired =
-        'Enable Firebase Authentication before signing in.';
     await tester.tap(find.byKey(const Key('google-sign-in')));
     await tester.pumpAndSettle();
-    expect(find.text(configurationRequired), findsOneWidget);
-    await tester.pump(const Duration(seconds: 5));
-    await tester.pumpAndSettle();
-
-    await tester.scrollUntilVisible(
-      find.text('Connection awaiting configuration'),
-      300,
-      scrollable: find.byType(Scrollable).last,
+    expect(
+      find.text('Enable Firebase Authentication before signing in.'),
+      findsOneWidget,
     );
-    expect(find.text('Connection awaiting configuration'), findsOneWidget);
+
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
+    });
+    await _pumpSignedInApp(tester);
+    await tester.tap(find.text('Profile'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('journal-cloud-sync')), findsOneWidget);
+    expect(find.byKey(const Key('sign-out')), findsOneWidget);
+    expect(find.text('Continue with Google'), findsNothing);
+    expect(find.text('Continue with Facebook'), findsNothing);
 
     await tester.scrollUntilVisible(
       find.byKey(const Key('wallet-connect')),
@@ -137,7 +152,42 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
-    expect(find.text('Daily reading'), findsOneWidget);
+    expect(find.text('Card of the day'), findsOneWidget);
     expect(find.text('TAROT NOIR'), findsOneWidget);
   });
+}
+
+Future<void> _pumpSignedInApp(WidgetTester tester) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const TarotNoirHome(initialUser: _TestFirebaseUser()),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
+
+class _TestFirebaseUser implements User {
+  const _TestFirebaseUser();
+
+  @override
+  String get uid => 'test-user';
+
+  @override
+  String? get displayName => 'Test User';
+
+  @override
+  String? get email => 'test@example.com';
+
+  @override
+  String? get phoneNumber => null;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

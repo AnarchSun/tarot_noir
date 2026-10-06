@@ -8,114 +8,217 @@ import '../widgets/tarot_card_view.dart';
 
 class ReadingScreen extends StatelessWidget {
   const ReadingScreen({
-    required this.card,
-    required this.orientation,
+    required this.dailyCard,
+    required this.dailyOrientation,
+    required this.freeCard,
+    required this.freeOrientation,
     required this.onDraw,
-    required this.hasDrawn,
-    required this.isDailyDrawLocked,
     required this.isRestoring,
+    required this.showAccessChoices,
+    required this.isSigningIn,
+    required this.onGoogleSignIn,
+    required this.onContinueAsGuest,
     super.key,
   });
 
-  final TarotCard card;
-  final CardOrientation orientation;
+  final TarotCard dailyCard;
+  final CardOrientation dailyOrientation;
+  final TarotCard? freeCard;
+  final CardOrientation freeOrientation;
   final VoidCallback onDraw;
-  final bool hasDrawn;
-  final bool isDailyDrawLocked;
   final bool isRestoring;
+  final bool showAccessChoices;
+  final bool isSigningIn;
+  final Future<void> Function() onGoogleSignIn;
+  final Future<void> Function() onContinueAsGuest;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final viewportHeight = MediaQuery.sizeOf(context).height;
+    final cardHeight = (viewportHeight * 0.32).clamp(180.0, 260.0).toDouble();
+    final textTheme = Theme.of(context).textTheme;
+    final drawnCard = freeCard;
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+      padding: const EdgeInsets.fromLTRB(24, 14, 24, 12),
       children: [
-        Text(
-          l10n.appTitle.toUpperCase(),
-          style: const TextStyle(
-            letterSpacing: 4,
-            color: Color(0xFFD4AF59),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          l10n.dailyReading,
-          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
-        ),
-        const SizedBox(height: 24),
-        SizedBox(
-          width: double.infinity,
-          child: FilledButton.icon(
-            onPressed: isDailyDrawLocked || isRestoring ? null : onDraw,
-            icon: Icon(
-              isDailyDrawLocked
-                  ? Icons.lock_outline
-                  : isRestoring
-                  ? Icons.hourglass_top
-                  : Icons.casino_outlined,
-            ),
-            label: Text(
-              isDailyDrawLocked
-                  ? l10n.dailyDrawLocked
-                  : isRestoring
-                  ? l10n.restoringRitual
-                  : hasDrawn
-                  ? l10n.drawAnother
-                  : l10n.drawDaily,
-            ),
-          ),
-        ),
-        const SizedBox(height: 28),
-        if (hasDrawn) ...[
-          TarotCardView(card: card, orientation: orientation),
-          const SizedBox(height: 24),
-          Text(
-            card.keyword,
-            style: const TextStyle(
-              letterSpacing: 2,
-              color: Color(0xFFD4AF59),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            card.message,
-            style: const TextStyle(
-              fontSize: 18,
-              height: 1.5,
-              color: Color(0xFFE7DFEA),
-            ),
-          ),
-          const SizedBox(height: 20),
-          if (AppConfig.premiumEnabled)
-            OrionPremiumInsight(card: card, orientation: orientation),
-        ] else
-          Container(
-            padding: const EdgeInsets.all(28),
-            decoration: BoxDecoration(
-              color: const Color(0xFF171220),
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: const Color(0xFF49395D)),
-            ),
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(
-                  Icons.auto_awesome,
-                  size: 46,
-                  color: Color(0xFFD4AF59),
-                ),
-                const SizedBox(height: 14),
                 Text(
-                  isRestoring ? l10n.restoringRitual : l10n.drawPrompt,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18, height: 1.45),
+                  l10n.appTitle.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 3,
+                    color: Color(0xFFD4AF59),
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
+                const SizedBox(height: 4),
+                Text(
+                  l10n.dailyReading,
+                  style: textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                if (isRestoring) ...[
+                  Semantics(
+                    label: l10n.restoringRitual,
+                    child: const LinearProgressIndicator(),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    height: cardHeight,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF171220),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: const Color(0xFF49395D)),
+                    ),
+                    child: const CircularProgressIndicator(),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.restoringRitual,
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodyMedium,
+                  ),
+                ] else ...[
+                  TweenAnimationBuilder<double>(
+                    key: ValueKey(dailyCard.id),
+                    tween: Tween(begin: 0.94, end: 1),
+                    duration: const Duration(milliseconds: 480),
+                    curve: Curves.easeOutCubic,
+                    child: TarotCardView(
+                      card: dailyCard,
+                      orientation: dailyOrientation,
+                      height: cardHeight,
+                    ),
+                    builder: (context, scale, child) => Opacity(
+                      opacity: ((scale - 0.94) / 0.06).clamp(0, 1).toDouble(),
+                      child: Transform.scale(scale: scale, child: child),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    dailyCard.name,
+                    textAlign: TextAlign.center,
+                    style: textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    dailyCard.keyword.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      letterSpacing: 2,
+                      color: Color(0xFFD4AF59),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    dailyCard.message,
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodyMedium?.copyWith(height: 1.35),
+                  ),
+                  if (AppConfig.premiumEnabled) ...[
+                    const SizedBox(height: 16),
+                    OrionPremiumInsight(
+                      card: dailyCard,
+                      orientation: dailyOrientation,
+                    ),
+                  ],
+                ],
+                if (!isRestoring && showAccessChoices) ...[
+                  const SizedBox(height: 12),
+                  FilledButton.icon(
+                    key: const Key('google-sign-in'),
+                    onPressed: isSigningIn ? null : onGoogleSignIn,
+                    icon: isSigningIn
+                        ? const SizedBox.square(
+                            dimension: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.g_mobiledata, size: 28),
+                    label: Text(l10n.continueWithGoogle),
+                  ),
+                  const SizedBox(height: 4),
+                  OutlinedButton(
+                    key: const Key('continue-as-guest'),
+                    onPressed: onContinueAsGuest,
+                    child: Text(l10n.continueWithoutAccount),
+                  ),
+                ],
+                if (!isRestoring && !showAccessChoices) ...[
+                  const SizedBox(height: 22),
+                  if (drawnCard != null) ...[
+                    const Divider(height: 28),
+                    Text(
+                      l10n.freeDrawType,
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TweenAnimationBuilder<double>(
+                      key: ValueKey('free-${drawnCard.id}'),
+                      tween: Tween(begin: 0.94, end: 1),
+                      duration: const Duration(milliseconds: 420),
+                      curve: Curves.easeOutCubic,
+                      child: TarotCardView(
+                        card: drawnCard,
+                        orientation: freeOrientation,
+                        height: cardHeight > 280 ? 280 : cardHeight,
+                      ),
+                      builder: (context, scale, child) => Opacity(
+                        opacity: ((scale - 0.94) / 0.06).clamp(0, 1).toDouble(),
+                        child: Transform.scale(scale: scale, child: child),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Text(
+                      drawnCard.name,
+                      textAlign: TextAlign.center,
+                      style: textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      drawnCard.keyword.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        letterSpacing: 2,
+                        color: Color(0xFFD4AF59),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      drawnCard.message,
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodyLarge?.copyWith(height: 1.45),
+                    ),
+                  ],
+                  const SizedBox(height: 16),
+                  FilledButton.icon(
+                    key: const Key('basic-draw'),
+                    onPressed: onDraw,
+                    icon: const Icon(Icons.casino_outlined),
+                    label: Text(l10n.basicDraw),
+                  ),
+                ],
               ],
             ),
           ),
-        const SizedBox(height: 28),
+        ),
       ],
     );
   }

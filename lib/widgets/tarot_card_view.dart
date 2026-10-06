@@ -6,16 +6,18 @@ class TarotCardView extends StatelessWidget {
   const TarotCardView({
     required this.card,
     this.orientation = CardOrientation.upright,
+    this.height = 430,
     super.key,
   });
 
   final TarotCard card;
   final CardOrientation orientation;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 430,
+      height: height,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         gradient: const LinearGradient(

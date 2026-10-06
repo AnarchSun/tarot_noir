@@ -13,7 +13,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appTitle => 'Tarot Noir';
 
   @override
-  String get dailyReading => 'Le tirage du jour';
+  String get dailyReading => 'Carte du jour';
 
   @override
   String get drawAnother => 'Tirer une autre carte';
@@ -42,6 +42,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get drawDaily => 'Tirer ma carte du jour';
+
+  @override
+  String get basicDraw => 'Tirer une carte simple';
+
+  @override
+  String get continueWithoutAccount => 'Continuer sans compte';
 
   @override
   String get reading => 'Tirage';

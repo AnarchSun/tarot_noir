@@ -1,7 +1,7 @@
 {
   "@@locale": "es",
   "appTitle": "Tarot Noir",
-  "dailyReading": "Tirada del día",
+  "dailyReading": "Carta del día",
   "drawAnother": "Sacar otra carta",
   "drawPrompt": "El velo espera tu gesto. Saca una carta para revelar la señal del día.",
   "restoringRitual": "Restaurando el ritual…",
@@ -15,6 +15,8 @@
   "deleteJournalEntry": "Eliminar esta entrada",
   "dailyDrawLocked": "Carta del día ya sacada",
   "drawDaily": "Sacar mi carta del día",
+  "basicDraw": "Sacar una carta sencilla",
+  "continueWithoutAccount": "Continuar sin cuenta",
   "reading": "Tirada",
   "journal": "Diario",
   "premium": "Premium",

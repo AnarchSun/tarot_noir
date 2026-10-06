@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @dailyReading.
   ///
   /// In fr, this message translates to:
-  /// **'Le tirage du jour'**
+  /// **'Carte du jour'**
   String get dailyReading;
 
   /// No description provided for @drawAnother.
@@ -159,6 +159,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Tirer ma carte du jour'**
   String get drawDaily;
+
+  /// No description provided for @basicDraw.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirer une carte simple'**
+  String get basicDraw;
+
+  /// No description provided for @continueWithoutAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer sans compte'**
+  String get continueWithoutAccount;
 
   /// No description provided for @reading.
   ///
