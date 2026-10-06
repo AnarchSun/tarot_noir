@@ -34,6 +34,10 @@ void main() {
       final dailyCardBeforeBasicDraw = preferences.getString('daily_card_id');
       expect(dailyCardBeforeBasicDraw, isNotNull);
       expect(find.byKey(const Key('basic-draw')), findsOneWidget);
+      _expectVisibleInReadingViewport(
+        tester,
+        find.byKey(const Key('basic-draw')),
+      );
 
       await tester.tap(find.byKey(const Key('basic-draw')));
       await tester.pumpAndSettle();
@@ -45,6 +49,10 @@ void main() {
 
       expect(find.text('Free draw'), findsOneWidget);
       expect(find.byType(Image), findsNWidgets(2));
+      _expectVisibleInReadingViewport(
+        tester,
+        find.byKey(const Key('basic-draw')),
+      );
       expect(preferences.getString('daily_card_id'), dailyCardBeforeBasicDraw);
       expect((preferences.getStringList('journal_entries') ?? []).length, 2);
 
@@ -171,6 +179,12 @@ Future<void> _pumpSignedInApp(WidgetTester tester) async {
     ),
   );
   await tester.pumpAndSettle();
+}
+
+void _expectVisibleInReadingViewport(WidgetTester tester, Finder finder) {
+  final buttonBounds = tester.getRect(finder);
+  final readingBounds = tester.getRect(find.byType(ListView).first);
+  expect(buttonBounds.overlaps(readingBounds), isTrue);
 }
 
 class _TestFirebaseUser implements User {

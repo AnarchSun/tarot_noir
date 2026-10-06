@@ -158,6 +158,12 @@ class ReadingScreen extends StatelessWidget {
                 ],
                 if (!isRestoring && !showAccessChoices) ...[
                   const SizedBox(height: 22),
+                  FilledButton.icon(
+                    key: const Key('basic-draw'),
+                    onPressed: onDraw,
+                    icon: const Icon(Icons.casino_outlined),
+                    label: Text(l10n.basicDraw),
+                  ),
                   if (drawnCard != null) ...[
                     const Divider(height: 28),
                     Text(
@@ -207,13 +213,6 @@ class ReadingScreen extends StatelessWidget {
                       style: textTheme.bodyLarge?.copyWith(height: 1.45),
                     ),
                   ],
-                  const SizedBox(height: 16),
-                  FilledButton.icon(
-                    key: const Key('basic-draw'),
-                    onPressed: onDraw,
-                    icon: const Icon(Icons.casino_outlined),
-                    label: Text(l10n.basicDraw),
-                  ),
                 ],
               ],
             ),
