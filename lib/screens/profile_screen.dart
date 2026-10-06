@@ -277,18 +277,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
           const SizedBox(height: 28),
-          FilledButton.icon(
-            key: const Key('facebook-sign-in'),
-            onPressed: _facebookSigningIn ? null : _signInWithFacebook,
-            icon: _facebookSigningIn
-                ? const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(Icons.facebook),
-            label: Text(l10n.continueWithFacebook),
-          ),
-          const SizedBox(height: 12),
+          if (AppConfig.facebookSignInVisible) ...[
+            FilledButton.icon(
+              key: const Key('facebook-sign-in'),
+              onPressed: _facebookSigningIn ? null : _signInWithFacebook,
+              icon: _facebookSigningIn
+                  ? const SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.facebook),
+              label: Text(l10n.continueWithFacebook),
+            ),
+            const SizedBox(height: 12),
+          ],
           if (authUser == null)
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

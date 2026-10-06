@@ -82,7 +82,7 @@ void main() {
     expect(preferences.getKeys(), isEmpty);
   });
 
-  testWidgets('profile exposes Facebook without pretending it is configured', (
+  testWidgets('profile respects Facebook visibility while Google is available', (
     tester,
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
@@ -91,7 +91,10 @@ void main() {
     await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('journal-cloud-sync')), findsNothing);
-    expect(find.text('Continue with Facebook'), findsOneWidget);
+    expect(
+      find.text('Continue with Facebook'),
+      AppConfig.facebookSignInVisible ? findsOneWidget : findsNothing,
+    );
     expect(find.text('Continue with Google'), findsOneWidget);
     expect(find.text('Continue with phone'), findsNothing);
     expect(find.text('Continue with email'), findsNothing);
@@ -101,17 +104,6 @@ void main() {
     await tester.tap(find.byKey(const Key('google-sign-in')));
     await tester.pumpAndSettle();
     expect(find.text(configurationRequired), findsOneWidget);
-    await tester.pump(const Duration(seconds: 5));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const Key('facebook-sign-in')));
-    await tester.pumpAndSettle();
-    expect(
-      find.text(
-        'Firebase and the Meta application must be configured before Facebook sign-in can open.',
-      ),
-      findsOneWidget,
-    );
     await tester.pump(const Duration(seconds: 5));
     await tester.pumpAndSettle();
 
