@@ -15,8 +15,11 @@ class ReadingScreen extends StatelessWidget {
     required this.onDraw,
     required this.isRestoring,
     required this.showAccessChoices,
+    required this.showGuestSignIn,
     required this.isSigningIn,
+    required this.isFacebookSigningIn,
     required this.onGoogleSignIn,
+    required this.onFacebookSignIn,
     required this.onContinueAsGuest,
     super.key,
   });
@@ -28,8 +31,11 @@ class ReadingScreen extends StatelessWidget {
   final VoidCallback onDraw;
   final bool isRestoring;
   final bool showAccessChoices;
+  final bool showGuestSignIn;
   final bool isSigningIn;
+  final bool isFacebookSigningIn;
   final Future<void> Function() onGoogleSignIn;
+  final Future<void> Function() onFacebookSignIn;
   final Future<void> Function() onContinueAsGuest;
 
   @override
@@ -136,7 +142,7 @@ class ReadingScreen extends StatelessWidget {
                     ),
                   ],
                 ],
-                if (!isRestoring && showAccessChoices) ...[
+                if (!isRestoring && showGuestSignIn) ...[
                   const SizedBox(height: 12),
                   FilledButton.icon(
                     key: const Key('google-sign-in'),
@@ -149,12 +155,28 @@ class ReadingScreen extends StatelessWidget {
                         : const Icon(Icons.g_mobiledata, size: 28),
                     label: Text(l10n.continueWithGoogle),
                   ),
-                  const SizedBox(height: 4),
-                  OutlinedButton(
-                    key: const Key('continue-as-guest'),
-                    onPressed: onContinueAsGuest,
-                    child: Text(l10n.continueWithoutAccount),
-                  ),
+                  if (AppConfig.facebookSignInVisible) ...[
+                    const SizedBox(height: 8),
+                    OutlinedButton.icon(
+                      key: const Key('facebook-sign-in'),
+                      onPressed: isFacebookSigningIn ? null : onFacebookSignIn,
+                      icon: isFacebookSigningIn
+                          ? const SizedBox.square(
+                              dimension: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.facebook),
+                      label: Text(l10n.continueWithFacebook),
+                    ),
+                  ],
+                  if (showAccessChoices) ...[
+                    const SizedBox(height: 4),
+                    TextButton(
+                      key: const Key('continue-as-guest'),
+                      onPressed: onContinueAsGuest,
+                      child: Text(l10n.continueWithoutAccount),
+                    ),
+                  ],
                 ],
                 if (!isRestoring && !showAccessChoices) ...[
                   const SizedBox(height: 22),

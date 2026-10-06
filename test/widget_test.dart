@@ -21,6 +21,7 @@ void main() {
       expect(find.text('Card of the day'), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
       expect(find.text('Continue with Google'), findsOneWidget);
+      expect(find.text('Continue with Facebook'), findsNothing);
       expect(find.text('Continue without an account'), findsOneWidget);
       expect(find.byKey(const Key('basic-draw')), findsNothing);
       expect(find.text('Journal'), findsNothing);
@@ -74,7 +75,7 @@ void main() {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Continue with Google'), findsNothing);
+    expect(find.text('Continue with Google'), findsOneWidget);
     expect(find.text('Continue without an account'), findsNothing);
     expect(find.byKey(const Key('basic-draw')), findsOneWidget);
   });

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../app_config.dart';
@@ -33,6 +34,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   bool _hasChosenAccess = false;
   bool _isRestoring = true;
   bool _isSigningIn = false;
+  bool _isFacebookSigningIn = false;
   bool _hasShownAdPlaceholder = false;
   User? _firebaseUser;
   String? _journalSyncUserUid;
@@ -314,6 +316,38 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     }
   }
 
+  Future<void> _signInWithFacebook() async {
+    final l10n = AppLocalizations.of(context)!;
+    if (!AppConfig.isFacebookAuthConfigured ||
+        !FirebaseAuthService.isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.facebookConfigurationRequired)),
+      );
+      return;
+    }
+    if (_isFacebookSigningIn) return;
+    setState(() => _isFacebookSigningIn = true);
+    try {
+      final user = await _auth.signInWithFacebook();
+      if (user != null) await _onFirebaseUserChanged(user);
+    } on FirebaseAuthException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+      }
+    } on PlatformException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.message ?? l10n.facebookConfigurationRequired),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isFacebookSigningIn = false);
+    }
+  }
+
   void _showJournalSyncError(Object error) {
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
@@ -457,8 +491,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         onDraw: _draw,
         isRestoring: _isRestoring,
         showAccessChoices: !_hasChosenAccess && !isSignedIn,
+        showGuestSignIn: !isSignedIn,
         isSigningIn: _isSigningIn,
+        isFacebookSigningIn: _isFacebookSigningIn,
         onGoogleSignIn: _signInWithGoogle,
+        onFacebookSignIn: _signInWithFacebook,
         onContinueAsGuest: _continueAsGuest,
       ),
     ];
