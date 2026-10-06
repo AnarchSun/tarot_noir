@@ -66,14 +66,6 @@ class FirebaseAuthService {
     return firebaseCredential.user;
   }
 
-  Future<User?> signInWithApple() async {
-    final provider = AppleAuthProvider()
-      ..addScope('email')
-      ..addScope('name');
-    final credential = await FirebaseAuth.instance.signInWithProvider(provider);
-    return credential.user;
-  }
-
   Future<void> signOut() async {
     if (!kIsWeb) await GoogleSignIn.instance.signOut();
     await FirebaseAuth.instance.signOut();

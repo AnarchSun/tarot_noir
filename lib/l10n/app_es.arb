@@ -106,7 +106,6 @@
   "profileIntro": "Inicia sesión para preparar la sincronización segura del diario y las preferencias de Orion.",
   "continueWithFacebook": "Continuar con Facebook",
   "continueWithGoogle": "Continuar con Google",
-  "continueWithApple": "Continuar con Apple",
   "authenticationConfigured": "Acceso de Firebase listo",
   "authenticationNotConfigured": "Conexión pendiente de configuración",
   "authenticationPrivacy": "Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.",

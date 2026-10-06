@@ -266,9 +266,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueWithGoogle => 'Continue with Google';
 
   @override
-  String get continueWithApple => 'Continue with Apple';
-
-  @override
   String get authenticationConfigured => 'Firebase sign-in is ready';
 
   @override

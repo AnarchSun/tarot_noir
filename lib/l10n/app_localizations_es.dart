@@ -265,9 +265,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get continueWithGoogle => 'Continuar con Google';
 
   @override
-  String get continueWithApple => 'Continuar con Apple';
-
-  @override
   String get authenticationConfigured => 'Acceso de Firebase listo';
 
   @override

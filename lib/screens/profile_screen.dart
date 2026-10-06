@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -35,7 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User? _authUser;
   bool _facebookSigningIn = false;
   bool _googleSigningIn = false;
-  bool _appleSigningIn = false;
   bool _journalSyncEnabled = false;
   bool _syncingJournal = false;
 
@@ -167,31 +165,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<void> _signInWithApple() async {
-    final l10n = AppLocalizations.of(context)!;
-    if (kIsWeb ||
-        defaultTargetPlatform != TargetPlatform.iOS ||
-        !AppConfig.isFirebaseAuthConfigured ||
-        !FirebaseAuthService.isInitialized) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.firebaseConfigurationRequired)),
-      );
-      return;
-    }
-    setState(() => _appleSigningIn = true);
-    try {
-      final user = await _auth.signInWithApple();
-      if (user != null) await _onFirebaseSignIn(user);
-    } on FirebaseAuthException catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
-      }
-    } finally {
-      if (mounted) setState(() => _appleSigningIn = false);
-    }
-  }
-
   Future<void> _onFirebaseSignIn(User user) async {
     if (!mounted) return;
     setState(() => _authUser = user);
@@ -260,8 +233,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isApplePlatform =
-        !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
 
     final profile = _profile;
     final authUser = _authUser;
@@ -333,20 +304,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       : const Icon(Icons.g_mobiledata, size: 28),
                   label: Text(l10n.continueWithGoogle),
                 ),
-                if (isApplePlatform) ...[
-                  const SizedBox(height: 12),
-                  OutlinedButton.icon(
-                    key: const Key('apple-sign-in'),
-                    onPressed: _appleSigningIn ? null : _signInWithApple,
-                    icon: _appleSigningIn
-                        ? const SizedBox.square(
-                            dimension: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.login),
-                    label: Text(l10n.continueWithApple),
-                  ),
-                ],
               ],
             )
           else

@@ -106,7 +106,6 @@
   "profileIntro": "Sign in to prepare secure synchronization of your journal and Orion preferences.",
   "continueWithFacebook": "Continue with Facebook",
   "continueWithGoogle": "Continue with Google",
-  "continueWithApple": "Continue with Apple",
   "authenticationConfigured": "Firebase sign-in is ready",
   "authenticationNotConfigured": "Connection awaiting configuration",
   "authenticationPrivacy": "Sign-in is handled by Firebase. Tarot Noir never receives your provider passwords.",
