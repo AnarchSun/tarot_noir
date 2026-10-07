@@ -90,10 +90,11 @@ class _JournalScreenState extends State<JournalScreen> {
               const SizedBox(height: 8),
               Text(l10n.drawDate(date)),
               const SizedBox(height: 16),
-              _DetailSection(
-                label: l10n.keywordLabel,
-                value: entry.card.keyword,
-              ),
+              if (!entry.card.isMinorArcana)
+                _DetailSection(
+                  label: l10n.keywordLabel,
+                  value: entry.card.keyword,
+                ),
               _DetailSection(
                 label: l10n.interpretationLabel,
                 value: entry.shortExplanation,

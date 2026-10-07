@@ -6,10 +6,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/app_config.dart';
 import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
+import 'package:tarot_noir/models/tarot_deck.dart';
 
 void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
+  });
+
+  test('minor arcana suits are already included in card names', () {
+    for (final card in tarotDeck) {
+      if (card.isMinorArcana) {
+        expect(card.name, contains(' de '), reason: card.name);
+      }
+    }
   });
 
   testWidgets('random-card welcome leads to a daily reading for guests', (

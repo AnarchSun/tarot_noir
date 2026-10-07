@@ -117,15 +117,16 @@ class ReadingScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    dailyCard.keyword.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      letterSpacing: 2,
-                      color: Color(0xFFB8D5D0),
-                      fontWeight: FontWeight.w700,
+                  if (!dailyCard.isMinorArcana)
+                    Text(
+                      dailyCard.keyword.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        letterSpacing: 2,
+                        color: Color(0xFFB8D5D0),
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
                   const SizedBox(height: 10),
                   Text(
                     dailyCard.message,
@@ -196,15 +197,16 @@ class ReadingScreen extends StatelessWidget {
                       style: textTheme.titleLarge,
                     ),
                     const SizedBox(height: 6),
-                    Text(
-                      revealedCard.keyword.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        letterSpacing: 2,
-                        color: Color(0xFFB8D5D0),
-                        fontWeight: FontWeight.w700,
+                    if (!revealedCard.isMinorArcana)
+                      Text(
+                        revealedCard.keyword.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          letterSpacing: 2,
+                          color: Color(0xFFB8D5D0),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
                     const SizedBox(height: 10),
                     Text(
                       revealedCard.message,
@@ -307,7 +309,7 @@ class _WelcomeLanding extends StatelessWidget {
                               card.imagePath,
                               key: const Key('welcome-preview-card'),
                               fit: BoxFit.contain,
-                              semanticLabel: '${card.name}, ${card.keyword}',
+                              semanticLabel: card.name,
                             ),
                           ),
                           const SizedBox(height: 4),
