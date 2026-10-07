@@ -23,6 +23,17 @@ void main() {
     expect(find.byKey(const Key('welcome-logo')), findsOneWidget);
     expect(find.byKey(const Key('welcome-preview-card')), findsOneWidget);
     expect(find.byKey(const Key('welcome-card-meaning')), findsOneWidget);
+    expect(
+      tester.getSize(find.byKey(const Key('welcome-preview-card'))).height,
+      greaterThan(250),
+    );
+    expect(
+      tester
+          .widget<Text>(find.byKey(const Key('welcome-card-meaning')))
+          .style
+          ?.fontSize,
+      12,
+    );
     expect(find.byKey(const Key('daily-card-back')), findsNothing);
     expect(find.text('Continue with Google'), findsOneWidget);
     expect(find.text('Continue with Facebook'), findsNothing);
