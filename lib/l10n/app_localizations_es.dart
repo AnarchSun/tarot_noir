@@ -20,7 +20,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get startupTeaser =>
-      'La carta permanece velada hasta que elijas sacarla.';
+      'Una vista previa de Tarot Noir, no tu carta diaria. Todos pueden sacar una carta cuando la app esté lista.';
 
   @override
   String get welcomeTitle => 'Un momento con Tarot Noir';

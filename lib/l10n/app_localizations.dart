@@ -121,7 +121,7 @@ abstract class AppLocalizations {
   /// No description provided for @startupTeaser.
   ///
   /// In fr, this message translates to:
-  /// **'La carte reste voilée jusqu’à ce que tu choisisses de tirer.'**
+  /// **'Un aperçu de Tarot Noir, pas ton tirage du jour. Tout le monde peut tirer une carte dès que l’app est prête.'**
   String get startupTeaser;
 
   /// No description provided for @welcomeTitle.

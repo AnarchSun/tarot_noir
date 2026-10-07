@@ -20,6 +20,7 @@ class ReadingScreen extends StatelessWidget {
     required this.onDrawFree,
     required this.isRestoring,
     required this.showAccessChoices,
+    required this.startupPreviewCard,
     required this.isDailyDrawing,
     required this.isSigningIn,
     required this.isFacebookSigningIn,
@@ -38,6 +39,7 @@ class ReadingScreen extends StatelessWidget {
   final Future<void> Function() onDrawFree;
   final bool isRestoring;
   final bool showAccessChoices;
+  final TarotCard startupPreviewCard;
   final bool isDailyDrawing;
   final bool isSigningIn;
   final bool isFacebookSigningIn;
@@ -85,6 +87,7 @@ class ReadingScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     l10n.startupTeaser,
+                    key: const Key('startup-preview-copy'),
                     textAlign: TextAlign.center,
                     style: textTheme.bodyLarge?.copyWith(
                       color: const Color(0xFFB8D5D0),
@@ -95,7 +98,11 @@ class ReadingScreen extends StatelessWidget {
                   Center(
                     child: SizedBox(
                       width: 144,
-                      child: TarotCardBack(key: const Key('daily-card-teaser')),
+                      child: TarotCardView(
+                        key: const Key('daily-card-teaser'),
+                        card: startupPreviewCard,
+                        height: 144 / 0.68,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 26),
@@ -244,6 +251,7 @@ class ReadingScreen extends StatelessWidget {
           ? _StartupRitual(
               key: const ValueKey('startup-ritual'),
               message: l10n.startupLoading,
+              previewCard: startupPreviewCard,
             )
           : readyScreen,
     );
@@ -310,9 +318,14 @@ class _SignInChoices extends StatelessWidget {
 }
 
 class _StartupRitual extends StatefulWidget {
-  const _StartupRitual({required this.message, super.key});
+  const _StartupRitual({
+    required this.message,
+    required this.previewCard,
+    super.key,
+  });
 
   final String message;
+  final TarotCard previewCard;
 
   @override
   State<_StartupRitual> createState() => _StartupRitualState();
@@ -322,15 +335,15 @@ class _StartupRitualState extends State<_StartupRitual>
     with TickerProviderStateMixin {
   late final AnimationController _entrance = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 760),
+    duration: const Duration(milliseconds: 1400),
   );
   late final CurvedAnimation _logoOpacity = CurvedAnimation(
     parent: _entrance,
-    curve: const Interval(0, 0.72, curve: Curves.easeOutCubic),
+    curve: const Interval(0, 0.34, curve: Curves.easeOutCubic),
   );
   late final CurvedAnimation _logoSlideCurve = CurvedAnimation(
     parent: _entrance,
-    curve: const Interval(0, 0.72, curve: Curves.easeOutCubic),
+    curve: const Interval(0, 0.34, curve: Curves.easeOutCubic),
   );
   late final Animation<Offset> _logoPosition = Tween<Offset>(
     begin: const Offset(0, 0.055),
@@ -338,11 +351,11 @@ class _StartupRitualState extends State<_StartupRitual>
   ).animate(_logoSlideCurve);
   late final CurvedAnimation _cardOpacity = CurvedAnimation(
     parent: _entrance,
-    curve: const Interval(0.12, 0.88, curve: Curves.easeOutCubic),
+    curve: const Interval(0.1, 0.48, curve: Curves.easeOutCubic),
   );
   late final CurvedAnimation _cardSlideCurve = CurvedAnimation(
     parent: _entrance,
-    curve: const Interval(0.12, 0.88, curve: Curves.easeOutCubic),
+    curve: const Interval(0.1, 0.52, curve: Curves.easeOutCubic),
   );
   late final Animation<Offset> _cardPosition = Tween<Offset>(
     begin: const Offset(0, 0.08),
@@ -350,7 +363,11 @@ class _StartupRitualState extends State<_StartupRitual>
   ).animate(_cardSlideCurve);
   late final CurvedAnimation _copyOpacity = CurvedAnimation(
     parent: _entrance,
-    curve: const Interval(0.36, 1, curve: Curves.easeOutCubic),
+    curve: const Interval(0.44, 0.86, curve: Curves.easeOutCubic),
+  );
+  late final CurvedAnimation _cardFlipProgress = CurvedAnimation(
+    parent: _entrance,
+    curve: const Interval(0.24, 0.76, curve: Curves.easeInOutCubic),
   );
   late final AnimationController _motion = AnimationController(
     vsync: this,
@@ -386,6 +403,7 @@ class _StartupRitualState extends State<_StartupRitual>
     _cardOpacity.dispose();
     _cardSlideCurve.dispose();
     _copyOpacity.dispose();
+    _cardFlipProgress.dispose();
     _entrance.dispose();
     _motion.dispose();
     super.dispose();
@@ -488,16 +506,47 @@ class _StartupRitualState extends State<_StartupRitual>
                                                 ),
                                               ),
                                             ),
-                                            child!,
+                                            AnimatedBuilder(
+                                              animation: _cardFlipProgress,
+                                              builder: (context, _) {
+                                                final progress =
+                                                    _cardFlipProgress.value;
+                                                final showingBack =
+                                                    progress < 0.5;
+                                                final rotationY = showingBack
+                                                    ? math.pi * progress
+                                                    : math.pi * (progress - 1);
+                                                final face = showingBack
+                                                    ? TarotCardBack(
+                                                        key: const Key(
+                                                          'startup-card-back',
+                                                        ),
+                                                      )
+                                                    : TarotCardView(
+                                                        key: const Key(
+                                                          'startup-preview-card',
+                                                        ),
+                                                        card:
+                                                            widget.previewCard,
+                                                        height:
+                                                            cardWidth / 0.68,
+                                                      );
+                                                return Transform(
+                                                  alignment: Alignment.center,
+                                                  transform: Matrix4.identity()
+                                                    ..setEntry(3, 2, 0.001)
+                                                    ..rotateY(rotationY),
+                                                  child: face,
+                                                );
+                                              },
+                                            ),
                                           ],
                                         ),
                                       ),
                                     ),
                                   );
                                 },
-                                child: TarotCardBack(
-                                  key: const Key('startup-card-back'),
-                                ),
+                                child: const SizedBox.expand(),
                               ),
                             ),
                           ),

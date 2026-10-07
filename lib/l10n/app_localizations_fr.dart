@@ -20,7 +20,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get startupTeaser =>
-      'La carte reste voilée jusqu’à ce que tu choisisses de tirer.';
+      'Un aperçu de Tarot Noir, pas ton tirage du jour. Tout le monde peut tirer une carte dès que l’app est prête.';
 
   @override
   String get welcomeTitle => 'Un instant avec Tarot Noir';

@@ -20,6 +20,9 @@ void main() {
     expect(find.byKey(const Key('startup-progress')), findsOneWidget);
     expect(find.byKey(const Key('startup-card-back')), findsOneWidget);
     expect(find.text('Preparing your Tarot Noir…'), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1200));
+    expect(find.byKey(const Key('startup-preview-card')), findsOneWidget);
+    expect(find.byKey(const Key('startup-preview-copy')), findsOneWidget);
     await tester.pumpAndSettle();
 
     expect(find.text('A moment with Tarot Noir'), findsOneWidget);
@@ -180,7 +183,7 @@ void main() {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
     expect(find.text('A moment with Tarot Noir'), findsOneWidget);
-    expect(find.byType(Image), findsOneWidget);
+    expect(find.byType(Image), findsNWidgets(2));
   });
 }
 
