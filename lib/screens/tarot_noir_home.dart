@@ -55,18 +55,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   final _auth = const FirebaseAuthService();
   Future<void> _journalSyncQueue = Future<void>.value();
   late final Future<void> _restoreTask;
-  late final DateTime _startupStartedAt;
 
   @override
   void initState() {
     super.initState();
 
-    _startupStartedAt = DateTime.now();
     final now = DateTime.now();
     _dailyCard = _cardForDate(now);
-    _startupPreviewCard = tarotDeck.firstWhere(
-      (card) => card.id != _dailyCard.id,
-    );
+    _startupPreviewCard = tarotDeck[Random().nextInt(tarotDeck.length)];
     _card = _dailyCard;
     _firebaseUser =
         widget.initialUser ??
@@ -134,8 +130,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       final restoredJournal = List<JournalEntry>.of(snapshot.journal);
 
       if (!mounted) return;
-      await _waitForStartupMoment();
-      if (!mounted) return;
       setState(() {
         _dailyCard = dailyCard;
         _hasDrawnToday = hasDrawnToday;
@@ -166,23 +160,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       }
     } catch (error) {
       if (!mounted) return;
-      await _waitForStartupMoment();
-      if (!mounted) return;
       setState(() => _isRestoring = false);
       final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.storageOperationFailed(error.toString()))),
       );
-    }
-  }
-
-  Future<void> _waitForStartupMoment() async {
-    if (MediaQuery.disableAnimationsOf(context)) return;
-    const minimumDuration = Duration(milliseconds: 1750);
-    final elapsed = DateTime.now().difference(_startupStartedAt);
-    final remaining = minimumDuration - elapsed;
-    if (remaining > Duration.zero) {
-      await Future<void>.delayed(remaining);
     }
   }
 

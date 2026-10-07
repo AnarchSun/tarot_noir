@@ -16,16 +16,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dailyReading => 'Carta del día';
 
   @override
-  String get startupLoading => 'Preparando Tarot Noir…';
-
-  @override
-  String get startupTeaser =>
-      'Una vista previa de Tarot Noir, no tu carta diaria. Todos pueden sacar una carta cuando la app esté lista.';
-
-  @override
-  String get welcomeTitle => 'Un momento con Tarot Noir';
-
-  @override
   String get dailyDrawPrompt =>
       'Tu carta del día te espera. Sácala una vez hoy para descubrir su mensaje.';
 

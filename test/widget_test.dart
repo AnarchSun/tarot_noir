@@ -12,24 +12,20 @@ void main() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
   });
 
-  testWidgets('startup teaser leads to one ad-gated daily card for guests', (
+  testWidgets('random-card welcome leads to a daily reading for guests', (
     tester,
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
-    expect(find.byKey(const Key('startup-backdrop')), findsOneWidget);
-    expect(find.byKey(const Key('startup-progress')), findsOneWidget);
-    expect(find.byKey(const Key('startup-card-back')), findsOneWidget);
-    expect(find.text('Preparing your Tarot Noir…'), findsOneWidget);
-    await tester.pump(const Duration(milliseconds: 1200));
-    expect(find.byKey(const Key('startup-preview-card')), findsOneWidget);
-    expect(find.byKey(const Key('startup-preview-copy')), findsOneWidget);
     await tester.pumpAndSettle();
 
-    expect(find.text('A moment with Tarot Noir'), findsOneWidget);
+    expect(find.byKey(const Key('welcome-landing')), findsOneWidget);
+    expect(find.byKey(const Key('welcome-logo')), findsOneWidget);
+    expect(find.byKey(const Key('welcome-preview-card')), findsOneWidget);
+    expect(find.byKey(const Key('welcome-card-meaning')), findsOneWidget);
+    expect(find.byKey(const Key('daily-card-back')), findsNothing);
     expect(find.text('Continue with Google'), findsOneWidget);
     expect(find.text('Continue with Facebook'), findsNothing);
     expect(find.text('Continue without an account'), findsOneWidget);
-    expect(find.byKey(const Key('daily-card-teaser')), findsOneWidget);
     expect(find.byKey(const Key('daily-draw')), findsNothing);
 
     await tester.tap(find.byKey(const Key('continue-as-guest')));
@@ -182,8 +178,9 @@ void main() {
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
-    expect(find.text('A moment with Tarot Noir'), findsOneWidget);
-    expect(find.byType(Image), findsNWidgets(2));
+    expect(find.byKey(const Key('welcome-landing')), findsOneWidget);
+    expect(find.text('Continue with Google'), findsOneWidget);
+    expect(find.byKey(const Key('welcome-preview-card')), findsOneWidget);
   });
 }
 

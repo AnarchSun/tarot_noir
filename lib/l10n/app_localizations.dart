@@ -112,24 +112,6 @@ abstract class AppLocalizations {
   /// **'Carte du jour'**
   String get dailyReading;
 
-  /// No description provided for @startupLoading.
-  ///
-  /// In fr, this message translates to:
-  /// **'Préparation de Tarot Noir…'**
-  String get startupLoading;
-
-  /// No description provided for @startupTeaser.
-  ///
-  /// In fr, this message translates to:
-  /// **'Un aperçu de Tarot Noir, pas ton tirage du jour. Tout le monde peut tirer une carte dès que l’app est prête.'**
-  String get startupTeaser;
-
-  /// No description provided for @welcomeTitle.
-  ///
-  /// In fr, this message translates to:
-  /// **'Un instant avec Tarot Noir'**
-  String get welcomeTitle;
-
   /// No description provided for @dailyDrawPrompt.
   ///
   /// In fr, this message translates to:
