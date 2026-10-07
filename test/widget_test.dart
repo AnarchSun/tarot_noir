@@ -10,7 +10,12 @@ import 'package:tarot_noir/models/tarot_deck.dart';
 
 void main() {
   setUp(() {
+    AppConfig.firebaseAuthEnabledForTesting = false;
     SharedPreferences.setMockInitialValues(<String, Object>{});
+  });
+
+  tearDown(() {
+    AppConfig.firebaseAuthEnabledForTesting = null;
   });
 
   test('minor arcana suits are already included in card names', () {

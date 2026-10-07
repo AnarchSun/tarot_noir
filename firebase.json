@@ -1,4 +1,15 @@
 {
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Tarot Noir",
+        "supportEmail": "folienesie@gmail.com",
+        "authorizedRedirectUris": [
+          "https://tarot-noir.firebaseapp.com/__/auth/handler"
+        ]
+      }
+    }
+  },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"

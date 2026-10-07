@@ -31,11 +31,17 @@ abstract final class AppConfig {
     defaultValue: true,
   );
 
-  /// Authentication stays closed until a Firebase project is configured.
-  static const firebaseAuthEnabled = bool.fromEnvironment(
+  /// Firebase project configuration is present for Android and iOS.
+  static const _firebaseAuthEnabledByBuild = bool.fromEnvironment(
     'FIREBASE_AUTH_ENABLED',
-    defaultValue: false,
+    defaultValue: true,
   );
+
+  @visibleForTesting
+  static bool? firebaseAuthEnabledForTesting;
+
+  static bool get firebaseAuthEnabled =>
+      firebaseAuthEnabledForTesting ?? _firebaseAuthEnabledByBuild;
 
   /// Facebook also requires a Meta application and native Android/iOS setup.
   static const facebookAuthEnabled = bool.fromEnvironment(
