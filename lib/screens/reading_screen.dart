@@ -48,14 +48,13 @@ class ReadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    if (isRestoring) return _StartupRitual(message: l10n.startupLoading);
-
     final textTheme = Theme.of(context).textTheme;
     final dailyCardWidth = MediaQuery.sizeOf(context).height < 700
         ? 136.0
         : 176.0;
     final revealedCard = freeCard;
-    return ListView(
+    final readyScreen = ListView(
+      key: ValueKey(showAccessChoices ? 'access-choices' : 'daily-reading'),
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
       children: [
         Center(
@@ -233,6 +232,21 @@ class ReadingScreen extends StatelessWidget {
         ),
       ],
     );
+    return AnimatedSwitcher(
+      duration: MediaQuery.disableAnimationsOf(context)
+          ? Duration.zero
+          : const Duration(milliseconds: 320),
+      switchInCurve: Curves.easeOutCubic,
+      switchOutCurve: Curves.easeIn,
+      transitionBuilder: (child, animation) =>
+          FadeTransition(opacity: animation, child: child),
+      child: isRestoring
+          ? _StartupRitual(
+              key: const ValueKey('startup-ritual'),
+              message: l10n.startupLoading,
+            )
+          : readyScreen,
+    );
   }
 }
 
@@ -296,7 +310,7 @@ class _SignInChoices extends StatelessWidget {
 }
 
 class _StartupRitual extends StatefulWidget {
-  const _StartupRitual({required this.message});
+  const _StartupRitual({required this.message, super.key});
 
   final String message;
 
@@ -305,25 +319,74 @@ class _StartupRitual extends StatefulWidget {
 }
 
 class _StartupRitualState extends State<_StartupRitual>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
+  late final AnimationController _entrance = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 760),
+  );
+  late final CurvedAnimation _logoOpacity = CurvedAnimation(
+    parent: _entrance,
+    curve: const Interval(0, 0.72, curve: Curves.easeOutCubic),
+  );
+  late final CurvedAnimation _logoSlideCurve = CurvedAnimation(
+    parent: _entrance,
+    curve: const Interval(0, 0.72, curve: Curves.easeOutCubic),
+  );
+  late final Animation<Offset> _logoPosition = Tween<Offset>(
+    begin: const Offset(0, 0.055),
+    end: Offset.zero,
+  ).animate(_logoSlideCurve);
+  late final CurvedAnimation _cardOpacity = CurvedAnimation(
+    parent: _entrance,
+    curve: const Interval(0.12, 0.88, curve: Curves.easeOutCubic),
+  );
+  late final CurvedAnimation _cardSlideCurve = CurvedAnimation(
+    parent: _entrance,
+    curve: const Interval(0.12, 0.88, curve: Curves.easeOutCubic),
+  );
+  late final Animation<Offset> _cardPosition = Tween<Offset>(
+    begin: const Offset(0, 0.08),
+    end: Offset.zero,
+  ).animate(_cardSlideCurve);
+  late final CurvedAnimation _copyOpacity = CurvedAnimation(
+    parent: _entrance,
+    curve: const Interval(0.36, 1, curve: Curves.easeOutCubic),
+  );
   late final AnimationController _motion = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1800),
   );
 
   @override
+  void initState() {
+    super.initState();
+    _entrance.forward();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (MediaQuery.of(context).disableAnimations) {
+      _entrance.stop();
+      _entrance.value = 1;
       _motion.stop();
       _motion.value = 0.5;
-    } else if (!_motion.isAnimating) {
-      _motion.repeat(reverse: true);
+    } else {
+      if (!_entrance.isCompleted && !_entrance.isAnimating) {
+        _entrance.forward();
+      }
+      if (!_motion.isAnimating) _motion.repeat(reverse: true);
     }
   }
 
   @override
   void dispose() {
+    _logoOpacity.dispose();
+    _logoSlideCurve.dispose();
+    _cardOpacity.dispose();
+    _cardSlideCurve.dispose();
+    _copyOpacity.dispose();
+    _entrance.dispose();
     _motion.dispose();
     super.dispose();
   }
@@ -335,74 +398,148 @@ class _StartupRitualState extends State<_StartupRitual>
     return LayoutBuilder(
       builder: (context, constraints) {
         final cardWidth = math.min(constraints.maxWidth * 0.42, 172.0);
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(28, 32, 28, 28),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 420),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/branding/tarot_noir_logo.png',
-                        width: math.min(constraints.maxWidth * 0.72, 300.0),
-                        height: 100,
-                        fit: BoxFit.contain,
-                        semanticLabel: l10n.appTitle,
-                      ),
-                      const SizedBox(height: 30),
-                      AnimatedBuilder(
-                        animation: _motion,
-                        builder: (context, child) {
-                          final phase = _motion.value;
-                          return Transform.translate(
-                            offset: Offset(0, -4 * phase),
-                            child: Transform.rotate(
-                              angle: (phase - 0.5) * 0.035,
-                              child: child,
+        return Stack(
+          key: const Key('startup-backdrop'),
+          fit: StackFit.expand,
+          children: [
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF1B0D13),
+                    Color(0xFF100A10),
+                    Color(0xFF08090D),
+                  ],
+                  stops: [0, 0.48, 1],
+                ),
+              ),
+            ),
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment(0, -0.08),
+                  radius: 0.86,
+                  colors: [Color(0x337B2D36), Color(0x00090A0D)],
+                  stops: [0, 1],
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 32, 28, 28),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 420),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FadeTransition(
+                            opacity: _logoOpacity,
+                            child: SlideTransition(
+                              position: _logoPosition,
+                              child: Image.asset(
+                                'assets/images/branding/tarot_noir_logo.png',
+                                width: math.min(
+                                  constraints.maxWidth * 0.72,
+                                  300.0,
+                                ),
+                                height: 100,
+                                fit: BoxFit.contain,
+                                semanticLabel: l10n.appTitle,
+                              ),
                             ),
-                          );
-                        },
-                        child: SizedBox(
-                          width: cardWidth,
-                          child: const TarotCardBack(
-                            key: Key('startup-card-back'),
                           ),
-                        ),
+                          const SizedBox(height: 30),
+                          FadeTransition(
+                            opacity: _cardOpacity,
+                            child: SlideTransition(
+                              position: _cardPosition,
+                              child: AnimatedBuilder(
+                                animation: _motion,
+                                builder: (context, child) {
+                                  final phase = _motion.value;
+                                  final glowAlpha =
+                                      0.16 + 0.12 * math.sin(phase * math.pi);
+                                  return Transform.translate(
+                                    offset: Offset(0, -3 * phase),
+                                    child: Transform.rotate(
+                                      angle: (phase - 0.5) * 0.028,
+                                      child: SizedBox(
+                                        width: cardWidth,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Positioned.fill(
+                                              child: DecoratedBox(
+                                                decoration: BoxDecoration(
+                                                  gradient: RadialGradient(
+                                                    colors: [
+                                                      Color(0xFF9C4542)
+                                                          .withValues(
+                                                            alpha: glowAlpha,
+                                                          ),
+                                                      const Color(0x009C4542),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            child!,
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: TarotCardBack(
+                                  key: const Key('startup-card-back'),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 28),
+                          FadeTransition(
+                            opacity: _copyOpacity,
+                            child: Column(
+                              children: [
+                                Text(
+                                  widget.message,
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.bodyLarge?.copyWith(
+                                    color: const Color(0xFFE3D8C7),
+                                    height: 1.45,
+                                  ),
+                                ),
+                                const SizedBox(height: 28),
+                                Semantics(
+                                  label: widget.message,
+                                  child: const LinearProgressIndicator(
+                                    key: Key('startup-progress'),
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  l10n.startupTeaser,
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: const Color(0xFFB8D5D0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 28),
-                      Text(
-                        widget.message,
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodyLarge?.copyWith(
-                          color: const Color(0xFFE3D8C7),
-                          height: 1.45,
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-                      Semantics(
-                        label: widget.message,
-                        child: const LinearProgressIndicator(
-                          key: Key('startup-progress'),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        l10n.startupTeaser,
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: const Color(0xFFB8D5D0),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+          ],
         );
       },
     );

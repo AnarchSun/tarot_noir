@@ -16,6 +16,7 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
+    expect(find.byKey(const Key('startup-backdrop')), findsOneWidget);
     expect(find.byKey(const Key('startup-progress')), findsOneWidget);
     expect(find.byKey(const Key('startup-card-back')), findsOneWidget);
     expect(find.text('Preparing your Tarot Noir…'), findsOneWidget);
