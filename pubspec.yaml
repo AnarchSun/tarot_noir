@@ -46,5 +46,6 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/backgrounds/
     - assets/images/branding/
     - assets/images/tarot_temp/

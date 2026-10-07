@@ -19,6 +19,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('welcome-landing')), findsOneWidget);
+    expect(find.byKey(const Key('welcome-background')), findsOneWidget);
     expect(find.byKey(const Key('welcome-logo')), findsOneWidget);
     expect(find.byKey(const Key('welcome-preview-card')), findsOneWidget);
     expect(find.byKey(const Key('welcome-card-meaning')), findsOneWidget);

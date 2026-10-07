@@ -253,90 +253,108 @@ class _WelcomeLanding extends StatelessWidget {
         final cardHeight = (constraints.maxHeight * 0.37)
             .clamp(180.0, 360.0)
             .toDouble();
-        return DecoratedBox(
+        return Stack(
           key: const Key('welcome-landing'),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFF1C1115), Color(0xFF100D11), Color(0xFF09070E)],
-              stops: [0, 0.52, 1],
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/backgrounds/portail_gothique_eclipse_rouge.png',
+              key: const Key('welcome-background'),
+              fit: BoxFit.cover,
+              excludeFromSemantics: true,
             ),
-          ),
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 14, 24, 20),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 460),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/branding/tarot_noir_logo.png',
-                          key: const Key('welcome-logo'),
-                          width: 196,
-                          height: 60,
-                          fit: BoxFit.contain,
-                          semanticLabel: l10n.appTitle,
-                        ),
-                        const SizedBox(height: 6),
-                        SizedBox(
-                          height: cardHeight,
-                          child: Image.asset(
-                            card.imagePath,
-                            key: const Key('welcome-preview-card'),
+            const Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x8809070E),
+                      Color(0x3009070E),
+                      Color(0x5509070E),
+                      Color(0xE609070E),
+                    ],
+                    stops: [0, 0.36, 0.58, 1],
+                  ),
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 14, 24, 20),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 460),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/branding/tarot_noir_logo.png',
+                            key: const Key('welcome-logo'),
+                            width: 196,
+                            height: 60,
                             fit: BoxFit.contain,
-                            semanticLabel: '${card.name}, ${card.keyword}',
+                            semanticLabel: l10n.appTitle,
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          card.name,
-                          textAlign: TextAlign.center,
-                          style: textTheme.headlineSmall?.copyWith(
-                            color: const Color(0xFFE3D8C7),
-                            fontWeight: FontWeight.w700,
+                          const SizedBox(height: 6),
+                          SizedBox(
+                            height: cardHeight,
+                            child: Image.asset(
+                              card.imagePath,
+                              key: const Key('welcome-preview-card'),
+                              fit: BoxFit.contain,
+                              semanticLabel: '${card.name}, ${card.keyword}',
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          card.keyword,
-                          textAlign: TextAlign.center,
-                          style: textTheme.labelLarge?.copyWith(
-                            color: const Color(0xFFD4AF59),
-                            letterSpacing: 1.4,
+                          const SizedBox(height: 2),
+                          Text(
+                            card.name,
+                            textAlign: TextAlign.center,
+                            style: textTheme.headlineSmall?.copyWith(
+                              color: const Color(0xFFE3D8C7),
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 7),
-                        Text(
-                          card.message,
-                          key: const Key('welcome-card-meaning'),
-                          textAlign: TextAlign.center,
-                          style: textTheme.bodyMedium?.copyWith(
-                            color: const Color(0xFFE3D8C7),
-                            height: 1.35,
+                          const SizedBox(height: 2),
+                          Text(
+                            card.keyword,
+                            textAlign: TextAlign.center,
+                            style: textTheme.labelLarge?.copyWith(
+                              color: const Color(0xFFD4AF59),
+                              letterSpacing: 1.4,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        _SignInChoices(
-                          isReady: isReady,
-                          isSigningIn: isSigningIn,
-                          isFacebookSigningIn: isFacebookSigningIn,
-                          showFacebook: showFacebook,
-                          onGoogleSignIn: onGoogleSignIn,
-                          onFacebookSignIn: onFacebookSignIn,
-                          onContinueAsGuest: onContinueAsGuest,
-                        ),
-                      ],
+                          const SizedBox(height: 7),
+                          Text(
+                            card.message,
+                            key: const Key('welcome-card-meaning'),
+                            textAlign: TextAlign.center,
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: const Color(0xFFE3D8C7),
+                              height: 1.35,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _SignInChoices(
+                            isReady: isReady,
+                            isSigningIn: isSigningIn,
+                            isFacebookSigningIn: isFacebookSigningIn,
+                            showFacebook: showFacebook,
+                            onGoogleSignIn: onGoogleSignIn,
+                            onFacebookSignIn: onFacebookSignIn,
+                            onContinueAsGuest: onContinueAsGuest,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
