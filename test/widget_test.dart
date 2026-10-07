@@ -12,56 +12,70 @@ void main() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
   });
 
-  testWidgets(
-    'daily card appears automatically and guest can draw a basic card',
-    (tester) async {
-      await tester.pumpWidget(const TarotNoirApp());
-      await tester.pumpAndSettle();
+  testWidgets('startup teaser leads to one ad-gated daily card for guests', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const TarotNoirApp());
+    expect(find.byKey(const Key('startup-progress')), findsOneWidget);
+    expect(find.byKey(const Key('startup-card-back')), findsOneWidget);
+    expect(find.text('Preparing your Tarot Noir…'), findsOneWidget);
+    await tester.pumpAndSettle();
 
-      expect(find.text('Card of the day'), findsOneWidget);
-      expect(find.byType(Image), findsOneWidget);
-      expect(find.text('Continue with Google'), findsOneWidget);
-      expect(find.text('Continue with Facebook'), findsNothing);
-      expect(find.text('Continue without an account'), findsOneWidget);
-      expect(find.byKey(const Key('basic-draw')), findsNothing);
-      expect(find.text('Journal'), findsNothing);
-      expect(find.text('Profile'), findsNothing);
+    expect(find.text('A moment with Tarot Noir'), findsOneWidget);
+    expect(find.text('Continue with Google'), findsOneWidget);
+    expect(find.text('Continue with Facebook'), findsNothing);
+    expect(find.text('Continue without an account'), findsOneWidget);
+    expect(find.byKey(const Key('daily-card-teaser')), findsOneWidget);
+    expect(find.byKey(const Key('daily-draw')), findsNothing);
 
-      await tester.tap(find.byKey(const Key('continue-as-guest')));
-      await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('continue-as-guest')));
+    await tester.pumpAndSettle();
 
-      final preferences = await SharedPreferences.getInstance();
-      expect(preferences.getBool('guest_access_accepted'), isTrue);
-      final dailyCardBeforeBasicDraw = preferences.getString('daily_card_id');
-      expect(dailyCardBeforeBasicDraw, isNotNull);
-      expect(find.byKey(const Key('basic-draw')), findsOneWidget);
-      _expectVisibleInReadingViewport(
-        tester,
-        find.byKey(const Key('basic-draw')),
-      );
+    final preferences = await SharedPreferences.getInstance();
+    expect(preferences.getBool('guest_access_accepted'), isTrue);
+    expect(preferences.getString('daily_card_id'), isNull);
+    expect(find.byKey(const Key('daily-draw')), findsOneWidget);
+    expect(find.byKey(const Key('daily-card-back')), findsOneWidget);
+    _expectVisibleInReadingViewport(
+      tester,
+      find.byKey(const Key('daily-draw')),
+    );
 
-      await tester.tap(find.byKey(const Key('basic-draw')));
-      await tester.pumpAndSettle();
-      if (AppConfig.adPlaceholderEnabled && !AppConfig.premiumEnabled) {
-        expect(find.text('Advertising space — preview'), findsOneWidget);
-        await tester.tap(find.text('Continue'));
-        await tester.pumpAndSettle();
-      }
+    await tester.tap(find.byKey(const Key('daily-draw')));
+    if (AppConfig.adPlaceholderEnabled && !AppConfig.premiumEnabled) {
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.text('Advertising space — preview'), findsOneWidget);
+      await tester.tap(find.text('Continue'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+      await tester.pump();
+    } else {
+      await tester.pump(const Duration(milliseconds: 700));
+    }
 
-      expect(find.text('Free draw'), findsOneWidget);
-      expect(find.byType(Image), findsNWidgets(2));
-      _expectVisibleInReadingViewport(
-        tester,
-        find.byKey(const Key('basic-draw')),
-      );
-      expect(preferences.getString('daily_card_id'), dailyCardBeforeBasicDraw);
-      expect((preferences.getStringList('journal_entries') ?? []).length, 2);
+    expect(find.byKey(const Key('daily-draw')), findsOneWidget);
+    expect(find.text('Daily card already drawn'), findsOneWidget);
+    expect(find.byKey(const Key('basic-draw')), findsOneWidget);
+    expect(preferences.getString('daily_card_id'), isNotNull);
+    expect((preferences.getStringList('journal_entries') ?? []).length, 1);
 
-      await tester.tap(find.text('Premium'));
-      await tester.pumpAndSettle();
-      expect(find.text('Premium Circle'), findsOneWidget);
-    },
-  );
+    await tester.tap(find.byKey(const Key('journal')));
+    await tester.pumpAndSettle();
+    expect(find.text('Unlock your Journal'), findsOneWidget);
+    expect(find.textContaining('Journal sync stays off'), findsOneWidget);
+    expect(find.byKey(const Key('account-gate-google')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('account-gate-google')));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Enable Firebase Authentication before signing in.'),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.text('Premium'));
+    await tester.pumpAndSettle();
+    expect(find.text('Premium Circle'), findsOneWidget);
+  });
 
   testWidgets('guest choice is remembered when the app is reopened', (
     tester,
@@ -70,14 +84,16 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('continue-as-guest')));
     await tester.pumpAndSettle();
+    final preferences = await SharedPreferences.getInstance();
+    expect(preferences.getBool('guest_access_accepted'), isTrue);
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Continue with Google'), findsOneWidget);
+    expect(find.text('Continue with Google'), findsNothing);
     expect(find.text('Continue without an account'), findsNothing);
-    expect(find.byKey(const Key('basic-draw')), findsOneWidget);
+    expect(find.byKey(const Key('daily-draw')), findsOneWidget);
   });
 
   testWidgets('local data erasure requires explicit confirmation', (
@@ -161,8 +177,9 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
-    expect(find.text('Card of the day'), findsOneWidget);
-    expect(find.text('TAROT NOIR'), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(find.text('A moment with Tarot Noir'), findsOneWidget);
+    expect(find.byType(Image), findsOneWidget);
   });
 }
 

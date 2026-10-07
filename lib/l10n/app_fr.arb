@@ -2,6 +2,25 @@
   "@@locale": "fr",
   "appTitle": "Tarot Noir",
   "dailyReading": "Carte du jour",
+  "startupLoading": "Préparation de Tarot Noir…",
+  "startupTeaser": "La carte reste voilée jusqu’à ce que tu choisisses de tirer.",
+  "welcomeTitle": "Un instant avec Tarot Noir",
+  "dailyDrawPrompt": "Ta carte du jour t’attend. Tire-la une fois aujourd’hui pour découvrir son message.",
+  "accountGateTitle": "Accède à {destination}",
+  "@accountGateTitle": {
+    "placeholders": {
+      "destination": {}
+    }
+  },
+  "accountGateBody": "Crée un compte ou connecte-toi pour retrouver tes tirages et tes notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.",
+  "orionPlusTeaser": "Orion+ est distinct d’un compte gratuit et propose des interprétations plus approfondies et des conseils supplémentaires.",
+  "discoverOrionPlus": "Découvrir Orion+",
+  "authenticationStartupFailed": "La connexion n’a pas pu s’initialiser : {error}. Tu peux continuer comme invité.",
+  "@authenticationStartupFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "drawAnother": "Tirer une autre carte",
   "drawPrompt": "Le voile attend ton geste. Tire une carte pour révéler le signe du jour.",
   "restoringRitual": "Restauration du rituel…",

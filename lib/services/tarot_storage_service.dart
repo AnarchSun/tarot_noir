@@ -311,14 +311,53 @@ class TarotStorageService {
     required Iterable<JournalEntry> journal,
   }) async {
     final preferences = await SharedPreferences.getInstance();
-    await preferences.setInt(storageSchemaVersionKey, storageSchemaVersion);
-    await preferences.setString(dailyCardKey, dailyCard.id);
-    await preferences.setString(dailyDateKey, dateKey(date));
-    await preferences.setString(dailyOrientationKey, orientation.name);
-    await preferences.setStringList(
+    await _saveDailyDraw(preferences, dailyCard, date, orientation);
+    await _saveJournal(preferences, journal);
+  }
+
+  Future<void> saveDailyDraw({
+    required TarotCard card,
+    required DateTime date,
+    required CardOrientation orientation,
+  }) async {
+    final preferences = await SharedPreferences.getInstance();
+    await _saveDailyDraw(preferences, card, date, orientation);
+  }
+
+  Future<void> saveJournalOnly(Iterable<JournalEntry> journal) async {
+    final preferences = await SharedPreferences.getInstance();
+    await _saveJournal(preferences, journal);
+  }
+
+  Future<void> _saveDailyDraw(
+    SharedPreferences preferences,
+    TarotCard card,
+    DateTime date,
+    CardOrientation orientation,
+  ) async {
+    if (!await preferences.setInt(
+      storageSchemaVersionKey,
+      storageSchemaVersion,
+    )) {
+      throw StateError('Could not update the local storage version.');
+    }
+    if (!await preferences.setString(dailyCardKey, card.id) ||
+        !await preferences.setString(dailyDateKey, dateKey(date)) ||
+        !await preferences.setString(dailyOrientationKey, orientation.name)) {
+      throw StateError('Could not save the daily card.');
+    }
+  }
+
+  Future<void> _saveJournal(
+    SharedPreferences preferences,
+    Iterable<JournalEntry> journal,
+  ) async {
+    if (!await preferences.setStringList(
       journalKey,
       journal.map((entry) => jsonEncode(entry.toJson())).toList(),
-    );
+    )) {
+      throw StateError('Could not save the local journal.');
+    }
   }
 
   static bool isDailyDrawLocked(String? savedDate, DateTime now) =>

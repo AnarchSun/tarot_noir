@@ -16,6 +16,41 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dailyReading => 'Carte du jour';
 
   @override
+  String get startupLoading => 'Préparation de Tarot Noir…';
+
+  @override
+  String get startupTeaser =>
+      'La carte reste voilée jusqu’à ce que tu choisisses de tirer.';
+
+  @override
+  String get welcomeTitle => 'Un instant avec Tarot Noir';
+
+  @override
+  String get dailyDrawPrompt =>
+      'Ta carte du jour t’attend. Tire-la une fois aujourd’hui pour découvrir son message.';
+
+  @override
+  String accountGateTitle(Object destination) {
+    return 'Accède à $destination';
+  }
+
+  @override
+  String get accountGateBody =>
+      'Crée un compte ou connecte-toi pour retrouver tes tirages et tes notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.';
+
+  @override
+  String get orionPlusTeaser =>
+      'Orion+ est distinct d’un compte gratuit et propose des interprétations plus approfondies et des conseils supplémentaires.';
+
+  @override
+  String get discoverOrionPlus => 'Découvrir Orion+';
+
+  @override
+  String authenticationStartupFailed(Object error) {
+    return 'La connexion n’a pas pu s’initialiser : $error. Tu peux continuer comme invité.';
+  }
+
+  @override
   String get drawAnother => 'Tirer une autre carte';
 
   @override

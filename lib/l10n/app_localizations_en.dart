@@ -16,6 +16,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyReading => 'Card of the day';
 
   @override
+  String get startupLoading => 'Preparing your Tarot Noir…';
+
+  @override
+  String get startupTeaser => 'The card stays veiled until you choose to draw.';
+
+  @override
+  String get welcomeTitle => 'A moment with Tarot Noir';
+
+  @override
+  String get dailyDrawPrompt =>
+      'Your card of the day is waiting. Draw once today to reveal its message.';
+
+  @override
+  String accountGateTitle(Object destination) {
+    return 'Unlock your $destination';
+  }
+
+  @override
+  String get accountGateBody =>
+      'Create an account or sign in to keep your readings and personal notes together. Journal sync stays off until you enable it.';
+
+  @override
+  String get orionPlusTeaser =>
+      'Orion+ is separate from a free account, with deeper readings and additional guidance.';
+
+  @override
+  String get discoverOrionPlus => 'Explore Orion+';
+
+  @override
+  String authenticationStartupFailed(Object error) {
+    return 'Sign-in could not initialize: $error. You can continue as a guest.';
+  }
+
+  @override
   String get drawAnother => 'Draw another card';
 
   @override

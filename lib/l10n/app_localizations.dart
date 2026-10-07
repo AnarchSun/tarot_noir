@@ -112,6 +112,60 @@ abstract class AppLocalizations {
   /// **'Carte du jour'**
   String get dailyReading;
 
+  /// No description provided for @startupLoading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préparation de Tarot Noir…'**
+  String get startupLoading;
+
+  /// No description provided for @startupTeaser.
+  ///
+  /// In fr, this message translates to:
+  /// **'La carte reste voilée jusqu’à ce que tu choisisses de tirer.'**
+  String get startupTeaser;
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un instant avec Tarot Noir'**
+  String get welcomeTitle;
+
+  /// No description provided for @dailyDrawPrompt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta carte du jour t’attend. Tire-la une fois aujourd’hui pour découvrir son message.'**
+  String get dailyDrawPrompt;
+
+  /// No description provided for @accountGateTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accède à {destination}'**
+  String accountGateTitle(Object destination);
+
+  /// No description provided for @accountGateBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Crée un compte ou connecte-toi pour retrouver tes tirages et tes notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.'**
+  String get accountGateBody;
+
+  /// No description provided for @orionPlusTeaser.
+  ///
+  /// In fr, this message translates to:
+  /// **'Orion+ est distinct d’un compte gratuit et propose des interprétations plus approfondies et des conseils supplémentaires.'**
+  String get orionPlusTeaser;
+
+  /// No description provided for @discoverOrionPlus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Découvrir Orion+'**
+  String get discoverOrionPlus;
+
+  /// No description provided for @authenticationStartupFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'La connexion n’a pas pu s’initialiser : {error}. Tu peux continuer comme invité.'**
+  String authenticationStartupFailed(Object error);
+
   /// No description provided for @drawAnother.
   ///
   /// In fr, this message translates to:

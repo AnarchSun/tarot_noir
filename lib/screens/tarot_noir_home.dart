@@ -14,6 +14,7 @@ import '../models/tarot_deck.dart';
 import '../services/firebase_auth_service.dart';
 import '../services/firestore_sync_service.dart';
 import '../services/tarot_storage_service.dart';
+import '../widgets/account_access_sheet.dart';
 import 'journal_screen.dart';
 import 'premium_screen.dart';
 import 'profile_screen.dart';
@@ -33,12 +34,15 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   String _drawType = 'daily';
   bool _hasChosenAccess = false;
   bool _isRestoring = true;
+  bool _isDailyDrawing = false;
   bool _isSigningIn = false;
   bool _isFacebookSigningIn = false;
-  bool _hasShownAdPlaceholder = false;
+  bool _hasShownFreeAdPlaceholder = false;
   User? _firebaseUser;
   String? _journalSyncUserUid;
+  Object? _authInitializationError;
   late TarotCard _dailyCard;
+  bool _hasDrawnToday = false;
   TarotCard? _freeCard;
   late TarotCard _card;
   CardOrientation _dailyOrientation = CardOrientation.upright;
@@ -58,9 +62,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     final now = DateTime.now();
     _dailyCard = _cardForDate(now);
     _card = _dailyCard;
-    _firebaseUser = widget.initialUser ?? _auth.currentUser;
+    _firebaseUser =
+        widget.initialUser ??
+        (FirebaseAuthService.isInitialized ? _auth.currentUser : null);
     _hasChosenAccess = _firebaseUser != null;
-    _restoreTask = _restoreState();
+    _restoreTask = _initializeAndRestore();
   }
 
   TarotCard _cardForDate(DateTime date) {
@@ -75,13 +81,31 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         : CardOrientation.upright;
   }
 
+  Future<void> _initializeAndRestore() async {
+    try {
+      await FirebaseAuthService.initialize();
+      _firebaseUser = widget.initialUser ?? _auth.currentUser;
+    } catch (error) {
+      _authInitializationError = error;
+    }
+    await _restoreState();
+    final error = _authInitializationError;
+    if (error != null && mounted) {
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.authenticationStartupFailed(error.toString())),
+        ),
+      );
+    }
+  }
+
   Future<void> _restoreState() async {
     try {
       final snapshot = await _storage.restore(tarotDeck);
       final syncUserUid = await _storage.journalSyncUserUid();
       final hasAcceptedGuestAccess = await _storage.hasAcceptedGuestAccess();
       final now = DateTime.now();
-      final todayKey = TarotStorageService.dateKey(now);
       TarotCard? savedCard;
       for (final card in tarotDeck) {
         if (card.id == snapshot.dailyCardId) {
@@ -89,16 +113,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
           break;
         }
       }
-      final hasSavedToday = snapshot.dailyDate == todayKey && savedCard != null;
-      final dailyCard = hasSavedToday ? savedCard : _cardForDate(now);
-      JournalEntry? dailyEntry;
+      final hasDrawnToday =
+          TarotStorageService.isDailyDrawLocked(snapshot.dailyDate, now) &&
+          savedCard != null;
+      final dailyCard = hasDrawnToday ? savedCard : _cardForDate(now);
       JournalEntry? latestFreeEntry;
       for (final entry in snapshot.journal) {
-        if (entry.drawType == 'daily' &&
-            TarotStorageService.dateKey(entry.createdAt) == todayKey &&
-            entry.card.id == dailyCard.id) {
-          dailyEntry ??= entry;
-        }
         if (entry.drawType == 'free' &&
             (latestFreeEntry == null ||
                 entry.createdAt.isAfter(latestFreeEntry.createdAt))) {
@@ -106,23 +126,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         }
       }
       final restoredJournal = List<JournalEntry>.of(snapshot.journal);
-      if (dailyEntry == null) {
-        dailyEntry = JournalEntry(
-          card: dailyCard,
-          orientation: hasSavedToday
-              ? snapshot.dailyOrientation
-              : CardOrientation.upright,
-          createdAt: DateTime(now.year, now.month, now.day),
-          drawType: 'daily',
-          syncOwnerUid: _firebaseUser?.uid,
-        );
-        restoredJournal.insert(0, dailyEntry);
-      }
 
       if (!mounted) return;
       setState(() {
         _dailyCard = dailyCard;
-        _dailyOrientation = hasSavedToday
+        _hasDrawnToday = hasDrawnToday;
+        _dailyOrientation = hasDrawnToday
             ? snapshot.dailyOrientation
             : CardOrientation.upright;
         _freeCard = latestFreeEntry?.card;
@@ -139,9 +148,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
           ..addAll(restoredJournal);
       });
 
-      if (!hasSavedToday || !snapshot.journal.contains(dailyEntry)) {
-        await _persist();
-      }
       final user = _firebaseUser;
       if (user != null && syncUserUid == user.uid) {
         try {
@@ -162,12 +168,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 
   Future<bool> _persist() async {
     try {
-      await _storage.persist(
-        dailyCard: _dailyCard,
-        date: DateTime.now(),
-        orientation: _dailyOrientation,
-        journal: _journal,
-      );
+      await _storage.saveJournalOnly(_journal);
+      if (_hasDrawnToday) {
+        await _storage.saveDailyDraw(
+          card: _dailyCard,
+          date: DateTime.now(),
+          orientation: _dailyOrientation,
+        );
+      }
       final user = _firebaseUser;
       if (user != null && _journalSyncUserUid == user.uid) {
         try {
@@ -348,6 +356,40 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     }
   }
 
+  Future<void> _showAccountGate(String destination) async {
+    final l10n = AppLocalizations.of(context)!;
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (sheetContext) => AccountAccessSheet(
+        destination: destination,
+        showFacebook: AppConfig.facebookSignInVisible,
+        onGoogleSignIn: () {
+          Navigator.of(sheetContext).pop();
+          unawaited(_signInWithGoogle());
+        },
+        onFacebookSignIn: () {
+          Navigator.of(sheetContext).pop();
+          unawaited(_signInWithFacebook());
+        },
+        onExplorePremium: () {
+          Navigator.of(sheetContext).pop();
+          if (mounted) setState(() => _tab = 2);
+        },
+        l10n: l10n,
+      ),
+    );
+  }
+
+  void _openProfile() {
+    if (_firebaseUser == null) {
+      unawaited(_showAccountGate(AppLocalizations.of(context)!.profile));
+      return;
+    }
+    setState(() => _tab = 3);
+  }
+
   void _showJournalSyncError(Object error) {
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
@@ -356,27 +398,73 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     );
   }
 
-  Future<void> _draw() async {
-    if (AppConfig.adPlaceholderEnabled &&
-        !AppConfig.premiumEnabled &&
-        !_hasShownAdPlaceholder) {
-      _hasShownAdPlaceholder = true;
-      final l10n = AppLocalizations.of(context)!;
-      await showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          icon: const Icon(Icons.hourglass_bottom),
-          title: Text(l10n.adPlaceholderTitle),
-          content: Text(l10n.adPlaceholderBody),
-          actions: [
-            FilledButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(l10n.continueLabel),
-            ),
-          ],
-        ),
+  Future<bool> _showAdPlaceholder() async {
+    if (!AppConfig.adPlaceholderEnabled || AppConfig.premiumEnabled) {
+      return true;
+    }
+    final l10n = AppLocalizations.of(context)!;
+    return await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            icon: const Icon(Icons.hourglass_bottom),
+            title: Text(l10n.adPlaceholderTitle),
+            content: Text(l10n.adPlaceholderBody),
+            actions: [
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text(l10n.continueLabel),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
+  Future<void> _drawDaily() async {
+    if (_isDailyDrawing || _hasDrawnToday || _isRestoring) return;
+    setState(() => _isDailyDrawing = true);
+    try {
+      if (!await _showAdPlaceholder() || !mounted) return;
+      final orientation = _orientationFor(_dailyCard);
+      final entry = JournalEntry(
+        card: _dailyCard,
+        orientation: orientation,
+        createdAt: DateTime.now(),
+        drawType: 'daily',
+        syncOwnerUid: _firebaseUser?.uid,
       );
+      setState(() {
+        _hasDrawnToday = true;
+        _dailyOrientation = orientation;
+        _card = _dailyCard;
+        _orientation = orientation;
+        _drawType = 'daily';
+        _journal.insert(0, entry);
+      });
+      if (!await _persist() && mounted) {
+        setState(() {
+          _hasDrawnToday = false;
+          _dailyOrientation = CardOrientation.upright;
+          _card = _freeCard ?? _dailyCard;
+          _orientation = _freeCard == null
+              ? CardOrientation.upright
+              : _freeOrientation;
+          _drawType = _freeCard == null ? 'daily' : 'free';
+          _journal.remove(entry);
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _isDailyDrawing = false);
+    }
+  }
+
+  Future<void> _draw() async {
+    if (!_hasShownFreeAdPlaceholder &&
+        AppConfig.adPlaceholderEnabled &&
+        !AppConfig.premiumEnabled) {
+      if (!await _showAdPlaceholder()) return;
+      _hasShownFreeAdPlaceholder = true;
       if (!mounted) return;
     }
     final nextCard = tarotDeck[Random().nextInt(tarotDeck.length)];
@@ -443,6 +531,9 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     setState(() {
       _journal.clear();
       _freeCard = null;
+      _hasDrawnToday = false;
+      _dailyCard = _cardForDate(DateTime.now());
+      _dailyOrientation = CardOrientation.upright;
       _journalSyncUserUid = null;
     });
   }
@@ -486,41 +577,41 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       ReadingScreen(
         dailyCard: _dailyCard,
         dailyOrientation: _dailyOrientation,
+        hasDrawnToday: _hasDrawnToday,
         freeCard: _freeCard,
         freeOrientation: _freeOrientation,
-        onDraw: _draw,
+        onDrawDaily: _drawDaily,
+        onDrawFree: _draw,
         isRestoring: _isRestoring,
         showAccessChoices: !_hasChosenAccess && !isSignedIn,
-        showGuestSignIn: !isSignedIn,
+        isDailyDrawing: _isDailyDrawing,
         isSigningIn: _isSigningIn,
         isFacebookSigningIn: _isFacebookSigningIn,
         onGoogleSignIn: _signInWithGoogle,
         onFacebookSignIn: _signInWithFacebook,
         onContinueAsGuest: _continueAsGuest,
       ),
-    ];
-    if (isSignedIn) {
-      pages.add(
+      if (isSignedIn)
         JournalScreen(
           entries: _journal,
           onSave: _saveJournalEntry,
           onDelete: _deleteJournalEntry,
           onClearData: _onDataCleared,
-        ),
-      );
-    }
-    pages.add(const PremiumScreen());
-    if (isSignedIn) {
-      pages.add(
+        )
+      else
+        const SizedBox.shrink(),
+      PremiumScreen(onOpenProfile: _openProfile),
+      if (isSignedIn)
         ProfileScreen(
           initialUser: _firebaseUser!,
           isSelected: _tab == 3,
           onFirebaseUserChanged: _onFirebaseUserChanged,
           onEnableJournalSync: _enableJournalSync,
           onDisableJournalSync: _disableJournalSync,
-        ),
-      );
-    }
+        )
+      else
+        const SizedBox.shrink(),
+    ];
     final destinations = <NavigationDestination>[
       NavigationDestination(
         icon: const Icon(Icons.auto_awesome_outlined),
@@ -528,15 +619,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         label: l10n.reading,
       ),
     ];
-    if (isSignedIn) {
-      destinations.add(
-        NavigationDestination(
-          icon: const Icon(Icons.menu_book_outlined),
-          selectedIcon: const Icon(Icons.menu_book),
-          label: l10n.journal,
-        ),
-      );
-    }
+    destinations.add(
+      NavigationDestination(
+        key: const Key('journal'),
+        icon: const Icon(Icons.menu_book_outlined),
+        selectedIcon: const Icon(Icons.menu_book),
+        label: l10n.journal,
+      ),
+    );
     destinations.add(
       NavigationDestination(
         icon: const Icon(Icons.workspace_premium_outlined),
@@ -544,28 +634,34 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         label: l10n.premium,
       ),
     );
-    if (isSignedIn) {
-      destinations.add(
-        NavigationDestination(
-          icon: const Icon(Icons.person_outline),
-          selectedIcon: const Icon(Icons.person),
-          label: l10n.profile,
-        ),
-      );
-    }
+    destinations.add(
+      NavigationDestination(
+        icon: const Icon(Icons.person_outline),
+        selectedIcon: const Icon(Icons.person),
+        label: l10n.profile,
+      ),
+    );
     final selectedIndex = _tab.clamp(0, destinations.length - 1);
 
     return Scaffold(
       body: SafeArea(
         child: IndexedStack(index: selectedIndex, children: pages),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() => _tab = index);
-        },
-        destinations: destinations,
-      ),
+      bottomNavigationBar: !_isRestoring && _hasChosenAccess
+          ? NavigationBar(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (index) {
+                if (!isSignedIn && (index == 1 || index == 3)) {
+                  unawaited(
+                    _showAccountGate(index == 1 ? l10n.journal : l10n.profile),
+                  );
+                  return;
+                }
+                setState(() => _tab = index);
+              },
+              destinations: destinations,
+            )
+          : null,
     );
   }
 }

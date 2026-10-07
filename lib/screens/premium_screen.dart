@@ -5,7 +5,9 @@ import '../l10n/app_localizations.dart';
 import '../widgets/plan_comparison_table.dart';
 
 class PremiumScreen extends StatelessWidget {
-  const PremiumScreen({super.key});
+  const PremiumScreen({required this.onOpenProfile, super.key});
+
+  final VoidCallback onOpenProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +34,7 @@ class PremiumScreen extends StatelessWidget {
         Text(l10n.adFreeDetail, style: const TextStyle(height: 1.45)),
         const SizedBox(height: 24),
         OutlinedButton.icon(
-          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.walletAvailableInProfile)),
-          ),
+          onPressed: onOpenProfile,
           icon: const Icon(Icons.account_balance_wallet_outlined),
           label: Text(l10n.walletOpenProfile),
         ),
