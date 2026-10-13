@@ -22,8 +22,11 @@ peuvent être ajoutées progressivement sans créer de faux assets.
 ## Fonctionnement actuel
 
 - Gratuit : une carte révélée par jour, texte court, journal local.
-- Carte déterministe selon la date locale, mémorisée par identifiant : même carte
-  après réouverture. Actualisation à minuit ou à la reprise de l’application.
+- L’accueil présente la carte du jour et propose Google, Facebook ou l’accès
+  invité. La carte est révélée et sauvegardée à l’entrée, puis une nouvelle carte
+  apparaît automatiquement à la première ouverture d’un autre jour.
+- La carte dépend de la date locale et parcourt les 78 cartes dans l’ordre;
+  l’identifiant sauvegardé maintient le même tirage après réouverture.
 - Recul de date : aucune nouvelle carte tant que la date ne dépasse pas le dernier
   jour enregistré. Une avance manuelle de l’horloge ou une suppression du stockage
   restent hors des garanties du prototype ; une limite inviolable exige un serveur.
@@ -38,9 +41,8 @@ peuvent être ajoutées progressivement sans créer de faux assets.
 - Tableau Gratuit/Premium de dix rubriques conservé ; fonctions futures signalées.
 - Interface français, anglais, espagnol ; langue de l’appareil, anglais par défaut.
   Les textes du catalogue de cartes restent pour l’instant en français.
-- Vingt-trois illustrations sont actuellement disponibles dans
-  `assets/images/tarot_cards` : les 22 arcanes majeurs et l’As d’Épées.
-  Les autres cartes utilisent un état explicite d’illustration indisponible.
+- Les illustrations des 78 cartes sont dans `assets/images/tarot_temp`; le fond
+  et le logo de l’accueil sont dans `assets/images/backgrounds` et `branding`.
 
 ## Configuration
 
@@ -59,22 +61,21 @@ Aucun droit Premium n’est enregistré dans les préférences locales.
 
 ### Profil et authentification
 
-L’écran Profil prend en charge les connexions par courriel/mot de passe, Google,
-téléphone et (si configuré séparément) Facebook. Pour Android, les options
+L’écran d’accueil propose Google, Facebook (si configuré) ou l’accès invité ;
+aucune connexion par courriel/mot de passe n’y est proposée. Pour Android, les options
 FlutterFire et `android/app/google-services.json` sont générés pour le projet
 `tarot-noir`; les options sont publiques et ne contiennent aucun secret serveur.
-Activez les fournisseurs **Email/Password**, **Google** et **Phone** dans
-Firebase Authentication. Pour Google, ajoutez les empreintes SHA du certificat
+Activez le fournisseur **Google** dans Firebase Authentication. Ajoutez les
+empreintes SHA du certificat
 Android dans les paramètres de l’application Firebase, puis récupérez le
 `google-services.json` à jour afin qu’il contienne les clients OAuth Android et
 Web. Le fichier de ce dépôt a été actualisé après l’enregistrement des
-empreintes debug SHA-1 et SHA-256. Pour le téléphone,
-configurez les régions SMS autorisées et utilisez des numéros de test Firebase
-pendant le développement.
+empreintes debug SHA-1 et SHA-256.
 
-L’authentification reste désactivée par défaut. Activez-la explicitement pour
-Android avec `--dart-define=FIREBASE_AUTH_ENABLED=true`. Le mot de passe et les
-jetons ne sont jamais enregistrés dans Git.
+L’authentification Firebase est contrôlée par `FIREBASE_AUTH_ENABLED`. Les
+identifiants locaux Google et Meta se passent avec
+`--dart-define-from-file=config/auth.local.json`, fichier ignoré par Git. Les
+mots de passe et jetons privés ne sont jamais enregistrés dans Git.
 
 ### Synchronisation Firestore du journal
 
@@ -103,8 +104,8 @@ l’application Android et iOS correspondante dans Meta, puis renseignez
 `META_APP_ID`, `META_CLIENT_TOKEN` et `FACEBOOK_AUTH_ENABLED`. Android génère ses ressources Meta depuis ces paramètres. Sur iOS, copiez
 `ios/Flutter/Meta.local.xcconfig.example` vers `ios/Flutter/Meta.local.xcconfig`
 et renseignez-y le même `META_APP_ID` et `META_CLIENT_TOKEN`. Ce fichier est ignoré
-par Git ; les valeurs sont substituées dans `Info.plist` au build. Le bouton reste
-inactif si un paramètre manque.
+par Git ; les valeurs sont substituées dans `Info.plist` au build. Le bouton
+Facebook reste visible, mais la connexion est bloquée si un paramètre manque.
 
 ```sh
 flutter run --dart-define-from-file=config/auth.local.json
@@ -118,7 +119,7 @@ flutter run --dart-define=FIREBASE_AUTH_ENABLED=true
 
 Le Client Token Meta est un identifiant d’application public attendu par le SDK;
 les App Secrets Meta, jetons OAuth utilisateur et clés de service restent hors du
-dépôt, dans les consoles ou sur le serveur. Après une connexion courriel ou
+dépôt, dans les consoles ou sur le serveur. Après une connexion Google ou
 Facebook, le profil local est proposé avec le nom et le courriel Firebase
 préremplis. Un profil existant peut aussi conserver son adresse wallet.
 

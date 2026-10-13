@@ -51,7 +51,7 @@ abstract final class AppConfig {
 
   static const facebookSignInVisible = bool.fromEnvironment(
     'FACEBOOK_SIGN_IN_VISIBLE',
-    defaultValue: false,
+    defaultValue: true,
   );
 
   static const metaAppId = String.fromEnvironment('META_APP_ID');

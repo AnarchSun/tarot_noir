@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/journal_entry.dart';
+import '../models/tarot_card_text.dart';
 import 'preferences_screen.dart';
 
 class JournalScreen extends StatefulWidget {
@@ -93,11 +94,11 @@ class _JournalScreenState extends State<JournalScreen> {
               if (!entry.card.isMinorArcana)
                 _DetailSection(
                   label: l10n.keywordLabel,
-                  value: entry.card.keyword,
+                  value: entry.card.localizedKeyword(l10n.localeName),
                 ),
               _DetailSection(
                 label: l10n.interpretationLabel,
-                value: entry.shortExplanation,
+                value: entry.card.localizedMessage(l10n.localeName),
               ),
               _DetailSection(
                 label: l10n.drawTypeLabel,
@@ -236,7 +237,7 @@ class _JournalScreenState extends State<JournalScreen> {
                         title: Text(entry.card.name),
                         subtitle: Text(
                           [
-                            entry.shortExplanation,
+                            entry.card.localizedMessage(l10n.localeName),
                             l10n.drawDate(
                               DateFormat.yMd(l10n.localeName)
                                   .format(entry.createdAt),

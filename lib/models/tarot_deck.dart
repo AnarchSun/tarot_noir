@@ -197,17 +197,25 @@ const minorRanks = [
 ];
 
 const minorSuits = [
-  (name: 'Bâtons', symbol: '♣', theme: 'l’élan, l’action et la création'),
-  (name: 'Coupes', symbol: '♡', theme: 'l’émotion, le lien et l’intuition'),
+  (
+    name: 'Bâtons',
+    symbol: '♣',
+    theme: 'de l’élan, de l’action et de la création',
+  ),
+  (
+    name: 'Coupes',
+    symbol: '♡',
+    theme: 'de l’émotion, du lien et de l’intuition',
+  ),
   (
     name: 'Épées',
     symbol: '♠',
-    theme: 'la pensée, la parole et le discernement',
+    theme: 'de la pensée, de la parole et du discernement',
   ),
   (
     name: 'Deniers',
     symbol: '◇',
-    theme: 'le corps, les ressources et le quotidien',
+    theme: 'du corps, des ressources et du quotidien',
   ),
 ];
 
@@ -248,9 +256,17 @@ final minorArcana = <TarotCard>[
         '${minorRanks[index]} de ${suit.name}',
         suit.symbol,
         suit.name.toUpperCase(),
-        'Cette carte parle de ${suit.theme}. Cherche le prochain geste simple qui respecte ton intention.',
+        'Cette carte parle ${suit.theme}. Cherche le prochain geste simple qui respecte ton intention.',
         _minorImagePath(suit.name, index),
       ),
 ];
 
 final tarotDeck = <TarotCard>[...majorArcana, ...minorArcana];
+
+TarotCard dailyCardForDate(DateTime date) {
+  final day = DateTime.utc(date.year, date.month, date.day);
+  final daysSinceEpoch = day.difference(DateTime.utc(1970)).inDays;
+  final index =
+      (daysSinceEpoch % tarotDeck.length + tarotDeck.length) % tarotDeck.length;
+  return tarotDeck[index];
+}

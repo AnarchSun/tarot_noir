@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/app_config.dart';
 import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
+import 'package:tarot_noir/models/tarot_card_text.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
 
 void main() {
@@ -26,7 +27,21 @@ void main() {
     }
   });
 
-  testWidgets('random-card welcome leads to a daily reading for guests', (
+  test('daily card advances each day through the full deck', () {
+    final firstDay = DateTime.utc(2026, 1, 1);
+    final cards = List.generate(
+      tarotDeck.length,
+      (offset) => dailyCardForDate(firstDay.add(Duration(days: offset))),
+    );
+
+    expect(cards.map((card) => card.id).toSet(), hasLength(tarotDeck.length));
+    expect(
+      dailyCardForDate(firstDay.add(Duration(days: tarotDeck.length))).id,
+      cards.first.id,
+    );
+  });
+
+  testWidgets('daily-card welcome reveals today’s card for guests', (
     tester,
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
@@ -48,9 +63,16 @@ void main() {
           ?.fontSize,
       12,
     );
+    final todayCard = dailyCardForDate(DateTime.now());
+    expect(
+      (tester.widget<Image>(find.byKey(const Key('welcome-preview-card'))).image
+              as AssetImage)
+          .assetName,
+      todayCard.imagePath,
+    );
     expect(find.byKey(const Key('daily-card-back')), findsNothing);
     expect(find.text('Continue with Google'), findsOneWidget);
-    expect(find.text('Continue with Facebook'), findsNothing);
+    expect(find.text('Continue with Facebook'), findsOneWidget);
     expect(find.text('Continue without an account'), findsOneWidget);
     expect(find.byKey(const Key('daily-draw')), findsNothing);
 
@@ -59,28 +81,19 @@ void main() {
 
     final preferences = await SharedPreferences.getInstance();
     expect(preferences.getBool('guest_access_accepted'), isTrue);
-    expect(preferences.getString('daily_card_id'), isNull);
-    expect(find.byKey(const Key('daily-draw')), findsOneWidget);
-    expect(find.byKey(const Key('daily-card-back')), findsOneWidget);
-    _expectVisibleInReadingViewport(
-      tester,
-      find.byKey(const Key('daily-draw')),
+    expect(preferences.getString('daily_card_id'), todayCard.id);
+    expect(
+      preferences.getString('daily_card_date'),
+      '${DateTime.now().year.toString().padLeft(4, '0')}-'
+      '${DateTime.now().month.toString().padLeft(2, '0')}-'
+      '${DateTime.now().day.toString().padLeft(2, '0')}',
     );
-
-    await tester.tap(find.byKey(const Key('daily-draw')));
-    if (AppConfig.adPlaceholderEnabled && !AppConfig.premiumEnabled) {
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
-      expect(find.text('Advertising space — preview'), findsOneWidget);
-      await tester.tap(find.text('Continue'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      await tester.pump();
-    } else {
-      await tester.pump(const Duration(milliseconds: 700));
-    }
-
     expect(find.byKey(const Key('daily-draw')), findsOneWidget);
+    expect(find.text(todayCard.name), findsWidgets);
+    expect(
+      find.byKey(ValueKey('daily-reveal-${todayCard.id}')),
+      findsOneWidget,
+    );
     expect(find.text('Daily card already drawn'), findsOneWidget);
     expect(find.byKey(const Key('basic-draw')), findsOneWidget);
     expect(preferences.getString('daily_card_id'), isNotNull);
@@ -120,6 +133,7 @@ void main() {
     expect(find.text('Continue with Google'), findsNothing);
     expect(find.text('Continue without an account'), findsNothing);
     expect(find.byKey(const Key('daily-draw')), findsOneWidget);
+    expect(find.text('Daily card already drawn'), findsOneWidget);
   });
 
   testWidgets('local data erasure requires explicit confirmation', (
@@ -168,6 +182,7 @@ void main() {
       find.text('Enable Firebase Authentication before signing in.'),
       findsOneWidget,
     );
+    expect(find.byKey(const Key('facebook-sign-in')), findsOneWidget);
 
     SharedPreferences.setMockInitialValues(<String, Object>{
       'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
@@ -208,6 +223,16 @@ void main() {
     expect(find.text('Continue with Google'), findsOneWidget);
     expect(find.byKey(const Key('welcome-preview-card')), findsOneWidget);
   });
+
+  test('card messages follow the app language', () {
+    final death = majorArcana.firstWhere((card) => card.number == 'XIII');
+    expect(death.localizedMessage('en'), startsWith('What ends'));
+    expect(death.localizedMessage('es'), startsWith('Lo que termina'));
+    expect(death.localizedMessage('fr'), death.message);
+    final minor = minorArcana.first;
+    expect(minor.localizedMessage('en'), startsWith('This card speaks of'));
+    expect(minor.localizedMessage('fr'), isNot(contains('de le ')));
+  });
 }
 
 Future<void> _pumpSignedInApp(WidgetTester tester) async {
@@ -224,12 +249,6 @@ Future<void> _pumpSignedInApp(WidgetTester tester) async {
     ),
   );
   await tester.pumpAndSettle();
-}
-
-void _expectVisibleInReadingViewport(WidgetTester tester, Finder finder) {
-  final buttonBounds = tester.getRect(finder);
-  final readingBounds = tester.getRect(find.byType(ListView).first);
-  expect(buttonBounds.overlaps(readingBounds), isTrue);
 }
 
 class _TestFirebaseUser implements User {

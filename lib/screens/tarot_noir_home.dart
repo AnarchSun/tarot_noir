@@ -42,7 +42,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   String? _journalSyncUserUid;
   Object? _authInitializationError;
   late TarotCard _dailyCard;
-  late TarotCard _startupPreviewCard;
   bool _hasDrawnToday = false;
   TarotCard? _freeCard;
   late TarotCard _card;
@@ -61,19 +60,13 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     super.initState();
 
     final now = DateTime.now();
-    _dailyCard = _cardForDate(now);
-    _startupPreviewCard = tarotDeck[Random().nextInt(tarotDeck.length)];
+    _dailyCard = dailyCardForDate(now);
     _card = _dailyCard;
     _firebaseUser =
         widget.initialUser ??
         (FirebaseAuthService.isInitialized ? _auth.currentUser : null);
     _hasChosenAccess = _firebaseUser != null;
     _restoreTask = _initializeAndRestore();
-  }
-
-  TarotCard _cardForDate(DateTime date) {
-    final day = DateTime.utc(date.year, date.month, date.day);
-    return tarotDeck[day.millisecondsSinceEpoch % tarotDeck.length];
   }
 
   CardOrientation _orientationFor(TarotCard card) {
@@ -118,7 +111,8 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       final hasDrawnToday =
           TarotStorageService.isDailyDrawLocked(snapshot.dailyDate, now) &&
           savedCard != null;
-      final dailyCard = hasDrawnToday ? savedCard : _cardForDate(now);
+      final dailyCard = hasDrawnToday ? savedCard : dailyCardForDate(now);
+      final hasAccess = _firebaseUser != null || hasAcceptedGuestAccess;
       JournalEntry? latestFreeEntry;
       for (final entry in snapshot.journal) {
         if (entry.drawType == 'free' &&
@@ -142,13 +136,17 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         _card = latestFreeEntry?.card ?? dailyCard;
         _orientation = latestFreeEntry?.orientation ?? _dailyOrientation;
         _drawType = latestFreeEntry?.drawType ?? 'daily';
-        _hasChosenAccess = _firebaseUser != null || hasAcceptedGuestAccess;
+        _hasChosenAccess = hasAccess;
         _isRestoring = false;
         _journalSyncUserUid = syncUserUid;
         _journal
           ..clear()
           ..addAll(restoredJournal);
       });
+
+      if (hasAccess && !hasDrawnToday) {
+        await _drawDaily(showAd: false);
+      }
 
       final user = _firebaseUser;
       if (user != null && syncUserUid == user.uid) {
@@ -261,7 +259,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     setState(() {
       _firebaseUser = user;
       _hasChosenAccess = true;
-      _tab = user == null ? 0 : 3;
+      _tab = 0;
     });
     if (user == null) {
       try {
@@ -278,6 +276,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       }
       return;
     }
+    if (!_hasDrawnToday) unawaited(_drawDaily(showAd: false));
     if (!_isRestoring && _journalSyncUserUid == user.uid) {
       unawaited(_synchronizeJournal(user).catchError(_showJournalSyncError));
     }
@@ -286,7 +285,10 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   Future<void> _continueAsGuest() async {
     try {
       await _storage.setGuestAccessAccepted(true);
-      if (mounted) setState(() => _hasChosenAccess = true);
+      if (mounted) {
+        setState(() => _hasChosenAccess = true);
+        await _drawDaily(showAd: false);
+      }
     } catch (error) {
       if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
@@ -423,11 +425,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         false;
   }
 
-  Future<void> _drawDaily() async {
+  Future<void> _drawDaily({bool showAd = true}) async {
     if (_isDailyDrawing || _hasDrawnToday || _isRestoring) return;
     setState(() => _isDailyDrawing = true);
     try {
-      if (!await _showAdPlaceholder() || !mounted) return;
+      if (showAd && !await _showAdPlaceholder()) return;
+      if (!mounted) return;
       final orientation = _orientationFor(_dailyCard);
       final entry = JournalEntry(
         card: _dailyCard,
@@ -534,7 +537,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       _journal.clear();
       _freeCard = null;
       _hasDrawnToday = false;
-      _dailyCard = _cardForDate(DateTime.now());
+      _dailyCard = dailyCardForDate(DateTime.now());
       _dailyOrientation = CardOrientation.upright;
       _journalSyncUserUid = null;
     });
@@ -586,7 +589,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         onDrawFree: _draw,
         isRestoring: _isRestoring,
         showAccessChoices: !_hasChosenAccess && !isSignedIn,
-        startupPreviewCard: _startupPreviewCard,
         isDailyDrawing: _isDailyDrawing,
         isSigningIn: _isSigningIn,
         isFacebookSigningIn: _isFacebookSigningIn,

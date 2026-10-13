@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
 import '../models/tarot_card.dart';
+import '../models/tarot_card_text.dart';
 import '../widgets/orion_premium_insight.dart';
 import '../widgets/tarot_card_back.dart';
 import '../widgets/tarot_card_view.dart';
@@ -20,7 +21,6 @@ class ReadingScreen extends StatelessWidget {
     required this.onDrawFree,
     required this.isRestoring,
     required this.showAccessChoices,
-    required this.startupPreviewCard,
     required this.isDailyDrawing,
     required this.isSigningIn,
     required this.isFacebookSigningIn,
@@ -39,7 +39,6 @@ class ReadingScreen extends StatelessWidget {
   final Future<void> Function() onDrawFree;
   final bool isRestoring;
   final bool showAccessChoices;
-  final TarotCard startupPreviewCard;
   final bool isDailyDrawing;
   final bool isSigningIn;
   final bool isFacebookSigningIn;
@@ -52,7 +51,7 @@ class ReadingScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     if (isRestoring || showAccessChoices) {
       return _WelcomeLanding(
-        card: startupPreviewCard,
+        card: dailyCard,
         isReady: !isRestoring,
         isSigningIn: isSigningIn,
         isFacebookSigningIn: isFacebookSigningIn,
@@ -119,7 +118,7 @@ class ReadingScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   if (!dailyCard.isMinorArcana)
                     Text(
-                      dailyCard.keyword.toUpperCase(),
+                      dailyCard.localizedKeyword(l10n.localeName).toUpperCase(),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         letterSpacing: 2,
@@ -129,7 +128,7 @@ class ReadingScreen extends StatelessWidget {
                     ),
                   const SizedBox(height: 10),
                   Text(
-                    dailyCard.message,
+                    dailyCard.localizedMessage(l10n.localeName),
                     textAlign: TextAlign.center,
                     style: textTheme.bodyLarge?.copyWith(height: 1.45),
                   ),
@@ -199,7 +198,9 @@ class ReadingScreen extends StatelessWidget {
                     const SizedBox(height: 6),
                     if (!revealedCard.isMinorArcana)
                       Text(
-                        revealedCard.keyword.toUpperCase(),
+                        revealedCard
+                            .localizedKeyword(l10n.localeName)
+                            .toUpperCase(),
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           letterSpacing: 2,
@@ -209,7 +210,7 @@ class ReadingScreen extends StatelessWidget {
                       ),
                     const SizedBox(height: 10),
                     Text(
-                      revealedCard.message,
+                      revealedCard.localizedMessage(l10n.localeName),
                       textAlign: TextAlign.center,
                       style: textTheme.bodyLarge?.copyWith(height: 1.45),
                     ),
@@ -314,7 +315,7 @@ class _WelcomeLanding extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            card.message,
+                            card.localizedMessage(l10n.localeName),
                             key: const Key('welcome-card-meaning'),
                             textAlign: TextAlign.center,
                             style: textTheme.bodySmall?.copyWith(
