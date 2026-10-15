@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/app_config.dart';
 import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
+import 'package:tarot_noir/models/premium_reading.dart';
+import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_card_text.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
 
@@ -222,6 +224,25 @@ void main() {
     expect(find.byKey(const Key('welcome-landing')), findsOneWidget);
     expect(find.text('Continue with Google'), findsOneWidget);
     expect(find.byKey(const Key('welcome-preview-card')), findsOneWidget);
+  });
+
+  test('premium readings follow the app language for every card', () {
+    for (final card in tarotDeck) {
+      final fr = PremiumReadingCatalog.forCard(card, CardOrientation.upright);
+      for (final lang in ['en', 'es']) {
+        for (final o in CardOrientation.values) {
+          if (o.isReversed && !card.supportsReversedOrientation) continue;
+          final r = PremiumReadingCatalog.forCard(card, o, lang);
+          expect(r.essence, isNot(fr.essence), reason: '${card.id} $lang');
+          expect(r.ritual, isNot(contains('{')), reason: '${card.id} $lang');
+          expect(
+            r.ritual,
+            isNot(contains('Rituel')),
+            reason: '${card.id} $lang',
+          );
+        }
+      }
+    }
   });
 
   test('card messages follow the app language', () {
