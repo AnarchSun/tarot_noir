@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/journal_entry.dart';
+import '../models/spread.dart';
 import '../models/tarot_card_text.dart';
 import 'preferences_screen.dart';
 
@@ -102,9 +103,12 @@ class _JournalScreenState extends State<JournalScreen> {
               ),
               _DetailSection(
                 label: l10n.drawTypeLabel,
-                value: entry.drawType == 'daily'
-                    ? l10n.dailyDrawType
-                    : l10n.freeDrawType,
+                value: drawTypeLabel(
+                  entry.drawType,
+                  l10n.localeName,
+                  daily: l10n.dailyDrawType,
+                  free: l10n.freeDrawType,
+                ),
               ),
               if (entry.note?.isNotEmpty == true)
                 _DetailSection(label: l10n.noteLabel, value: entry.note!),
@@ -242,9 +246,12 @@ class _JournalScreenState extends State<JournalScreen> {
                               DateFormat.yMd(l10n.localeName)
                                   .format(entry.createdAt),
                             ),
-                            entry.drawType == 'daily'
-                                ? l10n.dailyDrawType
-                                : l10n.freeDrawType,
+                            drawTypeLabel(
+                              entry.drawType,
+                              l10n.localeName,
+                              daily: l10n.dailyDrawType,
+                              free: l10n.freeDrawType,
+                            ),
                             if (entry.note?.isNotEmpty == true) entry.note!,
                           ].join('\n'),
                           maxLines: 4,

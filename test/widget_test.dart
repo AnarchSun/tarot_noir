@@ -7,6 +7,7 @@ import 'package:tarot_noir/app_config.dart';
 import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
 import 'package:tarot_noir/models/premium_reading.dart';
+import 'package:tarot_noir/models/spread.dart';
 import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_card_text.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
@@ -243,6 +244,69 @@ void main() {
         }
       }
     }
+  });
+
+  test('spread journal draw types round-trip and are validated', () {
+    final type = spreadDrawType(spreadCross5, 3);
+    expect(isValidDrawType(type), isTrue);
+    expect(parseSpreadDrawType(type)?.position, 3);
+    expect(isValidDrawType('spread:cross5:5'), isFalse);
+    expect(isValidDrawType('spread:unknown:0'), isFalse);
+    expect(isValidDrawType('free'), isTrue);
+    for (final spread in spreadCatalog) {
+      for (final lang in ['fr', 'en', 'es']) {
+        expect(
+          spreadText(spread, lang).positions.length,
+          spread.cardCount,
+          reason: '${spread.id} $lang',
+        );
+      }
+    }
+    expect(spreadCatalog.where((spread) => spread.isFree), [spreadCross5]);
+  });
+
+  testWidgets('free 5-card spread is drawn after the ad and saved to journal', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('continue-as-guest')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('spreads')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('spreads-screen')), findsOneWidget);
+    expect(find.byIcon(Icons.lock_outline), findsWidgets);
+
+    await tester.tap(find.byKey(const Key('spread-cross5')));
+    await tester.pumpAndSettle();
+    expect(find.text('Continue'), findsOneWidget);
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('spread-result')), findsOneWidget);
+    expect(find.text('1. SITUATION'), findsOneWidget);
+
+    final preferences = await SharedPreferences.getInstance();
+    final saved = preferences.getStringList('journal_entries') ?? <String>[];
+    expect(saved.where((e) => e.contains('spread:cross5:')).length, 5);
+  });
+
+  testWidgets('locked spreads send free users to Premium', (tester) async {
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('continue-as-guest')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('spreads')));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('spread-celtic')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.byKey(const Key('spread-celtic')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('spread-celtic')));
+    await tester.pumpAndSettle();
+    expect(find.text('Premium Circle'), findsOneWidget);
   });
 
   test('card messages follow the app language', () {

@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
 import '../models/journal_entry.dart';
+import '../models/spread.dart';
 import '../models/tarot_card.dart';
 import '../models/tarot_deck.dart';
 import '../services/firebase_auth_service.dart';
@@ -16,6 +17,7 @@ import '../services/firestore_sync_service.dart';
 import '../services/tarot_storage_service.dart';
 import '../widgets/account_access_sheet.dart';
 import 'journal_screen.dart';
+import 'spreads_screen.dart';
 import 'premium_screen.dart';
 import 'profile_screen.dart';
 import 'reading_screen.dart';
@@ -379,7 +381,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         },
         onExplorePremium: () {
           Navigator.of(sheetContext).pop();
-          if (mounted) setState(() => _tab = 2);
+          if (mounted) setState(() => _tab = 3);
         },
         l10n: l10n,
       ),
@@ -391,7 +393,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       unawaited(_showAccountGate(AppLocalizations.of(context)!.profile));
       return;
     }
-    setState(() => _tab = 3);
+    setState(() => _tab = 4);
   }
 
   void _showJournalSyncError(Object error) {
@@ -502,6 +504,40 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     }
   }
 
+  Future<void> _drawSpread(SpreadDefinition spread) async {
+    if (_isRestoring) return;
+    if (!spread.isFree && !AppConfig.premiumEnabled) return;
+    if (spread.isFree && !await _showAdPlaceholder()) return;
+    if (!mounted) return;
+    final deck = List<TarotCard>.of(tarotDeck)..shuffle(Random());
+    final drawn = [
+      for (final card in deck.take(spread.cardCount))
+        DrawnSpreadCard(card, _orientationFor(card)),
+    ];
+    final now = DateTime.now();
+    final entries = [
+      for (var i = 0; i < drawn.length; i++)
+        JournalEntry(
+          card: drawn[i].card,
+          orientation: drawn[i].orientation,
+          createdAt: now,
+          drawType: spreadDrawType(spread, i),
+          syncOwnerUid: _firebaseUser?.uid,
+        ),
+    ];
+    setState(() => _journal.insertAll(0, entries));
+    if (!await _persist()) {
+      if (mounted) setState(() => _journal.removeWhere(entries.contains));
+      return;
+    }
+    if (!mounted) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => SpreadResultScreen(spread: spread, cards: drawn),
+      ),
+    );
+  }
+
   Future<void> _saveJournalEntry(String note, int mood) async {
     final trimmedNote = note.trim();
     if (trimmedNote.isEmpty) return;
@@ -596,6 +632,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         onFacebookSignIn: _signInWithFacebook,
         onContinueAsGuest: _continueAsGuest,
       ),
+      SpreadsScreen(
+        isPremiumUnlocked: AppConfig.premiumEnabled,
+        onDraw: _drawSpread,
+        onOpenPremium: () => setState(() => _tab = 3),
+      ),
       if (isSignedIn)
         JournalScreen(
           entries: _journal,
@@ -609,7 +650,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       if (isSignedIn)
         ProfileScreen(
           initialUser: _firebaseUser!,
-          isSelected: _tab == 3,
+          isSelected: _tab == 4,
           onFirebaseUserChanged: _onFirebaseUserChanged,
           onEnableJournalSync: _enableJournalSync,
           onDisableJournalSync: _disableJournalSync,
@@ -621,7 +662,13 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       NavigationDestination(
         icon: const Icon(Icons.auto_awesome_outlined),
         selectedIcon: const Icon(Icons.auto_awesome),
-        label: l10n.reading,
+        label: l10n.home,
+      ),
+      NavigationDestination(
+        key: const Key('spreads'),
+        icon: const Icon(Icons.style_outlined),
+        selectedIcon: const Icon(Icons.style),
+        label: l10n.spreads,
       ),
     ];
     destinations.add(
@@ -656,9 +703,9 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
           ? NavigationBar(
               selectedIndex: selectedIndex,
               onDestinationSelected: (index) {
-                if (!isSignedIn && (index == 1 || index == 3)) {
+                if (!isSignedIn && (index == 2 || index == 4)) {
                   unawaited(
-                    _showAccountGate(index == 1 ? l10n.journal : l10n.profile),
+                    _showAccountGate(index == 2 ? l10n.journal : l10n.profile),
                   );
                   return;
                 }

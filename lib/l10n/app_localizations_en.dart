@@ -423,4 +423,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signOut => 'Sign out';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get spreads => 'Spreads';
+
+  @override
+  String get spreadsIntro =>
+      'Choose a spread. Free spreads show a short ad; extended spreads are reserved for Orion+.';
+
+  @override
+  String get spreadFreeBadge => 'Free · short ad';
+
+  @override
+  String get spreadPremiumBadge => 'Orion+';
+
+  @override
+  String spreadCardCount(int count) {
+    return '$count cards';
+  }
+
+  @override
+  String get spreadSavedToJournal =>
+      'This spread’s cards were added to your journal.';
+
+  @override
+  String get spreadLocked => 'This spread is reserved for Orion+.';
 }

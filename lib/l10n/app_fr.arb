@@ -184,5 +184,20 @@
     "placeholders": {
       "email": {}
     }
-  }
+  },
+  "home": "Accueil",
+  "spreads": "Tirages",
+  "spreadsIntro": "Choisis un tirage. Les tirages gratuits affichent une courte annonce ; les tirages étendus sont réservés à Orion+.",
+  "spreadFreeBadge": "Gratuit · courte annonce",
+  "spreadPremiumBadge": "Orion+",
+  "spreadCardCount": "{count} cartes",
+  "@spreadCardCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spreadSavedToJournal": "Les cartes de ce tirage ont été ajoutées à ton journal.",
+  "spreadLocked": "Ce tirage est réservé à Orion+."
 }

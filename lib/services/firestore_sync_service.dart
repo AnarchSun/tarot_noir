@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/journal_entry.dart';
+import '../models/spread.dart';
 import '../models/tarot_card.dart';
 import '../models/tarot_deck.dart';
 
@@ -119,7 +120,7 @@ class FirestoreSyncService {
         'Firestore journal entry ${document.id} has an invalid orientation.',
       );
     }
-    if (drawType != 'daily' && drawType != 'free') {
+    if (!isValidDrawType(drawType)) {
       throw FormatException(
         'Firestore journal entry ${document.id} has an invalid draw type.',
       );

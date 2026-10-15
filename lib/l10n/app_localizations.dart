@@ -819,6 +819,54 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Se déconnecter'**
   String get signOut;
+
+  /// No description provided for @home.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accueil'**
+  String get home;
+
+  /// No description provided for @spreads.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirages'**
+  String get spreads;
+
+  /// No description provided for @spreadsIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis un tirage. Les tirages gratuits affichent une courte annonce ; les tirages étendus sont réservés à Orion+.'**
+  String get spreadsIntro;
+
+  /// No description provided for @spreadFreeBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuit · courte annonce'**
+  String get spreadFreeBadge;
+
+  /// No description provided for @spreadPremiumBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Orion+'**
+  String get spreadPremiumBadge;
+
+  /// No description provided for @spreadCardCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} cartes'**
+  String spreadCardCount(int count);
+
+  /// No description provided for @spreadSavedToJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les cartes de ce tirage ont été ajoutées à ton journal.'**
+  String get spreadSavedToJournal;
+
+  /// No description provided for @spreadLocked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce tirage est réservé à Orion+.'**
+  String get spreadLocked;
 }
 
 class _AppLocalizationsDelegate

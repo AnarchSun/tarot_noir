@@ -425,4 +425,32 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get signOut => 'Se déconnecter';
+
+  @override
+  String get home => 'Accueil';
+
+  @override
+  String get spreads => 'Tirages';
+
+  @override
+  String get spreadsIntro =>
+      'Choisis un tirage. Les tirages gratuits affichent une courte annonce ; les tirages étendus sont réservés à Orion+.';
+
+  @override
+  String get spreadFreeBadge => 'Gratuit · courte annonce';
+
+  @override
+  String get spreadPremiumBadge => 'Orion+';
+
+  @override
+  String spreadCardCount(int count) {
+    return '$count cartes';
+  }
+
+  @override
+  String get spreadSavedToJournal =>
+      'Les cartes de ce tirage ont été ajoutées à ton journal.';
+
+  @override
+  String get spreadLocked => 'Ce tirage est réservé à Orion+.';
 }
