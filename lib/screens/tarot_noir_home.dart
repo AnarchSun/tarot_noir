@@ -30,7 +30,8 @@ class TarotNoirHome extends StatefulWidget {
   State<TarotNoirHome> createState() => _TarotNoirHomeState();
 }
 
-class _TarotNoirHomeState extends State<TarotNoirHome> {
+class _TarotNoirHomeState extends State<TarotNoirHome>
+    with WidgetsBindingObserver {
   int _tab = 0;
   bool _hasChosenAccess = false;
   bool _isRestoring = true;
@@ -43,6 +44,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   Object? _authInitializationError;
   late TarotCard _dailyCard;
   bool _hasDrawnToday = false;
+  String? _dailyDrawDay;
   TarotCard? _freeCard;
   CardOrientation _dailyOrientation = CardOrientation.upright;
   CardOrientation _freeOrientation = CardOrientation.upright;
@@ -53,9 +55,25 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   Future<void> _journalSyncQueue = Future<void>.value();
   late final Future<void> _restoreTask;
 
+  bool get _drawnToday =>
+      _hasDrawnToday &&
+      _dailyDrawDay == TarotStorageService.dateKey(DateTime.now());
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     final now = DateTime.now();
     _dailyCard = dailyCardForDate(now);
@@ -124,6 +142,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       setState(() {
         _dailyCard = dailyCard;
         _hasDrawnToday = hasDrawnToday;
+        _dailyDrawDay = hasDrawnToday ? snapshot.dailyDate : null;
         _dailyOrientation = hasDrawnToday
             ? snapshot.dailyOrientation
             : CardOrientation.upright;
@@ -137,10 +156,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
           ..clear()
           ..addAll(restoredJournal);
       });
-
-      if (hasAccess && !hasDrawnToday) {
-        await _drawDaily(showAd: false);
-      }
 
       final user = _firebaseUser;
       if (user != null && syncUserUid == user.uid) {
@@ -163,7 +178,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   Future<bool> _persist() async {
     try {
       await _storage.saveJournalOnly(_journal);
-      if (_hasDrawnToday) {
+      if (_drawnToday) {
         await _storage.saveDailyDraw(
           card: _dailyCard,
           date: DateTime.now(),
@@ -270,18 +285,44 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       }
       return;
     }
-    if (!_hasDrawnToday) unawaited(_drawDaily(showAd: false));
     if (!_isRestoring && _journalSyncUserUid == user.uid) {
       unawaited(_synchronizeJournal(user).catchError(_showJournalSyncError));
     }
   }
 
+  Future<bool> _showGuestPopup() async {
+    final l10n = AppLocalizations.of(context)!;
+    return await showModalBottomSheet<bool>(
+          context: context,
+          isScrollControlled: true,
+          useSafeArea: true,
+          builder: (sheetContext) => AccountAccessSheet(
+            destination: l10n.profile,
+            showFacebook: AppConfig.facebookSignInVisible,
+            onContinueAsGuest: () => Navigator.of(sheetContext).pop(true),
+            onGoogleSignIn: () {
+              Navigator.of(sheetContext).pop(false);
+              unawaited(_signInWithGoogle());
+            },
+            onFacebookSignIn: () {
+              Navigator.of(sheetContext).pop(false);
+              unawaited(_signInWithFacebook());
+            },
+            onExplorePremium: () {
+              Navigator.of(sheetContext).pop(false);
+            },
+            l10n: l10n,
+          ),
+        ) ??
+        false;
+  }
+
   Future<void> _continueAsGuest() async {
+    if (!await _showGuestPopup() || !mounted) return;
     try {
       await _storage.setGuestAccessAccepted(true);
       if (mounted) {
         setState(() => _hasChosenAccess = true);
-        await _drawDaily(showAd: false);
       }
     } catch (error) {
       if (!mounted) return;
@@ -419,28 +460,40 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         false;
   }
 
+  TarotCard _pickPersonalDailyCard() {
+    final shared = dailyCardForDate(DateTime.now());
+    final candidates = tarotDeck.where((card) => card.id != shared.id).toList();
+    return candidates[Random().nextInt(candidates.length)];
+  }
+
   Future<void> _drawDaily({bool showAd = true}) async {
-    if (_isDailyDrawing || _hasDrawnToday || _isRestoring) return;
+    if (_isDailyDrawing || _drawnToday || _isRestoring) return;
     setState(() => _isDailyDrawing = true);
     try {
       if (showAd && !await _showAdPlaceholder()) return;
       if (!mounted) return;
-      final orientation = _orientationFor(_dailyCard);
+      final previousCard = _dailyCard;
+      final card = _pickPersonalDailyCard();
+      final orientation = _orientationFor(card);
       final entry = JournalEntry(
-        card: _dailyCard,
+        card: card,
         orientation: orientation,
         createdAt: DateTime.now(),
         drawType: 'daily',
         syncOwnerUid: _firebaseUser?.uid,
       );
       setState(() {
+        _dailyCard = card;
         _hasDrawnToday = true;
+        _dailyDrawDay = TarotStorageService.dateKey(DateTime.now());
         _dailyOrientation = orientation;
         _journal.insert(0, entry);
       });
       if (!await _persist() && mounted) {
         setState(() {
+          _dailyCard = previousCard;
           _hasDrawnToday = false;
+          _dailyDrawDay = null;
           _dailyOrientation = CardOrientation.upright;
           _journal.remove(entry);
         });
@@ -535,6 +588,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       _journal.clear();
       _freeCard = null;
       _hasDrawnToday = false;
+      _dailyDrawDay = null;
       _dailyCard = dailyCardForDate(DateTime.now());
       _dailyOrientation = CardOrientation.upright;
       _journalSyncUserUid = null;
@@ -580,7 +634,8 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       ReadingScreen(
         dailyCard: _dailyCard,
         dailyOrientation: _dailyOrientation,
-        hasDrawnToday: _hasDrawnToday,
+        hasDrawnToday: _drawnToday,
+        welcomeCard: dailyCardForDate(DateTime.now()),
         freeCard: _freeCard,
         freeOrientation: _freeOrientation,
         onDrawDaily: _drawDaily,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,13 +8,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/app_config.dart';
 import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
+import 'package:tarot_noir/models/journal_entry.dart';
 import 'package:tarot_noir/models/premium_reading.dart';
 import 'package:tarot_noir/models/spread.dart';
 import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_card_text.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
 
+Future<void> _enterAsGuest(WidgetTester tester) async {
+  await tester.tap(find.byKey(const Key('continue-as-guest')));
+  await tester.pumpAndSettle();
+  expect(find.byKey(const Key('guest-ad-banner')), findsOneWidget);
+  await tester.ensureVisible(find.byKey(const Key('guest-popup-continue')));
+  await tester.pumpAndSettle();
+  await tester.tap(find.byKey(const Key('guest-popup-continue')));
+  await tester.pumpAndSettle();
+}
+
 void main() {
+  testWidgetsJournalNotes();
   setUp(() {
     AppConfig.firebaseAuthEnabledForTesting = false;
     SharedPreferences.setMockInitialValues(<String, Object>{});
@@ -79,32 +93,28 @@ void main() {
     expect(find.text('Continue without an account'), findsOneWidget);
     expect(find.byKey(const Key('daily-draw')), findsNothing);
 
-    await tester.tap(find.byKey(const Key('continue-as-guest')));
-    await tester.pumpAndSettle();
+    await _enterAsGuest(tester);
 
     final preferences = await SharedPreferences.getInstance();
     expect(preferences.getBool('guest_access_accepted'), isTrue);
-    expect(preferences.getString('daily_card_id'), todayCard.id);
-    expect(
-      preferences.getString('daily_card_date'),
-      '${DateTime.now().year.toString().padLeft(4, '0')}-'
-      '${DateTime.now().month.toString().padLeft(2, '0')}-'
-      '${DateTime.now().day.toString().padLeft(2, '0')}',
-    );
-    expect(find.byKey(const Key('daily-draw')), findsOneWidget);
-    expect(find.text(todayCard.name), findsWidgets);
-    expect(
-      find.byKey(ValueKey('daily-reveal-${todayCard.id}')),
-      findsOneWidget,
-    );
+    expect(preferences.getString('daily_card_id'), isNull);
+    expect(find.text('Your personal card of the day'), findsOneWidget);
+    expect(find.byKey(const Key('daily-card-back')), findsOneWidget);
+    expect(find.text('Daily card already drawn'), findsNothing);
+
+    await tester.tap(find.byKey(const Key('daily-draw')));
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.tap(find.text('Continue'));
+    await tester.pump(const Duration(seconds: 2));
+    final drawnId = preferences.getString('daily_card_id');
+    expect(drawnId, isNotNull);
+    expect(drawnId, isNot(todayCard.id));
     expect(find.text('Daily card already drawn'), findsOneWidget);
-    expect(find.byKey(const Key('basic-draw')), findsOneWidget);
-    expect(preferences.getString('daily_card_id'), isNotNull);
     expect((preferences.getStringList('journal_entries') ?? []).length, 1);
 
-    await tester.tap(find.byKey(const Key('journal')));
+    await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();
-    expect(find.text('Unlock your Journal'), findsOneWidget);
+    expect(find.text('Unlock your Profile'), findsOneWidget);
     expect(find.textContaining('Journal sync stays off'), findsOneWidget);
     expect(find.byKey(const Key('account-gate-google')), findsOneWidget);
     await tester.ensureVisible(find.byKey(const Key('account-gate-google')));
@@ -126,8 +136,7 @@ void main() {
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('continue-as-guest')));
-    await tester.pumpAndSettle();
+    await _enterAsGuest(tester);
     final preferences = await SharedPreferences.getInstance();
     expect(preferences.getBool('guest_access_accepted'), isTrue);
 
@@ -138,7 +147,7 @@ void main() {
     expect(find.text('Continue with Google'), findsNothing);
     expect(find.text('Continue without an account'), findsNothing);
     expect(find.byKey(const Key('daily-draw')), findsOneWidget);
-    expect(find.text('Daily card already drawn'), findsOneWidget);
+    expect(find.text('Daily card already drawn'), findsNothing);
   });
 
   testWidgets('local data erasure requires explicit confirmation', (
@@ -149,8 +158,13 @@ void main() {
       'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
     });
     await _pumpSignedInApp(tester);
-    await tester.tap(find.text('Journal'));
+    await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byIcon(Icons.tune),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.tap(find.byIcon(Icons.tune));
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
@@ -272,8 +286,7 @@ void main() {
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('continue-as-guest')));
-    await tester.pumpAndSettle();
+    await _enterAsGuest(tester);
     await tester.tap(find.byKey(const Key('spreads')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('spreads-screen')), findsOneWidget);
@@ -297,9 +310,8 @@ void main() {
   ) async {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('continue-as-guest')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('journal')));
+    await _enterAsGuest(tester);
+    await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('access-comparison')), findsOneWidget);
     expect(find.text('Guest'), findsOneWidget);
@@ -311,8 +323,7 @@ void main() {
   testWidgets('locked spreads send free users to Premium', (tester) async {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('continue-as-guest')));
-    await tester.pumpAndSettle();
+    await _enterAsGuest(tester);
     await tester.tap(find.byKey(const Key('spreads')));
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
@@ -335,6 +346,48 @@ void main() {
     final minor = minorArcana.first;
     expect(minor.localizedMessage('en'), startsWith('This card speaks of'));
     expect(minor.localizedMessage('fr'), isNot(contains('de le ')));
+  });
+}
+
+void testWidgetsJournalNotes() {
+  testWidgets('journal notes are collapsed by default and saved per entry', (
+    tester,
+  ) async {
+    final entry = JournalEntry(
+      card: tarotDeck.first,
+      orientation: CardOrientation.upright,
+      createdAt: DateTime(2026, 1, 2, 10),
+      drawType: 'daily',
+    );
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'journal_entries': [jsonEncode(entry.toJson())],
+      'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
+    });
+    await _pumpSignedInApp(tester);
+    await tester.tap(find.text('Profile'));
+    await tester.pumpAndSettle();
+    final toggle = find.byKey(Key('journal-notes-toggle-${entry.syncId}'));
+    await tester.scrollUntilVisible(
+      toggle,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.byKey(Key('journal-notes-${entry.syncId}')), findsNothing);
+    await tester.ensureVisible(toggle);
+    await tester.pumpAndSettle();
+    await tester.tap(toggle);
+    await tester.pumpAndSettle();
+    expect(find.byKey(Key('journal-notes-${entry.syncId}')), findsOneWidget);
+    await tester.ensureVisible(find.byType(TextField).last);
+    await tester.enterText(find.byType(TextField).last, 'Ma note');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Save note'));
+    await tester.pumpAndSettle();
+    final preferences = await SharedPreferences.getInstance();
+    expect(
+      (preferences.getStringList('journal_entries') ?? []).single,
+      contains('Ma note'),
+    );
   });
 }
 

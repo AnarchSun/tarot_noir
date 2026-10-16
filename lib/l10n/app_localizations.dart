@@ -883,7 +883,7 @@ abstract class AppLocalizations {
   /// No description provided for @compareRowDaily.
   ///
   /// In fr, this message translates to:
-  /// **'Carte du jour'**
+  /// **'Carte du jour Tarot Noir'**
   String get compareRowDaily;
 
   /// No description provided for @compareRowCross.
@@ -895,7 +895,7 @@ abstract class AppLocalizations {
   /// No description provided for @compareRowJournal.
   ///
   /// In fr, this message translates to:
-  /// **'Journal et notes'**
+  /// **'Journal et notes (dans Profil)'**
   String get compareRowJournal;
 
   /// No description provided for @compareRowProfile.
@@ -913,7 +913,7 @@ abstract class AppLocalizations {
   /// No description provided for @compareRowDeepReading.
   ///
   /// In fr, this message translates to:
-  /// **'Lectures approfondies d’Orion'**
+  /// **'Lectures d’Orion et questions par carte'**
   String get compareRowDeepReading;
 
   /// No description provided for @compareRowNoAds.
@@ -957,6 +957,72 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Évaluation et questions d’Orion avec Orion+'**
   String get orionLockedHint;
+
+  /// No description provided for @personalDailyReading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta carte du jour personnelle'**
+  String get personalDailyReading;
+
+  /// No description provided for @tarotNoirDaily.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour Tarot Noir'**
+  String get tarotNoirDaily;
+
+  /// No description provided for @tarotNoirDailyDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'La même carte pour tout le monde, toute la journée. Elle change à minuit.'**
+  String get tarotNoirDailyDesc;
+
+  /// No description provided for @tarotNoirDailyBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuite · pour tous'**
+  String get tarotNoirDailyBadge;
+
+  /// No description provided for @sharedDailyNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette carte est la même pour tous aujourd’hui. Pour la tienne, tire ta carte du jour personnelle depuis l’accueil.'**
+  String get sharedDailyNote;
+
+  /// No description provided for @compareRowPersonal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta carte du jour personnelle'**
+  String get compareRowPersonal;
+
+  /// No description provided for @guestPopupTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avant d’entrer en invité'**
+  String get guestPopupTitle;
+
+  /// No description provided for @guestPopupBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'En invité, tu gardes la carte du jour Tarot Noir, ta carte du jour personnelle et la croix à 5 cartes (avec annonce). Un compte gratuit conserve en plus ton journal, tes notes et ton profil. Orion+ ajoute les lectures d’Orion et les tirages étendus.'**
+  String get guestPopupBody;
+
+  /// No description provided for @guestContinueAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer en invité'**
+  String get guestContinueAction;
+
+  /// No description provided for @guestAdLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annonce'**
+  String get guestAdLabel;
+
+  /// No description provided for @guestAdBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Espace publicitaire réservé aux invités'**
+  String get guestAdBody;
 }
 
 class _AppLocalizationsDelegate

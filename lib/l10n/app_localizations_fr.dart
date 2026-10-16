@@ -462,13 +462,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get compareAccount => 'Compte gratuit';
 
   @override
-  String get compareRowDaily => 'Carte du jour';
+  String get compareRowDaily => 'Carte du jour Tarot Noir';
 
   @override
   String get compareRowCross => 'Croix à 5 cartes (avec annonce)';
 
   @override
-  String get compareRowJournal => 'Journal et notes';
+  String get compareRowJournal => 'Journal et notes (dans Profil)';
 
   @override
   String get compareRowProfile => 'Profil et préférences';
@@ -477,7 +477,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get compareRowExtended => 'Tirages étendus';
 
   @override
-  String get compareRowDeepReading => 'Lectures approfondies d’Orion';
+  String get compareRowDeepReading => 'Lectures d’Orion et questions par carte';
 
   @override
   String get compareRowNoAds => 'Sans annonces';
@@ -500,4 +500,40 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get orionLockedHint => 'Évaluation et questions d’Orion avec Orion+';
+
+  @override
+  String get personalDailyReading => 'Ta carte du jour personnelle';
+
+  @override
+  String get tarotNoirDaily => 'Carte du jour Tarot Noir';
+
+  @override
+  String get tarotNoirDailyDesc =>
+      'La même carte pour tout le monde, toute la journée. Elle change à minuit.';
+
+  @override
+  String get tarotNoirDailyBadge => 'Gratuite · pour tous';
+
+  @override
+  String get sharedDailyNote =>
+      'Cette carte est la même pour tous aujourd’hui. Pour la tienne, tire ta carte du jour personnelle depuis l’accueil.';
+
+  @override
+  String get compareRowPersonal => 'Ta carte du jour personnelle';
+
+  @override
+  String get guestPopupTitle => 'Avant d’entrer en invité';
+
+  @override
+  String get guestPopupBody =>
+      'En invité, tu gardes la carte du jour Tarot Noir, ta carte du jour personnelle et la croix à 5 cartes (avec annonce). Un compte gratuit conserve en plus ton journal, tes notes et ton profil. Orion+ ajoute les lectures d’Orion et les tirages étendus.';
+
+  @override
+  String get guestContinueAction => 'Continuer en invité';
+
+  @override
+  String get guestAdLabel => 'Annonce';
+
+  @override
+  String get guestAdBody => 'Espace publicitaire réservé aux invités';
 }

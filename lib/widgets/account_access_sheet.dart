@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../app_config.dart';
 import '../l10n/app_localizations.dart';
+import 'access_comparison_table.dart';
 
 class AccountAccessSheet extends StatelessWidget {
   const AccountAccessSheet({
     required this.destination,
+    this.onContinueAsGuest,
     required this.showFacebook,
     required this.onGoogleSignIn,
     required this.onFacebookSignIn,
@@ -14,6 +17,7 @@ class AccountAccessSheet extends StatelessWidget {
   });
 
   final String destination;
+  final VoidCallback? onContinueAsGuest;
   final bool showFacebook;
   final VoidCallback onGoogleSignIn;
   final VoidCallback onFacebookSignIn;
@@ -29,7 +33,9 @@ class AccountAccessSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            l10n.accountGateTitle(destination),
+            onContinueAsGuest != null
+                ? l10n.guestPopupTitle
+                : l10n.accountGateTitle(destination),
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: const Color(0xFFE3D8C7),
               fontWeight: FontWeight.w700,
@@ -37,7 +43,9 @@ class AccountAccessSheet extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            l10n.accountGateBody,
+            onContinueAsGuest != null
+                ? l10n.guestPopupBody
+                : l10n.accountGateBody,
             style: Theme.of(context).textTheme.bodyLarge
                 ?.copyWith(height: 1.45),
           ),
@@ -62,94 +70,64 @@ class AccountAccessSheet extends StatelessWidget {
               label: Text(l10n.continueWithFacebook),
             ),
           ],
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              onPressed: onExplorePremium,
-              child: Text(l10n.discoverOrionPlus),
+          if (onContinueAsGuest != null) ...[
+            const SizedBox(height: 8),
+            OutlinedButton(
+              key: const Key('guest-popup-continue'),
+              onPressed: onContinueAsGuest,
+              child: Text(l10n.guestContinueAction),
             ),
-          ),
+            if (AppConfig.adPlaceholderEnabled) ...[
+              const SizedBox(height: 12),
+              _GuestAdBanner(l10n: l10n),
+            ],
+          ],
+          if (onContinueAsGuest == null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: onExplorePremium,
+                child: Text(l10n.discoverOrionPlus),
+              ),
+            ),
         ],
       ),
     ),
   );
 }
 
-class AccessComparisonTable extends StatelessWidget {
-  const AccessComparisonTable({required this.l10n, super.key});
+class _GuestAdBanner extends StatelessWidget {
+  const _GuestAdBanner({required this.l10n});
 
   final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) {
-    final rows = <(String, bool, bool, bool)>[
-      (l10n.compareRowDaily, true, true, true),
-      (l10n.compareRowCross, true, true, true),
-      (l10n.compareRowJournal, false, true, true),
-      (l10n.compareRowProfile, false, true, true),
-      (l10n.compareRowExtended, false, false, true),
-      (l10n.compareRowDeepReading, false, false, true),
-      (l10n.compareRowNoAds, false, false, true),
-      (l10n.compareRowNft, false, false, true),
-    ];
-    return Table(
-      border: TableBorder.all(
-        color: const Color(0xFF3F3449),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      columnWidths: const {
-        0: FlexColumnWidth(1.7),
-        1: FlexColumnWidth(),
-        2: FlexColumnWidth(),
-        3: FlexColumnWidth(),
-      },
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      children: [
-        TableRow(
-          decoration: const BoxDecoration(color: Color(0xFF211839)),
-          children: [
-            const SizedBox.shrink(),
-            _header(l10n.compareGuest),
-            _header(l10n.compareAccount),
-            _header(l10n.orionPlus, accent: true),
-          ],
-        ),
-        for (final row in rows)
-          TableRow(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text(row.$1, style: const TextStyle(fontSize: 12)),
-              ),
-              _mark(row.$2),
-              _mark(row.$3),
-              _mark(row.$4),
-            ],
-          ),
-      ],
-    );
-  }
-
-  Widget _header(String text, {bool accent = false}) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-    child: Text(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 11,
-        fontWeight: FontWeight.w700,
-        color: accent ? const Color(0xFFD4AF59) : null,
-      ),
+  Widget build(BuildContext context) => Container(
+    key: const Key('guest-ad-banner'),
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: const Color(0xFF140F1C),
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: const Color(0xFF3F3449)),
     ),
-  );
-
-  Widget _mark(bool included) => Padding(
-    padding: const EdgeInsets.all(8),
-    child: Icon(
-      included ? Icons.check_circle : Icons.remove,
-      size: 18,
-      semanticLabel: included ? '✓' : '—',
-      color: included ? const Color(0xFFD4AF59) : const Color(0xFF6B6075),
+    child: Row(
+      children: [
+        Text(
+          l10n.guestAdLabel.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 11,
+            letterSpacing: 1,
+            color: Color(0xFFB9AFBE),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            l10n.guestAdBody,
+            style: const TextStyle(color: Color(0xFFCFC6D4)),
+          ),
+        ),
+      ],
     ),
   );
 }

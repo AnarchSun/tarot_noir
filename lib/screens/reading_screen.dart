@@ -13,6 +13,7 @@ import '../widgets/tarot_card_view.dart';
 class ReadingScreen extends StatelessWidget {
   const ReadingScreen({
     required this.dailyCard,
+    required this.welcomeCard,
     required this.dailyOrientation,
     required this.hasDrawnToday,
     required this.freeCard,
@@ -31,6 +32,7 @@ class ReadingScreen extends StatelessWidget {
   });
 
   final TarotCard dailyCard;
+  final TarotCard welcomeCard;
   final CardOrientation dailyOrientation;
   final bool hasDrawnToday;
   final TarotCard? freeCard;
@@ -51,7 +53,7 @@ class ReadingScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     if (isRestoring || showAccessChoices) {
       return _WelcomeLanding(
-        card: dailyCard,
+        card: welcomeCard,
         isReady: !isRestoring,
         isSigningIn: isSigningIn,
         isFacebookSigningIn: isFacebookSigningIn,
@@ -88,7 +90,7 @@ class ReadingScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 Text(
-                  l10n.dailyReading,
+                  l10n.personalDailyReading,
                   textAlign: TextAlign.center,
                   style: textTheme.headlineSmall?.copyWith(
                     color: const Color(0xFFE3D8C7),

@@ -461,13 +461,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get compareAccount => 'Cuenta gratuita';
 
   @override
-  String get compareRowDaily => 'Carta del día';
+  String get compareRowDaily => 'Carta del día Tarot Noir';
 
   @override
   String get compareRowCross => 'Cruz de 5 cartas (con anuncio)';
 
   @override
-  String get compareRowJournal => 'Diario y notas';
+  String get compareRowJournal => 'Diario y notas (en Perfil)';
 
   @override
   String get compareRowProfile => 'Perfil y preferencias';
@@ -476,7 +476,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get compareRowExtended => 'Tiradas ampliadas';
 
   @override
-  String get compareRowDeepReading => 'Lecturas profundas de Orion';
+  String get compareRowDeepReading => 'Lecturas de Orion y preguntas por carta';
 
   @override
   String get compareRowNoAds => 'Sin anuncios';
@@ -499,4 +499,40 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get orionLockedHint => 'Evaluación y preguntas a Orion con Orion+';
+
+  @override
+  String get personalDailyReading => 'Tu carta del día personal';
+
+  @override
+  String get tarotNoirDaily => 'Carta del día Tarot Noir';
+
+  @override
+  String get tarotNoirDailyDesc =>
+      'La misma carta para todos, durante todo el día. Cambia a medianoche.';
+
+  @override
+  String get tarotNoirDailyBadge => 'Gratis · para todos';
+
+  @override
+  String get sharedDailyNote =>
+      'Esta carta es la misma para todos hoy. Para la tuya, saca tu carta del día personal desde Inicio.';
+
+  @override
+  String get compareRowPersonal => 'Tu carta del día personal';
+
+  @override
+  String get guestPopupTitle => 'Antes de entrar como invitado';
+
+  @override
+  String get guestPopupBody =>
+      'Como invitado conservas la carta del día Tarot Noir, tu carta del día personal y la cruz de 5 cartas (con anuncio). Una cuenta gratuita conserva además tu diario, tus notas y tu perfil. Orion+ añade las lecturas de Orion y las tiradas ampliadas.';
+
+  @override
+  String get guestContinueAction => 'Continuar como invitado';
+
+  @override
+  String get guestAdLabel => 'Anuncio';
+
+  @override
+  String get guestAdBody => 'Espacio publicitario reservado a invitados';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/spread.dart';
+import '../models/tarot_deck.dart';
 import '../models/tarot_card.dart';
 import '../models/tarot_card_text.dart';
 import '../widgets/tarot_card_view.dart';
@@ -40,6 +41,24 @@ class SpreadsScreen extends StatelessWidget {
         const SizedBox(height: 8),
         Text(l10n.spreadsIntro, style: const TextStyle(height: 1.4)),
         const SizedBox(height: 16),
+        _SpreadTile(
+          key: const Key('shared-daily'),
+          text: SpreadText(
+            l10n.tarotNoirDaily,
+            l10n.tarotNoirDailyDesc,
+            const [],
+          ),
+          cardCount: 1,
+          isFree: true,
+          isLocked: false,
+          badge: l10n.tarotNoirDailyBadge,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) =>
+                  SharedDailyCardScreen(card: dailyCardForDate(DateTime.now())),
+            ),
+          ),
+        ),
         for (final spread in spreadCatalog)
           _SpreadTile(
             key: Key('spread-${spread.id}'),
@@ -67,9 +86,11 @@ class _SpreadTile extends StatelessWidget {
     required this.isFree,
     required this.isLocked,
     required this.onTap,
+    this.badge,
     super.key,
   });
 
+  final String? badge;
   final SpreadText text;
   final int cardCount;
   final bool isFree;
@@ -121,8 +142,9 @@ class _SpreadTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '${l10n.spreadCardCount(cardCount)} · '
-                        '${isFree ? l10n.spreadFreeBadge : l10n.spreadPremiumBadge}',
+                        badge ??
+                            '${l10n.spreadCardCount(cardCount)} · '
+                                '${isFree ? l10n.spreadFreeBadge : l10n.spreadPremiumBadge}',
                         style: const TextStyle(
                           color: gold,
                           fontSize: 12,
@@ -215,6 +237,58 @@ class SpreadResultScreen extends StatelessWidget {
               l10n.spreadSavedToJournal,
               textAlign: TextAlign.center,
               style: const TextStyle(color: Color(0xFFB9AFBE)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SharedDailyCardScreen extends StatelessWidget {
+  const SharedDailyCardScreen({required this.card, super.key});
+
+  final TarotCard card;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final lang = l10n.localeName;
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.tarotNoirDaily)),
+      body: SafeArea(
+        child: ListView(
+          key: const Key('shared-daily-result'),
+          padding: const EdgeInsets.all(24),
+          children: [
+            Center(child: TarotCardView(card: card, height: 360)),
+            const SizedBox(height: 20),
+            Text(
+              card.name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+            ),
+            if (!card.isMinorArcana) ...[
+              const SizedBox(height: 6),
+              Text(
+                card.localizedKeyword(lang).toUpperCase(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFFD4AF59),
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+            const SizedBox(height: 14),
+            Text(
+              card.localizedMessage(lang),
+              style: const TextStyle(height: 1.45),
+            ),
+            const SizedBox(height: 18),
+            Text(
+              l10n.sharedDailyNote,
+              style: const TextStyle(color: Color(0xFFB9AFBE), height: 1.4),
             ),
           ],
         ),

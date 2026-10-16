@@ -460,13 +460,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get compareAccount => 'Free account';
 
   @override
-  String get compareRowDaily => 'Card of the day';
+  String get compareRowDaily => 'Tarot Noir card of the day';
 
   @override
   String get compareRowCross => '5-card cross (with ad)';
 
   @override
-  String get compareRowJournal => 'Journal and notes';
+  String get compareRowJournal => 'Journal and notes (in Profile)';
 
   @override
   String get compareRowProfile => 'Profile and preferences';
@@ -475,7 +475,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get compareRowExtended => 'Extended spreads';
 
   @override
-  String get compareRowDeepReading => 'Orion’s deep readings';
+  String get compareRowDeepReading => 'Orion’s readings and questions per card';
 
   @override
   String get compareRowNoAds => 'No ads';
@@ -498,4 +498,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orionLockedHint => 'Orion’s assessment and questions with Orion+';
+
+  @override
+  String get personalDailyReading => 'Your personal card of the day';
+
+  @override
+  String get tarotNoirDaily => 'Tarot Noir card of the day';
+
+  @override
+  String get tarotNoirDailyDesc =>
+      'The same card for everyone, all day long. It changes at midnight.';
+
+  @override
+  String get tarotNoirDailyBadge => 'Free · for everyone';
+
+  @override
+  String get sharedDailyNote =>
+      'This card is the same for everyone today. For yours, draw your personal card of the day from Home.';
+
+  @override
+  String get compareRowPersonal => 'Your personal card of the day';
+
+  @override
+  String get guestPopupTitle => 'Before you enter as a guest';
+
+  @override
+  String get guestPopupBody =>
+      'As a guest you keep the Tarot Noir card of the day, your personal card of the day and the 5-card cross (with an ad). A free account also keeps your journal, notes and profile. Orion+ adds Orion’s readings and extended spreads.';
+
+  @override
+  String get guestContinueAction => 'Continue as a guest';
+
+  @override
+  String get guestAdLabel => 'Ad';
+
+  @override
+  String get guestAdBody => 'Advertising space reserved for guests';
 }
