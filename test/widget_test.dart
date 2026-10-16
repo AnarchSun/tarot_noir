@@ -27,6 +27,57 @@ Future<void> _enterAsGuest(WidgetTester tester) async {
 }
 
 void main() {
+  testWidgets('journal groups by date with spread sub-groups and zoom', (
+    tester,
+  ) async {
+    final when = DateTime(2026, 1, 2, 10);
+    final entries = [
+      JournalEntry(
+        card: tarotDeck[3],
+        orientation: CardOrientation.upright,
+        createdAt: when,
+        drawType: 'daily',
+      ),
+      for (var i = 0; i < 5; i++)
+        JournalEntry(
+          card: tarotDeck[10 + i],
+          orientation: CardOrientation.upright,
+          createdAt: when.add(const Duration(minutes: 5)),
+          drawType: spreadDrawType(spreadCross5, i),
+        ),
+    ];
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'journal_entries': [for (final e in entries) jsonEncode(e.toJson())],
+      'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
+    });
+    await _pumpSignedInApp(tester);
+    await tester.tap(find.text('Profile'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('journal-day-2026-01-02')),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.byKey(const Key('journal-day-2026-01-02')), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('5-card cross'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('5-card cross'), findsOneWidget);
+    final zoom = find.byKey(Key('journal-zoom-${entries[1].syncId}'));
+    await tester.scrollUntilVisible(
+      zoom,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(zoom);
+    await tester.pumpAndSettle();
+    await tester.tap(zoom);
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('fullscreen-card')), findsOneWidget);
+  });
+
   testWidgets('every spread shows its card layout above the analyses', (
     tester,
   ) async {

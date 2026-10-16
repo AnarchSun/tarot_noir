@@ -8,6 +8,57 @@ import '../models/tarot_card_text.dart';
 import '../screens/preferences_screen.dart';
 import 'orion_premium_insight.dart';
 
+void showFullscreenCard(BuildContext context, JournalEntry entry) {
+  Navigator.of(context).push(
+    PageRouteBuilder<void>(
+      opaque: false,
+      barrierColor: Colors.black.withValues(alpha: .94),
+      barrierDismissible: true,
+      pageBuilder: (_, _, _) => _FullscreenCard(entry: entry),
+    ),
+  );
+}
+
+class _FullscreenCard extends StatelessWidget {
+  const _FullscreenCard({required this.entry});
+
+  final JournalEntry entry;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    key: const Key('fullscreen-card'),
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      backgroundColor: Colors.transparent,
+      title: Text(entry.card.name),
+      leading: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+    ),
+    body: GestureDetector(
+      onTap: () => Navigator.of(context).pop(),
+      child: Center(
+        child: InteractiveViewer(
+          maxScale: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: RotatedBox(
+              quarterTurns: entry.orientation.isReversed ? 2 : 0,
+              child: entry.thumbnailPath.isEmpty
+                  ? Text(
+                      entry.card.symbol,
+                      style: const TextStyle(fontSize: 96),
+                    )
+                  : Image.asset(entry.thumbnailPath, fit: BoxFit.contain),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 class JournalSection extends StatelessWidget {
   const JournalSection({
     required this.entries,
@@ -63,22 +114,114 @@ class JournalSection extends StatelessWidget {
             child: Center(child: Text(l10n.journalEmpty)),
           )
         else
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: entries.length,
-            separatorBuilder: (_, _) => const Divider(height: 1),
-            itemBuilder: (_, i) => JournalEntryTile(
-              key: ValueKey(entries[i].syncId),
-              entry: entries[i],
-              onUpdateNote: onUpdateNote,
-              onDelete: onDelete,
-              isPremiumUnlocked: isPremiumUnlocked,
-              onOpenPremium: onOpenPremium,
-            ),
-          ),
+          ..._buildGroups(context, l10n),
       ],
     );
+  }
+}
+
+extension on JournalSection {
+  List<Widget> _buildGroups(BuildContext context, AppLocalizations l10n) {
+    final sorted = List<JournalEntry>.of(entries)
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final days = <DateTime, List<JournalEntry>>{};
+    for (final e in sorted) {
+      final d = e.createdAt;
+      days.putIfAbsent(DateTime(d.year, d.month, d.day), () => []).add(e);
+    }
+    Widget tile(JournalEntry e, {String? position}) => JournalEntryTile(
+      key: ValueKey(e.syncId),
+      entry: e,
+      positionLabel: position,
+      onUpdateNote: onUpdateNote,
+      onDelete: onDelete,
+      isPremiumUnlocked: isPremiumUnlocked,
+      onOpenPremium: onOpenPremium,
+    );
+    final widgets = <Widget>[];
+    for (final day in days.entries) {
+      widgets.add(
+        Padding(
+          key: Key('journal-day-${day.key.toIso8601String().substring(0, 10)}'),
+          padding: const EdgeInsets.only(top: 18, bottom: 6),
+          child: Text(
+            DateFormat.yMMMMd(l10n.localeName).format(day.key),
+            style: const TextStyle(
+              color: Color(0xFFD4AF59),
+              fontWeight: FontWeight.w700,
+              letterSpacing: .6,
+            ),
+          ),
+        ),
+      );
+      final spreads = <String, List<JournalEntry>>{};
+      final order = <Object>[];
+      for (final e in day.value) {
+        final parsed = parseSpreadDrawType(e.drawType);
+        if (parsed == null) {
+          order.add(e);
+        } else {
+          final key = '${parsed.spread.id}|${e.createdAt.toIso8601String()}';
+          if (!spreads.containsKey(key)) order.add(key);
+          spreads.putIfAbsent(key, () => []).add(e);
+        }
+      }
+      for (final item in order) {
+        if (item is JournalEntry) {
+          widgets.add(tile(item));
+          widgets.add(const Divider(height: 1));
+          continue;
+        }
+        final group = spreads[item]!
+          ..sort(
+            (a, b) =>
+                parseSpreadDrawType(a.drawType)!.position
+                    .compareTo(parseSpreadDrawType(b.drawType)!.position),
+          );
+        final spread = parseSpreadDrawType(group.first.drawType)!.spread;
+        final text = spreadText(spread, l10n.localeName);
+        widgets.add(
+          Container(
+            key: Key('journal-spread-$item'),
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: const Color(0xFF3F3449)),
+            ),
+            child: Material(
+              color: const Color(0xFF140F1C),
+              borderRadius: BorderRadius.circular(14),
+              clipBehavior: Clip.antiAlias,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      text.title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    for (final e in group) ...[
+                      tile(
+                        e,
+                        position:
+                            text.positions[parseSpreadDrawType(e.drawType)!
+                                .position],
+                      ),
+                      if (e != group.last) const Divider(height: 1),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+    }
+    return widgets;
   }
 }
 
@@ -89,9 +232,11 @@ class JournalEntryTile extends StatefulWidget {
     required this.onDelete,
     required this.isPremiumUnlocked,
     required this.onOpenPremium,
+    this.positionLabel,
     super.key,
   });
 
+  final String? positionLabel;
   final JournalEntry entry;
   final Future<void> Function(JournalEntry entry, String note) onUpdateNote;
   final Future<void> Function(JournalEntry entry) onDelete;
@@ -148,7 +293,12 @@ class _JournalEntryTileState extends State<JournalEntryTile> {
                 ),
               ),
               const SizedBox(height: 16),
-              Center(child: _Thumbnail(entry: entry, width: 150, height: 220)),
+              Center(
+                child: GestureDetector(
+                  onTap: () => showFullscreenCard(context, entry),
+                  child: _Thumbnail(entry: entry, width: 150, height: 220),
+                ),
+              ),
               const SizedBox(height: 16),
               Text(
                 entry.card.name,
@@ -208,7 +358,6 @@ class _JournalEntryTileState extends State<JournalEntryTile> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final entry = widget.entry;
-    final date = DateFormat.yMd(l10n.localeName).format(entry.createdAt);
     final hasNote = entry.note?.trim().isNotEmpty == true;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -216,13 +365,21 @@ class _JournalEntryTileState extends State<JournalEntryTile> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           onTap: _showDetails,
-          leading: _Thumbnail(entry: entry, width: 42, height: 58),
-          title: Text(entry.card.name),
+          leading: GestureDetector(
+            key: Key('journal-zoom-${entry.syncId}'),
+            onTap: () => showFullscreenCard(context, entry),
+            child: _Thumbnail(entry: entry, width: 42, height: 58),
+          ),
+          title: Text(
+            widget.positionLabel == null
+                ? entry.card.name
+                : '${widget.positionLabel} · ${entry.card.name}',
+          ),
           subtitle: Text(
             [
               if (!entry.card.isMinorArcana)
                 entry.card.localizedKeyword(l10n.localeName),
-              '$date · ${_drawTypeText(l10n, entry)}',
+              if (widget.positionLabel == null) _drawTypeText(l10n, entry),
             ].join('\n'),
           ),
           trailing: TextButton.icon(
