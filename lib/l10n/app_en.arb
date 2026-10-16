@@ -306,5 +306,8 @@
         "type": "int"
       }
     }
-  }
+  },
+  "spreadAiTitle": "ORION · AI INTERPRETATION",
+  "spreadAiLockedBody": "Get an in-depth reading of each card according to its position in the spread. Free after a short ad, or included with Orion+.",
+  "spreadAiWatchAd": "See AI interpretation (watch ad)"
 }

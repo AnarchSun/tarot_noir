@@ -563,7 +563,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
     if (!mounted) return;
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => SpreadResultScreen(spread: spread, cards: drawn),
+        builder: (_) => SpreadResultScreen(
+          spread: spread,
+          cards: drawn,
+          isPremiumUnlocked: AppConfig.premiumEnabled,
+          onRequestAd: _showAdPlaceholder,
+        ),
       ),
     );
   }

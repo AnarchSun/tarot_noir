@@ -704,4 +704,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walletExternalTitle => 'Or connect an external wallet';
+
+  @override
+  String get spreadAiTitle => 'ORION · AI INTERPRETATION';
+
+  @override
+  String get spreadAiLockedBody =>
+      'Get an in-depth reading of each card according to its position in the spread. Free after a short ad, or included with Orion+.';
+
+  @override
+  String get spreadAiWatchAd => 'See AI interpretation (watch ad)';
 }

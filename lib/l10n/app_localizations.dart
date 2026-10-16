@@ -1329,6 +1329,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ou connecter un portefeuille externe'**
   String get walletExternalTitle;
+
+  /// No description provided for @spreadAiTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'ORION · INTERPRÉTATION IA'**
+  String get spreadAiTitle;
+
+  /// No description provided for @spreadAiLockedBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Obtiens une lecture approfondie de chaque carte selon sa position dans le tirage. Gratuit après une courte annonce, ou inclus avec Orion+.'**
+  String get spreadAiLockedBody;
+
+  /// No description provided for @spreadAiWatchAd.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir l’interprétation IA (annonce)'**
+  String get spreadAiWatchAd;
 }
 
 class _AppLocalizationsDelegate

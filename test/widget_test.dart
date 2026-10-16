@@ -137,6 +137,45 @@ void main() {
     }
   });
 
+  testWidgets('AI interpretation of a spread unlocks after the ad', (
+    tester,
+  ) async {
+    final spread = spreadCatalog.first;
+    var ads = 0;
+    final cards = [
+      for (var i = 0; i < spread.cardCount; i++)
+        DrawnSpreadCard(tarotDeck[i], CardOrientation.upright),
+    ];
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: SpreadResultScreen(
+          spread: spread,
+          cards: cards,
+          onRequestAd: () async {
+            ads++;
+            return true;
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final list = find.byKey(const Key('spread-result'));
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('spread-ai-unlock')),
+      300,
+      scrollable: find.descendant(of: list, matching: find.byType(Scrollable)),
+    );
+    expect(find.byKey(const Key('spread-ai-reading')), findsNothing);
+    await tester.tap(find.byKey(const Key('spread-ai-unlock')));
+    await tester.pumpAndSettle();
+    expect(ads, 1);
+    expect(find.byKey(const Key('spread-ai-reading')), findsOneWidget);
+    expect(find.byKey(const Key('spread-ai-unlock')), findsNothing);
+  });
+
   testWidgetsJournalNotes();
   setUp(() {
     BuiltinWalletPanel.serviceOverride = SolanaWalletService(

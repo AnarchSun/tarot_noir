@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/spread.dart';
+import '../widgets/orion_premium_insight.dart';
 import '../models/tarot_deck.dart';
 import '../models/tarot_card.dart';
 import '../models/tarot_card_text.dart';
@@ -165,15 +166,36 @@ class _SpreadTile extends StatelessWidget {
   }
 }
 
-class SpreadResultScreen extends StatelessWidget {
+class SpreadResultScreen extends StatefulWidget {
   const SpreadResultScreen({
     required this.spread,
     required this.cards,
+    this.isPremiumUnlocked = false,
+    this.onRequestAd,
     super.key,
   });
 
   final SpreadDefinition spread;
   final List<DrawnSpreadCard> cards;
+  final bool isPremiumUnlocked;
+
+  /// Shows the ad; returns true when the user may see the AI interpretation.
+  final Future<bool> Function()? onRequestAd;
+
+  @override
+  State<SpreadResultScreen> createState() => _SpreadResultScreenState();
+}
+
+class _SpreadResultScreenState extends State<SpreadResultScreen> {
+  bool _aiUnlocked = false;
+
+  SpreadDefinition get spread => widget.spread;
+  List<DrawnSpreadCard> get cards => widget.cards;
+
+  Future<void> _unlockAi() async {
+    final allowed = await widget.onRequestAd?.call() ?? true;
+    if (allowed && mounted) setState(() => _aiUnlocked = true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -235,6 +257,8 @@ class SpreadResultScreen extends StatelessWidget {
                   ],
                 ),
               ),
+            _buildAiSection(l10n, lang, text),
+            const SizedBox(height: 20),
             Text(
               l10n.spreadSavedToJournal,
               textAlign: TextAlign.center,
@@ -243,6 +267,73 @@ class SpreadResultScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+extension on _SpreadResultScreenState {
+  Widget _buildAiSection(AppLocalizations l10n, String lang, SpreadText text) {
+    if (!widget.isPremiumUnlocked && !_aiUnlocked) {
+      return Container(
+        key: const Key('spread-ai-locked'),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF211839),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFFD4AF59).withValues(alpha: .55),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              l10n.spreadAiTitle,
+              style: const TextStyle(
+                color: Color(0xFFD4AF59),
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(l10n.spreadAiLockedBody, style: const TextStyle(height: 1.4)),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              key: const Key('spread-ai-unlock'),
+              onPressed: _unlockAi,
+              icon: const Icon(Icons.play_circle_outline),
+              label: Text(l10n.spreadAiWatchAd),
+            ),
+          ],
+        ),
+      );
+    }
+    return Column(
+      key: const Key('spread-ai-reading'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          l10n.spreadAiTitle,
+          style: const TextStyle(
+            color: Color(0xFFD4AF59),
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.2,
+          ),
+        ),
+        const SizedBox(height: 12),
+        for (var i = 0; i < cards.length; i++) ...[
+          Text(
+            '${text.positions[i]} · ${cards[i].card.name}',
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 6),
+          OrionPremiumInsight(
+            card: cards[i].card,
+            orientation: cards[i].orientation,
+          ),
+          const SizedBox(height: 14),
+        ],
+      ],
     );
   }
 }
