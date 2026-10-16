@@ -145,7 +145,7 @@
   "walletPrivacy": "La conexión solo comparte tu dirección pública de Solana. Tarot Noir nunca solicita una frase semilla ni una clave privada.",
   "walletConfigurationRequired": "Añade un ID de proyecto Reown y activa WalletConnect antes de abrir el portal del wallet.",
   "walletConnectedAs": "Wallet conectado: {address}",
-  "walletError": "Error de conexión del wallet: {message}",
+  "walletError": "Billetera: {error}",
   "walletOpenProfile": "Conectar mi wallet",
   "walletAvailableInProfile": "La conexión del wallet está disponible en la pestaña Perfil.",
   "@walletConnectedAs": {
@@ -155,7 +155,9 @@
   },
   "@walletError": {
     "placeholders": {
-      "message": {}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "walletDownloadHint": "¿Aún no tienes un wallet de Solana? Descárgalo desde su sitio oficial.",
@@ -244,6 +246,64 @@
     "placeholders": {
       "date": {
         "type": "String"
+      }
+    }
+  },
+  "walletBuiltinTitle": "Billetera Orion+",
+  "walletLockedHint": "Una billetera Solana integrada (dirección, saldo, NFTs, envío y recepción) se incluye con Orion+.",
+  "walletDiscoverPremium": "Descubrir Orion+",
+  "walletCreateIntro": "Las claves se crean y se guardan en este dispositivo. Solo tú tienes la frase de recuperación: sin ella nadie puede recuperar tu billetera.",
+  "walletCreate": "Crear mi billetera",
+  "walletImport": "Importar una billetera",
+  "walletRecoveryTitle": "Tu frase de recuperación",
+  "walletRecoveryWarning": "Anota estas 12 palabras en orden y guárdalas sin conexión. No las compartas nunca: dan acceso a todos tus fondos.",
+  "walletSavedConfirm": "He guardado mi frase de recuperación",
+  "walletActivate": "Activar billetera",
+  "walletImportTitle": "Importar con una frase",
+  "walletImportHint": "Escribe tus 12 o 24 palabras separadas por espacios",
+  "walletInvalidPhrase": "Frase de recuperación no válida.",
+  "walletImportAction": "Importar",
+  "walletAddress": "Dirección",
+  "walletCopy": "Copiar",
+  "walletCopied": "Dirección copiada.",
+  "walletBalance": "Saldo",
+  "walletRefresh": "Actualizar",
+  "walletSend": "Enviar",
+  "walletReceive": "Recibir",
+  "walletReceiveHint": "Comparte esta dirección para recibir SOL o NFTs.",
+  "walletRecipient": "Dirección del destinatario",
+  "walletAmount": "Importe (SOL)",
+  "walletInvalidAddress": "Dirección Solana no válida.",
+  "walletInvalidAmount": "Importe no válido.",
+  "walletSendAction": "Enviar",
+  "walletSent": "Transacción enviada: {signature}",
+  "walletShowPhrase": "Mostrar la frase de recuperación",
+  "walletRemove": "Quitar esta billetera del dispositivo",
+  "walletRemoveConfirm": "Sin tu frase de recuperación perderás tus fondos. ¿Quitar la billetera?",
+  "walletRemoveAction": "Quitar",
+  "walletCancel": "Cancelar",
+  "walletClose": "Cerrar",
+  "walletNetworkNote": "Red: {cluster} (red de prueba, sin valor real).",
+  "walletNftCount": "NFTs: {count}",
+  "walletExternalTitle": "O conecta una billetera externa",
+  "@walletSent": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNetworkNote": {
+    "placeholders": {
+      "cluster": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNftCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   }

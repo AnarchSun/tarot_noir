@@ -356,8 +356,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String walletError(Object message) {
-    return 'Wallet connection failed: $message';
+  String walletError(String error) {
+    return 'Wallet: $error';
   }
 
   @override
@@ -582,4 +582,126 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get walletTabIntro =>
       'Connect your existing Solana wallet. The built-in wallet included with Orion+ (address, balance, NFTs, send and receive) is in preparation.';
+
+  @override
+  String get walletBuiltinTitle => 'Orion+ wallet';
+
+  @override
+  String get walletLockedHint =>
+      'A built-in Solana wallet (address, balance, NFTs, send and receive) is included with Orion+.';
+
+  @override
+  String get walletDiscoverPremium => 'Discover Orion+';
+
+  @override
+  String get walletCreateIntro =>
+      'Keys are created and kept on this device. Only you hold the recovery phrase: without it, nobody can recover your wallet.';
+
+  @override
+  String get walletCreate => 'Create my wallet';
+
+  @override
+  String get walletImport => 'Import a wallet';
+
+  @override
+  String get walletRecoveryTitle => 'Your recovery phrase';
+
+  @override
+  String get walletRecoveryWarning =>
+      'Write these 12 words down in order and keep them offline. Never share them: they give access to all your funds.';
+
+  @override
+  String get walletSavedConfirm => 'I have saved my recovery phrase';
+
+  @override
+  String get walletActivate => 'Activate wallet';
+
+  @override
+  String get walletImportTitle => 'Import with a phrase';
+
+  @override
+  String get walletImportHint =>
+      'Enter your 12 or 24 words separated by spaces';
+
+  @override
+  String get walletInvalidPhrase => 'Invalid recovery phrase.';
+
+  @override
+  String get walletImportAction => 'Import';
+
+  @override
+  String get walletAddress => 'Address';
+
+  @override
+  String get walletCopy => 'Copy';
+
+  @override
+  String get walletCopied => 'Address copied.';
+
+  @override
+  String get walletBalance => 'Balance';
+
+  @override
+  String get walletRefresh => 'Refresh';
+
+  @override
+  String get walletSend => 'Send';
+
+  @override
+  String get walletReceive => 'Receive';
+
+  @override
+  String get walletReceiveHint => 'Share this address to receive SOL or NFTs.';
+
+  @override
+  String get walletRecipient => 'Recipient address';
+
+  @override
+  String get walletAmount => 'Amount (SOL)';
+
+  @override
+  String get walletInvalidAddress => 'Invalid Solana address.';
+
+  @override
+  String get walletInvalidAmount => 'Invalid amount.';
+
+  @override
+  String get walletSendAction => 'Send';
+
+  @override
+  String walletSent(String signature) {
+    return 'Transaction sent: $signature';
+  }
+
+  @override
+  String get walletShowPhrase => 'Show recovery phrase';
+
+  @override
+  String get walletRemove => 'Remove this wallet from the device';
+
+  @override
+  String get walletRemoveConfirm =>
+      'Without your recovery phrase your funds will be lost. Remove the wallet?';
+
+  @override
+  String get walletRemoveAction => 'Remove';
+
+  @override
+  String get walletCancel => 'Cancel';
+
+  @override
+  String get walletClose => 'Close';
+
+  @override
+  String walletNetworkNote(String cluster) {
+    return 'Network: $cluster (test network, no real value).';
+  }
+
+  @override
+  String walletNftCount(int count) {
+    return 'NFTs: $count';
+  }
+
+  @override
+  String get walletExternalTitle => 'Or connect an external wallet';
 }

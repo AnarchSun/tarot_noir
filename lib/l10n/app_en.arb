@@ -145,7 +145,7 @@
   "walletPrivacy": "Connection shares only your public Solana address. Tarot Noir never asks for a seed phrase or private key.",
   "walletConfigurationRequired": "Add a Reown project ID and enable WalletConnect before opening the wallet portal.",
   "walletConnectedAs": "Wallet connected: {address}",
-  "walletError": "Wallet connection failed: {message}",
+  "walletError": "Wallet: {error}",
   "walletOpenProfile": "Connect my wallet",
   "walletAvailableInProfile": "Wallet connection is available from the Profile tab.",
   "@walletConnectedAs": {
@@ -155,7 +155,9 @@
   },
   "@walletError": {
     "placeholders": {
-      "message": {}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "walletDownloadHint": "No Solana wallet yet? Download one from its official website.",
@@ -244,6 +246,64 @@
     "placeholders": {
       "date": {
         "type": "String"
+      }
+    }
+  },
+  "walletBuiltinTitle": "Orion+ wallet",
+  "walletLockedHint": "A built-in Solana wallet (address, balance, NFTs, send and receive) is included with Orion+.",
+  "walletDiscoverPremium": "Discover Orion+",
+  "walletCreateIntro": "Keys are created and kept on this device. Only you hold the recovery phrase: without it, nobody can recover your wallet.",
+  "walletCreate": "Create my wallet",
+  "walletImport": "Import a wallet",
+  "walletRecoveryTitle": "Your recovery phrase",
+  "walletRecoveryWarning": "Write these 12 words down in order and keep them offline. Never share them: they give access to all your funds.",
+  "walletSavedConfirm": "I have saved my recovery phrase",
+  "walletActivate": "Activate wallet",
+  "walletImportTitle": "Import with a phrase",
+  "walletImportHint": "Enter your 12 or 24 words separated by spaces",
+  "walletInvalidPhrase": "Invalid recovery phrase.",
+  "walletImportAction": "Import",
+  "walletAddress": "Address",
+  "walletCopy": "Copy",
+  "walletCopied": "Address copied.",
+  "walletBalance": "Balance",
+  "walletRefresh": "Refresh",
+  "walletSend": "Send",
+  "walletReceive": "Receive",
+  "walletReceiveHint": "Share this address to receive SOL or NFTs.",
+  "walletRecipient": "Recipient address",
+  "walletAmount": "Amount (SOL)",
+  "walletInvalidAddress": "Invalid Solana address.",
+  "walletInvalidAmount": "Invalid amount.",
+  "walletSendAction": "Send",
+  "walletSent": "Transaction sent: {signature}",
+  "walletShowPhrase": "Show recovery phrase",
+  "walletRemove": "Remove this wallet from the device",
+  "walletRemoveConfirm": "Without your recovery phrase your funds will be lost. Remove the wallet?",
+  "walletRemoveAction": "Remove",
+  "walletCancel": "Cancel",
+  "walletClose": "Close",
+  "walletNetworkNote": "Network: {cluster} (test network, no real value).",
+  "walletNftCount": "NFTs: {count}",
+  "walletExternalTitle": "Or connect an external wallet",
+  "@walletSent": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNetworkNote": {
+    "placeholders": {
+      "cluster": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNftCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   }

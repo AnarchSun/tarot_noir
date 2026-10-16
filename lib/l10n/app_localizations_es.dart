@@ -356,8 +356,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String walletError(Object message) {
-    return 'Error de conexión del wallet: $message';
+  String walletError(String error) {
+    return 'Billetera: $error';
   }
 
   @override
@@ -583,4 +583,127 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get walletTabIntro =>
       'Conecta tu billetera Solana existente. La billetera integrada incluida con Orion+ (dirección, saldo, NFTs, envío y recepción) está en preparación.';
+
+  @override
+  String get walletBuiltinTitle => 'Billetera Orion+';
+
+  @override
+  String get walletLockedHint =>
+      'Una billetera Solana integrada (dirección, saldo, NFTs, envío y recepción) se incluye con Orion+.';
+
+  @override
+  String get walletDiscoverPremium => 'Descubrir Orion+';
+
+  @override
+  String get walletCreateIntro =>
+      'Las claves se crean y se guardan en este dispositivo. Solo tú tienes la frase de recuperación: sin ella nadie puede recuperar tu billetera.';
+
+  @override
+  String get walletCreate => 'Crear mi billetera';
+
+  @override
+  String get walletImport => 'Importar una billetera';
+
+  @override
+  String get walletRecoveryTitle => 'Tu frase de recuperación';
+
+  @override
+  String get walletRecoveryWarning =>
+      'Anota estas 12 palabras en orden y guárdalas sin conexión. No las compartas nunca: dan acceso a todos tus fondos.';
+
+  @override
+  String get walletSavedConfirm => 'He guardado mi frase de recuperación';
+
+  @override
+  String get walletActivate => 'Activar billetera';
+
+  @override
+  String get walletImportTitle => 'Importar con una frase';
+
+  @override
+  String get walletImportHint =>
+      'Escribe tus 12 o 24 palabras separadas por espacios';
+
+  @override
+  String get walletInvalidPhrase => 'Frase de recuperación no válida.';
+
+  @override
+  String get walletImportAction => 'Importar';
+
+  @override
+  String get walletAddress => 'Dirección';
+
+  @override
+  String get walletCopy => 'Copiar';
+
+  @override
+  String get walletCopied => 'Dirección copiada.';
+
+  @override
+  String get walletBalance => 'Saldo';
+
+  @override
+  String get walletRefresh => 'Actualizar';
+
+  @override
+  String get walletSend => 'Enviar';
+
+  @override
+  String get walletReceive => 'Recibir';
+
+  @override
+  String get walletReceiveHint =>
+      'Comparte esta dirección para recibir SOL o NFTs.';
+
+  @override
+  String get walletRecipient => 'Dirección del destinatario';
+
+  @override
+  String get walletAmount => 'Importe (SOL)';
+
+  @override
+  String get walletInvalidAddress => 'Dirección Solana no válida.';
+
+  @override
+  String get walletInvalidAmount => 'Importe no válido.';
+
+  @override
+  String get walletSendAction => 'Enviar';
+
+  @override
+  String walletSent(String signature) {
+    return 'Transacción enviada: $signature';
+  }
+
+  @override
+  String get walletShowPhrase => 'Mostrar la frase de recuperación';
+
+  @override
+  String get walletRemove => 'Quitar esta billetera del dispositivo';
+
+  @override
+  String get walletRemoveConfirm =>
+      'Sin tu frase de recuperación perderás tus fondos. ¿Quitar la billetera?';
+
+  @override
+  String get walletRemoveAction => 'Quitar';
+
+  @override
+  String get walletCancel => 'Cancelar';
+
+  @override
+  String get walletClose => 'Cerrar';
+
+  @override
+  String walletNetworkNote(String cluster) {
+    return 'Red: $cluster (red de prueba, sin valor real).';
+  }
+
+  @override
+  String walletNftCount(int count) {
+    return 'NFTs: $count';
+  }
+
+  @override
+  String get walletExternalTitle => 'O conecta una billetera externa';
 }

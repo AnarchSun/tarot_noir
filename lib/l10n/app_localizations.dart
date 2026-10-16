@@ -703,8 +703,8 @@ abstract class AppLocalizations {
   /// No description provided for @walletError.
   ///
   /// In fr, this message translates to:
-  /// **'Échec de la connexion wallet : {message}'**
-  String walletError(Object message);
+  /// **'Portefeuille : {error}'**
+  String walletError(String error);
 
   /// No description provided for @walletOpenProfile.
   ///
@@ -1107,6 +1107,228 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Connecte ton portefeuille Solana existant. Le portefeuille intégré inclus avec Orion+ (adresse, solde, NFTs, envoi et réception) est en préparation.'**
   String get walletTabIntro;
+
+  /// No description provided for @walletBuiltinTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portefeuille Orion+'**
+  String get walletBuiltinTitle;
+
+  /// No description provided for @walletLockedHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un portefeuille Solana intégré (adresse, solde, NFTs, envoi et réception) est inclus avec Orion+.'**
+  String get walletLockedHint;
+
+  /// No description provided for @walletDiscoverPremium.
+  ///
+  /// In fr, this message translates to:
+  /// **'Découvrir Orion+'**
+  String get walletDiscoverPremium;
+
+  /// No description provided for @walletCreateIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les clés sont créées et gardées sur cet appareil. Toi seul détiens la phrase de récupération : sans elle, personne ne peut récupérer ton portefeuille.'**
+  String get walletCreateIntro;
+
+  /// No description provided for @walletCreate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer mon portefeuille'**
+  String get walletCreate;
+
+  /// No description provided for @walletImport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer un portefeuille'**
+  String get walletImport;
+
+  /// No description provided for @walletRecoveryTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta phrase de récupération'**
+  String get walletRecoveryTitle;
+
+  /// No description provided for @walletRecoveryWarning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note ces 12 mots dans l’ordre et garde-les hors ligne. Ne les partage jamais : ils donnent accès à tous tes fonds.'**
+  String get walletRecoveryWarning;
+
+  /// No description provided for @walletSavedConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’ai sauvegardé ma phrase de récupération'**
+  String get walletSavedConfirm;
+
+  /// No description provided for @walletActivate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer le portefeuille'**
+  String get walletActivate;
+
+  /// No description provided for @walletImportTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer avec une phrase'**
+  String get walletImportTitle;
+
+  /// No description provided for @walletImportHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisis tes 12 ou 24 mots séparés par des espaces'**
+  String get walletImportHint;
+
+  /// No description provided for @walletInvalidPhrase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Phrase de récupération invalide.'**
+  String get walletInvalidPhrase;
+
+  /// No description provided for @walletImportAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer'**
+  String get walletImportAction;
+
+  /// No description provided for @walletAddress.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse'**
+  String get walletAddress;
+
+  /// No description provided for @walletCopy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier'**
+  String get walletCopy;
+
+  /// No description provided for @walletCopied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse copiée.'**
+  String get walletCopied;
+
+  /// No description provided for @walletBalance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Solde'**
+  String get walletBalance;
+
+  /// No description provided for @walletRefresh.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actualiser'**
+  String get walletRefresh;
+
+  /// No description provided for @walletSend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get walletSend;
+
+  /// No description provided for @walletReceive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recevoir'**
+  String get walletReceive;
+
+  /// No description provided for @walletReceiveHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partage cette adresse pour recevoir des SOL ou des NFTs.'**
+  String get walletReceiveHint;
+
+  /// No description provided for @walletRecipient.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse du destinataire'**
+  String get walletRecipient;
+
+  /// No description provided for @walletAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant (SOL)'**
+  String get walletAmount;
+
+  /// No description provided for @walletInvalidAddress.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse Solana invalide.'**
+  String get walletInvalidAddress;
+
+  /// No description provided for @walletInvalidAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant invalide.'**
+  String get walletInvalidAmount;
+
+  /// No description provided for @walletSendAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get walletSendAction;
+
+  /// No description provided for @walletSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Transaction envoyée : {signature}'**
+  String walletSent(String signature);
+
+  /// No description provided for @walletShowPhrase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Afficher la phrase de récupération'**
+  String get walletShowPhrase;
+
+  /// No description provided for @walletRemove.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer ce portefeuille de l’appareil'**
+  String get walletRemove;
+
+  /// No description provided for @walletRemoveConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans ta phrase de récupération, tes fonds seront perdus. Retirer le portefeuille ?'**
+  String get walletRemoveConfirm;
+
+  /// No description provided for @walletRemoveAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer'**
+  String get walletRemoveAction;
+
+  /// No description provided for @walletCancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get walletCancel;
+
+  /// No description provided for @walletClose.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermer'**
+  String get walletClose;
+
+  /// No description provided for @walletNetworkNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réseau : {cluster} (réseau de test, sans valeur réelle).'**
+  String walletNetworkNote(String cluster);
+
+  /// No description provided for @walletNftCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'NFTs : {count}'**
+  String walletNftCount(int count);
+
+  /// No description provided for @walletExternalTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ou connecter un portefeuille externe'**
+  String get walletExternalTitle;
 }
 
 class _AppLocalizationsDelegate

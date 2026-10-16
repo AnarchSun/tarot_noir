@@ -7,6 +7,8 @@ import '../models/journal_entry.dart';
 import '../models/user_profile.dart';
 import '../services/firebase_auth_service.dart';
 import '../services/tarot_storage_service.dart';
+import '../services/solana_wallet_service.dart';
+import '../widgets/builtin_wallet_panel.dart';
 import '../widgets/journal_section.dart';
 import '../widgets/profile_completion_sheet.dart';
 import '../widgets/wallet_connect_panel.dart';
@@ -24,6 +26,7 @@ class ProfileScreen extends StatefulWidget {
     required this.onClearData,
     required this.isPremiumUnlocked,
     required this.onOpenPremium,
+    this.walletService,
     super.key,
   });
 
@@ -39,6 +42,7 @@ class ProfileScreen extends StatefulWidget {
   final VoidCallback onClearData;
   final bool isPremiumUnlocked;
   final VoidCallback onOpenPremium;
+  final SolanaWalletService? walletService;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -231,8 +235,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                Text(l10n.walletTabIntro, style: const TextStyle(height: 1.4)),
-                const SizedBox(height: 16),
+                BuiltinWalletPanel(
+                  isPremiumUnlocked: widget.isPremiumUnlocked,
+                  onOpenPremium: widget.onOpenPremium,
+                  service: widget.walletService,
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  l10n.walletExternalTitle,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 12),
                 WalletConnectPanel(onConnected: _completeProfile),
               ],
             ),

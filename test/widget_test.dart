@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/app_config.dart';
 import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
+import 'package:tarot_noir/services/solana_wallet_service.dart';
+import 'package:tarot_noir/widgets/builtin_wallet_panel.dart';
 import 'package:tarot_noir/models/journal_entry.dart';
 import 'package:tarot_noir/models/premium_reading.dart';
 import 'package:tarot_noir/models/spread.dart';
@@ -137,6 +139,9 @@ void main() {
 
   testWidgetsJournalNotes();
   setUp(() {
+    BuiltinWalletPanel.serviceOverride = SolanaWalletService(
+      store: _MemoryWalletStore(),
+    );
     AppConfig.firebaseAuthEnabledForTesting = false;
     SharedPreferences.setMockInitialValues(<String, Object>{});
   });
@@ -576,4 +581,14 @@ class _TestFirebaseUser implements User {
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _MemoryWalletStore implements WalletSecretStore {
+  String? phrase;
+  @override
+  Future<void> deletePhrase() async => phrase = null;
+  @override
+  Future<String?> readPhrase() async => phrase;
+  @override
+  Future<void> writePhrase(String value) async => phrase = value;
 }

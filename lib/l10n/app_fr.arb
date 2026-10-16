@@ -145,7 +145,7 @@
   "walletPrivacy": "La connexion partage seulement votre adresse Solana publique. Tarot Noir ne demande jamais de seed phrase ni de clé privée.",
   "walletConfigurationRequired": "Ajoutez un identifiant de projet Reown et activez WalletConnect avant d’ouvrir le portail wallet.",
   "walletConnectedAs": "Wallet connecté : {address}",
-  "walletError": "Échec de la connexion wallet : {message}",
+  "walletError": "Portefeuille : {error}",
   "walletOpenProfile": "Connecter mon wallet",
   "walletAvailableInProfile": "La connexion wallet est accessible dans l’onglet Profil.",
   "@walletConnectedAs": {
@@ -155,7 +155,9 @@
   },
   "@walletError": {
     "placeholders": {
-      "message": {}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "walletDownloadHint": "Pas encore de wallet Solana? Téléchargez-en un depuis son site officiel.",
@@ -244,6 +246,64 @@
     "placeholders": {
       "date": {
         "type": "String"
+      }
+    }
+  },
+  "walletBuiltinTitle": "Portefeuille Orion+",
+  "walletLockedHint": "Un portefeuille Solana intégré (adresse, solde, NFTs, envoi et réception) est inclus avec Orion+.",
+  "walletDiscoverPremium": "Découvrir Orion+",
+  "walletCreateIntro": "Les clés sont créées et gardées sur cet appareil. Toi seul détiens la phrase de récupération : sans elle, personne ne peut récupérer ton portefeuille.",
+  "walletCreate": "Créer mon portefeuille",
+  "walletImport": "Importer un portefeuille",
+  "walletRecoveryTitle": "Ta phrase de récupération",
+  "walletRecoveryWarning": "Note ces 12 mots dans l’ordre et garde-les hors ligne. Ne les partage jamais : ils donnent accès à tous tes fonds.",
+  "walletSavedConfirm": "J’ai sauvegardé ma phrase de récupération",
+  "walletActivate": "Activer le portefeuille",
+  "walletImportTitle": "Importer avec une phrase",
+  "walletImportHint": "Saisis tes 12 ou 24 mots séparés par des espaces",
+  "walletInvalidPhrase": "Phrase de récupération invalide.",
+  "walletImportAction": "Importer",
+  "walletAddress": "Adresse",
+  "walletCopy": "Copier",
+  "walletCopied": "Adresse copiée.",
+  "walletBalance": "Solde",
+  "walletRefresh": "Actualiser",
+  "walletSend": "Envoyer",
+  "walletReceive": "Recevoir",
+  "walletReceiveHint": "Partage cette adresse pour recevoir des SOL ou des NFTs.",
+  "walletRecipient": "Adresse du destinataire",
+  "walletAmount": "Montant (SOL)",
+  "walletInvalidAddress": "Adresse Solana invalide.",
+  "walletInvalidAmount": "Montant invalide.",
+  "walletSendAction": "Envoyer",
+  "walletSent": "Transaction envoyée : {signature}",
+  "walletShowPhrase": "Afficher la phrase de récupération",
+  "walletRemove": "Retirer ce portefeuille de l’appareil",
+  "walletRemoveConfirm": "Sans ta phrase de récupération, tes fonds seront perdus. Retirer le portefeuille ?",
+  "walletRemoveAction": "Retirer",
+  "walletCancel": "Annuler",
+  "walletClose": "Fermer",
+  "walletNetworkNote": "Réseau : {cluster} (réseau de test, sans valeur réelle).",
+  "walletNftCount": "NFTs : {count}",
+  "walletExternalTitle": "Ou connecter un portefeuille externe",
+  "@walletSent": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNetworkNote": {
+    "placeholders": {
+      "cluster": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNftCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   }
