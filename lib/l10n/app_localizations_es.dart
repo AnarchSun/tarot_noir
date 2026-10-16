@@ -716,4 +716,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get spreadAiWatchAd => 'Ver interpretación IA (anuncio)';
+
+  @override
+  String get spreadAskTitle => 'HAZ TU PREGUNTA A ORION';
+
+  @override
+  String get spreadAskHint => 'Ej.: ¿qué debo entender sobre mi relación?';
+
+  @override
+  String get spreadAskAction => 'Preguntar a Orion';
 }

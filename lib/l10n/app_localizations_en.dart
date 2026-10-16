@@ -714,4 +714,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get spreadAiWatchAd => 'See AI interpretation (watch ad)';
+
+  @override
+  String get spreadAskTitle => 'ASK ORION A QUESTION';
+
+  @override
+  String get spreadAskHint =>
+      'E.g. what should I understand about my relationship?';
+
+  @override
+  String get spreadAskAction => 'Ask Orion';
 }

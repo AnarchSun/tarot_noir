@@ -174,6 +174,26 @@ void main() {
     expect(ads, 1);
     expect(find.byKey(const Key('spread-ai-reading')), findsOneWidget);
     expect(find.byKey(const Key('spread-ai-unlock')), findsNothing);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('spread-ai-question')),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.enterText(
+      find.byKey(const Key('spread-ai-question')),
+      'Que dois-je savoir sur mon travail ?',
+    );
+    await tester.ensureVisible(find.byKey(const Key('spread-ai-ask')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('spread-ai-ask')));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('spread-ai-answer')),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.byKey(const Key('spread-ai-answer')), findsOneWidget);
+    expect(find.textContaining('your work'), findsWidgets);
   });
 
   testWidgetsJournalNotes();
