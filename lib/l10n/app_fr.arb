@@ -315,5 +315,40 @@
   "spreadAskAction": "Demander à Orion",
   "orionAskLockedBody": "Pose ta question à Orion et reçois une réponse adaptée à ta carte. Gratuit après une courte annonce, ou inclus avec Orion+.",
   "orionSavedToJournal": "Enregistré dans ton journal.",
-  "orionJournalTitle": "Questions à Orion"
+  "orionJournalTitle": "Questions à Orion",
+  "community": "Communauté",
+  "communityIntro": "Retrouve d’autres membres Tarot Noir : ajoute des amis, discute dans le shoutbox, visite leurs profils et leurs collections de NFTs.",
+  "communityJoin": "Rejoindre la communauté",
+  "communityJoinAction": "Rejoindre",
+  "communityPseudo": "Pseudo public",
+  "communityPrivacy": "Seuls ton pseudo, ta ville et ta bio sont publics. Ton journal reste privé. Tu peux quitter la communauté à tout moment.",
+  "communityShowCollection": "Montrer ma collection (adresse du portefeuille)",
+  "communityShoutbox": "Shoutbox",
+  "communityFriends": "Amis",
+  "communityMembers": "Membres",
+  "communityLeave": "Quitter la communauté",
+  "communityMemberTitle": "Membre",
+  "communityError": "Communauté : {error}",
+  "shoutHint": "Écris un message…",
+  "shoutSend": "Envoyer",
+  "shoutDelete": "Supprimer",
+  "shoutEmpty": "Aucun message pour l’instant. Lance la conversation !",
+  "friendsEmpty": "Pas encore d’amis. Visite un profil depuis l’onglet Membres ou le shoutbox pour envoyer une demande.",
+  "friendRequests": "Demandes reçues",
+  "friendPending": "Demandes envoyées",
+  "friendAdd": "Ajouter en ami",
+  "friendAccept": "Accepter",
+  "friendDecline": "Refuser",
+  "friendCancelRequest": "Annuler la demande",
+  "friendRemove": "Retirer des amis",
+  "membersEmpty": "Aucun autre membre pour l’instant.",
+  "memberNotFound": "Ce profil n’est plus disponible.",
+  "memberCollectionPrivate": "Ce membre ne montre pas sa collection.",
+  "@communityError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  }
 }

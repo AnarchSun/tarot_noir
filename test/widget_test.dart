@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarot_noir/app_config.dart';
 import 'package:tarot_noir/l10n/app_localizations.dart';
 import 'package:tarot_noir/main.dart';
+import 'package:tarot_noir/screens/community_screen.dart';
+import 'package:tarot_noir/services/community_repository.dart';
 import 'package:tarot_noir/services/solana_wallet_service.dart';
 import 'package:tarot_noir/widgets/builtin_wallet_panel.dart';
 import 'package:tarot_noir/models/journal_entry.dart';
@@ -198,6 +200,7 @@ void main() {
 
   testWidgetsJournalNotes();
   setUp(() {
+    CommunityScreen.repositoryOverride = InMemoryCommunityRepository();
     BuiltinWalletPanel.serviceOverride = SolanaWalletService(
       store: _MemoryWalletStore(),
     );

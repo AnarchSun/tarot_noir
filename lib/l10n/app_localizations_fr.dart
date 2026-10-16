@@ -736,4 +736,96 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get orionJournalTitle => 'Questions à Orion';
+
+  @override
+  String get community => 'Communauté';
+
+  @override
+  String get communityIntro =>
+      'Retrouve d’autres membres Tarot Noir : ajoute des amis, discute dans le shoutbox, visite leurs profils et leurs collections de NFTs.';
+
+  @override
+  String get communityJoin => 'Rejoindre la communauté';
+
+  @override
+  String get communityJoinAction => 'Rejoindre';
+
+  @override
+  String get communityPseudo => 'Pseudo public';
+
+  @override
+  String get communityPrivacy =>
+      'Seuls ton pseudo, ta ville et ta bio sont publics. Ton journal reste privé. Tu peux quitter la communauté à tout moment.';
+
+  @override
+  String get communityShowCollection =>
+      'Montrer ma collection (adresse du portefeuille)';
+
+  @override
+  String get communityShoutbox => 'Shoutbox';
+
+  @override
+  String get communityFriends => 'Amis';
+
+  @override
+  String get communityMembers => 'Membres';
+
+  @override
+  String get communityLeave => 'Quitter la communauté';
+
+  @override
+  String get communityMemberTitle => 'Membre';
+
+  @override
+  String communityError(String error) {
+    return 'Communauté : $error';
+  }
+
+  @override
+  String get shoutHint => 'Écris un message…';
+
+  @override
+  String get shoutSend => 'Envoyer';
+
+  @override
+  String get shoutDelete => 'Supprimer';
+
+  @override
+  String get shoutEmpty =>
+      'Aucun message pour l’instant. Lance la conversation !';
+
+  @override
+  String get friendsEmpty =>
+      'Pas encore d’amis. Visite un profil depuis l’onglet Membres ou le shoutbox pour envoyer une demande.';
+
+  @override
+  String get friendRequests => 'Demandes reçues';
+
+  @override
+  String get friendPending => 'Demandes envoyées';
+
+  @override
+  String get friendAdd => 'Ajouter en ami';
+
+  @override
+  String get friendAccept => 'Accepter';
+
+  @override
+  String get friendDecline => 'Refuser';
+
+  @override
+  String get friendCancelRequest => 'Annuler la demande';
+
+  @override
+  String get friendRemove => 'Retirer des amis';
+
+  @override
+  String get membersEmpty => 'Aucun autre membre pour l’instant.';
+
+  @override
+  String get memberNotFound => 'Ce profil n’est plus disponible.';
+
+  @override
+  String get memberCollectionPrivate =>
+      'Ce membre ne montre pas sa collection.';
 }

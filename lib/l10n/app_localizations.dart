@@ -1383,6 +1383,174 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Questions à Orion'**
   String get orionJournalTitle;
+
+  /// No description provided for @community.
+  ///
+  /// In fr, this message translates to:
+  /// **'Communauté'**
+  String get community;
+
+  /// No description provided for @communityIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retrouve d’autres membres Tarot Noir : ajoute des amis, discute dans le shoutbox, visite leurs profils et leurs collections de NFTs.'**
+  String get communityIntro;
+
+  /// No description provided for @communityJoin.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejoindre la communauté'**
+  String get communityJoin;
+
+  /// No description provided for @communityJoinAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejoindre'**
+  String get communityJoinAction;
+
+  /// No description provided for @communityPseudo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pseudo public'**
+  String get communityPseudo;
+
+  /// No description provided for @communityPrivacy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Seuls ton pseudo, ta ville et ta bio sont publics. Ton journal reste privé. Tu peux quitter la communauté à tout moment.'**
+  String get communityPrivacy;
+
+  /// No description provided for @communityShowCollection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Montrer ma collection (adresse du portefeuille)'**
+  String get communityShowCollection;
+
+  /// No description provided for @communityShoutbox.
+  ///
+  /// In fr, this message translates to:
+  /// **'Shoutbox'**
+  String get communityShoutbox;
+
+  /// No description provided for @communityFriends.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amis'**
+  String get communityFriends;
+
+  /// No description provided for @communityMembers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Membres'**
+  String get communityMembers;
+
+  /// No description provided for @communityLeave.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quitter la communauté'**
+  String get communityLeave;
+
+  /// No description provided for @communityMemberTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Membre'**
+  String get communityMemberTitle;
+
+  /// No description provided for @communityError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Communauté : {error}'**
+  String communityError(String error);
+
+  /// No description provided for @shoutHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Écris un message…'**
+  String get shoutHint;
+
+  /// No description provided for @shoutSend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get shoutSend;
+
+  /// No description provided for @shoutDelete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get shoutDelete;
+
+  /// No description provided for @shoutEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun message pour l’instant. Lance la conversation !'**
+  String get shoutEmpty;
+
+  /// No description provided for @friendsEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas encore d’amis. Visite un profil depuis l’onglet Membres ou le shoutbox pour envoyer une demande.'**
+  String get friendsEmpty;
+
+  /// No description provided for @friendRequests.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandes reçues'**
+  String get friendRequests;
+
+  /// No description provided for @friendPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandes envoyées'**
+  String get friendPending;
+
+  /// No description provided for @friendAdd.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter en ami'**
+  String get friendAdd;
+
+  /// No description provided for @friendAccept.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accepter'**
+  String get friendAccept;
+
+  /// No description provided for @friendDecline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser'**
+  String get friendDecline;
+
+  /// No description provided for @friendCancelRequest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler la demande'**
+  String get friendCancelRequest;
+
+  /// No description provided for @friendRemove.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer des amis'**
+  String get friendRemove;
+
+  /// No description provided for @membersEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun autre membre pour l’instant.'**
+  String get membersEmpty;
+
+  /// No description provided for @memberNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce profil n’est plus disponible.'**
+  String get memberNotFound;
+
+  /// No description provided for @memberCollectionPrivate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce membre ne montre pas sa collection.'**
+  String get memberCollectionPrivate;
 }
 
 class _AppLocalizationsDelegate

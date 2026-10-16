@@ -315,5 +315,40 @@
   "spreadAskAction": "Ask Orion",
   "orionAskLockedBody": "Ask Orion a question and get an answer tailored to your card. Free after a short ad, or included with Orion+.",
   "orionSavedToJournal": "Saved to your journal.",
-  "orionJournalTitle": "Questions to Orion"
+  "orionJournalTitle": "Questions to Orion",
+  "community": "Community",
+  "communityIntro": "Meet other Tarot Noir members: add friends, chat in the shoutbox, and visit their profiles and NFT collections.",
+  "communityJoin": "Join the community",
+  "communityJoinAction": "Join",
+  "communityPseudo": "Public nickname",
+  "communityPrivacy": "Only your nickname, city and bio are public. Your journal stays private. You can leave the community at any time.",
+  "communityShowCollection": "Show my collection (wallet address)",
+  "communityShoutbox": "Shoutbox",
+  "communityFriends": "Friends",
+  "communityMembers": "Members",
+  "communityLeave": "Leave the community",
+  "communityMemberTitle": "Member",
+  "communityError": "Community: {error}",
+  "shoutHint": "Write a message…",
+  "shoutSend": "Send",
+  "shoutDelete": "Delete",
+  "shoutEmpty": "No messages yet. Start the conversation!",
+  "friendsEmpty": "No friends yet. Visit a profile from the Members tab or the shoutbox to send a request.",
+  "friendRequests": "Received requests",
+  "friendPending": "Sent requests",
+  "friendAdd": "Add friend",
+  "friendAccept": "Accept",
+  "friendDecline": "Decline",
+  "friendCancelRequest": "Cancel request",
+  "friendRemove": "Remove friend",
+  "membersEmpty": "No other members yet.",
+  "memberNotFound": "This profile is no longer available.",
+  "memberCollectionPrivate": "This member does not show their collection.",
+  "@communityError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  }
 }
