@@ -127,7 +127,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountGateBody.
   ///
   /// In fr, this message translates to:
-  /// **'Crée un compte ou connecte-toi pour retrouver tes tirages et tes notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.'**
+  /// **'Crée un compte ou connecte-toi pour retrouver ton profil et ton journal, où chaque carte tirée est conservée avec ses notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.'**
   String get accountGateBody;
 
   /// No description provided for @orionPlusTeaser.
@@ -235,7 +235,7 @@ abstract class AppLocalizations {
   /// No description provided for @journalSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Les cartes tirées pendant cette session.'**
+  /// **'Chaque carte tirée est conservée ici, avec sa date et tes notes.'**
   String get journalSubtitle;
 
   /// No description provided for @journalEmpty.
@@ -927,6 +927,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Avatars NFT'**
   String get compareRowNft;
+
+  /// No description provided for @notesToggle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notes'**
+  String get notesToggle;
+
+  /// No description provided for @saveNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer la note'**
+  String get saveNote;
+
+  /// No description provided for @orionAssessmentTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Évaluation d’Orion'**
+  String get orionAssessmentTitle;
+
+  /// No description provided for @orionAskSoon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt : pose ta question à Orion, qui répondra selon cette carte.'**
+  String get orionAskSoon;
+
+  /// No description provided for @orionLockedHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Évaluation et questions d’Orion avec Orion+'**
+  String get orionLockedHint;
 }
 
 class _AppLocalizationsDelegate

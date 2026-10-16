@@ -32,16 +32,20 @@ class JournalEntry {
       )
       .replaceAll('=', '');
 
-  JournalEntry copyWith({String? note, int? mood, String? syncOwnerUid}) =>
-      JournalEntry(
-        card: card,
-        createdAt: createdAt,
-        orientation: orientation,
-        drawType: drawType,
-        note: note ?? this.note,
-        mood: mood ?? this.mood,
-        syncOwnerUid: syncOwnerUid ?? this.syncOwnerUid,
-      );
+  JournalEntry copyWith({
+    String? note,
+    bool clearNote = false,
+    int? mood,
+    String? syncOwnerUid,
+  }) => JournalEntry(
+    card: card,
+    createdAt: createdAt,
+    orientation: orientation,
+    drawType: drawType,
+    note: clearNote ? null : (note ?? this.note),
+    mood: mood ?? this.mood,
+    syncOwnerUid: syncOwnerUid ?? this.syncOwnerUid,
+  );
 
   Map<String, dynamic> toJson() => {
     'cardId': card.id,

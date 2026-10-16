@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
+import '../models/journal_entry.dart';
 import '../models/user_profile.dart';
 import '../services/firebase_auth_service.dart';
 import '../services/tarot_storage_service.dart';
+import '../widgets/journal_section.dart';
 import '../widgets/profile_completion_sheet.dart';
 import '../widgets/wallet_connect_panel.dart';
 
@@ -15,6 +17,12 @@ class ProfileScreen extends StatefulWidget {
     required this.onFirebaseUserChanged,
     required this.onEnableJournalSync,
     required this.onDisableJournalSync,
+    required this.journalEntries,
+    required this.onUpdateJournalNote,
+    required this.onDeleteJournalEntry,
+    required this.onClearData,
+    required this.isPremiumUnlocked,
+    required this.onOpenPremium,
     super.key,
   });
 
@@ -23,6 +31,13 @@ class ProfileScreen extends StatefulWidget {
   final Future<void> Function(User?) onFirebaseUserChanged;
   final Future<void> Function(User user) onEnableJournalSync;
   final Future<void> Function(User user) onDisableJournalSync;
+  final List<JournalEntry> journalEntries;
+  final Future<void> Function(JournalEntry entry, String note)
+  onUpdateJournalNote;
+  final Future<void> Function(JournalEntry entry) onDeleteJournalEntry;
+  final VoidCallback onClearData;
+  final bool isPremiumUnlocked;
+  final VoidCallback onOpenPremium;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -260,6 +275,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ],
+          const SizedBox(height: 24),
+          JournalSection(
+            entries: widget.journalEntries,
+            onUpdateNote: widget.onUpdateJournalNote,
+            onDelete: widget.onDeleteJournalEntry,
+            onClearData: widget.onClearData,
+            isPremiumUnlocked: widget.isPremiumUnlocked,
+            onOpenPremium: widget.onOpenPremium,
+          ),
           const SizedBox(height: 24),
           WalletConnectPanel(onConnected: _completeProfile),
         ],

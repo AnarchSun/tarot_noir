@@ -26,7 +26,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get accountGateBody =>
-      'Crea una cuenta o inicia sesión para conservar tus lecturas y notas. La sincronización del diario seguirá desactivada hasta que la habilites.';
+      'Crea una cuenta o inicia sesión para acceder a tu perfil y a tu diario, donde cada carta sacada se conserva con sus notas. La sincronización del diario seguirá desactivada hasta que la habilites.';
 
   @override
   String get orionPlusTeaser =>
@@ -87,7 +87,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get journalTitle => 'Diario de arcanos';
 
   @override
-  String get journalSubtitle => 'Cartas sacadas durante esta sesión.';
+  String get journalSubtitle =>
+      'Cada carta sacada se conserva aquí, con su fecha y tus notas.';
 
   @override
   String get journalEmpty => 'Tu diario espera la primera señal.';
@@ -482,4 +483,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get compareRowNft => 'Avatares NFT';
+
+  @override
+  String get notesToggle => 'Notas';
+
+  @override
+  String get saveNote => 'Guardar nota';
+
+  @override
+  String get orionAssessmentTitle => 'Evaluación de Orion';
+
+  @override
+  String get orionAskSoon =>
+      'Próximamente: haz tu pregunta a Orion y responderá según esta carta.';
+
+  @override
+  String get orionLockedHint => 'Evaluación y preguntas a Orion con Orion+';
 }

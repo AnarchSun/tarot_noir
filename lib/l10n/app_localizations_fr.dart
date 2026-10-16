@@ -26,7 +26,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get accountGateBody =>
-      'Crée un compte ou connecte-toi pour retrouver tes tirages et tes notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.';
+      'Crée un compte ou connecte-toi pour retrouver ton profil et ton journal, où chaque carte tirée est conservée avec ses notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.';
 
   @override
   String get orionPlusTeaser =>
@@ -87,7 +87,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get journalTitle => 'Journal des arcanes';
 
   @override
-  String get journalSubtitle => 'Les cartes tirées pendant cette session.';
+  String get journalSubtitle =>
+      'Chaque carte tirée est conservée ici, avec sa date et tes notes.';
 
   @override
   String get journalEmpty => 'Ton journal attend le premier signe.';
@@ -483,4 +484,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get compareRowNft => 'Avatars NFT';
+
+  @override
+  String get notesToggle => 'Notes';
+
+  @override
+  String get saveNote => 'Enregistrer la note';
+
+  @override
+  String get orionAssessmentTitle => 'Évaluation d’Orion';
+
+  @override
+  String get orionAskSoon =>
+      'Bientôt : pose ta question à Orion, qui répondra selon cette carte.';
+
+  @override
+  String get orionLockedHint => 'Évaluation et questions d’Orion avec Orion+';
 }

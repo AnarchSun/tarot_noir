@@ -9,7 +9,7 @@
       "destination": {}
     }
   },
-  "accountGateBody": "Create an account or sign in to keep your readings and personal notes together. Journal sync stays off until you enable it.",
+  "accountGateBody": "Create an account or sign in to get your profile and your journal, where every drawn card is kept with its notes. Journal sync stays off until you enable it.",
   "orionPlusTeaser": "Orion+ is separate from a free account, with deeper readings and additional guidance.",
   "discoverOrionPlus": "Explore Orion+",
   "authenticationStartupFailed": "Sign-in could not initialize: {error}. You can continue as a guest.",
@@ -37,7 +37,7 @@
   "journal": "Journal",
   "premium": "Premium",
   "journalTitle": "Arcana journal",
-  "journalSubtitle": "Cards drawn during this session.",
+  "journalSubtitle": "Every drawn card is kept here, with its date and your notes.",
   "journalEmpty": "Your journal awaits its first sign.",
   "premiumTitle": "Premium Circle",
   "premiumIntro": "Premium access will be granted after verifying an NFT from the Tarot Noir collection.",
@@ -209,5 +209,10 @@
   "compareRowExtended": "Extended spreads",
   "compareRowDeepReading": "Orion’s deep readings",
   "compareRowNoAds": "No ads",
-  "compareRowNft": "NFT avatars"
+  "compareRowNft": "NFT avatars",
+  "notesToggle": "Notes",
+  "saveNote": "Save note",
+  "orionAssessmentTitle": "Orion’s assessment",
+  "orionAskSoon": "Coming soon: ask Orion a question and it will answer based on this card.",
+  "orionLockedHint": "Orion’s assessment and questions with Orion+"
 }

@@ -26,7 +26,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountGateBody =>
-      'Create an account or sign in to keep your readings and personal notes together. Journal sync stays off until you enable it.';
+      'Create an account or sign in to get your profile and your journal, where every drawn card is kept with its notes. Journal sync stays off until you enable it.';
 
   @override
   String get orionPlusTeaser =>
@@ -86,7 +86,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalTitle => 'Arcana journal';
 
   @override
-  String get journalSubtitle => 'Cards drawn during this session.';
+  String get journalSubtitle =>
+      'Every drawn card is kept here, with its date and your notes.';
 
   @override
   String get journalEmpty => 'Your journal awaits its first sign.';
@@ -481,4 +482,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get compareRowNft => 'NFT avatars';
+
+  @override
+  String get notesToggle => 'Notes';
+
+  @override
+  String get saveNote => 'Save note';
+
+  @override
+  String get orionAssessmentTitle => 'Orion’s assessment';
+
+  @override
+  String get orionAskSoon =>
+      'Coming soon: ask Orion a question and it will answer based on this card.';
+
+  @override
+  String get orionLockedHint => 'Orion’s assessment and questions with Orion+';
 }

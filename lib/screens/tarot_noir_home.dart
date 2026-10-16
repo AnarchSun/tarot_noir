@@ -16,7 +16,6 @@ import '../services/firebase_auth_service.dart';
 import '../services/firestore_sync_service.dart';
 import '../services/tarot_storage_service.dart';
 import '../widgets/account_access_sheet.dart';
-import 'journal_screen.dart';
 import 'spreads_screen.dart';
 import 'premium_screen.dart';
 import 'profile_screen.dart';
@@ -33,7 +32,6 @@ class TarotNoirHome extends StatefulWidget {
 
 class _TarotNoirHomeState extends State<TarotNoirHome> {
   int _tab = 0;
-  String _drawType = 'daily';
   bool _hasChosenAccess = false;
   bool _isRestoring = true;
   bool _isDailyDrawing = false;
@@ -46,10 +44,8 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
   late TarotCard _dailyCard;
   bool _hasDrawnToday = false;
   TarotCard? _freeCard;
-  late TarotCard _card;
   CardOrientation _dailyOrientation = CardOrientation.upright;
   CardOrientation _freeOrientation = CardOrientation.upright;
-  CardOrientation _orientation = CardOrientation.upright;
 
   final _journal = <JournalEntry>[];
   final _storage = TarotStorageService();
@@ -63,7 +59,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
 
     final now = DateTime.now();
     _dailyCard = dailyCardForDate(now);
-    _card = _dailyCard;
     _firebaseUser =
         widget.initialUser ??
         (FirebaseAuthService.isInitialized ? _auth.currentUser : null);
@@ -135,9 +130,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         _freeCard = latestFreeEntry?.card;
         _freeOrientation =
             latestFreeEntry?.orientation ?? CardOrientation.upright;
-        _card = latestFreeEntry?.card ?? dailyCard;
-        _orientation = latestFreeEntry?.orientation ?? _dailyOrientation;
-        _drawType = latestFreeEntry?.drawType ?? 'daily';
         _hasChosenAccess = hasAccess;
         _isRestoring = false;
         _journalSyncUserUid = syncUserUid;
@@ -381,7 +373,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         },
         onExplorePremium: () {
           Navigator.of(sheetContext).pop();
-          if (mounted) setState(() => _tab = 3);
+          if (mounted) setState(() => _tab = 2);
         },
         l10n: l10n,
       ),
@@ -393,7 +385,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       unawaited(_showAccountGate(AppLocalizations.of(context)!.profile));
       return;
     }
-    setState(() => _tab = 4);
+    setState(() => _tab = 3);
   }
 
   void _showJournalSyncError(Object error) {
@@ -444,20 +436,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       setState(() {
         _hasDrawnToday = true;
         _dailyOrientation = orientation;
-        _card = _dailyCard;
-        _orientation = orientation;
-        _drawType = 'daily';
         _journal.insert(0, entry);
       });
       if (!await _persist() && mounted) {
         setState(() {
           _hasDrawnToday = false;
           _dailyOrientation = CardOrientation.upright;
-          _card = _freeCard ?? _dailyCard;
-          _orientation = _freeCard == null
-              ? CardOrientation.upright
-              : _freeOrientation;
-          _drawType = _freeCard == null ? 'daily' : 'free';
           _journal.remove(entry);
         });
       }
@@ -476,29 +460,22 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     }
     final nextCard = tarotDeck[Random().nextInt(tarotDeck.length)];
     final nextOrientation = _orientationFor(nextCard);
-    const nextDrawType = 'free';
     final entry = JournalEntry(
       card: nextCard,
       orientation: nextOrientation,
       createdAt: DateTime.now(),
-      drawType: nextDrawType,
+      drawType: 'free',
       syncOwnerUid: _firebaseUser?.uid,
     );
     setState(() {
       _freeCard = nextCard;
       _freeOrientation = nextOrientation;
-      _card = nextCard;
-      _orientation = nextOrientation;
-      _drawType = nextDrawType;
       _journal.insert(0, entry);
     });
     if (!await _persist() && mounted) {
       setState(() {
         _freeCard = null;
         _freeOrientation = CardOrientation.upright;
-        _card = _dailyCard;
-        _orientation = _dailyOrientation;
-        _drawType = 'daily';
         _journal.remove(entry);
       });
     }
@@ -538,34 +515,19 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
     );
   }
 
-  Future<void> _saveJournalEntry(String note, int mood) async {
-    final trimmedNote = note.trim();
-    if (trimmedNote.isEmpty) return;
-    final index = _journal.indexWhere(
-      (entry) => entry.card.id == _card.id && entry.drawType == _drawType,
-    );
+  Future<void> _updateJournalNote(JournalEntry entry, String note) async {
+    final index = _journal.indexWhere((e) => e.syncId == entry.syncId);
+    if (index < 0) return;
+    final previous = _journal[index];
+    final trimmed = note.trim();
     setState(() {
-      if (index >= 0) {
-        _journal[index] = _journal[index].copyWith(
-          note: trimmedNote,
-          mood: mood,
-        );
-      } else {
-        _journal.insert(
-          0,
-          JournalEntry(
-            card: _card,
-            orientation: _orientation,
-            note: trimmedNote,
-            mood: mood,
-            createdAt: DateTime.now(),
-            drawType: _drawType,
-            syncOwnerUid: _firebaseUser?.uid,
-          ),
-        );
-      }
+      _journal[index] = trimmed.isEmpty
+          ? previous.copyWith(clearNote: true)
+          : previous.copyWith(note: trimmed);
     });
-    await _persist();
+    if (!await _persist() && mounted) {
+      setState(() => _journal[index] = previous);
+    }
   }
 
   void _onDataCleared() {
@@ -635,25 +597,22 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
       SpreadsScreen(
         isPremiumUnlocked: AppConfig.premiumEnabled,
         onDraw: _drawSpread,
-        onOpenPremium: () => setState(() => _tab = 3),
+        onOpenPremium: () => setState(() => _tab = 2),
       ),
-      if (isSignedIn)
-        JournalScreen(
-          entries: _journal,
-          onSave: _saveJournalEntry,
-          onDelete: _deleteJournalEntry,
-          onClearData: _onDataCleared,
-        )
-      else
-        const SizedBox.shrink(),
       PremiumScreen(onOpenProfile: _openProfile),
       if (isSignedIn)
         ProfileScreen(
           initialUser: _firebaseUser!,
-          isSelected: _tab == 4,
+          isSelected: _tab == 3,
           onFirebaseUserChanged: _onFirebaseUserChanged,
           onEnableJournalSync: _enableJournalSync,
           onDisableJournalSync: _disableJournalSync,
+          journalEntries: _journal,
+          onUpdateJournalNote: _updateJournalNote,
+          onDeleteJournalEntry: _deleteJournalEntry,
+          onClearData: _onDataCleared,
+          isPremiumUnlocked: AppConfig.premiumEnabled,
+          onOpenPremium: () => setState(() => _tab = 2),
         )
       else
         const SizedBox.shrink(),
@@ -671,14 +630,6 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
         label: l10n.spreads,
       ),
     ];
-    destinations.add(
-      NavigationDestination(
-        key: const Key('journal'),
-        icon: const Icon(Icons.menu_book_outlined),
-        selectedIcon: const Icon(Icons.menu_book),
-        label: l10n.journal,
-      ),
-    );
     destinations.add(
       NavigationDestination(
         icon: const Icon(Icons.workspace_premium_outlined),
@@ -703,10 +654,8 @@ class _TarotNoirHomeState extends State<TarotNoirHome> {
           ? NavigationBar(
               selectedIndex: selectedIndex,
               onDestinationSelected: (index) {
-                if (!isSignedIn && (index == 2 || index == 4)) {
-                  unawaited(
-                    _showAccountGate(index == 2 ? l10n.journal : l10n.profile),
-                  );
+                if (!isSignedIn && index == 3) {
+                  unawaited(_showAccountGate(l10n.profile));
                   return;
                 }
                 setState(() => _tab = index);

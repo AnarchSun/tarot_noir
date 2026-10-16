@@ -9,7 +9,7 @@
       "destination": {}
     }
   },
-  "accountGateBody": "Crée un compte ou connecte-toi pour retrouver tes tirages et tes notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.",
+  "accountGateBody": "Crée un compte ou connecte-toi pour retrouver ton profil et ton journal, où chaque carte tirée est conservée avec ses notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.",
   "orionPlusTeaser": "Orion+ est distinct d’un compte gratuit et propose des interprétations plus approfondies et des conseils supplémentaires.",
   "discoverOrionPlus": "Découvrir Orion+",
   "authenticationStartupFailed": "La connexion n’a pas pu s’initialiser : {error}. Tu peux continuer comme invité.",
@@ -37,7 +37,7 @@
   "journal": "Journal",
   "premium": "Premium",
   "journalTitle": "Journal des arcanes",
-  "journalSubtitle": "Les cartes tirées pendant cette session.",
+  "journalSubtitle": "Chaque carte tirée est conservée ici, avec sa date et tes notes.",
   "journalEmpty": "Ton journal attend le premier signe.",
   "premiumTitle": "Cercle Premium",
   "premiumIntro": "Un accès premium sera accordé après vérification d’un NFT de la collection Tarot Noir.",
@@ -209,5 +209,10 @@
   "compareRowExtended": "Tirages étendus",
   "compareRowDeepReading": "Lectures approfondies d’Orion",
   "compareRowNoAds": "Sans annonces",
-  "compareRowNft": "Avatars NFT"
+  "compareRowNft": "Avatars NFT",
+  "notesToggle": "Notes",
+  "saveNote": "Enregistrer la note",
+  "orionAssessmentTitle": "Évaluation d’Orion",
+  "orionAskSoon": "Bientôt : pose ta question à Orion, qui répondra selon cette carte.",
+  "orionLockedHint": "Évaluation et questions d’Orion avec Orion+"
 }
