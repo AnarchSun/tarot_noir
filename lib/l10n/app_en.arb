@@ -225,5 +225,26 @@
   "guestPopupBody": "As a guest you keep the Tarot Noir card of the day, your personal card of the day and the 5-card cross (with an ad). A free account also keeps your journal, notes and profile. Orion+ adds Orion’s readings and extended spreads.",
   "guestContinueAction": "Continue as a guest",
   "guestAdLabel": "Ad",
-  "guestAdBody": "Advertising space reserved for guests"
+  "guestAdBody": "Advertising space reserved for guests",
+  "profileTabHome": "Profile",
+  "profileTabJournal": "Journal",
+  "profileTabCollection": "Collection",
+  "profileTabWallet": "Wallet",
+  "bioLabel": "Bio / description",
+  "cityLabel": "City",
+  "originLabel": "Origin",
+  "aboutTitle": "About",
+  "aboutEmpty": "Add a bio, your city or your origin to introduce your profile.",
+  "memberSince": "In the circle since {date}",
+  "collectionTitle": "Collection",
+  "collectionEmpty": "Your Tarot Noir NFTs will appear here. The Solana avatar collection is not open yet.",
+  "collectionPremiumHint": "A built-in wallet will come with Orion+ to receive and keep your NFTs.",
+  "walletTabIntro": "Connect your existing Solana wallet. The built-in wallet included with Orion+ (address, balance, NFTs, send and receive) is in preparation.",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

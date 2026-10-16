@@ -26,7 +26,37 @@ Future<void> _enterAsGuest(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+Future<void> _openProfileSubTab(WidgetTester tester, String label) async {
+  await tester.tap(
+    find.descendant(of: find.byType(TabBar), matching: find.text(label)),
+  );
+  await tester.pumpAndSettle();
+}
+
 void main() {
+  testWidgets('profile has tabs with about info, collection and wallet', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z","bio":"Tarologue nocturne","city":"Montréal","origin":"Québec"}',
+    });
+    await _pumpSignedInApp(tester);
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.text('Profile'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Tarologue nocturne'), findsOneWidget);
+    expect(find.text('Montréal'), findsOneWidget);
+    expect(find.text('Québec'), findsOneWidget);
+    await _openProfileSubTab(tester, 'Collection');
+    expect(find.byKey(const Key('profile-collection')), findsOneWidget);
+    await _openProfileSubTab(tester, 'Wallet');
+    expect(find.byKey(const Key('wallet-connect')), findsOneWidget);
+  });
+
   testWidgets('journal groups by date with spread sub-groups and zoom', (
     tester,
   ) async {
@@ -51,8 +81,14 @@ void main() {
       'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
     });
     await _pumpSignedInApp(tester);
-    await tester.tap(find.text('Profile'));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.text('Profile'),
+      ),
+    );
     await tester.pumpAndSettle();
+    await _openProfileSubTab(tester, 'Journal');
     await tester.scrollUntilVisible(
       find.byKey(const Key('journal-day-2026-01-02')),
       300,
@@ -185,7 +221,12 @@ void main() {
     expect(find.text('Daily card already drawn'), findsOneWidget);
     expect((preferences.getStringList('journal_entries') ?? []).length, 1);
 
-    await tester.tap(find.text('Profile'));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.text('Profile'),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(find.text('Unlock your Profile'), findsOneWidget);
     expect(find.textContaining('Journal sync stays off'), findsOneWidget);
@@ -231,8 +272,14 @@ void main() {
       'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
     });
     await _pumpSignedInApp(tester);
-    await tester.tap(find.text('Profile'));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.text('Profile'),
+      ),
+    );
     await tester.pumpAndSettle();
+    await _openProfileSubTab(tester, 'Journal');
     await tester.scrollUntilVisible(
       find.byIcon(Icons.tune),
       300,
@@ -280,13 +327,27 @@ void main() {
       'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
     });
     await _pumpSignedInApp(tester);
-    await tester.tap(find.text('Profile'));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.text('Profile'),
+      ),
+    );
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('journal-cloud-sync')),
+      300,
+      scrollable: find.descendant(
+        of: find.byKey(const Key('profile-home')),
+        matching: find.byType(Scrollable),
+      ),
+    );
     expect(find.byKey(const Key('journal-cloud-sync')), findsOneWidget);
     expect(find.byKey(const Key('sign-out')), findsOneWidget);
     expect(find.text('Continue with Google'), findsNothing);
     expect(find.text('Continue with Facebook'), findsNothing);
 
+    await _openProfileSubTab(tester, 'Wallet');
     await tester.scrollUntilVisible(
       find.byKey(const Key('wallet-connect')),
       300,
@@ -391,7 +452,12 @@ void main() {
     await tester.pumpWidget(const TarotNoirApp());
     await tester.pumpAndSettle();
     await _enterAsGuest(tester);
-    await tester.tap(find.text('Profile'));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.text('Profile'),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('access-comparison')), findsOneWidget);
     expect(find.text('Guest'), findsOneWidget);
@@ -444,8 +510,14 @@ void testWidgetsJournalNotes() {
       'user_profile': '{"displayName":"Test","firebaseUid":"test-user","completedAt":"2026-01-01T00:00:00.000Z"}',
     });
     await _pumpSignedInApp(tester);
-    await tester.tap(find.text('Profile'));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.text('Profile'),
+      ),
+    );
     await tester.pumpAndSettle();
+    await _openProfileSubTab(tester, 'Journal');
     final toggle = find.byKey(Key('journal-notes-toggle-${entry.syncId}'));
     await tester.scrollUntilVisible(
       toggle,

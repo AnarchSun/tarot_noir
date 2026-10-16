@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/journal_entry.dart';
@@ -193,101 +194,213 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final profile = _profile;
     final authUser = _authUser;
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.profile)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          CircleAvatar(
-            radius: 42,
-            child: profile == null
-                ? const Icon(Icons.person_outline, size: 44)
-                : Text(
-                    profile.displayName.characters.first.toUpperCase(),
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.profile),
+          bottom: TabBar(
+            key: const Key('profile-tabs'),
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            tabs: [
+              Tab(text: l10n.profileTabHome),
+              Tab(text: l10n.profileTabJournal),
+              Tab(text: l10n.profileTabCollection),
+              Tab(text: l10n.profileTabWallet),
+            ],
           ),
-          const SizedBox(height: 20),
-          Text(
-            profile?.displayName ?? l10n.profileTitle,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            authUser?.email ??
-                authUser?.phoneNumber ??
-                profile?.email ??
-                l10n.profileIntro,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          if (profile != null) ...[
-            const SizedBox(height: 8),
-            TextButton.icon(
-              onPressed: () => _showProfileForm(
-                walletAddress: profile.walletAddress,
-                firebaseUid: profile.firebaseUid,
-              ),
-              icon: const Icon(Icons.edit_outlined),
-              label: Text(l10n.editProfile),
+        ),
+        body: TabBarView(
+          children: [
+            _buildHomeTab(context, l10n, profile, authUser),
+            ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                JournalSection(
+                  entries: widget.journalEntries,
+                  onUpdateNote: widget.onUpdateJournalNote,
+                  onDelete: widget.onDeleteJournalEntry,
+                  onClearData: widget.onClearData,
+                  isPremiumUnlocked: widget.isPremiumUnlocked,
+                  onOpenPremium: widget.onOpenPremium,
+                ),
+              ],
+            ),
+            _buildCollectionTab(l10n),
+            ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Text(l10n.walletTabIntro, style: const TextStyle(height: 1.4)),
+                const SizedBox(height: 16),
+                WalletConnectPanel(onConnected: _completeProfile),
+              ],
             ),
           ],
-          const SizedBox(height: 28),
-          if (authUser != null)
-            OutlinedButton.icon(
-              key: const Key('sign-out'),
-              onPressed: _signOut,
-              icon: const Icon(Icons.logout),
-              label: Text(l10n.signOut),
-            ),
-          const SizedBox(height: 24),
-          Card(
-            child: ListTile(
-              leading: Icon(
-                authUser != null ? Icons.verified_user : Icons.lock_outline,
-              ),
-              title: Text(
-                authUser == null
-                    ? l10n.authenticationConfigured
-                    : l10n.signedInAs(
-                        authUser.email ?? authUser.phoneNumber ?? authUser.uid,
-                      ),
-              ),
-              subtitle: Text(l10n.authenticationPrivacy),
-            ),
-          ),
-          if (authUser != null) ...[
-            const SizedBox(height: 12),
-            Card(
-              child: SwitchListTile(
-                key: const Key('journal-cloud-sync'),
-                value: _journalSyncEnabled,
-                onChanged: _syncingJournal ? null : _setJournalSync,
-                secondary: _syncingJournal
-                    ? const SizedBox.square(
-                        dimension: 22,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.cloud_sync_outlined),
-                title: Text(l10n.journalSyncTitle),
-                subtitle: Text(l10n.journalSyncDescription),
-              ),
-            ),
-          ],
-          const SizedBox(height: 24),
-          JournalSection(
-            entries: widget.journalEntries,
-            onUpdateNote: widget.onUpdateJournalNote,
-            onDelete: widget.onDeleteJournalEntry,
-            onClearData: widget.onClearData,
-            isPremiumUnlocked: widget.isPremiumUnlocked,
-            onOpenPremium: widget.onOpenPremium,
-          ),
-          const SizedBox(height: 24),
-          WalletConnectPanel(onConnected: _completeProfile),
-        ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildCollectionTab(AppLocalizations l10n) => ListView(
+    key: const Key('profile-collection'),
+    padding: const EdgeInsets.all(20),
+    children: [
+      Text(
+        l10n.collectionTitle,
+        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+      ),
+      const SizedBox(height: 24),
+      const Icon(Icons.collections_bookmark_outlined, size: 56),
+      const SizedBox(height: 16),
+      Text(
+        l10n.collectionEmpty,
+        textAlign: TextAlign.center,
+        style: const TextStyle(height: 1.4),
+      ),
+      const SizedBox(height: 12),
+      Text(
+        l10n.collectionPremiumHint,
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: Color(0xFFB9AFBE), height: 1.4),
+      ),
+    ],
+  );
+
+  Widget _buildHomeTab(
+    BuildContext context,
+    AppLocalizations l10n,
+    UserProfile? profile,
+    User? authUser,
+  ) {
+    final about = <(IconData, String)>[
+      if (profile?.city != null) (Icons.location_city_outlined, profile!.city!),
+      if (profile?.origin != null) (Icons.public, profile!.origin!),
+      if (profile != null)
+        (
+          Icons.calendar_today_outlined,
+          l10n.memberSince(
+            DateFormat.yMMMMd(l10n.localeName)
+                .format(profile.completedAt.toLocal()),
+          ),
+        ),
+    ];
+    return ListView(
+      key: const Key('profile-home'),
+      padding: const EdgeInsets.all(20),
+      children: [
+        CircleAvatar(
+          radius: 42,
+          child: profile == null
+              ? const Icon(Icons.person_outline, size: 44)
+              : Text(
+                  profile.displayName.characters.first.toUpperCase(),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          profile?.displayName ?? l10n.profileTitle,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          authUser?.email ??
+              authUser?.phoneNumber ??
+              profile?.email ??
+              l10n.profileIntro,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        if (profile != null) ...[
+          const SizedBox(height: 8),
+          TextButton.icon(
+            onPressed: () => _showProfileForm(
+              walletAddress: profile.walletAddress,
+              firebaseUid: profile.firebaseUid,
+            ),
+            icon: const Icon(Icons.edit_outlined),
+            label: Text(l10n.editProfile),
+          ),
+        ],
+        const SizedBox(height: 16),
+        Card(
+          key: const Key('profile-about'),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.aboutTitle,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  profile?.bio ?? l10n.aboutEmpty,
+                  style: const TextStyle(height: 1.4),
+                ),
+                for (final item in about) ...[
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(item.$1, size: 18),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text(item.$2)),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        if (authUser != null)
+          OutlinedButton.icon(
+            key: const Key('sign-out'),
+            onPressed: _signOut,
+            icon: const Icon(Icons.logout),
+            label: Text(l10n.signOut),
+          ),
+        const SizedBox(height: 16),
+        Card(
+          child: ListTile(
+            leading: Icon(
+              authUser != null ? Icons.verified_user : Icons.lock_outline,
+            ),
+            title: Text(
+              authUser == null
+                  ? l10n.authenticationConfigured
+                  : l10n.signedInAs(
+                      authUser.email ?? authUser.phoneNumber ?? authUser.uid,
+                    ),
+            ),
+            subtitle: Text(l10n.authenticationPrivacy),
+          ),
+        ),
+        if (authUser != null) ...[
+          const SizedBox(height: 12),
+          Card(
+            child: SwitchListTile(
+              key: const Key('journal-cloud-sync'),
+              value: _journalSyncEnabled,
+              onChanged: _syncingJournal ? null : _setJournalSync,
+              secondary: _syncingJournal
+                  ? const SizedBox.square(
+                      dimension: 22,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.cloud_sync_outlined),
+              title: Text(l10n.journalSyncTitle),
+              subtitle: Text(l10n.journalSyncDescription),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

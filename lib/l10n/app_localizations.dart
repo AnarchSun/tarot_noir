@@ -1023,6 +1023,90 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Espace publicitaire réservé aux invités'**
   String get guestAdBody;
+
+  /// No description provided for @profileTabHome.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get profileTabHome;
+
+  /// No description provided for @profileTabJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Journal'**
+  String get profileTabJournal;
+
+  /// No description provided for @profileTabCollection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Collection'**
+  String get profileTabCollection;
+
+  /// No description provided for @profileTabWallet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portefeuille'**
+  String get profileTabWallet;
+
+  /// No description provided for @bioLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bio / description'**
+  String get bioLabel;
+
+  /// No description provided for @cityLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ville'**
+  String get cityLabel;
+
+  /// No description provided for @originLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Origine'**
+  String get originLabel;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'À propos'**
+  String get aboutTitle;
+
+  /// No description provided for @aboutEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoute une bio, ta ville ou ton origine pour présenter ton profil.'**
+  String get aboutEmpty;
+
+  /// No description provided for @memberSince.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dans le cercle depuis {date}'**
+  String memberSince(String date);
+
+  /// No description provided for @collectionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Collection'**
+  String get collectionTitle;
+
+  /// No description provided for @collectionEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tes NFTs Tarot Noir apparaîtront ici. La collection d’avatars sur Solana n’est pas encore ouverte.'**
+  String get collectionEmpty;
+
+  /// No description provided for @collectionPremiumHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un portefeuille intégré accompagnera Orion+ pour recevoir et garder tes NFTs.'**
+  String get collectionPremiumHint;
+
+  /// No description provided for @walletTabIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecte ton portefeuille Solana existant. Le portefeuille intégré inclus avec Orion+ (adresse, solde, NFTs, envoi et réception) est en préparation.'**
+  String get walletTabIntro;
 }
 
 class _AppLocalizationsDelegate

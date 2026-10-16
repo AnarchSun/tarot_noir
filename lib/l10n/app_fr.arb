@@ -225,5 +225,26 @@
   "guestPopupBody": "En invité, tu gardes la carte du jour Tarot Noir, ta carte du jour personnelle et la croix à 5 cartes (avec annonce). Un compte gratuit conserve en plus ton journal, tes notes et ton profil. Orion+ ajoute les lectures d’Orion et les tirages étendus.",
   "guestContinueAction": "Continuer en invité",
   "guestAdLabel": "Annonce",
-  "guestAdBody": "Espace publicitaire réservé aux invités"
+  "guestAdBody": "Espace publicitaire réservé aux invités",
+  "profileTabHome": "Profil",
+  "profileTabJournal": "Journal",
+  "profileTabCollection": "Collection",
+  "profileTabWallet": "Portefeuille",
+  "bioLabel": "Bio / description",
+  "cityLabel": "Ville",
+  "originLabel": "Origine",
+  "aboutTitle": "À propos",
+  "aboutEmpty": "Ajoute une bio, ta ville ou ton origine pour présenter ton profil.",
+  "memberSince": "Dans le cercle depuis {date}",
+  "collectionTitle": "Collection",
+  "collectionEmpty": "Tes NFTs Tarot Noir apparaîtront ici. La collection d’avatars sur Solana n’est pas encore ouverte.",
+  "collectionPremiumHint": "Un portefeuille intégré accompagnera Orion+ pour recevoir et garder tes NFTs.",
+  "walletTabIntro": "Connecte ton portefeuille Solana existant. Le portefeuille intégré inclus avec Orion+ (adresse, solde, NFTs, envoi et réception) est en préparation.",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

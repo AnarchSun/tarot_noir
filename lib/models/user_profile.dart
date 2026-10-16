@@ -5,6 +5,9 @@ class UserProfile {
     this.email,
     this.walletAddress,
     this.firebaseUid,
+    this.bio,
+    this.city,
+    this.origin,
   }) : assert(walletAddress != null || firebaseUid != null);
 
   final String displayName;
@@ -12,6 +15,9 @@ class UserProfile {
   final String? walletAddress;
   final String? firebaseUid;
   final DateTime completedAt;
+  final String? bio;
+  final String? city;
+  final String? origin;
 
   bool belongsToFirebaseUser(String uid) => firebaseUid == uid;
 
@@ -23,6 +29,9 @@ class UserProfile {
     'walletAddress': walletAddress,
     'firebaseUid': firebaseUid,
     'completedAt': completedAt.toUtc().toIso8601String(),
+    'bio': bio,
+    'city': city,
+    'origin': origin,
   };
 
   static UserProfile? fromJson(Map<String, dynamic> json) {
@@ -47,11 +56,19 @@ class UserProfile {
         walletAddress: walletAddress,
         firebaseUid: firebaseUid,
         completedAt: DateTime.parse(json['completedAt'] as String),
+        bio: _clean(json['bio']),
+        city: _clean(json['city']),
+        origin: _clean(json['origin']),
       );
     } on FormatException {
       return null;
     } on TypeError {
       return null;
     }
+  }
+
+  static String? _clean(Object? value) {
+    final text = value is String ? value.trim() : '';
+    return text.isEmpty ? null : text;
   }
 }

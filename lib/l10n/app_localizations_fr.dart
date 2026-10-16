@@ -536,4 +536,52 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guestAdBody => 'Espace publicitaire réservé aux invités';
+
+  @override
+  String get profileTabHome => 'Profil';
+
+  @override
+  String get profileTabJournal => 'Journal';
+
+  @override
+  String get profileTabCollection => 'Collection';
+
+  @override
+  String get profileTabWallet => 'Portefeuille';
+
+  @override
+  String get bioLabel => 'Bio / description';
+
+  @override
+  String get cityLabel => 'Ville';
+
+  @override
+  String get originLabel => 'Origine';
+
+  @override
+  String get aboutTitle => 'À propos';
+
+  @override
+  String get aboutEmpty =>
+      'Ajoute une bio, ta ville ou ton origine pour présenter ton profil.';
+
+  @override
+  String memberSince(String date) {
+    return 'Dans le cercle depuis $date';
+  }
+
+  @override
+  String get collectionTitle => 'Collection';
+
+  @override
+  String get collectionEmpty =>
+      'Tes NFTs Tarot Noir apparaîtront ici. La collection d’avatars sur Solana n’est pas encore ouverte.';
+
+  @override
+  String get collectionPremiumHint =>
+      'Un portefeuille intégré accompagnera Orion+ pour recevoir et garder tes NFTs.';
+
+  @override
+  String get walletTabIntro =>
+      'Connecte ton portefeuille Solana existant. Le portefeuille intégré inclus avec Orion+ (adresse, solde, NFTs, envoi et réception) est en préparation.';
 }

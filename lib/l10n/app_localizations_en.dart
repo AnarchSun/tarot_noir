@@ -534,4 +534,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guestAdBody => 'Advertising space reserved for guests';
+
+  @override
+  String get profileTabHome => 'Profile';
+
+  @override
+  String get profileTabJournal => 'Journal';
+
+  @override
+  String get profileTabCollection => 'Collection';
+
+  @override
+  String get profileTabWallet => 'Wallet';
+
+  @override
+  String get bioLabel => 'Bio / description';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get originLabel => 'Origin';
+
+  @override
+  String get aboutTitle => 'About';
+
+  @override
+  String get aboutEmpty =>
+      'Add a bio, your city or your origin to introduce your profile.';
+
+  @override
+  String memberSince(String date) {
+    return 'In the circle since $date';
+  }
+
+  @override
+  String get collectionTitle => 'Collection';
+
+  @override
+  String get collectionEmpty =>
+      'Your Tarot Noir NFTs will appear here. The Solana avatar collection is not open yet.';
+
+  @override
+  String get collectionPremiumHint =>
+      'A built-in wallet will come with Orion+ to receive and keep your NFTs.';
+
+  @override
+  String get walletTabIntro =>
+      'Connect your existing Solana wallet. The built-in wallet included with Orion+ (address, balance, NFTs, send and receive) is in preparation.';
 }
