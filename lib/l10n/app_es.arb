@@ -312,5 +312,8 @@
   "spreadAiWatchAd": "Ver interpretación IA (anuncio)",
   "spreadAskTitle": "HAZ TU PREGUNTA A ORION",
   "spreadAskHint": "Ej.: ¿qué debo entender sobre mi relación?",
-  "spreadAskAction": "Preguntar a Orion"
+  "spreadAskAction": "Preguntar a Orion",
+  "orionAskLockedBody": "Haz una pregunta a Orion y recibe una respuesta adaptada a tu carta. Gratis tras un breve anuncio, o incluida con Orion+.",
+  "orionSavedToJournal": "Guardado en tu diario.",
+  "orionJournalTitle": "Preguntas a Orion"
 }

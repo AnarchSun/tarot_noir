@@ -1365,6 +1365,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Demander à Orion'**
   String get spreadAskAction;
+
+  /// No description provided for @orionAskLockedBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pose ta question à Orion et reçois une réponse adaptée à ta carte. Gratuit après une courte annonce, ou inclus avec Orion+.'**
+  String get orionAskLockedBody;
+
+  /// No description provided for @orionSavedToJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistré dans ton journal.'**
+  String get orionSavedToJournal;
+
+  /// No description provided for @orionJournalTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Questions à Orion'**
+  String get orionJournalTitle;
 }
 
 class _AppLocalizationsDelegate

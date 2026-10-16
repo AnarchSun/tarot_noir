@@ -354,11 +354,31 @@ class _JournalEntryTileState extends State<JournalEntryTile> {
         free: l10n.freeDrawType,
       );
 
+  void _showQa(OrionQa qa) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(qa.question),
+        content: SingleChildScrollView(
+          child: Text(qa.answer, key: const Key('journal-orion-answer')),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.walletClose),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final entry = widget.entry;
-    final hasNote = entry.note?.trim().isNotEmpty == true;
+    final hasNote =
+        entry.note?.trim().isNotEmpty == true || entry.orionQa.isNotEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -416,6 +436,29 @@ class _JournalEntryTileState extends State<JournalEntryTile> {
                     label: Text(l10n.saveNote),
                   ),
                 ),
+                if (entry.orionQa.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    '${l10n.orionJournalTitle} (${entry.orionQa.length})',
+                    style: const TextStyle(
+                      color: Color(0xFFD4AF59),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  for (var i = 0; i < entry.orionQa.length; i++)
+                    ListTile(
+                      key: Key('journal-orion-qa-${entry.syncId}-$i'),
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      title: Text(
+                        entry.orionQa[i].question,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: const Icon(Icons.open_in_full, size: 18),
+                      onTap: () => _showQa(entry.orionQa[i]),
+                    ),
+                ],
                 const SizedBox(height: 8),
                 if (widget.isPremiumUnlocked) ...[
                   OrionPremiumInsight(

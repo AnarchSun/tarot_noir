@@ -568,9 +568,35 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
           cards: drawn,
           isPremiumUnlocked: AppConfig.premiumEnabled,
           onRequestAd: _showAdPlaceholder,
+          onSaveOrionQa: (qa) => _addOrionQa(entries.first.syncId, qa),
         ),
       ),
     );
+  }
+
+  Future<void> _addOrionQa(String syncId, OrionQa qa) async {
+    final index = _journal.indexWhere((e) => e.syncId == syncId);
+    if (index < 0) return;
+    final previous = _journal[index];
+    setState(() {
+      _journal[index] = previous.copyWith(orionQa: [...previous.orionQa, qa]);
+    });
+    if (!await _persist() && mounted) {
+      setState(() => _journal[index] = previous);
+    }
+  }
+
+  String? _todayDailySyncId() {
+    final now = DateTime.now();
+    for (final e in _journal) {
+      if (e.drawType == 'daily' &&
+          e.createdAt.year == now.year &&
+          e.createdAt.month == now.month &&
+          e.createdAt.day == now.day) {
+        return e.syncId;
+      }
+    }
+    return null;
   }
 
   Future<void> _updateJournalNote(JournalEntry entry, String note) async {
@@ -653,6 +679,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
         onGoogleSignIn: _signInWithGoogle,
         onFacebookSignIn: _signInWithFacebook,
         onContinueAsGuest: _continueAsGuest,
+        onRequestAd: _showAdPlaceholder,
+        onSaveDailyQa: (qa) async {
+          final id = _todayDailySyncId();
+          if (id != null) await _addOrionQa(id, qa);
+        },
       ),
       SpreadsScreen(
         isPremiumUnlocked: AppConfig.premiumEnabled,

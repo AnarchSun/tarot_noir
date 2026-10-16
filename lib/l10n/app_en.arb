@@ -312,5 +312,8 @@
   "spreadAiWatchAd": "See AI interpretation (watch ad)",
   "spreadAskTitle": "ASK ORION A QUESTION",
   "spreadAskHint": "E.g. what should I understand about my relationship?",
-  "spreadAskAction": "Ask Orion"
+  "spreadAskAction": "Ask Orion",
+  "orionAskLockedBody": "Ask Orion a question and get an answer tailored to your card. Free after a short ad, or included with Orion+.",
+  "orionSavedToJournal": "Saved to your journal.",
+  "orionJournalTitle": "Questions to Orion"
 }

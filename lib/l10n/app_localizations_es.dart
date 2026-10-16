@@ -725,4 +725,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get spreadAskAction => 'Preguntar a Orion';
+
+  @override
+  String get orionAskLockedBody =>
+      'Haz una pregunta a Orion y recibe una respuesta adaptada a tu carta. Gratis tras un breve anuncio, o incluida con Orion+.';
+
+  @override
+  String get orionSavedToJournal => 'Guardado en tu diario.';
+
+  @override
+  String get orionJournalTitle => 'Preguntas a Orion';
 }
