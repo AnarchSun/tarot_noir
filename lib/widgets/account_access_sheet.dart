@@ -50,10 +50,12 @@ class AccountAccessSheet extends StatelessWidget {
                 ?.copyWith(height: 1.45),
           ),
           const SizedBox(height: 16),
-          AccessComparisonTable(
-            key: const Key('access-comparison'),
-            l10n: l10n,
-          ),
+          if (onContinueAsGuest == null) ...[
+            AccessComparisonTable(
+              key: const Key('access-comparison'),
+              l10n: l10n,
+            ),
+          ],
           const SizedBox(height: 20),
           FilledButton.icon(
             key: const Key('account-gate-google'),
@@ -81,6 +83,11 @@ class AccountAccessSheet extends StatelessWidget {
               const SizedBox(height: 12),
               _GuestAdBanner(l10n: l10n),
             ],
+            const SizedBox(height: 16),
+            AccessComparisonTable(
+              key: const Key('access-comparison'),
+              l10n: l10n,
+            ),
           ],
           if (onContinueAsGuest == null)
             Align(
