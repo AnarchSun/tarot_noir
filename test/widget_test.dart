@@ -11,6 +11,7 @@ import 'package:tarot_noir/main.dart';
 import 'package:tarot_noir/models/journal_entry.dart';
 import 'package:tarot_noir/models/premium_reading.dart';
 import 'package:tarot_noir/models/spread.dart';
+import 'package:tarot_noir/screens/spreads_screen.dart';
 import 'package:tarot_noir/models/tarot_card.dart';
 import 'package:tarot_noir/models/tarot_card_text.dart';
 import 'package:tarot_noir/models/tarot_deck.dart';
@@ -26,6 +27,27 @@ Future<void> _enterAsGuest(WidgetTester tester) async {
 }
 
 void main() {
+  testWidgets('every spread shows its card layout above the analyses', (
+    tester,
+  ) async {
+    for (final spread in spreadCatalog) {
+      final cards = [
+        for (var i = 0; i < spread.cardCount; i++)
+          DrawnSpreadCard(tarotDeck[i], CardOrientation.upright),
+      ];
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: SpreadResultScreen(spread: spread, cards: cards),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('spread-layout')), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: spread.id);
+    }
+  });
+
   testWidgetsJournalNotes();
   setUp(() {
     AppConfig.firebaseAuthEnabledForTesting = false;
@@ -298,6 +320,13 @@ void main() {
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('spread-result')), findsOneWidget);
+    expect(find.byKey(const Key('spread-layout')), findsOneWidget);
+    expect(find.text('Situation'), findsWidgets);
+    await tester.scrollUntilVisible(
+      find.text('1. SITUATION'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('1. SITUATION'), findsOneWidget);
 
     final preferences = await SharedPreferences.getInstance();

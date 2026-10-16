@@ -22,6 +22,29 @@ const spreadSeasons = SpreadDefinition('seasons', 4, isFree: false);
 const spreadRelationship = SpreadDefinition('relationship', 6, isFree: false);
 const spreadCeltic = SpreadDefinition('celtic', 10, isFree: false);
 
+/// Card positions on a grid, in the same order as the spread positions.
+const _spreadLayouts = <String, List<(double, double)>>{
+  'cross5': [(1, 1), (0, 1), (2, 1), (1, 0), (1, 2)],
+  'three': [(0, 0), (1, 0), (2, 0)],
+  'seasons': [(0, 0), (1, 0), (2, 0), (3, 0)],
+  'relationship': [(0, 0), (2, 0), (1, 0), (1, 1), (0, 1), (2, 1)],
+  'celtic': [
+    (1, 1),
+    (1.35, 1.3),
+    (1, 2),
+    (0, 1),
+    (1, 0),
+    (2, 1),
+    (3, 3),
+    (3, 2),
+    (3, 1),
+    (3, 0),
+  ],
+};
+
+List<(double, double)> spreadLayout(SpreadDefinition spread) =>
+    _spreadLayouts[spread.id]!;
+
 const spreadCatalog = <SpreadDefinition>[
   spreadCross5,
   spreadThree,

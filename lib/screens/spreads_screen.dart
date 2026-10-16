@@ -187,6 +187,8 @@ class SpreadResultScreen extends StatelessWidget {
           key: const Key('spread-result'),
           padding: const EdgeInsets.all(20),
           children: [
+            _SpreadLayoutView(spread: spread, cards: cards, text: text),
+            const SizedBox(height: 24),
             for (var i = 0; i < cards.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
@@ -293,6 +295,96 @@ class SharedDailyCardScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SpreadLayoutView extends StatelessWidget {
+  const _SpreadLayoutView({
+    required this.spread,
+    required this.cards,
+    required this.text,
+  });
+
+  final SpreadDefinition spread;
+  final List<DrawnSpreadCard> cards;
+  final SpreadText text;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = spreadLayout(spread);
+    final columns = layout.map((p) => p.$1).reduce((a, b) => a > b ? a : b) + 1;
+    final rows = layout.map((p) => p.$2).reduce((a, b) => a > b ? a : b) + 1;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cellWidth = (constraints.maxWidth / columns).clamp(0.0, 120.0);
+        final cardWidth = cellWidth * 0.86;
+        final cardHeight = cardWidth * 1.55;
+        final cellHeight = cardHeight + 26;
+        return Center(
+          child: SizedBox(
+            key: const Key('spread-layout'),
+            width: cellWidth * columns,
+            height: cellHeight * rows,
+            child: Stack(
+              children: [
+                for (var i = 0; i < cards.length; i++)
+                  Positioned(
+                    left:
+                        layout[i].$1 * cellWidth + (cellWidth - cardWidth) / 2,
+                    top: layout[i].$2 * cellHeight,
+                    width: cardWidth,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          alignment: Alignment.topLeft,
+                          children: [
+                            TarotCardView(
+                              card: cards[i].card,
+                              orientation: cards[i].orientation,
+                              height: cardHeight,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(4),
+                              width: 20,
+                              height: 20,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFD4AF59),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                '${i + 1}',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          text.positions[i],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Color(0xFFD4AF59),
+                            height: 1.1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
