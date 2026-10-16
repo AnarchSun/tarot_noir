@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
+import '../models/orion_answer.dart';
 import '../models/spread.dart';
 import '../widgets/orion_premium_insight.dart';
 import '../models/tarot_deck.dart';
@@ -188,6 +189,31 @@ class SpreadResultScreen extends StatefulWidget {
 
 class _SpreadResultScreenState extends State<SpreadResultScreen> {
   bool _aiUnlocked = false;
+  final _questionController = TextEditingController();
+  final List<(String, String)> _qa = [];
+
+  @override
+  void dispose() {
+    _questionController.dispose();
+    super.dispose();
+  }
+
+  void _ask(String lang, SpreadText text) {
+    final question = _questionController.text.trim();
+    if (question.isEmpty) return;
+    final answer = OrionAnswerCatalog.answer(question, [
+      for (var i = 0; i < cards.length; i++)
+        OrionQuestionCard(
+          card: cards[i].card,
+          orientation: cards[i].orientation,
+          position: text.positions[i],
+        ),
+    ], lang);
+    setState(() {
+      _qa.insert(0, (question, answer));
+      _questionController.clear();
+    });
+  }
 
   SpreadDefinition get spread => widget.spread;
   List<DrawnSpreadCard> get cards => widget.cards;
@@ -333,6 +359,55 @@ extension on _SpreadResultScreenState {
           ),
           const SizedBox(height: 14),
         ],
+        Text(
+          l10n.spreadAskTitle,
+          style: const TextStyle(
+            color: Color(0xFFD4AF59),
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.2,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          key: const Key('spread-ai-question'),
+          controller: _questionController,
+          minLines: 2,
+          maxLines: 4,
+          maxLength: 300,
+          textInputAction: TextInputAction.newline,
+          decoration: InputDecoration(hintText: l10n.spreadAskHint),
+        ),
+        FilledButton.icon(
+          key: const Key('spread-ai-ask'),
+          onPressed: () => _ask(lang, text),
+          icon: const Icon(Icons.auto_awesome),
+          label: Text(l10n.spreadAskAction),
+        ),
+        const SizedBox(height: 12),
+        for (final qa in _qa)
+          Container(
+            key: const Key('spread-ai-answer'),
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: const Color(0xFF211839),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  qa.$1,
+                  style: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Color(0xFFB9AFBE),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(qa.$2, style: const TextStyle(height: 1.45)),
+              ],
+            ),
+          ),
       ],
     );
   }

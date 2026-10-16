@@ -1347,6 +1347,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Voir l’interprétation IA (annonce)'**
   String get spreadAiWatchAd;
+
+  /// No description provided for @spreadAskTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'POSE TA QUESTION À ORION'**
+  String get spreadAskTitle;
+
+  /// No description provided for @spreadAskHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex. : que dois-je comprendre sur ma relation ?'**
+  String get spreadAskHint;
+
+  /// No description provided for @spreadAskAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demander à Orion'**
+  String get spreadAskAction;
 }
 
 class _AppLocalizationsDelegate

@@ -309,5 +309,8 @@
   },
   "spreadAiTitle": "ORION · INTERPRETACIÓN IA",
   "spreadAiLockedBody": "Obtén una lectura profunda de cada carta según su posición en la tirada. Gratis tras un breve anuncio, o incluida con Orion+.",
-  "spreadAiWatchAd": "Ver interpretación IA (anuncio)"
+  "spreadAiWatchAd": "Ver interpretación IA (anuncio)",
+  "spreadAskTitle": "HAZ TU PREGUNTA A ORION",
+  "spreadAskHint": "Ej.: ¿qué debo entender sobre mi relación?",
+  "spreadAskAction": "Preguntar a Orion"
 }
