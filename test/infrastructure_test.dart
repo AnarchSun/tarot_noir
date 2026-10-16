@@ -96,15 +96,8 @@ void main() {
     expect(readings, hasLength(78));
   });
 
-  test('only minor arcana support reversed orientation', () {
-    expect(
-      majorArcana.every((card) => !card.supportsReversedOrientation),
-      isTrue,
-    );
-    expect(
-      minorArcana.every((card) => card.supportsReversedOrientation),
-      isTrue,
-    );
+  test('every card supports reversed orientation', () {
+    expect(tarotDeck.every((card) => card.supportsReversedOrientation), isTrue);
   });
 
   test('legacy v1 state migrates without losing journal data', () async {
@@ -326,10 +319,14 @@ void main() {
     expect(illustrated, hasLength(78));
     expect(paths.toSet(), hasLength(paths.length));
     for (final path in paths) {
-      expect(path, startsWith('assets/images/tarot_temp/'));
+      expect(path, startsWith('assets/images/tarot_cards/'));
       expect(
         path,
-        matches(RegExp(r'^assets/images/tarot_temp/[A-Za-z0-9_]+\.png$')),
+        matches(
+          RegExp(
+            r'^assets/images/tarot_cards/(major|minor)/[A-Za-z0-9_]+\.png$',
+          ),
+        ),
       );
       expect(File(path).existsSync(), isTrue, reason: path);
     }

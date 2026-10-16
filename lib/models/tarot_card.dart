@@ -29,7 +29,7 @@ class TarotCard {
 
   bool get hasIllustration => imagePath.isNotEmpty;
   bool get isMinorArcana => number.contains('-');
-  bool get supportsReversedOrientation => isMinorArcana;
+  bool get supportsReversedOrientation => true;
 
   String get id => '$number-$name';
   String get nameFr => name;

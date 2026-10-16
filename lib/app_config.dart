@@ -6,7 +6,7 @@ abstract final class AppConfig {
   static const localStateVersion = 1;
 
   static const appName = 'Tarot Noir';
-  static const tarotImageDirectory = 'assets/images/tarot_temp';
+  static const tarotImageDirectory = 'assets/images/tarot_cards';
   static const solanaCluster = String.fromEnvironment(
     'SOLANA_CLUSTER',
     defaultValue: 'devnet',

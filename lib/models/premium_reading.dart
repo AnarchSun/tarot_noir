@@ -78,7 +78,7 @@ abstract final class PremiumReadingCatalog {
   ]) {
     final frame = premiumFrame[languageCode];
     final keyword = card.localizedKeyword(languageCode).toLowerCase();
-    final essence = card.supportsReversedOrientation
+    final essence = card.isMinorArcana
         ? _minor(card, languageCode)
         : (premiumMajor[languageCode]?[card.number] ??
               _major[card.name] ??

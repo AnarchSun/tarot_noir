@@ -48,4 +48,5 @@ flutter:
   assets:
     - assets/images/backgrounds/
     - assets/images/branding/
-    - assets/images/tarot_temp/
+    - assets/images/tarot_cards/major/
+    - assets/images/tarot_cards/minor/
