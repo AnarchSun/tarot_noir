@@ -453,4 +453,34 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get spreadLocked => 'Ce tirage est réservé à Orion+.';
+
+  @override
+  String get compareGuest => 'Invité';
+
+  @override
+  String get compareAccount => 'Compte gratuit';
+
+  @override
+  String get compareRowDaily => 'Carte du jour';
+
+  @override
+  String get compareRowCross => 'Croix à 5 cartes (avec annonce)';
+
+  @override
+  String get compareRowJournal => 'Journal et notes';
+
+  @override
+  String get compareRowProfile => 'Profil et préférences';
+
+  @override
+  String get compareRowExtended => 'Tirages étendus';
+
+  @override
+  String get compareRowDeepReading => 'Lectures approfondies d’Orion';
+
+  @override
+  String get compareRowNoAds => 'Sans annonces';
+
+  @override
+  String get compareRowNft => 'Avatars NFT';
 }

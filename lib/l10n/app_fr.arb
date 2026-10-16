@@ -199,5 +199,15 @@
     }
   },
   "spreadSavedToJournal": "Les cartes de ce tirage ont été ajoutées à ton journal.",
-  "spreadLocked": "Ce tirage est réservé à Orion+."
+  "spreadLocked": "Ce tirage est réservé à Orion+.",
+  "compareGuest": "Invité",
+  "compareAccount": "Compte gratuit",
+  "compareRowDaily": "Carte du jour",
+  "compareRowCross": "Croix à 5 cartes (avec annonce)",
+  "compareRowJournal": "Journal et notes",
+  "compareRowProfile": "Profil et préférences",
+  "compareRowExtended": "Tirages étendus",
+  "compareRowDeepReading": "Lectures approfondies d’Orion",
+  "compareRowNoAds": "Sans annonces",
+  "compareRowNft": "Avatars NFT"
 }

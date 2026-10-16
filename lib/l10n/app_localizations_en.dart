@@ -451,4 +451,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get spreadLocked => 'This spread is reserved for Orion+.';
+
+  @override
+  String get compareGuest => 'Guest';
+
+  @override
+  String get compareAccount => 'Free account';
+
+  @override
+  String get compareRowDaily => 'Card of the day';
+
+  @override
+  String get compareRowCross => '5-card cross (with ad)';
+
+  @override
+  String get compareRowJournal => 'Journal and notes';
+
+  @override
+  String get compareRowProfile => 'Profile and preferences';
+
+  @override
+  String get compareRowExtended => 'Extended spreads';
+
+  @override
+  String get compareRowDeepReading => 'Orion’s deep readings';
+
+  @override
+  String get compareRowNoAds => 'No ads';
+
+  @override
+  String get compareRowNft => 'NFT avatars';
 }

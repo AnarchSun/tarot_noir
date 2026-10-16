@@ -867,6 +867,66 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ce tirage est réservé à Orion+.'**
   String get spreadLocked;
+
+  /// No description provided for @compareGuest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Invité'**
+  String get compareGuest;
+
+  /// No description provided for @compareAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte gratuit'**
+  String get compareAccount;
+
+  /// No description provided for @compareRowDaily.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour'**
+  String get compareRowDaily;
+
+  /// No description provided for @compareRowCross.
+  ///
+  /// In fr, this message translates to:
+  /// **'Croix à 5 cartes (avec annonce)'**
+  String get compareRowCross;
+
+  /// No description provided for @compareRowJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Journal et notes'**
+  String get compareRowJournal;
+
+  /// No description provided for @compareRowProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil et préférences'**
+  String get compareRowProfile;
+
+  /// No description provided for @compareRowExtended.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirages étendus'**
+  String get compareRowExtended;
+
+  /// No description provided for @compareRowDeepReading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lectures approfondies d’Orion'**
+  String get compareRowDeepReading;
+
+  /// No description provided for @compareRowNoAds.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans annonces'**
+  String get compareRowNoAds;
+
+  /// No description provided for @compareRowNft.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avatars NFT'**
+  String get compareRowNft;
 }
 
 class _AppLocalizationsDelegate

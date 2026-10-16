@@ -199,5 +199,15 @@
     }
   },
   "spreadSavedToJournal": "Las cartas de esta tirada se añadieron a tu diario.",
-  "spreadLocked": "Esta tirada es exclusiva de Orion+."
+  "spreadLocked": "Esta tirada es exclusiva de Orion+.",
+  "compareGuest": "Invitado",
+  "compareAccount": "Cuenta gratuita",
+  "compareRowDaily": "Carta del día",
+  "compareRowCross": "Cruz de 5 cartas (con anuncio)",
+  "compareRowJournal": "Diario y notas",
+  "compareRowProfile": "Perfil y preferencias",
+  "compareRowExtended": "Tiradas ampliadas",
+  "compareRowDeepReading": "Lecturas profundas de Orion",
+  "compareRowNoAds": "Sin anuncios",
+  "compareRowNft": "Avatares NFT"
 }

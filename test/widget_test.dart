@@ -107,6 +107,8 @@ void main() {
     expect(find.text('Unlock your Journal'), findsOneWidget);
     expect(find.textContaining('Journal sync stays off'), findsOneWidget);
     expect(find.byKey(const Key('account-gate-google')), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const Key('account-gate-google')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('account-gate-google')));
     await tester.pumpAndSettle();
     expect(
@@ -288,6 +290,22 @@ void main() {
     final preferences = await SharedPreferences.getInstance();
     final saved = preferences.getStringList('journal_entries') ?? <String>[];
     expect(saved.where((e) => e.contains('spread:cross5:')).length, 5);
+  });
+
+  testWidgets('account gate compares guest, free account and Orion+', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const TarotNoirApp());
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('continue-as-guest')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('journal')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('access-comparison')), findsOneWidget);
+    expect(find.text('Guest'), findsOneWidget);
+    expect(find.text('Free account'), findsOneWidget);
+    expect(find.text('Orion+'), findsWidgets);
+    expect(find.text('Extended spreads'), findsOneWidget);
   });
 
   testWidgets('locked spreads send free users to Premium', (tester) async {

@@ -199,5 +199,15 @@
     }
   },
   "spreadSavedToJournal": "This spread’s cards were added to your journal.",
-  "spreadLocked": "This spread is reserved for Orion+."
+  "spreadLocked": "This spread is reserved for Orion+.",
+  "compareGuest": "Guest",
+  "compareAccount": "Free account",
+  "compareRowDaily": "Card of the day",
+  "compareRowCross": "5-card cross (with ad)",
+  "compareRowJournal": "Journal and notes",
+  "compareRowProfile": "Profile and preferences",
+  "compareRowExtended": "Extended spreads",
+  "compareRowDeepReading": "Orion’s deep readings",
+  "compareRowNoAds": "No ads",
+  "compareRowNft": "NFT avatars"
 }
