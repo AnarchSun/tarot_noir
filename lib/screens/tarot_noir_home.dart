@@ -18,6 +18,7 @@ import '../services/tarot_storage_service.dart';
 import '../widgets/account_access_sheet.dart';
 import 'spreads_screen.dart';
 import 'premium_screen.dart';
+import 'community_screen.dart';
 import 'profile_screen.dart';
 import 'reading_screen.dart';
 
@@ -426,7 +427,7 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
       unawaited(_showAccountGate(AppLocalizations.of(context)!.profile));
       return;
     }
-    setState(() => _tab = 3);
+    setState(() => _tab = 4);
   }
 
   void _showJournalSyncError(Object error) {
@@ -568,9 +569,35 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
           cards: drawn,
           isPremiumUnlocked: AppConfig.premiumEnabled,
           onRequestAd: _showAdPlaceholder,
+          onSaveOrionQa: (qa) => _addOrionQa(entries.first.syncId, qa),
         ),
       ),
     );
+  }
+
+  Future<void> _addOrionQa(String syncId, OrionQa qa) async {
+    final index = _journal.indexWhere((e) => e.syncId == syncId);
+    if (index < 0) return;
+    final previous = _journal[index];
+    setState(() {
+      _journal[index] = previous.copyWith(orionQa: [...previous.orionQa, qa]);
+    });
+    if (!await _persist() && mounted) {
+      setState(() => _journal[index] = previous);
+    }
+  }
+
+  String? _todayDailySyncId() {
+    final now = DateTime.now();
+    for (final e in _journal) {
+      if (e.drawType == 'daily' &&
+          e.createdAt.year == now.year &&
+          e.createdAt.month == now.month &&
+          e.createdAt.day == now.day) {
+        return e.syncId;
+      }
+    }
+    return null;
   }
 
   Future<void> _updateJournalNote(JournalEntry entry, String note) async {
@@ -653,6 +680,11 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
         onGoogleSignIn: _signInWithGoogle,
         onFacebookSignIn: _signInWithFacebook,
         onContinueAsGuest: _continueAsGuest,
+        onRequestAd: _showAdPlaceholder,
+        onSaveDailyQa: (qa) async {
+          final id = _todayDailySyncId();
+          if (id != null) await _addOrionQa(id, qa);
+        },
       ),
       SpreadsScreen(
         isPremiumUnlocked: AppConfig.premiumEnabled,
@@ -661,9 +693,20 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
       ),
       PremiumScreen(onOpenProfile: _openProfile),
       if (isSignedIn)
+        CommunityScreen(
+          uid: _firebaseUser!.uid,
+          displayName:
+              _firebaseUser!.displayName ??
+              _firebaseUser!.email?.split('@').first ??
+              'Tarot Noir',
+          isSelected: _tab == 3,
+        )
+      else
+        const SizedBox.shrink(),
+      if (isSignedIn)
         ProfileScreen(
           initialUser: _firebaseUser!,
-          isSelected: _tab == 3,
+          isSelected: _tab == 4,
           onFirebaseUserChanged: _onFirebaseUserChanged,
           onEnableJournalSync: _enableJournalSync,
           onDisableJournalSync: _disableJournalSync,
@@ -699,6 +742,14 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
     );
     destinations.add(
       NavigationDestination(
+        key: const Key('community'),
+        icon: const Icon(Icons.groups_outlined),
+        selectedIcon: const Icon(Icons.groups),
+        label: l10n.community,
+      ),
+    );
+    destinations.add(
+      NavigationDestination(
         icon: const Icon(Icons.person_outline),
         selectedIcon: const Icon(Icons.person),
         label: l10n.profile,
@@ -714,8 +765,12 @@ class _TarotNoirHomeState extends State<TarotNoirHome>
           ? NavigationBar(
               selectedIndex: selectedIndex,
               onDestinationSelected: (index) {
-                if (!isSignedIn && index == 3) {
-                  unawaited(_showAccountGate(l10n.profile));
+                if (!isSignedIn && index >= 3) {
+                  unawaited(
+                    _showAccountGate(
+                      index == 3 ? l10n.community : l10n.profile,
+                    ),
+                  );
                   return;
                 }
                 setState(() => _tab = index);

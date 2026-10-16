@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
+import '../models/journal_entry.dart';
+import '../models/orion_answer.dart';
 import '../models/tarot_card.dart';
 import '../models/tarot_card_text.dart';
+import '../widgets/orion_ask_panel.dart';
 import '../widgets/orion_premium_insight.dart';
 import '../widgets/tarot_card_back.dart';
 import '../widgets/tarot_card_view.dart';
@@ -28,6 +31,8 @@ class ReadingScreen extends StatelessWidget {
     required this.onGoogleSignIn,
     required this.onFacebookSignIn,
     required this.onContinueAsGuest,
+    this.onRequestAd,
+    this.onSaveDailyQa,
     super.key,
   });
 
@@ -47,6 +52,8 @@ class ReadingScreen extends StatelessWidget {
   final Future<void> Function() onGoogleSignIn;
   final Future<void> Function() onFacebookSignIn;
   final Future<void> Function() onContinueAsGuest;
+  final Future<bool> Function()? onRequestAd;
+  final Future<void> Function(OrionQa qa)? onSaveDailyQa;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +148,20 @@ class ReadingScreen extends StatelessWidget {
                       orientation: dailyOrientation,
                     ),
                   ],
+                  const SizedBox(height: 16),
+                  OrionAskPanel(
+                    key: ValueKey('daily-ask-${dailyCard.id}'),
+                    requiresAd: !AppConfig.premiumEnabled,
+                    onRequestAd: onRequestAd,
+                    onSaved: onSaveDailyQa,
+                    cards: [
+                      OrionQuestionCard(
+                        card: dailyCard,
+                        orientation: dailyOrientation,
+                        position: l10n.personalDailyReading,
+                      ),
+                    ],
+                  ),
                 ] else ...[
                   Text(
                     l10n.dailyDrawPrompt,

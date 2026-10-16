@@ -725,4 +725,104 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get spreadAskAction => 'Preguntar a Orion';
+
+  @override
+  String get orionAskLockedBody =>
+      'Haz una pregunta a Orion y recibe una respuesta adaptada a tu carta. Gratis tras un breve anuncio, o incluida con Orion+.';
+
+  @override
+  String get orionSavedToJournal => 'Guardado en tu diario.';
+
+  @override
+  String get orionJournalTitle => 'Preguntas a Orion';
+
+  @override
+  String get community => 'Comunidad';
+
+  @override
+  String get communityIntro =>
+      'Conoce a otros miembros de Tarot Noir: añade amigos, charla en el shoutbox y visita sus perfiles y colecciones de NFTs.';
+
+  @override
+  String get communityJoin => 'Unirse a la comunidad';
+
+  @override
+  String get communityJoinAction => 'Unirme';
+
+  @override
+  String get communityPseudo => 'Apodo público';
+
+  @override
+  String get communityPrivacy =>
+      'Solo tu apodo, ciudad y bio son públicos. Tu diario sigue siendo privado. Puedes salir de la comunidad cuando quieras.';
+
+  @override
+  String get communityShowCollection =>
+      'Mostrar mi colección (dirección de la billetera)';
+
+  @override
+  String get communityShoutbox => 'Shoutbox';
+
+  @override
+  String get communityFriends => 'Amigos';
+
+  @override
+  String get communityMembers => 'Miembros';
+
+  @override
+  String get communityLeave => 'Salir de la comunidad';
+
+  @override
+  String get communityMemberTitle => 'Miembro';
+
+  @override
+  String communityError(String error) {
+    return 'Comunidad: $error';
+  }
+
+  @override
+  String get shoutHint => 'Escribe un mensaje…';
+
+  @override
+  String get shoutSend => 'Enviar';
+
+  @override
+  String get shoutDelete => 'Eliminar';
+
+  @override
+  String get shoutEmpty => 'Aún no hay mensajes. ¡Empieza la conversación!';
+
+  @override
+  String get friendsEmpty =>
+      'Aún no tienes amigos. Visita un perfil desde Miembros o el shoutbox para enviar una solicitud.';
+
+  @override
+  String get friendRequests => 'Solicitudes recibidas';
+
+  @override
+  String get friendPending => 'Solicitudes enviadas';
+
+  @override
+  String get friendAdd => 'Añadir amigo';
+
+  @override
+  String get friendAccept => 'Aceptar';
+
+  @override
+  String get friendDecline => 'Rechazar';
+
+  @override
+  String get friendCancelRequest => 'Cancelar solicitud';
+
+  @override
+  String get friendRemove => 'Quitar amigo';
+
+  @override
+  String get membersEmpty => 'Aún no hay otros miembros.';
+
+  @override
+  String get memberNotFound => 'Este perfil ya no está disponible.';
+
+  @override
+  String get memberCollectionPrivate => 'Este miembro no muestra su colección.';
 }

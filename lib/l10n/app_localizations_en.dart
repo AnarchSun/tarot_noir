@@ -724,4 +724,104 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get spreadAskAction => 'Ask Orion';
+
+  @override
+  String get orionAskLockedBody =>
+      'Ask Orion a question and get an answer tailored to your card. Free after a short ad, or included with Orion+.';
+
+  @override
+  String get orionSavedToJournal => 'Saved to your journal.';
+
+  @override
+  String get orionJournalTitle => 'Questions to Orion';
+
+  @override
+  String get community => 'Community';
+
+  @override
+  String get communityIntro =>
+      'Meet other Tarot Noir members: add friends, chat in the shoutbox, and visit their profiles and NFT collections.';
+
+  @override
+  String get communityJoin => 'Join the community';
+
+  @override
+  String get communityJoinAction => 'Join';
+
+  @override
+  String get communityPseudo => 'Public nickname';
+
+  @override
+  String get communityPrivacy =>
+      'Only your nickname, city and bio are public. Your journal stays private. You can leave the community at any time.';
+
+  @override
+  String get communityShowCollection => 'Show my collection (wallet address)';
+
+  @override
+  String get communityShoutbox => 'Shoutbox';
+
+  @override
+  String get communityFriends => 'Friends';
+
+  @override
+  String get communityMembers => 'Members';
+
+  @override
+  String get communityLeave => 'Leave the community';
+
+  @override
+  String get communityMemberTitle => 'Member';
+
+  @override
+  String communityError(String error) {
+    return 'Community: $error';
+  }
+
+  @override
+  String get shoutHint => 'Write a message…';
+
+  @override
+  String get shoutSend => 'Send';
+
+  @override
+  String get shoutDelete => 'Delete';
+
+  @override
+  String get shoutEmpty => 'No messages yet. Start the conversation!';
+
+  @override
+  String get friendsEmpty =>
+      'No friends yet. Visit a profile from the Members tab or the shoutbox to send a request.';
+
+  @override
+  String get friendRequests => 'Received requests';
+
+  @override
+  String get friendPending => 'Sent requests';
+
+  @override
+  String get friendAdd => 'Add friend';
+
+  @override
+  String get friendAccept => 'Accept';
+
+  @override
+  String get friendDecline => 'Decline';
+
+  @override
+  String get friendCancelRequest => 'Cancel request';
+
+  @override
+  String get friendRemove => 'Remove friend';
+
+  @override
+  String get membersEmpty => 'No other members yet.';
+
+  @override
+  String get memberNotFound => 'This profile is no longer available.';
+
+  @override
+  String get memberCollectionPrivate =>
+      'This member does not show their collection.';
 }
