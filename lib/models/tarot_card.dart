@@ -28,7 +28,8 @@ class TarotCard {
   final String imagePath;
 
   bool get hasIllustration => imagePath.isNotEmpty;
-  bool get supportsReversedOrientation => number.contains('-');
+  bool get isMinorArcana => number.contains('-');
+  bool get supportsReversedOrientation => true;
 
   String get id => '$number-$name';
   String get nameFr => name;

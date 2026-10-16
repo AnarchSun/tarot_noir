@@ -27,6 +27,9 @@ class _ProfileCompletionSheetState extends State<ProfileCompletionSheet> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _displayNameController;
   late final TextEditingController _emailController;
+  late final TextEditingController _bioController;
+  late final TextEditingController _cityController;
+  late final TextEditingController _originController;
 
   @override
   void initState() {
@@ -40,13 +43,26 @@ class _ProfileCompletionSheetState extends State<ProfileCompletionSheet> {
     _emailController = TextEditingController(
       text: widget.initialProfile?.email ?? widget.suggestedEmail ?? '',
     );
+    _bioController = TextEditingController(text: widget.initialProfile?.bio);
+    _cityController = TextEditingController(text: widget.initialProfile?.city);
+    _originController = TextEditingController(
+      text: widget.initialProfile?.origin,
+    );
   }
 
   @override
   void dispose() {
+    _bioController.dispose();
+    _cityController.dispose();
+    _originController.dispose();
     _displayNameController.dispose();
     _emailController.dispose();
     super.dispose();
+  }
+
+  String? _orNull(TextEditingController c) {
+    final text = c.text.trim();
+    return text.isEmpty ? null : text;
   }
 
   void _save() {
@@ -60,6 +76,9 @@ class _ProfileCompletionSheetState extends State<ProfileCompletionSheet> {
             widget.walletAddress ?? widget.initialProfile?.walletAddress,
         firebaseUid: widget.firebaseUid ?? widget.initialProfile?.firebaseUid,
         completedAt: DateTime.now().toUtc(),
+        bio: _orNull(_bioController),
+        city: _orNull(_cityController),
+        origin: _orNull(_originController),
       ),
     );
   }
@@ -110,6 +129,27 @@ class _ProfileCompletionSheetState extends State<ProfileCompletionSheet> {
                         ? l10n.emailInvalid
                         : null;
                   },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  key: const Key('profile-bio'),
+                  controller: _bioController,
+                  minLines: 2,
+                  maxLines: 4,
+                  maxLength: 280,
+                  decoration: InputDecoration(labelText: l10n.bioLabel),
+                ),
+                TextFormField(
+                  key: const Key('profile-city'),
+                  controller: _cityController,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(labelText: l10n.cityLabel),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  key: const Key('profile-origin'),
+                  controller: _originController,
+                  decoration: InputDecoration(labelText: l10n.originLabel),
                 ),
                 if (widget.walletAddress case final address?) ...[
                   const SizedBox(height: 12),

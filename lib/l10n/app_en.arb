@@ -1,19 +1,43 @@
 {
   "@@locale": "en",
   "appTitle": "Tarot Noir",
-  "dailyReading": "Daily reading",
+  "dailyReading": "Card of the day",
+  "dailyDrawPrompt": "Your card of the day is waiting. Draw once today to reveal its message.",
+  "accountGateTitle": "Unlock your {destination}",
+  "@accountGateTitle": {
+    "placeholders": {
+      "destination": {}
+    }
+  },
+  "accountGateBody": "Create an account or sign in to get your profile and your journal, where every drawn card is kept with its notes. Journal sync stays off until you enable it.",
+  "orionPlusTeaser": "Orion+ is separate from a free account, with deeper readings and additional guidance.",
+  "discoverOrionPlus": "Explore Orion+",
+  "authenticationStartupFailed": "Sign-in could not initialize: {error}. You can continue as a guest.",
+  "@authenticationStartupFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "drawAnother": "Draw another card",
   "drawPrompt": "The veil awaits your gesture. Draw a card to reveal today’s sign.",
   "restoringRitual": "Restoring the ritual…",
   "storageError": "Local save failed. The ritual was not locked.",
+  "storageOperationFailed": "Could not finish the local data operation: {error}",
+  "@storageOperationFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "deleteJournalEntry": "Delete this entry",
   "dailyDrawLocked": "Daily card already drawn",
   "drawDaily": "Draw my daily card",
+  "basicDraw": "Draw a basic card",
+  "continueWithoutAccount": "Continue without an account",
   "reading": "Reading",
   "journal": "Journal",
   "premium": "Premium",
   "journalTitle": "Arcana journal",
-  "journalSubtitle": "Cards drawn during this session.",
+  "journalSubtitle": "Every drawn card is kept here, with its date and your notes.",
   "journalEmpty": "Your journal awaits its first sign.",
   "premiumTitle": "Premium Circle",
   "premiumIntro": "Premium access will be granted after verifying an NFT from the Tarot Noir collection.",
@@ -46,7 +70,7 @@
   "dataAndInterests": "Data and interests",
   "dataPolicy": "Tarot Noir does not read your web searches, clicks, or social networks. Any future connection must be enabled separately, described clearly, and revocable.",
   "eraseLocalData": "Erase my local data",
-  "eraseLocalDataConfirmation": "This deletes the daily draw, journal, profile, notes, and all local preferences.",
+  "eraseLocalDataConfirmation": "This deletes the daily draw, journal, profile, notes, and all local preferences. It does not delete data already synced to Firebase.",
   "cancel": "Cancel",
   "erase": "Erase",
   "localDataErased": "Local data erased.",
@@ -99,10 +123,20 @@
   "profileTitle": "Your circle",
   "profileIntro": "Sign in to prepare secure synchronization of your journal and Orion preferences.",
   "continueWithFacebook": "Continue with Facebook",
-  "continueWithEmail": "Continue with email",
-  "authenticationConfigured": "Facebook connection configured",
+  "continueWithGoogle": "Continue with Google",
+  "authenticationConfigured": "Firebase sign-in is ready",
   "authenticationNotConfigured": "Connection awaiting configuration",
-  "authenticationPrivacy": "Tarot Noir never receives your Facebook password. You can revoke access from your account.",
+  "authenticationPrivacy": "Sign-in is handled by Firebase. Tarot Noir never receives your provider passwords.",
+  "journalSyncTitle": "Sync journal with Firebase",
+  "journalSyncDescription": "With your permission, this device’s journal is merged with this account’s private Firestore journal. Turning this off stops future sync but does not delete cloud copies. Entries created while another account is signed in are not uploaded to this account.",
+  "journalSyncEnabled": "Journal synchronization enabled.",
+  "journalSyncDisabled": "Journal synchronization disabled. Existing cloud copies remain available.",
+  "journalSyncFailed": "The journal remains saved locally, but synchronization failed: {error}",
+  "@journalSyncFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "facebookConfigurationRequired": "Firebase and the Meta application must be configured before Facebook sign-in can open.",
   "walletSectionTitle": "Solana wallet",
   "walletConnect": "Connect a wallet",
@@ -111,7 +145,7 @@
   "walletPrivacy": "Connection shares only your public Solana address. Tarot Noir never asks for a seed phrase or private key.",
   "walletConfigurationRequired": "Add a Reown project ID and enable WalletConnect before opening the wallet portal.",
   "walletConnectedAs": "Wallet connected: {address}",
-  "walletError": "Wallet connection failed: {message}",
+  "walletError": "Wallet: {error}",
   "walletOpenProfile": "Connect my wallet",
   "walletAvailableInProfile": "Wallet connection is available from the Profile tab.",
   "@walletConnectedAs": {
@@ -121,7 +155,9 @@
   },
   "@walletError": {
     "placeholders": {
-      "message": {}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "walletDownloadHint": "No Solana wallet yet? Download one from its official website.",
@@ -143,15 +179,7 @@
       "address": {}
     }
   },
-  "firebaseConfigurationRequired": "Add the public Firebase identifiers and enable authentication before signing in.",
-  "emailSignIn": "Email sign-in",
-  "createAccount": "Create account",
-  "emailLabel": "Email",
-  "passwordLabel": "Password",
-  "passwordTooShort": "Use at least 6 characters.",
-  "signIn": "Sign in",
-  "needAccount": "Create a new account",
-  "alreadyHaveAccount": "I already have an account",
+  "firebaseConfigurationRequired": "Enable Firebase Authentication before signing in.",
   "signedInAs": "Signed in: {email}",
   "signOut": "Sign out",
   "@signedInAs": {
@@ -159,12 +187,127 @@
       "email": {}
     }
   },
-  "forgotPassword": "Forgot password?",
-  "passwordResetEmailSent": "If this account exists, a password reset email has been sent.",
-  "verificationEmailSent": "A verification email has been sent.",
-  "emailNotVerified": "Your email is not verified yet.",
-  "resendVerification": "Resend email",
-  "refreshVerification": "I verified it",
-  "emailVerified": "Email verified.",
-  "emailStillUnverified": "The email is not verified yet."
+  "home": "Home",
+  "spreads": "Spreads",
+  "spreadsIntro": "Choose a spread. Free spreads show a short ad; extended spreads are reserved for Orion+.",
+  "spreadFreeBadge": "Free · short ad",
+  "spreadPremiumBadge": "Orion+",
+  "spreadCardCount": "{count} cards",
+  "@spreadCardCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spreadSavedToJournal": "This spread’s cards were added to your journal.",
+  "spreadLocked": "This spread is reserved for Orion+.",
+  "compareGuest": "Guest",
+  "compareAccount": "Free account",
+  "compareRowDaily": "Tarot Noir card of the day",
+  "compareRowCross": "5-card cross (with ad)",
+  "compareRowJournal": "Journal and notes (in Profile)",
+  "compareRowProfile": "Profile and preferences",
+  "compareRowExtended": "Extended spreads",
+  "compareRowDeepReading": "Orion’s readings and questions per card",
+  "compareRowNoAds": "No ads",
+  "compareRowNft": "NFT avatars",
+  "notesToggle": "Notes",
+  "saveNote": "Save note",
+  "orionAssessmentTitle": "Orion’s assessment",
+  "orionAskSoon": "Coming soon: ask Orion a question and it will answer based on this card.",
+  "orionLockedHint": "Orion’s assessment and questions with Orion+",
+  "personalDailyReading": "Your personal card of the day",
+  "tarotNoirDaily": "Tarot Noir card of the day",
+  "tarotNoirDailyDesc": "The same card for everyone, all day long. It changes at midnight.",
+  "tarotNoirDailyBadge": "Free · for everyone",
+  "sharedDailyNote": "This card is the same for everyone today. For yours, draw your personal card of the day from Home.",
+  "compareRowPersonal": "Your personal card of the day",
+  "guestPopupTitle": "Before you enter as a guest",
+  "guestPopupBody": "As a guest you keep the Tarot Noir card of the day, your personal card of the day and the 5-card cross (with an ad). A free account also keeps your journal, notes and profile. Orion+ adds Orion’s readings and extended spreads.",
+  "guestContinueAction": "Continue as a guest",
+  "guestAdLabel": "Ad",
+  "guestAdBody": "Advertising space reserved for guests",
+  "profileTabHome": "Profile",
+  "profileTabJournal": "Journal",
+  "profileTabCollection": "Collection",
+  "profileTabWallet": "Wallet",
+  "bioLabel": "Bio / description",
+  "cityLabel": "City",
+  "originLabel": "Origin",
+  "aboutTitle": "About",
+  "aboutEmpty": "Add a bio, your city or your origin to introduce your profile.",
+  "memberSince": "In the circle since {date}",
+  "collectionTitle": "Collection",
+  "collectionEmpty": "Your Tarot Noir NFTs will appear here. The Solana avatar collection is not open yet.",
+  "collectionPremiumHint": "A built-in wallet will come with Orion+ to receive and keep your NFTs.",
+  "walletTabIntro": "Connect your existing Solana wallet. The built-in wallet included with Orion+ (address, balance, NFTs, send and receive) is in preparation.",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "walletBuiltinTitle": "Orion+ wallet",
+  "walletLockedHint": "A built-in Solana wallet (address, balance, NFTs, send and receive) is included with Orion+.",
+  "walletDiscoverPremium": "Discover Orion+",
+  "walletCreateIntro": "Keys are created and kept on this device. Only you hold the recovery phrase: without it, nobody can recover your wallet.",
+  "walletCreate": "Create my wallet",
+  "walletImport": "Import a wallet",
+  "walletRecoveryTitle": "Your recovery phrase",
+  "walletRecoveryWarning": "Write these 12 words down in order and keep them offline. Never share them: they give access to all your funds.",
+  "walletSavedConfirm": "I have saved my recovery phrase",
+  "walletActivate": "Activate wallet",
+  "walletImportTitle": "Import with a phrase",
+  "walletImportHint": "Enter your 12 or 24 words separated by spaces",
+  "walletInvalidPhrase": "Invalid recovery phrase.",
+  "walletImportAction": "Import",
+  "walletAddress": "Address",
+  "walletCopy": "Copy",
+  "walletCopied": "Address copied.",
+  "walletBalance": "Balance",
+  "walletRefresh": "Refresh",
+  "walletSend": "Send",
+  "walletReceive": "Receive",
+  "walletReceiveHint": "Share this address to receive SOL or NFTs.",
+  "walletRecipient": "Recipient address",
+  "walletAmount": "Amount (SOL)",
+  "walletInvalidAddress": "Invalid Solana address.",
+  "walletInvalidAmount": "Invalid amount.",
+  "walletSendAction": "Send",
+  "walletSent": "Transaction sent: {signature}",
+  "walletShowPhrase": "Show recovery phrase",
+  "walletRemove": "Remove this wallet from the device",
+  "walletRemoveConfirm": "Without your recovery phrase your funds will be lost. Remove the wallet?",
+  "walletRemoveAction": "Remove",
+  "walletCancel": "Cancel",
+  "walletClose": "Close",
+  "walletNetworkNote": "Network: {cluster} (test network, no real value).",
+  "walletNftCount": "NFTs: {count}",
+  "walletExternalTitle": "Or connect an external wallet",
+  "@walletSent": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNetworkNote": {
+    "placeholders": {
+      "cluster": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNftCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spreadAiTitle": "ORION · AI INTERPRETATION",
+  "spreadAiLockedBody": "Get an in-depth reading of each card according to its position in the spread. Free after a short ad, or included with Orion+.",
+  "spreadAiWatchAd": "See AI interpretation (watch ad)"
 }

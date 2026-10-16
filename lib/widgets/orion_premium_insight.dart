@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/premium_reading.dart';
+import '../l10n/app_localizations.dart';
 import '../models/tarot_card.dart';
 
 class OrionPremiumInsight extends StatelessWidget {
@@ -15,7 +16,8 @@ class OrionPremiumInsight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reading = PremiumReadingCatalog.forCard(card, orientation);
+    final lang = AppLocalizations.of(context)!.localeName;
+    final reading = PremiumReadingCatalog.forCard(card, orientation, lang);
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -28,9 +30,9 @@ class OrionPremiumInsight extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'ORION+ · LECTURE APPROFONDIE',
-            style: TextStyle(
+          Text(
+            PremiumReadingCatalog.title(lang),
+            style: const TextStyle(
               color: Color(0xFFD4AF59),
               fontWeight: FontWeight.w700,
               letterSpacing: 1.2,

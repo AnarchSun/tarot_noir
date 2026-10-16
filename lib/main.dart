@@ -3,13 +3,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'l10n/app_localizations.dart';
 import 'screens/tarot_noir_home.dart';
-import 'services/firebase_auth_service.dart';
 
 export 'screens/tarot_noir_home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FirebaseAuthService.initialize();
   runApp(const TarotNoirApp());
 }
 

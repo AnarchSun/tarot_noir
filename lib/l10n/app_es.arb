@@ -1,19 +1,43 @@
 {
   "@@locale": "es",
   "appTitle": "Tarot Noir",
-  "dailyReading": "Tirada del día",
+  "dailyReading": "Carta del día",
+  "dailyDrawPrompt": "Tu carta del día te espera. Sácala una vez hoy para descubrir su mensaje.",
+  "accountGateTitle": "Accede a {destination}",
+  "@accountGateTitle": {
+    "placeholders": {
+      "destination": {}
+    }
+  },
+  "accountGateBody": "Crea una cuenta o inicia sesión para acceder a tu perfil y a tu diario, donde cada carta sacada se conserva con sus notas. La sincronización del diario seguirá desactivada hasta que la habilites.",
+  "orionPlusTeaser": "Orion+ es independiente de una cuenta gratuita e incluye lecturas más profundas y orientación adicional.",
+  "discoverOrionPlus": "Descubrir Orion+",
+  "authenticationStartupFailed": "No se pudo iniciar la autenticación: {error}. Puedes continuar como invitado.",
+  "@authenticationStartupFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "drawAnother": "Sacar otra carta",
   "drawPrompt": "El velo espera tu gesto. Saca una carta para revelar la señal del día.",
   "restoringRitual": "Restaurando el ritual…",
   "storageError": "Falló el guardado local. El ritual no fue bloqueado.",
+  "storageOperationFailed": "No se pudo completar la operación de datos locales: {error}",
+  "@storageOperationFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "deleteJournalEntry": "Eliminar esta entrada",
   "dailyDrawLocked": "Carta del día ya sacada",
   "drawDaily": "Sacar mi carta del día",
+  "basicDraw": "Sacar una carta sencilla",
+  "continueWithoutAccount": "Continuar sin cuenta",
   "reading": "Tirada",
   "journal": "Diario",
   "premium": "Premium",
   "journalTitle": "Diario de arcanos",
-  "journalSubtitle": "Cartas sacadas durante esta sesión.",
+  "journalSubtitle": "Cada carta sacada se conserva aquí, con su fecha y tus notas.",
   "journalEmpty": "Tu diario espera la primera señal.",
   "premiumTitle": "Círculo Premium",
   "premiumIntro": "El acceso premium se concederá tras verificar un NFT de la colección Tarot Noir.",
@@ -46,7 +70,7 @@
   "dataAndInterests": "Datos e intereses",
   "dataPolicy": "Tarot Noir no lee tus búsquedas web, clics ni redes sociales. Cualquier conexión futura deberá activarse por separado, describirse claramente y poder revocarse.",
   "eraseLocalData": "Borrar mis datos locales",
-  "eraseLocalDataConfirmation": "Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales.",
+  "eraseLocalDataConfirmation": "Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales. No elimina los datos ya sincronizados con Firebase.",
   "cancel": "Cancelar",
   "erase": "Eliminar",
   "localDataErased": "Datos locales eliminados.",
@@ -99,10 +123,20 @@
   "profileTitle": "Tu círculo",
   "profileIntro": "Inicia sesión para preparar la sincronización segura del diario y las preferencias de Orion.",
   "continueWithFacebook": "Continuar con Facebook",
-  "continueWithEmail": "Continuar con correo electrónico",
-  "authenticationConfigured": "Conexión de Facebook configurada",
+  "continueWithGoogle": "Continuar con Google",
+  "authenticationConfigured": "Acceso de Firebase listo",
   "authenticationNotConfigured": "Conexión pendiente de configuración",
-  "authenticationPrivacy": "Tarot Noir nunca recibe tu contraseña de Facebook. Puedes revocar el acceso desde tu cuenta.",
+  "authenticationPrivacy": "Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.",
+  "journalSyncTitle": "Sincronizar el diario con Firebase",
+  "journalSyncDescription": "Con tu permiso, el diario de este dispositivo se combina con el diario privado de Firestore de esta cuenta. Desactivarlo detiene futuras sincronizaciones, pero no elimina las copias en la nube. Las entradas creadas con otra cuenta conectada no se transfieren a esta cuenta.",
+  "journalSyncEnabled": "Sincronización del diario activada.",
+  "journalSyncDisabled": "Sincronización del diario desactivada. Las copias en la nube se conservan.",
+  "journalSyncFailed": "El diario sigue guardado localmente, pero falló la sincronización: {error}",
+  "@journalSyncFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "facebookConfigurationRequired": "Firebase y la aplicación Meta deben configurarse antes de abrir el inicio de sesión con Facebook.",
   "walletSectionTitle": "Wallet de Solana",
   "walletConnect": "Conectar un wallet",
@@ -111,7 +145,7 @@
   "walletPrivacy": "La conexión solo comparte tu dirección pública de Solana. Tarot Noir nunca solicita una frase semilla ni una clave privada.",
   "walletConfigurationRequired": "Añade un ID de proyecto Reown y activa WalletConnect antes de abrir el portal del wallet.",
   "walletConnectedAs": "Wallet conectado: {address}",
-  "walletError": "Error de conexión del wallet: {message}",
+  "walletError": "Billetera: {error}",
   "walletOpenProfile": "Conectar mi wallet",
   "walletAvailableInProfile": "La conexión del wallet está disponible en la pestaña Perfil.",
   "@walletConnectedAs": {
@@ -121,7 +155,9 @@
   },
   "@walletError": {
     "placeholders": {
-      "message": {}
+      "error": {
+        "type": "String"
+      }
     }
   },
   "walletDownloadHint": "¿Aún no tienes un wallet de Solana? Descárgalo desde su sitio oficial.",
@@ -143,15 +179,7 @@
       "address": {}
     }
   },
-  "firebaseConfigurationRequired": "Añade los identificadores públicos de Firebase y activa la autenticación antes de iniciar sesión.",
-  "emailSignIn": "Acceso por correo",
-  "createAccount": "Crear una cuenta",
-  "emailLabel": "Correo electrónico",
-  "passwordLabel": "Contraseña",
-  "passwordTooShort": "Usa al menos 6 caracteres.",
-  "signIn": "Iniciar sesión",
-  "needAccount": "Crear una cuenta nueva",
-  "alreadyHaveAccount": "Ya tengo una cuenta",
+  "firebaseConfigurationRequired": "Activa Firebase Authentication antes de iniciar sesión.",
   "signedInAs": "Conectado: {email}",
   "signOut": "Cerrar sesión",
   "@signedInAs": {
@@ -159,12 +187,127 @@
       "email": {}
     }
   },
-  "forgotPassword": "¿Olvidaste tu contraseña?",
-  "passwordResetEmailSent": "Si esta cuenta existe, se envió un correo para restablecer la contraseña.",
-  "verificationEmailSent": "Se envió un correo de verificación.",
-  "emailNotVerified": "Tu correo aún no está verificado.",
-  "resendVerification": "Reenviar correo",
-  "refreshVerification": "Ya lo verifiqué",
-  "emailVerified": "Correo verificado.",
-  "emailStillUnverified": "El correo aún no está verificado."
+  "home": "Inicio",
+  "spreads": "Tiradas",
+  "spreadsIntro": "Elige una tirada. Las tiradas gratuitas muestran un anuncio breve; las tiradas ampliadas son exclusivas de Orion+.",
+  "spreadFreeBadge": "Gratis · anuncio breve",
+  "spreadPremiumBadge": "Orion+",
+  "spreadCardCount": "{count} cartas",
+  "@spreadCardCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spreadSavedToJournal": "Las cartas de esta tirada se añadieron a tu diario.",
+  "spreadLocked": "Esta tirada es exclusiva de Orion+.",
+  "compareGuest": "Invitado",
+  "compareAccount": "Cuenta gratuita",
+  "compareRowDaily": "Carta del día Tarot Noir",
+  "compareRowCross": "Cruz de 5 cartas (con anuncio)",
+  "compareRowJournal": "Diario y notas (en Perfil)",
+  "compareRowProfile": "Perfil y preferencias",
+  "compareRowExtended": "Tiradas ampliadas",
+  "compareRowDeepReading": "Lecturas de Orion y preguntas por carta",
+  "compareRowNoAds": "Sin anuncios",
+  "compareRowNft": "Avatares NFT",
+  "notesToggle": "Notas",
+  "saveNote": "Guardar nota",
+  "orionAssessmentTitle": "Evaluación de Orion",
+  "orionAskSoon": "Próximamente: haz tu pregunta a Orion y responderá según esta carta.",
+  "orionLockedHint": "Evaluación y preguntas a Orion con Orion+",
+  "personalDailyReading": "Tu carta del día personal",
+  "tarotNoirDaily": "Carta del día Tarot Noir",
+  "tarotNoirDailyDesc": "La misma carta para todos, durante todo el día. Cambia a medianoche.",
+  "tarotNoirDailyBadge": "Gratis · para todos",
+  "sharedDailyNote": "Esta carta es la misma para todos hoy. Para la tuya, saca tu carta del día personal desde Inicio.",
+  "compareRowPersonal": "Tu carta del día personal",
+  "guestPopupTitle": "Antes de entrar como invitado",
+  "guestPopupBody": "Como invitado conservas la carta del día Tarot Noir, tu carta del día personal y la cruz de 5 cartas (con anuncio). Una cuenta gratuita conserva además tu diario, tus notas y tu perfil. Orion+ añade las lecturas de Orion y las tiradas ampliadas.",
+  "guestContinueAction": "Continuar como invitado",
+  "guestAdLabel": "Anuncio",
+  "guestAdBody": "Espacio publicitario reservado a invitados",
+  "profileTabHome": "Perfil",
+  "profileTabJournal": "Diario",
+  "profileTabCollection": "Colección",
+  "profileTabWallet": "Billetera",
+  "bioLabel": "Bio / descripción",
+  "cityLabel": "Ciudad",
+  "originLabel": "Origen",
+  "aboutTitle": "Acerca de",
+  "aboutEmpty": "Añade una bio, tu ciudad o tu origen para presentar tu perfil.",
+  "memberSince": "En el círculo desde {date}",
+  "collectionTitle": "Colección",
+  "collectionEmpty": "Tus NFTs de Tarot Noir aparecerán aquí. La colección de avatares en Solana aún no está abierta.",
+  "collectionPremiumHint": "Una billetera integrada acompañará a Orion+ para recibir y guardar tus NFTs.",
+  "walletTabIntro": "Conecta tu billetera Solana existente. La billetera integrada incluida con Orion+ (dirección, saldo, NFTs, envío y recepción) está en preparación.",
+  "@memberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "walletBuiltinTitle": "Billetera Orion+",
+  "walletLockedHint": "Una billetera Solana integrada (dirección, saldo, NFTs, envío y recepción) se incluye con Orion+.",
+  "walletDiscoverPremium": "Descubrir Orion+",
+  "walletCreateIntro": "Las claves se crean y se guardan en este dispositivo. Solo tú tienes la frase de recuperación: sin ella nadie puede recuperar tu billetera.",
+  "walletCreate": "Crear mi billetera",
+  "walletImport": "Importar una billetera",
+  "walletRecoveryTitle": "Tu frase de recuperación",
+  "walletRecoveryWarning": "Anota estas 12 palabras en orden y guárdalas sin conexión. No las compartas nunca: dan acceso a todos tus fondos.",
+  "walletSavedConfirm": "He guardado mi frase de recuperación",
+  "walletActivate": "Activar billetera",
+  "walletImportTitle": "Importar con una frase",
+  "walletImportHint": "Escribe tus 12 o 24 palabras separadas por espacios",
+  "walletInvalidPhrase": "Frase de recuperación no válida.",
+  "walletImportAction": "Importar",
+  "walletAddress": "Dirección",
+  "walletCopy": "Copiar",
+  "walletCopied": "Dirección copiada.",
+  "walletBalance": "Saldo",
+  "walletRefresh": "Actualizar",
+  "walletSend": "Enviar",
+  "walletReceive": "Recibir",
+  "walletReceiveHint": "Comparte esta dirección para recibir SOL o NFTs.",
+  "walletRecipient": "Dirección del destinatario",
+  "walletAmount": "Importe (SOL)",
+  "walletInvalidAddress": "Dirección Solana no válida.",
+  "walletInvalidAmount": "Importe no válido.",
+  "walletSendAction": "Enviar",
+  "walletSent": "Transacción enviada: {signature}",
+  "walletShowPhrase": "Mostrar la frase de recuperación",
+  "walletRemove": "Quitar esta billetera del dispositivo",
+  "walletRemoveConfirm": "Sin tu frase de recuperación perderás tus fondos. ¿Quitar la billetera?",
+  "walletRemoveAction": "Quitar",
+  "walletCancel": "Cancelar",
+  "walletClose": "Cerrar",
+  "walletNetworkNote": "Red: {cluster} (red de prueba, sin valor real).",
+  "walletNftCount": "NFTs: {count}",
+  "walletExternalTitle": "O conecta una billetera externa",
+  "@walletSent": {
+    "placeholders": {
+      "signature": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNetworkNote": {
+    "placeholders": {
+      "cluster": {
+        "type": "String"
+      }
+    }
+  },
+  "@walletNftCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spreadAiTitle": "ORION · INTERPRETACIÓN IA",
+  "spreadAiLockedBody": "Obtén una lectura profunda de cada carta según su posición en la tirada. Gratis tras un breve anuncio, o incluida con Orion+.",
+  "spreadAiWatchAd": "Ver interpretación IA (anuncio)"
 }

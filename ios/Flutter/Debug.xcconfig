@@ -1,1 +1,4 @@
 #include "Generated.xcconfig"
+META_APP_ID = 0
+META_CLIENT_TOKEN = disabled
+#include? "Meta.local.xcconfig"

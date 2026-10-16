@@ -10,6 +10,7 @@ class JournalEntry {
     this.drawType = 'daily',
     this.note,
     this.mood,
+    this.syncOwnerUid,
   });
 
   final TarotCard card;
@@ -18,17 +19,32 @@ class JournalEntry {
   final String drawType;
   final String? note;
   final int? mood;
+  final String? syncOwnerUid;
 
   String get thumbnailPath => card.imagePath;
   String get shortExplanation => card.message;
+  bool canSyncTo(String uid) => syncOwnerUid == null || syncOwnerUid == uid;
+  String get syncId => base64Url
+      .encode(
+        utf8.encode(
+          '${createdAt.toUtc().toIso8601String()}|${card.id}|$drawType',
+        ),
+      )
+      .replaceAll('=', '');
 
-  JournalEntry copyWith({String? note, int? mood}) => JournalEntry(
+  JournalEntry copyWith({
+    String? note,
+    bool clearNote = false,
+    int? mood,
+    String? syncOwnerUid,
+  }) => JournalEntry(
     card: card,
     createdAt: createdAt,
     orientation: orientation,
     drawType: drawType,
-    note: note ?? this.note,
+    note: clearNote ? null : (note ?? this.note),
     mood: mood ?? this.mood,
+    syncOwnerUid: syncOwnerUid ?? this.syncOwnerUid,
   );
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +56,7 @@ class JournalEntry {
     'drawType': drawType,
     if (note != null) 'note': note,
     if (mood != null) 'mood': mood,
+    if (syncOwnerUid != null) 'syncOwnerUid': syncOwnerUid,
   };
 
   static JournalEntry? fromJson(String value, Iterable<TarotCard> deck) {
@@ -53,6 +70,7 @@ class JournalEntry {
         drawType: json['drawType'] as String? ?? 'daily',
         note: json['note'] as String?,
         mood: json['mood'] as int?,
+        syncOwnerUid: json['syncOwnerUid'] as String?,
       );
     } on FormatException {
       return null;

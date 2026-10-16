@@ -13,7 +13,32 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appTitle => 'Tarot Noir';
 
   @override
-  String get dailyReading => 'Tirada del día';
+  String get dailyReading => 'Carta del día';
+
+  @override
+  String get dailyDrawPrompt =>
+      'Tu carta del día te espera. Sácala una vez hoy para descubrir su mensaje.';
+
+  @override
+  String accountGateTitle(Object destination) {
+    return 'Accede a $destination';
+  }
+
+  @override
+  String get accountGateBody =>
+      'Crea una cuenta o inicia sesión para acceder a tu perfil y a tu diario, donde cada carta sacada se conserva con sus notas. La sincronización del diario seguirá desactivada hasta que la habilites.';
+
+  @override
+  String get orionPlusTeaser =>
+      'Orion+ es independiente de una cuenta gratuita e incluye lecturas más profundas y orientación adicional.';
+
+  @override
+  String get discoverOrionPlus => 'Descubrir Orion+';
+
+  @override
+  String authenticationStartupFailed(Object error) {
+    return 'No se pudo iniciar la autenticación: $error. Puedes continuar como invitado.';
+  }
 
   @override
   String get drawAnother => 'Sacar otra carta';
@@ -30,6 +55,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'Falló el guardado local. El ritual no fue bloqueado.';
 
   @override
+  String storageOperationFailed(Object error) {
+    return 'No se pudo completar la operación de datos locales: $error';
+  }
+
+  @override
   String get deleteJournalEntry => 'Eliminar esta entrada';
 
   @override
@@ -37,6 +67,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get drawDaily => 'Sacar mi carta del día';
+
+  @override
+  String get basicDraw => 'Sacar una carta sencilla';
+
+  @override
+  String get continueWithoutAccount => 'Continuar sin cuenta';
 
   @override
   String get reading => 'Tirada';
@@ -51,7 +87,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get journalTitle => 'Diario de arcanos';
 
   @override
-  String get journalSubtitle => 'Cartas sacadas durante esta sesión.';
+  String get journalSubtitle =>
+      'Cada carta sacada se conserva aquí, con su fecha y tus notas.';
 
   @override
   String get journalEmpty => 'Tu diario espera la primera señal.';
@@ -146,7 +183,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eraseLocalDataConfirmation =>
-      'Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales.';
+      'Esta acción elimina la tirada diaria, el diario, el perfil, las notas y todas las preferencias locales. No elimina los datos ya sincronizados con Firebase.';
 
   @override
   String get cancel => 'Cancelar';
@@ -257,10 +294,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get continueWithFacebook => 'Continuar con Facebook';
 
   @override
-  String get continueWithEmail => 'Continuar con correo electrónico';
+  String get continueWithGoogle => 'Continuar con Google';
 
   @override
-  String get authenticationConfigured => 'Conexión de Facebook configurada';
+  String get authenticationConfigured => 'Acceso de Firebase listo';
 
   @override
   String get authenticationNotConfigured =>
@@ -268,7 +305,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get authenticationPrivacy =>
-      'Tarot Noir nunca recibe tu contraseña de Facebook. Puedes revocar el acceso desde tu cuenta.';
+      'Firebase gestiona el inicio de sesión. Tarot Noir nunca recibe las contraseñas de tus proveedores.';
+
+  @override
+  String get journalSyncTitle => 'Sincronizar el diario con Firebase';
+
+  @override
+  String get journalSyncDescription =>
+      'Con tu permiso, el diario de este dispositivo se combina con el diario privado de Firestore de esta cuenta. Desactivarlo detiene futuras sincronizaciones, pero no elimina las copias en la nube. Las entradas creadas con otra cuenta conectada no se transfieren a esta cuenta.';
+
+  @override
+  String get journalSyncEnabled => 'Sincronización del diario activada.';
+
+  @override
+  String get journalSyncDisabled =>
+      'Sincronización del diario desactivada. Las copias en la nube se conservan.';
+
+  @override
+  String journalSyncFailed(Object error) {
+    return 'El diario sigue guardado localmente, pero falló la sincronización: $error';
+  }
 
   @override
   String get facebookConfigurationRequired =>
@@ -300,8 +356,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String walletError(Object message) {
-    return 'Error de conexión del wallet: $message';
+  String walletError(String error) {
+    return 'Billetera: $error';
   }
 
   @override
@@ -360,31 +416,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get firebaseConfigurationRequired =>
-      'Añade los identificadores públicos de Firebase y activa la autenticación antes de iniciar sesión.';
-
-  @override
-  String get emailSignIn => 'Acceso por correo';
-
-  @override
-  String get createAccount => 'Crear una cuenta';
-
-  @override
-  String get emailLabel => 'Correo electrónico';
-
-  @override
-  String get passwordLabel => 'Contraseña';
-
-  @override
-  String get passwordTooShort => 'Usa al menos 6 caracteres.';
-
-  @override
-  String get signIn => 'Iniciar sesión';
-
-  @override
-  String get needAccount => 'Crear una cuenta nueva';
-
-  @override
-  String get alreadyHaveAccount => 'Ya tengo una cuenta';
+      'Activa Firebase Authentication antes de iniciar sesión.';
 
   @override
   String signedInAs(Object email) {
@@ -395,27 +427,293 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signOut => 'Cerrar sesión';
 
   @override
-  String get forgotPassword => '¿Olvidaste tu contraseña?';
+  String get home => 'Inicio';
 
   @override
-  String get passwordResetEmailSent =>
-      'Si esta cuenta existe, se envió un correo para restablecer la contraseña.';
+  String get spreads => 'Tiradas';
 
   @override
-  String get verificationEmailSent => 'Se envió un correo de verificación.';
+  String get spreadsIntro =>
+      'Elige una tirada. Las tiradas gratuitas muestran un anuncio breve; las tiradas ampliadas son exclusivas de Orion+.';
 
   @override
-  String get emailNotVerified => 'Tu correo aún no está verificado.';
+  String get spreadFreeBadge => 'Gratis · anuncio breve';
 
   @override
-  String get resendVerification => 'Reenviar correo';
+  String get spreadPremiumBadge => 'Orion+';
 
   @override
-  String get refreshVerification => 'Ya lo verifiqué';
+  String spreadCardCount(int count) {
+    return '$count cartas';
+  }
 
   @override
-  String get emailVerified => 'Correo verificado.';
+  String get spreadSavedToJournal =>
+      'Las cartas de esta tirada se añadieron a tu diario.';
 
   @override
-  String get emailStillUnverified => 'El correo aún no está verificado.';
+  String get spreadLocked => 'Esta tirada es exclusiva de Orion+.';
+
+  @override
+  String get compareGuest => 'Invitado';
+
+  @override
+  String get compareAccount => 'Cuenta gratuita';
+
+  @override
+  String get compareRowDaily => 'Carta del día Tarot Noir';
+
+  @override
+  String get compareRowCross => 'Cruz de 5 cartas (con anuncio)';
+
+  @override
+  String get compareRowJournal => 'Diario y notas (en Perfil)';
+
+  @override
+  String get compareRowProfile => 'Perfil y preferencias';
+
+  @override
+  String get compareRowExtended => 'Tiradas ampliadas';
+
+  @override
+  String get compareRowDeepReading => 'Lecturas de Orion y preguntas por carta';
+
+  @override
+  String get compareRowNoAds => 'Sin anuncios';
+
+  @override
+  String get compareRowNft => 'Avatares NFT';
+
+  @override
+  String get notesToggle => 'Notas';
+
+  @override
+  String get saveNote => 'Guardar nota';
+
+  @override
+  String get orionAssessmentTitle => 'Evaluación de Orion';
+
+  @override
+  String get orionAskSoon =>
+      'Próximamente: haz tu pregunta a Orion y responderá según esta carta.';
+
+  @override
+  String get orionLockedHint => 'Evaluación y preguntas a Orion con Orion+';
+
+  @override
+  String get personalDailyReading => 'Tu carta del día personal';
+
+  @override
+  String get tarotNoirDaily => 'Carta del día Tarot Noir';
+
+  @override
+  String get tarotNoirDailyDesc =>
+      'La misma carta para todos, durante todo el día. Cambia a medianoche.';
+
+  @override
+  String get tarotNoirDailyBadge => 'Gratis · para todos';
+
+  @override
+  String get sharedDailyNote =>
+      'Esta carta es la misma para todos hoy. Para la tuya, saca tu carta del día personal desde Inicio.';
+
+  @override
+  String get compareRowPersonal => 'Tu carta del día personal';
+
+  @override
+  String get guestPopupTitle => 'Antes de entrar como invitado';
+
+  @override
+  String get guestPopupBody =>
+      'Como invitado conservas la carta del día Tarot Noir, tu carta del día personal y la cruz de 5 cartas (con anuncio). Una cuenta gratuita conserva además tu diario, tus notas y tu perfil. Orion+ añade las lecturas de Orion y las tiradas ampliadas.';
+
+  @override
+  String get guestContinueAction => 'Continuar como invitado';
+
+  @override
+  String get guestAdLabel => 'Anuncio';
+
+  @override
+  String get guestAdBody => 'Espacio publicitario reservado a invitados';
+
+  @override
+  String get profileTabHome => 'Perfil';
+
+  @override
+  String get profileTabJournal => 'Diario';
+
+  @override
+  String get profileTabCollection => 'Colección';
+
+  @override
+  String get profileTabWallet => 'Billetera';
+
+  @override
+  String get bioLabel => 'Bio / descripción';
+
+  @override
+  String get cityLabel => 'Ciudad';
+
+  @override
+  String get originLabel => 'Origen';
+
+  @override
+  String get aboutTitle => 'Acerca de';
+
+  @override
+  String get aboutEmpty =>
+      'Añade una bio, tu ciudad o tu origen para presentar tu perfil.';
+
+  @override
+  String memberSince(String date) {
+    return 'En el círculo desde $date';
+  }
+
+  @override
+  String get collectionTitle => 'Colección';
+
+  @override
+  String get collectionEmpty =>
+      'Tus NFTs de Tarot Noir aparecerán aquí. La colección de avatares en Solana aún no está abierta.';
+
+  @override
+  String get collectionPremiumHint =>
+      'Una billetera integrada acompañará a Orion+ para recibir y guardar tus NFTs.';
+
+  @override
+  String get walletTabIntro =>
+      'Conecta tu billetera Solana existente. La billetera integrada incluida con Orion+ (dirección, saldo, NFTs, envío y recepción) está en preparación.';
+
+  @override
+  String get walletBuiltinTitle => 'Billetera Orion+';
+
+  @override
+  String get walletLockedHint =>
+      'Una billetera Solana integrada (dirección, saldo, NFTs, envío y recepción) se incluye con Orion+.';
+
+  @override
+  String get walletDiscoverPremium => 'Descubrir Orion+';
+
+  @override
+  String get walletCreateIntro =>
+      'Las claves se crean y se guardan en este dispositivo. Solo tú tienes la frase de recuperación: sin ella nadie puede recuperar tu billetera.';
+
+  @override
+  String get walletCreate => 'Crear mi billetera';
+
+  @override
+  String get walletImport => 'Importar una billetera';
+
+  @override
+  String get walletRecoveryTitle => 'Tu frase de recuperación';
+
+  @override
+  String get walletRecoveryWarning =>
+      'Anota estas 12 palabras en orden y guárdalas sin conexión. No las compartas nunca: dan acceso a todos tus fondos.';
+
+  @override
+  String get walletSavedConfirm => 'He guardado mi frase de recuperación';
+
+  @override
+  String get walletActivate => 'Activar billetera';
+
+  @override
+  String get walletImportTitle => 'Importar con una frase';
+
+  @override
+  String get walletImportHint =>
+      'Escribe tus 12 o 24 palabras separadas por espacios';
+
+  @override
+  String get walletInvalidPhrase => 'Frase de recuperación no válida.';
+
+  @override
+  String get walletImportAction => 'Importar';
+
+  @override
+  String get walletAddress => 'Dirección';
+
+  @override
+  String get walletCopy => 'Copiar';
+
+  @override
+  String get walletCopied => 'Dirección copiada.';
+
+  @override
+  String get walletBalance => 'Saldo';
+
+  @override
+  String get walletRefresh => 'Actualizar';
+
+  @override
+  String get walletSend => 'Enviar';
+
+  @override
+  String get walletReceive => 'Recibir';
+
+  @override
+  String get walletReceiveHint =>
+      'Comparte esta dirección para recibir SOL o NFTs.';
+
+  @override
+  String get walletRecipient => 'Dirección del destinatario';
+
+  @override
+  String get walletAmount => 'Importe (SOL)';
+
+  @override
+  String get walletInvalidAddress => 'Dirección Solana no válida.';
+
+  @override
+  String get walletInvalidAmount => 'Importe no válido.';
+
+  @override
+  String get walletSendAction => 'Enviar';
+
+  @override
+  String walletSent(String signature) {
+    return 'Transacción enviada: $signature';
+  }
+
+  @override
+  String get walletShowPhrase => 'Mostrar la frase de recuperación';
+
+  @override
+  String get walletRemove => 'Quitar esta billetera del dispositivo';
+
+  @override
+  String get walletRemoveConfirm =>
+      'Sin tu frase de recuperación perderás tus fondos. ¿Quitar la billetera?';
+
+  @override
+  String get walletRemoveAction => 'Quitar';
+
+  @override
+  String get walletCancel => 'Cancelar';
+
+  @override
+  String get walletClose => 'Cerrar';
+
+  @override
+  String walletNetworkNote(String cluster) {
+    return 'Red: $cluster (red de prueba, sin valor real).';
+  }
+
+  @override
+  String walletNftCount(int count) {
+    return 'NFTs: $count';
+  }
+
+  @override
+  String get walletExternalTitle => 'O conecta una billetera externa';
+
+  @override
+  String get spreadAiTitle => 'ORION · INTERPRETACIÓN IA';
+
+  @override
+  String get spreadAiLockedBody =>
+      'Obtén una lectura profunda de cada carta según su posición en la tirada. Gratis tras un breve anuncio, o incluida con Orion+.';
+
+  @override
+  String get spreadAiWatchAd => 'Ver interpretación IA (anuncio)';
 }

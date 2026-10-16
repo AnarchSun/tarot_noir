@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>717791625767-5gcolluurr5gj0chjve9f4d91poc6dfm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.717791625767-5gcolluurr5gj0chjve9f4d91poc6dfm</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>717791625767-3ustie5er330se2v985gmck2nqvgs847.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBd6jV04SgvkiUbEiL-LzmZmlR06dFFyDo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>717791625767</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.anarchsun.tarotNoir</string>
+	<key>PROJECT_ID</key>
+	<string>tarot-noir</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tarot-noir.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:717791625767:ios:acc3eb5c57345dc7dc0402</string>
+</dict>
+</plist>

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "717791625767",
+    "project_id": "tarot-noir",
+    "storage_bucket": "tarot-noir.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717791625767:android:3f0baece01c9f864dc0402",
+        "android_client_info": {
+          "package_name": "com.anarchsun.tarot_noir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717791625767-3ustie5er330se2v985gmck2nqvgs847.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anarchsun.tarot_noir",
+            "certificate_hash": "eed7c3e4f37d8e46d4620e3ed693a84973240091"
+          }
+        },
+        {
+          "client_id": "717791625767-0utumuebvonsdc9a2fvnqiuabkll2gpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkDG2I8yXh-mDo1xToLCixYwB2aCs3XeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "717791625767-0utumuebvonsdc9a2fvnqiuabkll2gpn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "717791625767-5gcolluurr5gj0chjve9f4d91poc6dfm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anarchsun.tarotNoir"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,12 @@
+import 'package:flutter/foundation.dart';
+
 /// Centralizes non-secret deployment settings.
 abstract final class AppConfig {
   static const localStateKey = 'tarot_noir.state.v1';
   static const localStateVersion = 1;
 
   static const appName = 'Tarot Noir';
-  static const tarotImageDirectory = 'assets/images/tarot_temp';
+  static const tarotImageDirectory = 'assets/images/tarot_cards';
   static const solanaCluster = String.fromEnvironment(
     'SOLANA_CLUSTER',
     defaultValue: 'devnet',
@@ -29,11 +31,17 @@ abstract final class AppConfig {
     defaultValue: true,
   );
 
-  /// Authentication stays closed until a Firebase project is configured.
-  static const firebaseAuthEnabled = bool.fromEnvironment(
+  /// Firebase project configuration is present for Android and iOS.
+  static const _firebaseAuthEnabledByBuild = bool.fromEnvironment(
     'FIREBASE_AUTH_ENABLED',
-    defaultValue: false,
+    defaultValue: true,
   );
+
+  @visibleForTesting
+  static bool? firebaseAuthEnabledForTesting;
+
+  static bool get firebaseAuthEnabled =>
+      firebaseAuthEnabledForTesting ?? _firebaseAuthEnabledByBuild;
 
   /// Facebook also requires a Meta application and native Android/iOS setup.
   static const facebookAuthEnabled = bool.fromEnvironment(
@@ -41,13 +49,9 @@ abstract final class AppConfig {
     defaultValue: false,
   );
 
-  static const firebaseProjectId = String.fromEnvironment(
-    'FIREBASE_PROJECT_ID',
-  );
-  static const firebaseApiKey = String.fromEnvironment('FIREBASE_API_KEY');
-  static const firebaseAppId = String.fromEnvironment('FIREBASE_APP_ID');
-  static const firebaseMessagingSenderId = String.fromEnvironment(
-    'FIREBASE_MESSAGING_SENDER_ID',
+  static const facebookSignInVisible = bool.fromEnvironment(
+    'FACEBOOK_SIGN_IN_VISIBLE',
+    defaultValue: true,
   );
 
   static const metaAppId = String.fromEnvironment('META_APP_ID');
@@ -55,10 +59,9 @@ abstract final class AppConfig {
 
   static bool get isFirebaseAuthConfigured =>
       firebaseAuthEnabled &&
-      firebaseProjectId.isNotEmpty &&
-      firebaseApiKey.isNotEmpty &&
-      firebaseAppId.isNotEmpty &&
-      firebaseMessagingSenderId.isNotEmpty;
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
 
   static bool get isFacebookAuthConfigured =>
       isFirebaseAuthConfigured &&

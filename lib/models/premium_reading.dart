@@ -1,4 +1,6 @@
+import 'premium_reading_text.dart';
 import 'tarot_card.dart';
+import 'tarot_card_text.dart';
 
 class PremiumReading {
   const PremiumReading({
@@ -66,25 +68,58 @@ abstract final class PremiumReadingCatalog {
     'Deniers': 'La terre des Deniers parle du corps, du travail, des ressources et de ce qui dure.',
   };
 
-  static PremiumReading forCard(TarotCard card, CardOrientation orientation) {
-    final essence = card.supportsReversedOrientation
-        ? _minor(card)
-        : (_major[card.name] ?? card.message);
+  static String title(String languageCode) =>
+      premiumFrame[languageCode]?['title'] ?? 'ORION+ · LECTURE APPROFONDIE';
+
+  static PremiumReading forCard(
+    TarotCard card,
+    CardOrientation orientation, [
+    String languageCode = 'fr',
+  ]) {
+    final frame = premiumFrame[languageCode];
+    final keyword = card.localizedKeyword(languageCode).toLowerCase();
+    final essence = card.isMinorArcana
+        ? _minor(card, languageCode)
+        : (premiumMajor[languageCode]?[card.number] ??
+              _major[card.name] ??
+              card.message);
+    String pick(String key, String fr) => (frame?[key] ?? fr)
+        .replaceAll('{name}', card.name)
+        .replaceAll('{keyword}', keyword);
     final direction = orientation.isReversed
-        ? 'Renversée, ${card.name} signale une énergie retenue, excessive ou tournée contre toi; elle réclame un réajustement patient.'
-        : 'Dans sa lumière, ${card.name} te demande d’habiter pleinement cette énergie sans la brusquer.';
+        ? pick(
+            'reversed',
+            'Renversée, {name} signale une énergie retenue, excessive ou tournée contre toi; elle réclame un réajustement patient.',
+          )
+        : pick(
+            'upright',
+            'Dans sa lumière, {name} te demande d’habiter pleinement cette énergie sans la brusquer.',
+          );
     return PremiumReading(
       essence: '$essence $direction',
       shadow: orientation.isReversed
-          ? 'Nœud à défaire : observe où la peur, le contrôle ou l’épuisement bloquent ${card.keyword.toLowerCase()}. La résistance indique ce qui demande du soin.'
-          : 'Ombre à surveiller : confondre ${card.keyword.toLowerCase()} avec une obligation, ou avancer sans écouter tes limites.',
-      ritual:
-          'Rituel : écris une situation précise liée à ${card.keyword.toLowerCase()}. Choisis un geste réalisable aujourd’hui, puis note dans ton journal ce qu’il transforme.',
+          ? pick(
+              'shadowReversed',
+              'Nœud à défaire : observe où la peur, le contrôle ou l’épuisement bloquent {keyword}. La résistance indique ce qui demande du soin.',
+            )
+          : pick(
+              'shadowUpright',
+              'Ombre à surveiller : confondre {keyword} avec une obligation, ou avancer sans écouter tes limites.',
+            ),
+      ritual: pick(
+        'ritual',
+        'Rituel : écris une situation précise liée à {keyword}. Choisis un geste réalisable aujourd’hui, puis note dans ton journal ce qu’il transforme.',
+      ),
     );
   }
 
-  static String _minor(TarotCard card) {
+  static String _minor(TarotCard card, String languageCode) {
     final parts = card.name.split(' de ');
-    return '${_ranks[parts.first] ?? card.message} ${_suits[parts.length > 1 ? parts.last : ''] ?? ''}';
+    final rank = parts.first;
+    final suit = parts.length > 1 ? parts.last : '';
+    final rankText =
+        premiumRanks[languageCode]?[rank] ?? _ranks[rank] ?? card.message;
+    final suitText = premiumSuits[languageCode]?[suit] ?? _suits[suit] ?? '';
+    return '$rankText $suitText';
   }
 }

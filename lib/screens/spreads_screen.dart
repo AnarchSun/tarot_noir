@@ -1,0 +1,481 @@
+import 'package:flutter/material.dart';
+
+import '../l10n/app_localizations.dart';
+import '../models/spread.dart';
+import '../widgets/orion_premium_insight.dart';
+import '../models/tarot_deck.dart';
+import '../models/tarot_card.dart';
+import '../models/tarot_card_text.dart';
+import '../widgets/tarot_card_view.dart';
+
+class DrawnSpreadCard {
+  const DrawnSpreadCard(this.card, this.orientation);
+
+  final TarotCard card;
+  final CardOrientation orientation;
+}
+
+class SpreadsScreen extends StatelessWidget {
+  const SpreadsScreen({
+    required this.isPremiumUnlocked,
+    required this.onDraw,
+    required this.onOpenPremium,
+    super.key,
+  });
+
+  final bool isPremiumUnlocked;
+  final Future<void> Function(SpreadDefinition spread) onDraw;
+  final VoidCallback onOpenPremium;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final lang = l10n.localeName;
+    return ListView(
+      key: const Key('spreads-screen'),
+      padding: const EdgeInsets.all(24),
+      children: [
+        Text(
+          l10n.spreads,
+          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 8),
+        Text(l10n.spreadsIntro, style: const TextStyle(height: 1.4)),
+        const SizedBox(height: 16),
+        _SpreadTile(
+          key: const Key('shared-daily'),
+          text: SpreadText(
+            l10n.tarotNoirDaily,
+            l10n.tarotNoirDailyDesc,
+            const [],
+          ),
+          cardCount: 1,
+          isFree: true,
+          isLocked: false,
+          badge: l10n.tarotNoirDailyBadge,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) =>
+                  SharedDailyCardScreen(card: dailyCardForDate(DateTime.now())),
+            ),
+          ),
+        ),
+        for (final spread in spreadCatalog)
+          _SpreadTile(
+            key: Key('spread-${spread.id}'),
+            text: spreadText(spread, lang),
+            cardCount: spread.cardCount,
+            isFree: spread.isFree,
+            isLocked: !spread.isFree && !isPremiumUnlocked,
+            onTap: () {
+              if (!spread.isFree && !isPremiumUnlocked) {
+                onOpenPremium();
+              } else {
+                onDraw(spread);
+              }
+            },
+          ),
+      ],
+    );
+  }
+}
+
+class _SpreadTile extends StatelessWidget {
+  const _SpreadTile({
+    required this.text,
+    required this.cardCount,
+    required this.isFree,
+    required this.isLocked,
+    required this.onTap,
+    this.badge,
+    super.key,
+  });
+
+  final String? badge;
+  final SpreadText text;
+  final int cardCount;
+  final bool isFree;
+  final bool isLocked;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    const gold = Color(0xFFD4AF59);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Material(
+        color: const Color(0xFF171220),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: gold.withValues(alpha: isLocked ? .25 : .6)),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Icon(
+                  isLocked ? Icons.lock_outline : Icons.auto_awesome,
+                  color: isLocked ? const Color(0xFFB9AFBE) : gold,
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        text.title,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        text.description,
+                        style: const TextStyle(
+                          height: 1.35,
+                          color: Color(0xFFCFC6D4),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        badge ??
+                            '${l10n.spreadCardCount(cardCount)} · '
+                                '${isFree ? l10n.spreadFreeBadge : l10n.spreadPremiumBadge}',
+                        style: const TextStyle(
+                          color: gold,
+                          fontSize: 12,
+                          letterSpacing: .6,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SpreadResultScreen extends StatefulWidget {
+  const SpreadResultScreen({
+    required this.spread,
+    required this.cards,
+    this.isPremiumUnlocked = false,
+    this.onRequestAd,
+    super.key,
+  });
+
+  final SpreadDefinition spread;
+  final List<DrawnSpreadCard> cards;
+  final bool isPremiumUnlocked;
+
+  /// Shows the ad; returns true when the user may see the AI interpretation.
+  final Future<bool> Function()? onRequestAd;
+
+  @override
+  State<SpreadResultScreen> createState() => _SpreadResultScreenState();
+}
+
+class _SpreadResultScreenState extends State<SpreadResultScreen> {
+  bool _aiUnlocked = false;
+
+  SpreadDefinition get spread => widget.spread;
+  List<DrawnSpreadCard> get cards => widget.cards;
+
+  Future<void> _unlockAi() async {
+    final allowed = await widget.onRequestAd?.call() ?? true;
+    if (allowed && mounted) setState(() => _aiUnlocked = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final lang = l10n.localeName;
+    final text = spreadText(spread, lang);
+    return Scaffold(
+      appBar: AppBar(title: Text(text.title)),
+      body: SafeArea(
+        child: ListView(
+          key: const Key('spread-result'),
+          padding: const EdgeInsets.all(20),
+          children: [
+            _SpreadLayoutView(spread: spread, cards: cards, text: text),
+            const SizedBox(height: 24),
+            for (var i = 0; i < cards.length; i++)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 110,
+                      child: TarotCardView(
+                        card: cards[i].card,
+                        orientation: cards[i].orientation,
+                        height: 180,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${i + 1}. ${text.positions[i].toUpperCase()}',
+                            style: const TextStyle(
+                              color: Color(0xFFD4AF59),
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            cards[i].card.name,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            cards[i].card.localizedMessage(lang),
+                            style: const TextStyle(height: 1.4),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            _buildAiSection(l10n, lang, text),
+            const SizedBox(height: 20),
+            Text(
+              l10n.spreadSavedToJournal,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Color(0xFFB9AFBE)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+extension on _SpreadResultScreenState {
+  Widget _buildAiSection(AppLocalizations l10n, String lang, SpreadText text) {
+    if (!widget.isPremiumUnlocked && !_aiUnlocked) {
+      return Container(
+        key: const Key('spread-ai-locked'),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF211839),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFFD4AF59).withValues(alpha: .55),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              l10n.spreadAiTitle,
+              style: const TextStyle(
+                color: Color(0xFFD4AF59),
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(l10n.spreadAiLockedBody, style: const TextStyle(height: 1.4)),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              key: const Key('spread-ai-unlock'),
+              onPressed: _unlockAi,
+              icon: const Icon(Icons.play_circle_outline),
+              label: Text(l10n.spreadAiWatchAd),
+            ),
+          ],
+        ),
+      );
+    }
+    return Column(
+      key: const Key('spread-ai-reading'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          l10n.spreadAiTitle,
+          style: const TextStyle(
+            color: Color(0xFFD4AF59),
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.2,
+          ),
+        ),
+        const SizedBox(height: 12),
+        for (var i = 0; i < cards.length; i++) ...[
+          Text(
+            '${text.positions[i]} · ${cards[i].card.name}',
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 6),
+          OrionPremiumInsight(
+            card: cards[i].card,
+            orientation: cards[i].orientation,
+          ),
+          const SizedBox(height: 14),
+        ],
+      ],
+    );
+  }
+}
+
+class SharedDailyCardScreen extends StatelessWidget {
+  const SharedDailyCardScreen({required this.card, super.key});
+
+  final TarotCard card;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final lang = l10n.localeName;
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.tarotNoirDaily)),
+      body: SafeArea(
+        child: ListView(
+          key: const Key('shared-daily-result'),
+          padding: const EdgeInsets.all(24),
+          children: [
+            Center(child: TarotCardView(card: card, height: 360)),
+            const SizedBox(height: 20),
+            Text(
+              card.name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+            ),
+            if (!card.isMinorArcana) ...[
+              const SizedBox(height: 6),
+              Text(
+                card.localizedKeyword(lang).toUpperCase(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFFD4AF59),
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+            const SizedBox(height: 14),
+            Text(
+              card.localizedMessage(lang),
+              style: const TextStyle(height: 1.45),
+            ),
+            const SizedBox(height: 18),
+            Text(
+              l10n.sharedDailyNote,
+              style: const TextStyle(color: Color(0xFFB9AFBE), height: 1.4),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SpreadLayoutView extends StatelessWidget {
+  const _SpreadLayoutView({
+    required this.spread,
+    required this.cards,
+    required this.text,
+  });
+
+  final SpreadDefinition spread;
+  final List<DrawnSpreadCard> cards;
+  final SpreadText text;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = spreadLayout(spread);
+    final columns = layout.map((p) => p.$1).reduce((a, b) => a > b ? a : b) + 1;
+    final rows = layout.map((p) => p.$2).reduce((a, b) => a > b ? a : b) + 1;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cellWidth = (constraints.maxWidth / columns).clamp(0.0, 120.0);
+        final cardWidth = cellWidth * 0.86;
+        final cardHeight = cardWidth * 1.55;
+        final cellHeight = cardHeight + 26;
+        return Center(
+          child: SizedBox(
+            key: const Key('spread-layout'),
+            width: cellWidth * columns,
+            height: cellHeight * rows,
+            child: Stack(
+              children: [
+                for (var i = 0; i < cards.length; i++)
+                  Positioned(
+                    left:
+                        layout[i].$1 * cellWidth + (cellWidth - cardWidth) / 2,
+                    top: layout[i].$2 * cellHeight,
+                    width: cardWidth,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          alignment: Alignment.topLeft,
+                          children: [
+                            TarotCardView(
+                              card: cards[i].card,
+                              orientation: cards[i].orientation,
+                              height: cardHeight,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(4),
+                              width: 20,
+                              height: 20,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFD4AF59),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                '${i + 1}',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          text.positions[i],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Color(0xFFD4AF59),
+                            height: 1.1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

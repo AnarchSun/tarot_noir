@@ -109,8 +109,44 @@ abstract class AppLocalizations {
   /// No description provided for @dailyReading.
   ///
   /// In fr, this message translates to:
-  /// **'Le tirage du jour'**
+  /// **'Carte du jour'**
   String get dailyReading;
+
+  /// No description provided for @dailyDrawPrompt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta carte du jour t’attend. Tire-la une fois aujourd’hui pour découvrir son message.'**
+  String get dailyDrawPrompt;
+
+  /// No description provided for @accountGateTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accède à {destination}'**
+  String accountGateTitle(Object destination);
+
+  /// No description provided for @accountGateBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Crée un compte ou connecte-toi pour retrouver ton profil et ton journal, où chaque carte tirée est conservée avec ses notes. La synchronisation du journal reste désactivée tant que tu ne l’actives pas.'**
+  String get accountGateBody;
+
+  /// No description provided for @orionPlusTeaser.
+  ///
+  /// In fr, this message translates to:
+  /// **'Orion+ est distinct d’un compte gratuit et propose des interprétations plus approfondies et des conseils supplémentaires.'**
+  String get orionPlusTeaser;
+
+  /// No description provided for @discoverOrionPlus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Découvrir Orion+'**
+  String get discoverOrionPlus;
+
+  /// No description provided for @authenticationStartupFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'La connexion n’a pas pu s’initialiser : {error}. Tu peux continuer comme invité.'**
+  String authenticationStartupFailed(Object error);
 
   /// No description provided for @drawAnother.
   ///
@@ -136,6 +172,12 @@ abstract class AppLocalizations {
   /// **'La sauvegarde locale a échoué. Le rituel n’a pas été verrouillé.'**
   String get storageError;
 
+  /// No description provided for @storageOperationFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible de terminer l’opération sur les données locales : {error}'**
+  String storageOperationFailed(Object error);
+
   /// No description provided for @deleteJournalEntry.
   ///
   /// In fr, this message translates to:
@@ -153,6 +195,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Tirer ma carte du jour'**
   String get drawDaily;
+
+  /// No description provided for @basicDraw.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirer une carte simple'**
+  String get basicDraw;
+
+  /// No description provided for @continueWithoutAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer sans compte'**
+  String get continueWithoutAccount;
 
   /// No description provided for @reading.
   ///
@@ -181,7 +235,7 @@ abstract class AppLocalizations {
   /// No description provided for @journalSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Les cartes tirées pendant cette session.'**
+  /// **'Chaque carte tirée est conservée ici, avec sa date et tes notes.'**
   String get journalSubtitle;
 
   /// No description provided for @journalEmpty.
@@ -349,7 +403,7 @@ abstract class AppLocalizations {
   /// No description provided for @eraseLocalDataConfirmation.
   ///
   /// In fr, this message translates to:
-  /// **'Cette action supprime le tirage quotidien, le journal, le profil, les notes et toutes les préférences locales.'**
+  /// **'Cette action supprime le tirage quotidien, le journal, le profil, les notes et toutes les préférences locales. Elle ne supprime pas les données déjà synchronisées avec Firebase.'**
   String get eraseLocalDataConfirmation;
 
   /// No description provided for @cancel.
@@ -544,16 +598,16 @@ abstract class AppLocalizations {
   /// **'Continuer avec Facebook'**
   String get continueWithFacebook;
 
-  /// No description provided for @continueWithEmail.
+  /// No description provided for @continueWithGoogle.
   ///
   /// In fr, this message translates to:
-  /// **'Continuer avec un courriel'**
-  String get continueWithEmail;
+  /// **'Continuer avec Google'**
+  String get continueWithGoogle;
 
   /// No description provided for @authenticationConfigured.
   ///
   /// In fr, this message translates to:
-  /// **'Connexion Facebook configurée'**
+  /// **'Connexion Firebase prête'**
   String get authenticationConfigured;
 
   /// No description provided for @authenticationNotConfigured.
@@ -565,8 +619,38 @@ abstract class AppLocalizations {
   /// No description provided for @authenticationPrivacy.
   ///
   /// In fr, this message translates to:
-  /// **'Tarot Noir ne reçoit jamais votre mot de passe Facebook. Vous pouvez révoquer l’accès depuis votre compte.'**
+  /// **'La connexion est gérée par Firebase. Tarot Noir ne reçoit jamais les mots de passe de vos fournisseurs.'**
   String get authenticationPrivacy;
+
+  /// No description provided for @journalSyncTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synchroniser le journal avec Firebase'**
+  String get journalSyncTitle;
+
+  /// No description provided for @journalSyncDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avec votre autorisation, le journal de cet appareil est fusionné avec le journal Firestore privé de ce compte. Désactiver la synchronisation arrête les prochains transferts, sans supprimer les copies dans le cloud. Les entrées créées avec un autre compte connecté ne sont pas transférées vers ce compte.'**
+  String get journalSyncDescription;
+
+  /// No description provided for @journalSyncEnabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synchronisation du journal activée.'**
+  String get journalSyncEnabled;
+
+  /// No description provided for @journalSyncDisabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synchronisation du journal désactivée. Les copies dans le cloud sont conservées.'**
+  String get journalSyncDisabled;
+
+  /// No description provided for @journalSyncFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le journal reste enregistré localement, mais la synchronisation a échoué : {error}'**
+  String journalSyncFailed(Object error);
 
   /// No description provided for @facebookConfigurationRequired.
   ///
@@ -619,8 +703,8 @@ abstract class AppLocalizations {
   /// No description provided for @walletError.
   ///
   /// In fr, this message translates to:
-  /// **'Échec de la connexion wallet : {message}'**
-  String walletError(Object message);
+  /// **'Portefeuille : {error}'**
+  String walletError(String error);
 
   /// No description provided for @walletOpenProfile.
   ///
@@ -721,56 +805,8 @@ abstract class AppLocalizations {
   /// No description provided for @firebaseConfigurationRequired.
   ///
   /// In fr, this message translates to:
-  /// **'Ajoutez les identifiants publics Firebase et activez l’authentification avant de vous connecter.'**
+  /// **'Activez Firebase Authentication avant de vous connecter.'**
   String get firebaseConfigurationRequired;
-
-  /// No description provided for @emailSignIn.
-  ///
-  /// In fr, this message translates to:
-  /// **'Connexion par courriel'**
-  String get emailSignIn;
-
-  /// No description provided for @createAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'Créer un compte'**
-  String get createAccount;
-
-  /// No description provided for @emailLabel.
-  ///
-  /// In fr, this message translates to:
-  /// **'Courriel'**
-  String get emailLabel;
-
-  /// No description provided for @passwordLabel.
-  ///
-  /// In fr, this message translates to:
-  /// **'Mot de passe'**
-  String get passwordLabel;
-
-  /// No description provided for @passwordTooShort.
-  ///
-  /// In fr, this message translates to:
-  /// **'Utilisez au moins 6 caractères.'**
-  String get passwordTooShort;
-
-  /// No description provided for @signIn.
-  ///
-  /// In fr, this message translates to:
-  /// **'Se connecter'**
-  String get signIn;
-
-  /// No description provided for @needAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'Créer un nouveau compte'**
-  String get needAccount;
-
-  /// No description provided for @alreadyHaveAccount.
-  ///
-  /// In fr, this message translates to:
-  /// **'J’ai déjà un compte'**
-  String get alreadyHaveAccount;
 
   /// No description provided for @signedInAs.
   ///
@@ -784,53 +820,533 @@ abstract class AppLocalizations {
   /// **'Se déconnecter'**
   String get signOut;
 
-  /// No description provided for @forgotPassword.
+  /// No description provided for @home.
   ///
   /// In fr, this message translates to:
-  /// **'Mot de passe oublié?'**
-  String get forgotPassword;
+  /// **'Accueil'**
+  String get home;
 
-  /// No description provided for @passwordResetEmailSent.
+  /// No description provided for @spreads.
   ///
   /// In fr, this message translates to:
-  /// **'Si ce compte existe, un courriel de réinitialisation a été envoyé.'**
-  String get passwordResetEmailSent;
+  /// **'Tirages'**
+  String get spreads;
 
-  /// No description provided for @verificationEmailSent.
+  /// No description provided for @spreadsIntro.
   ///
   /// In fr, this message translates to:
-  /// **'Un courriel de vérification a été envoyé.'**
-  String get verificationEmailSent;
+  /// **'Choisis un tirage. Les tirages gratuits affichent une courte annonce ; les tirages étendus sont réservés à Orion+.'**
+  String get spreadsIntro;
 
-  /// No description provided for @emailNotVerified.
+  /// No description provided for @spreadFreeBadge.
   ///
   /// In fr, this message translates to:
-  /// **'Votre courriel n’est pas encore vérifié.'**
-  String get emailNotVerified;
+  /// **'Gratuit · courte annonce'**
+  String get spreadFreeBadge;
 
-  /// No description provided for @resendVerification.
+  /// No description provided for @spreadPremiumBadge.
   ///
   /// In fr, this message translates to:
-  /// **'Renvoyer le courriel'**
-  String get resendVerification;
+  /// **'Orion+'**
+  String get spreadPremiumBadge;
 
-  /// No description provided for @refreshVerification.
+  /// No description provided for @spreadCardCount.
   ///
   /// In fr, this message translates to:
-  /// **'J’ai vérifié'**
-  String get refreshVerification;
+  /// **'{count} cartes'**
+  String spreadCardCount(int count);
 
-  /// No description provided for @emailVerified.
+  /// No description provided for @spreadSavedToJournal.
   ///
   /// In fr, this message translates to:
-  /// **'Courriel vérifié.'**
-  String get emailVerified;
+  /// **'Les cartes de ce tirage ont été ajoutées à ton journal.'**
+  String get spreadSavedToJournal;
 
-  /// No description provided for @emailStillUnverified.
+  /// No description provided for @spreadLocked.
   ///
   /// In fr, this message translates to:
-  /// **'Le courriel n’est pas encore vérifié.'**
-  String get emailStillUnverified;
+  /// **'Ce tirage est réservé à Orion+.'**
+  String get spreadLocked;
+
+  /// No description provided for @compareGuest.
+  ///
+  /// In fr, this message translates to:
+  /// **'Invité'**
+  String get compareGuest;
+
+  /// No description provided for @compareAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte gratuit'**
+  String get compareAccount;
+
+  /// No description provided for @compareRowDaily.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour Tarot Noir'**
+  String get compareRowDaily;
+
+  /// No description provided for @compareRowCross.
+  ///
+  /// In fr, this message translates to:
+  /// **'Croix à 5 cartes (avec annonce)'**
+  String get compareRowCross;
+
+  /// No description provided for @compareRowJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Journal et notes (dans Profil)'**
+  String get compareRowJournal;
+
+  /// No description provided for @compareRowProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil et préférences'**
+  String get compareRowProfile;
+
+  /// No description provided for @compareRowExtended.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tirages étendus'**
+  String get compareRowExtended;
+
+  /// No description provided for @compareRowDeepReading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lectures d’Orion et questions par carte'**
+  String get compareRowDeepReading;
+
+  /// No description provided for @compareRowNoAds.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans annonces'**
+  String get compareRowNoAds;
+
+  /// No description provided for @compareRowNft.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avatars NFT'**
+  String get compareRowNft;
+
+  /// No description provided for @notesToggle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notes'**
+  String get notesToggle;
+
+  /// No description provided for @saveNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer la note'**
+  String get saveNote;
+
+  /// No description provided for @orionAssessmentTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Évaluation d’Orion'**
+  String get orionAssessmentTitle;
+
+  /// No description provided for @orionAskSoon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bientôt : pose ta question à Orion, qui répondra selon cette carte.'**
+  String get orionAskSoon;
+
+  /// No description provided for @orionLockedHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Évaluation et questions d’Orion avec Orion+'**
+  String get orionLockedHint;
+
+  /// No description provided for @personalDailyReading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta carte du jour personnelle'**
+  String get personalDailyReading;
+
+  /// No description provided for @tarotNoirDaily.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte du jour Tarot Noir'**
+  String get tarotNoirDaily;
+
+  /// No description provided for @tarotNoirDailyDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'La même carte pour tout le monde, toute la journée. Elle change à minuit.'**
+  String get tarotNoirDailyDesc;
+
+  /// No description provided for @tarotNoirDailyBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuite · pour tous'**
+  String get tarotNoirDailyBadge;
+
+  /// No description provided for @sharedDailyNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette carte est la même pour tous aujourd’hui. Pour la tienne, tire ta carte du jour personnelle depuis l’accueil.'**
+  String get sharedDailyNote;
+
+  /// No description provided for @compareRowPersonal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta carte du jour personnelle'**
+  String get compareRowPersonal;
+
+  /// No description provided for @guestPopupTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avant d’entrer en invité'**
+  String get guestPopupTitle;
+
+  /// No description provided for @guestPopupBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'En invité, tu gardes la carte du jour Tarot Noir, ta carte du jour personnelle et la croix à 5 cartes (avec annonce). Un compte gratuit conserve en plus ton journal, tes notes et ton profil. Orion+ ajoute les lectures d’Orion et les tirages étendus.'**
+  String get guestPopupBody;
+
+  /// No description provided for @guestContinueAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer en invité'**
+  String get guestContinueAction;
+
+  /// No description provided for @guestAdLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annonce'**
+  String get guestAdLabel;
+
+  /// No description provided for @guestAdBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Espace publicitaire réservé aux invités'**
+  String get guestAdBody;
+
+  /// No description provided for @profileTabHome.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get profileTabHome;
+
+  /// No description provided for @profileTabJournal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Journal'**
+  String get profileTabJournal;
+
+  /// No description provided for @profileTabCollection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Collection'**
+  String get profileTabCollection;
+
+  /// No description provided for @profileTabWallet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portefeuille'**
+  String get profileTabWallet;
+
+  /// No description provided for @bioLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bio / description'**
+  String get bioLabel;
+
+  /// No description provided for @cityLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ville'**
+  String get cityLabel;
+
+  /// No description provided for @originLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Origine'**
+  String get originLabel;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'À propos'**
+  String get aboutTitle;
+
+  /// No description provided for @aboutEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoute une bio, ta ville ou ton origine pour présenter ton profil.'**
+  String get aboutEmpty;
+
+  /// No description provided for @memberSince.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dans le cercle depuis {date}'**
+  String memberSince(String date);
+
+  /// No description provided for @collectionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Collection'**
+  String get collectionTitle;
+
+  /// No description provided for @collectionEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tes NFTs Tarot Noir apparaîtront ici. La collection d’avatars sur Solana n’est pas encore ouverte.'**
+  String get collectionEmpty;
+
+  /// No description provided for @collectionPremiumHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un portefeuille intégré accompagnera Orion+ pour recevoir et garder tes NFTs.'**
+  String get collectionPremiumHint;
+
+  /// No description provided for @walletTabIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecte ton portefeuille Solana existant. Le portefeuille intégré inclus avec Orion+ (adresse, solde, NFTs, envoi et réception) est en préparation.'**
+  String get walletTabIntro;
+
+  /// No description provided for @walletBuiltinTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portefeuille Orion+'**
+  String get walletBuiltinTitle;
+
+  /// No description provided for @walletLockedHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un portefeuille Solana intégré (adresse, solde, NFTs, envoi et réception) est inclus avec Orion+.'**
+  String get walletLockedHint;
+
+  /// No description provided for @walletDiscoverPremium.
+  ///
+  /// In fr, this message translates to:
+  /// **'Découvrir Orion+'**
+  String get walletDiscoverPremium;
+
+  /// No description provided for @walletCreateIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les clés sont créées et gardées sur cet appareil. Toi seul détiens la phrase de récupération : sans elle, personne ne peut récupérer ton portefeuille.'**
+  String get walletCreateIntro;
+
+  /// No description provided for @walletCreate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer mon portefeuille'**
+  String get walletCreate;
+
+  /// No description provided for @walletImport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer un portefeuille'**
+  String get walletImport;
+
+  /// No description provided for @walletRecoveryTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ta phrase de récupération'**
+  String get walletRecoveryTitle;
+
+  /// No description provided for @walletRecoveryWarning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note ces 12 mots dans l’ordre et garde-les hors ligne. Ne les partage jamais : ils donnent accès à tous tes fonds.'**
+  String get walletRecoveryWarning;
+
+  /// No description provided for @walletSavedConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'J’ai sauvegardé ma phrase de récupération'**
+  String get walletSavedConfirm;
+
+  /// No description provided for @walletActivate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer le portefeuille'**
+  String get walletActivate;
+
+  /// No description provided for @walletImportTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer avec une phrase'**
+  String get walletImportTitle;
+
+  /// No description provided for @walletImportHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisis tes 12 ou 24 mots séparés par des espaces'**
+  String get walletImportHint;
+
+  /// No description provided for @walletInvalidPhrase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Phrase de récupération invalide.'**
+  String get walletInvalidPhrase;
+
+  /// No description provided for @walletImportAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer'**
+  String get walletImportAction;
+
+  /// No description provided for @walletAddress.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse'**
+  String get walletAddress;
+
+  /// No description provided for @walletCopy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier'**
+  String get walletCopy;
+
+  /// No description provided for @walletCopied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse copiée.'**
+  String get walletCopied;
+
+  /// No description provided for @walletBalance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Solde'**
+  String get walletBalance;
+
+  /// No description provided for @walletRefresh.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actualiser'**
+  String get walletRefresh;
+
+  /// No description provided for @walletSend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get walletSend;
+
+  /// No description provided for @walletReceive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recevoir'**
+  String get walletReceive;
+
+  /// No description provided for @walletReceiveHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partage cette adresse pour recevoir des SOL ou des NFTs.'**
+  String get walletReceiveHint;
+
+  /// No description provided for @walletRecipient.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse du destinataire'**
+  String get walletRecipient;
+
+  /// No description provided for @walletAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant (SOL)'**
+  String get walletAmount;
+
+  /// No description provided for @walletInvalidAddress.
+  ///
+  /// In fr, this message translates to:
+  /// **'Adresse Solana invalide.'**
+  String get walletInvalidAddress;
+
+  /// No description provided for @walletInvalidAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant invalide.'**
+  String get walletInvalidAmount;
+
+  /// No description provided for @walletSendAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get walletSendAction;
+
+  /// No description provided for @walletSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Transaction envoyée : {signature}'**
+  String walletSent(String signature);
+
+  /// No description provided for @walletShowPhrase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Afficher la phrase de récupération'**
+  String get walletShowPhrase;
+
+  /// No description provided for @walletRemove.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer ce portefeuille de l’appareil'**
+  String get walletRemove;
+
+  /// No description provided for @walletRemoveConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans ta phrase de récupération, tes fonds seront perdus. Retirer le portefeuille ?'**
+  String get walletRemoveConfirm;
+
+  /// No description provided for @walletRemoveAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer'**
+  String get walletRemoveAction;
+
+  /// No description provided for @walletCancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get walletCancel;
+
+  /// No description provided for @walletClose.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermer'**
+  String get walletClose;
+
+  /// No description provided for @walletNetworkNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réseau : {cluster} (réseau de test, sans valeur réelle).'**
+  String walletNetworkNote(String cluster);
+
+  /// No description provided for @walletNftCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'NFTs : {count}'**
+  String walletNftCount(int count);
+
+  /// No description provided for @walletExternalTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ou connecter un portefeuille externe'**
+  String get walletExternalTitle;
+
+  /// No description provided for @spreadAiTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'ORION · INTERPRÉTATION IA'**
+  String get spreadAiTitle;
+
+  /// No description provided for @spreadAiLockedBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Obtiens une lecture approfondie de chaque carte selon sa position dans le tirage. Gratuit après une courte annonce, ou inclus avec Orion+.'**
+  String get spreadAiLockedBody;
+
+  /// No description provided for @spreadAiWatchAd.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir l’interprétation IA (annonce)'**
+  String get spreadAiWatchAd;
 }
 
 class _AppLocalizationsDelegate

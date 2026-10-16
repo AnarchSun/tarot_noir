@@ -33,6 +33,9 @@ class TarotStorageService {
   static const dailyReminderKey = 'preference_daily_reminder';
   static const toneKey = 'preference_orion_tone';
   static const userProfileKey = 'user_profile';
+  static const journalSyncUserUidKey = 'journal_sync_user_uid';
+  static const deletedJournalEntryIdsKey = 'deleted_journal_entry_ids';
+  static const guestAccessAcceptedKey = 'guest_access_accepted';
 
   Future<void> _migrateLegacyState(
     SharedPreferences preferences,
@@ -138,6 +141,114 @@ class TarotStorageService {
     await preferences.setString(userProfileKey, jsonEncode(profile.toJson()));
   }
 
+  Future<bool> isJournalSyncEnabledForUser(String uid) async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getString(journalSyncUserUidKey) == uid;
+  }
+
+  Future<bool> hasAcceptedGuestAccess() async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(guestAccessAcceptedKey) ?? false;
+  }
+
+  Future<void> setGuestAccessAccepted(bool accepted) async {
+    final preferences = await SharedPreferences.getInstance();
+    if (!await preferences.setBool(guestAccessAcceptedKey, accepted)) {
+      throw StateError('Could not save the guest access choice.');
+    }
+  }
+
+  Future<String?> journalSyncUserUid() async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getString(journalSyncUserUidKey);
+  }
+
+  Future<void> setJournalSyncUser(String? uid) async {
+    final preferences = await SharedPreferences.getInstance();
+    if (uid == null) {
+      if (preferences.containsKey(journalSyncUserUidKey) &&
+          !await preferences.remove(journalSyncUserUidKey)) {
+        throw StateError('Could not remove journal synchronization consent.');
+      }
+    } else if (!await preferences.setString(journalSyncUserUidKey, uid)) {
+      throw StateError('Could not save journal synchronization consent.');
+    }
+  }
+
+  Future<List<String>> pendingDeletedJournalEntryIds(String uid) async {
+    final preferences = await SharedPreferences.getInstance();
+    return _deletedJournalEntries(preferences)[uid] ?? const [];
+  }
+
+  Future<void> queueDeletedJournalEntry(String uid, String entryId) async {
+    final preferences = await SharedPreferences.getInstance();
+    final entries = _deletedJournalEntries(preferences);
+    final deletedIds = entries[uid] ?? <String>[];
+    if (deletedIds.contains(entryId)) return;
+    entries[uid] = [...deletedIds, entryId];
+    if (!await preferences.setString(
+      deletedJournalEntryIdsKey,
+      jsonEncode(entries),
+    )) {
+      throw StateError('Could not save the pending journal deletion.');
+    }
+  }
+
+  Future<void> clearDeletedJournalEntries(
+    String uid,
+    Iterable<String> entryIds,
+  ) async {
+    final preferences = await SharedPreferences.getInstance();
+    final removed = entryIds.toSet();
+    final entries = _deletedJournalEntries(preferences);
+    final remaining = (entries[uid] ?? [])
+        .where((id) => !removed.contains(id))
+        .toList();
+    if (remaining.isEmpty) {
+      entries.remove(uid);
+    } else {
+      entries[uid] = remaining;
+    }
+    if (entries.isEmpty) {
+      await preferences.remove(deletedJournalEntryIdsKey);
+    } else {
+      await preferences.setString(
+        deletedJournalEntryIdsKey,
+        jsonEncode(entries),
+      );
+    }
+  }
+
+  Map<String, List<String>> _deletedJournalEntries(
+    SharedPreferences preferences,
+  ) {
+    final raw = preferences.getString(deletedJournalEntryIdsKey);
+    if (raw == null) return {};
+    final decoded = jsonDecode(raw);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('Invalid journal deletion queue.');
+    }
+    final entries = <String, List<String>>{};
+    for (final entry in decoded.entries) {
+      final value = entry.value;
+      if (value is! List<dynamic> || value.any((id) => id is! String)) {
+        throw const FormatException('Invalid journal deletion queue.');
+      }
+      entries[entry.key] = value.cast<String>();
+    }
+    return entries;
+  }
+
+  Future<void> saveJournal(Iterable<JournalEntry> journal) async {
+    final preferences = await SharedPreferences.getInstance();
+    if (!await preferences.setStringList(
+      journalKey,
+      journal.map((entry) => jsonEncode(entry.toJson())).toList(),
+    )) {
+      throw StateError('Could not save the synchronized journal locally.');
+    }
+  }
+
   Future<void> saveBoolPreference(String key, bool value) async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setBool(key, value);
@@ -161,8 +272,13 @@ class TarotStorageService {
       dailyReminderKey,
       toneKey,
       userProfileKey,
+      journalSyncUserUidKey,
+      deletedJournalEntryIdsKey,
+      guestAccessAcceptedKey,
     }) {
-      await preferences.remove(key);
+      if (preferences.containsKey(key) && !await preferences.remove(key)) {
+        throw StateError('Could not erase local Tarot Noir data.');
+      }
     }
   }
 
@@ -195,14 +311,53 @@ class TarotStorageService {
     required Iterable<JournalEntry> journal,
   }) async {
     final preferences = await SharedPreferences.getInstance();
-    await preferences.setInt(storageSchemaVersionKey, storageSchemaVersion);
-    await preferences.setString(dailyCardKey, dailyCard.id);
-    await preferences.setString(dailyDateKey, dateKey(date));
-    await preferences.setString(dailyOrientationKey, orientation.name);
-    await preferences.setStringList(
+    await _saveDailyDraw(preferences, dailyCard, date, orientation);
+    await _saveJournal(preferences, journal);
+  }
+
+  Future<void> saveDailyDraw({
+    required TarotCard card,
+    required DateTime date,
+    required CardOrientation orientation,
+  }) async {
+    final preferences = await SharedPreferences.getInstance();
+    await _saveDailyDraw(preferences, card, date, orientation);
+  }
+
+  Future<void> saveJournalOnly(Iterable<JournalEntry> journal) async {
+    final preferences = await SharedPreferences.getInstance();
+    await _saveJournal(preferences, journal);
+  }
+
+  Future<void> _saveDailyDraw(
+    SharedPreferences preferences,
+    TarotCard card,
+    DateTime date,
+    CardOrientation orientation,
+  ) async {
+    if (!await preferences.setInt(
+      storageSchemaVersionKey,
+      storageSchemaVersion,
+    )) {
+      throw StateError('Could not update the local storage version.');
+    }
+    if (!await preferences.setString(dailyCardKey, card.id) ||
+        !await preferences.setString(dailyDateKey, dateKey(date)) ||
+        !await preferences.setString(dailyOrientationKey, orientation.name)) {
+      throw StateError('Could not save the daily card.');
+    }
+  }
+
+  Future<void> _saveJournal(
+    SharedPreferences preferences,
+    Iterable<JournalEntry> journal,
+  ) async {
+    if (!await preferences.setStringList(
       journalKey,
       journal.map((entry) => jsonEncode(entry.toJson())).toList(),
-    );
+    )) {
+      throw StateError('Could not save the local journal.');
+    }
   }
 
   static bool isDailyDrawLocked(String? savedDate, DateTime now) =>

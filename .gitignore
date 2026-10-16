@@ -48,3 +48,4 @@ app.*.map.json
 .widget_preview/
 # Local deployment configuration
 config/*.local.json
+/ios/Flutter/Meta.local.xcconfig

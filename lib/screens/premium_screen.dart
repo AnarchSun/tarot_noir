@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../app_config.dart';
 import '../l10n/app_localizations.dart';
-import '../widgets/plan_comparison_table.dart';
+import '../widgets/access_comparison_table.dart';
 
 class PremiumScreen extends StatelessWidget {
-  const PremiumScreen({super.key});
+  const PremiumScreen({required this.onOpenProfile, super.key});
+
+  final VoidCallback onOpenProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class PremiumScreen extends StatelessWidget {
         const SizedBox(height: 10),
         Text(l10n.premiumIntro),
         const SizedBox(height: 24),
-        PlanComparisonTable(l10n: l10n),
+        AccessComparisonTable(key: const Key('premium-comparison'), l10n: l10n),
         const SizedBox(height: 24),
         Text(l10n.extendedReadingsDetail, style: const TextStyle(height: 1.45)),
         const SizedBox(height: 10),
@@ -32,9 +34,7 @@ class PremiumScreen extends StatelessWidget {
         Text(l10n.adFreeDetail, style: const TextStyle(height: 1.45)),
         const SizedBox(height: 24),
         OutlinedButton.icon(
-          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.walletAvailableInProfile)),
-          ),
+          onPressed: onOpenProfile,
           icon: const Icon(Icons.account_balance_wallet_outlined),
           label: Text(l10n.walletOpenProfile),
         ),
